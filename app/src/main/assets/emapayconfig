@@ -1,0 +1,8 @@
+#支付方式的配置表，上下结构代表了支付方式的排列顺序
+alipay_mobile
+weixin
+tenpay_wap_bank
+wallet
+sdopay_card
+mobile
+lingyuanfu
