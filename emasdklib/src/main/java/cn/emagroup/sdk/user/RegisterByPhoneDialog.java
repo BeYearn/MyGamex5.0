@@ -141,9 +141,13 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
     };
 
     private void doResultSuccFromServer(String token) {
-        ToastHelper.toast(mActivity, "登录成功");
+
+        // 显示登录成功后的对话框
+        mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
+        mLoginSuccDialog.start();
+        //ToastHelper.toast(mActivity, "登录成功");
         USharedPerUtil.setParam(mActivity,"token",token);
-        UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
+        //UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
         EmaUser.getInstance().setIsLogin(true);
     }
 
