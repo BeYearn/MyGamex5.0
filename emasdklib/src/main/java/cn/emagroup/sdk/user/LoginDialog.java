@@ -465,6 +465,7 @@ public class LoginDialog extends Dialog implements
         ToastHelper.toast(mActivity, "登录成功");
         USharedPerUtil.setParam(mActivity,"token",token);
         UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
+        EmaUser.getInstance().setIsLogin(true);
     }
 
     /**
