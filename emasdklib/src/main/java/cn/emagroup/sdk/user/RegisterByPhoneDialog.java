@@ -132,9 +132,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                     mProgress.closeProgress();
                     doResultSuccFromServer((String) msg.obj);
                     break;
-                case GET_UID_SUCCESS:
-                    weakLoginFirst();
-                    break;
                 case FIRST_STEP_LOGIN_SUCCESS:
                     weakLoginSecond();
                     break;
@@ -285,10 +282,10 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         this.dismiss();
         //new RegisterDialog(Ema.getInstance().getContext()).show();   这是原来的：一键注册弹出一键注册的框，以及后续逻辑； 和loginDialog里面那段一样，ok后抽取
         mProgress.showProgress("注册登录中...");
-        createWeakAccount();
+        weakLoginFirst();
     }
 
-    private void createWeakAccount() {
+    /*private void createWeakAccount() {
         Map<String, String> params = new HashMap<>();
         params.put("deviceType", "android");
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
@@ -312,7 +309,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                         }
                     }
                 });
-    }
+    }*/
 
     /**
      * 获取验证码 / 进入游戏

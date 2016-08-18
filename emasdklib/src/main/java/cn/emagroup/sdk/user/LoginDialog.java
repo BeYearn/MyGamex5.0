@@ -133,9 +133,6 @@ public class LoginDialog extends Dialog implements
                 case CODE_DELETE_USERINFO://下拉框删除用户
                     doResultDeleteUser();
                     break;
-                case GET_UID_SUCCESS:
-                    weakLoginFirst();
-                    break;
                 case FIRST_STEP_LOGIN_SUCCESS:
                     weakLoginSecond();
                     break;
@@ -565,12 +562,11 @@ public class LoginDialog extends Dialog implements
         this.dismiss();
         //new RegisterDialog(Ema.getInstance().getContext()).show();   这是原来的：一键注册弹出一键注册的框，以及后续逻辑； 现改为以下新逻辑
         mProgress.showProgress("注册登录中...");
-        createWeakAccount();
+        weakLoginFirst();
 
     }
 
-    private void createWeakAccount() {
-
+    /*private void createWeakAccount() {
         Map<String, String> params = new HashMap<>();
         params.put("deviceType", "android");
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
@@ -594,7 +590,7 @@ public class LoginDialog extends Dialog implements
                         }
                     }
                 });
-    }
+    }*/
 
     /**
      * 用户名和密码验证登录
