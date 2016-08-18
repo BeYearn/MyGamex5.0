@@ -4,8 +4,10 @@ public class Url {
 
 	public static final String WEB_URL = "https://wap.lemonade-game.com/";//外网
 	public static final String WEB_URL_DEV = "https://wap.lemonade-game.com/";//内网暂时没有配好
-	
+
+	//所有请求url的域名
 	private static String SERVER_URL_USE = "";
+
 	private static String WEB_URL_USE = "";
 	
 	public static final String SERVER_URL = "http://api.emagroup.cn";//外网
@@ -130,7 +132,41 @@ public class Url {
 	public static String getLoginUrlByPassw(){
 		return getServerUrl() + "/oauth/authorize";
 	}
-	
+
+
+
+
+
+
+
+	/**
+	 * 获取创建弱账户的url
+	 * @return
+     */
+	public static String getCreatWeakAcountUrl(){
+		//return getServerUrl() + "";
+		return "http://192.168.155.79:8080/member/createWeakAccount";
+	}
+	/**
+	 * 获取第一步登录请求接口
+	 * @return
+	 */
+	public static String getFirstLoginUrl(){
+		//return getServerUrl() + "";
+		return "http://192.168.155.79:8080/member/pfLogin";
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * 检查sid进行登录的接口地址
 	 * @return

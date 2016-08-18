@@ -137,4 +137,11 @@
             android:textColor="@android:color/white" />
     </LinearLayout>
 
+    <TextView
+        android:textColor="@android:color/holo_red_light"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:text="首次登陆，帐号密码会下发到手机，请妥善保管"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

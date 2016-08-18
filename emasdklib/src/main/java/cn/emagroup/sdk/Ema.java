@@ -1,15 +1,18 @@
 package cn.emagroup.sdk;
 
-import java.util.Map;
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.os.Message;
 
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import java.util.Map;
 
 import cn.emagroup.sdk.analytics.EmaSendInfo;
 import cn.emagroup.sdk.comm.ConfigManager;
 import cn.emagroup.sdk.comm.EmaCallBackConst;
 import cn.emagroup.sdk.comm.EmaSDKListener;
-import cn.emagroup.sdk.comm.EmaService;
 import cn.emagroup.sdk.pay.EmaPay;
 import cn.emagroup.sdk.pay.EmaPayInfoBean;
 import cn.emagroup.sdk.pay.EmaPayListener;
@@ -17,20 +20,13 @@ import cn.emagroup.sdk.ui.SplashDialog;
 import cn.emagroup.sdk.ui.ToolBar;
 import cn.emagroup.sdk.user.EmaAutoLogin;
 import cn.emagroup.sdk.user.EmaUser;
-import cn.emagroup.sdk.user.LoginDialog;
+import cn.emagroup.sdk.user.RegisterByPhoneDialog;
 import cn.emagroup.sdk.user.RoleInfo;
 import cn.emagroup.sdk.utils.CrashHandler;
 import cn.emagroup.sdk.utils.EmaConst;
 import cn.emagroup.sdk.utils.LOG;
 import cn.emagroup.sdk.utils.LOGToSdcardHelper;
 import cn.emagroup.sdk.utils.UCommUtil;
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
-import android.os.Message;
 
 public class Ema {
 
@@ -193,7 +189,8 @@ public class Ema {
 			((Activity)mContext).runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					new LoginDialog(getContext()).show();
+					//new LoginDialog(getContext()).show();    现在首次登录显示的是手机注册的那个页面
+					new RegisterByPhoneDialog(Ema.getInstance().getContext()).show();
 				}
 			});
 		}

@@ -42,5 +42,6 @@ public class HttpInvokerConst {
 	public static final int PAY_RECHARGE_CARD_ORDER_UNSAVE_REFUND = 900011;//风险订单支付拒绝，退款中
 	public static final int PAY_RECHARGE_CARD_FAILED_UNKNOW = 900012;//失败，原因未知
 	
-	
+	//用户注册登录相关
+	public static final int SUCCESSFULL=0;
 }

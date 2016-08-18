@@ -122,7 +122,7 @@
             android:value="wx9c31edc5e693ec1d" />
         <meta-data
             android:name="EMA_PRIVATE_KEY"
-            android:value="ffbd25092d41c96f8d7e8a9060b38920" />
+            android:value="fed8ffee39bad093b90d77e50f86ec37" />
         <meta-data
             android:name="EMA_CHANNEL"
             android:value="1001" />
