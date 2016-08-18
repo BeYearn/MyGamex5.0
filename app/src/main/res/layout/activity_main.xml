@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    android:orientation="vertical"
-    tools:context="cn.emagroup.demo.MainActivity" >
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/btn_login"

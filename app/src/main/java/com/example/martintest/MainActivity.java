@@ -1,17 +1,5 @@
 package com.example.martintest;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.security.Timestamp;
-import java.util.Date;
-
-import com.igexin.sdk.PushManager;
-
-import cn.emagroup.sdk.Ema;
-import cn.emagroup.sdk.comm.EmaCallBackConst;
-import cn.emagroup.sdk.comm.EmaSDKListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -26,6 +14,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import com.igexin.sdk.PushManager;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Date;
+
+import cn.emagroup.sdk.Ema;
+import cn.emagroup.sdk.comm.EmaCallBackConst;
+import cn.emagroup.sdk.comm.EmaSDKListener;
+
 //测试界面activity
 
 @SuppressLint({ "ShowToast", "HandlerLeak" })
@@ -33,7 +33,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private static final String TAG = "MARTIN";
 	private EditText mEdtShowTxt;
-	
+
 	public Handler mhandler = new Handler() {
 		public void handleMessage(Message message) {
 //			Toast.makeText(MainActivity.this, (CharSequence) message.obj,
@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);// 去掉信息栏
-		
+
 		setContentView(R.layout.activity_main);
 		findViews();
 		checkphoneTime();
@@ -76,7 +76,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				}
 			}
 		});
-		
+
 		PushManager.getInstance().initialize(this.getApplicationContext());
 	}
 
@@ -87,7 +87,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		findViewById(R.id.btn_show_toolbar).setOnClickListener(this);
 		findViewById(R.id.btn_others).setOnClickListener(this);
 		findViewById(R.id.btn_hide_toolbar).setOnClickListener(this);
-		
+
 		findViewById(R.id.btn_show_sign).setOnClickListener(this);
 		findViewById(R.id.btn_show_token).setOnClickListener(this);
 		mEdtShowTxt = (EditText) findViewById(R.id.edt_showtxt);
@@ -108,7 +108,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			doHideToobar();
 		} else if (id == R.id.btn_others) {// 开发测试按钮
 			doTest();
-		} 
+		}
 	}
 
 
@@ -117,12 +117,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	 */
 	private void doLogin() {
 		Ema.getInstance().Login();
-//		new Thread(){
-//			@Override
-//			public void run() {
-//				Ema.getInstance().Login();
-//			}
-//		}.start();
 	}
 
 	/**
@@ -232,7 +226,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onStart();
 		Ema.getInstance().onStart();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -250,23 +244,23 @@ public class MainActivity extends Activity implements OnClickListener {
 		super.onStop();
 		Ema.getInstance().onStop();
 	}
-	
+
 	public void onDestroy() {
 		super.onDestroy();
 		Ema.getInstance().onDestroy();
 	}
-	
+
 	/**
 	 * 判断手机时间
 	 * **/
 	public static void checkphoneTime() {
-		
+
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				
+
 				try {
 					URL url = new URL("http://www.bjtime.cn");
 					// 取得资源对象
@@ -277,7 +271,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					long Servertimer = ld / 1000;
 					Servertimer = Servertimer - Servertimer % 3600;
 					Log.d(TAG, "nettimer : "+Servertimer);
-					
+
 					java.util.Date date = new Date();
 					long timer = date.getTime();
 					Log.d(TAG, "timmer ld:" + timer);
@@ -286,15 +280,15 @@ public class MainActivity extends Activity implements OnClickListener {
 //					Log.d(TAG, "timer __ ld : " + ts.getTime());
 					timer = timer / 1000;
 					timer = timer - timer % 3600;
-					
+
 					Log.d(TAG, "timer:"+timer);
-					
+
 					if(Servertimer != timer)
 					{
 						Log.d(TAG, "请校准手机时间");
 //						ToastHelper.toast(EmaSDK.getInstance().mActivity, "请校准手机时间!");
 					}
-					
+
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -302,7 +296,7 @@ public class MainActivity extends Activity implements OnClickListener {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}}).start();		
+			}}).start();
 	}
-	
+
 }

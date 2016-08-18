@@ -1,9 +1,5 @@
 package com.example.martintest;
 
-import cn.emagroup.sdk.Ema;
-import cn.emagroup.sdk.pay.EmaPayInfoBean;
-import cn.emagroup.sdk.pay.EmaPayListener;
-import cn.emagroup.sdk.utils.LOG;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
@@ -11,13 +7,16 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import cn.emagroup.sdk.Ema;
+import cn.emagroup.sdk.pay.EmaPayInfoBean;
+import cn.emagroup.sdk.pay.EmaPayListener;
+import cn.emagroup.sdk.utils.LOG;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 @SuppressLint("ClickableViewAccessibility")
@@ -70,7 +69,7 @@ public class DemoPayDialog extends Dialog {
 	}
 
 	protected void pay() {
-		if (amount.getText().toString().isEmpty() == false) {
+		if (amount.getText().toString().isEmpty()) {
 			float amountNum = Float.valueOf(amount.getText().toString());
 			if (0 != amountNum) {
 
