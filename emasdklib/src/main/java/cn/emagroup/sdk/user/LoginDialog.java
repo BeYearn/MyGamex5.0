@@ -134,7 +134,7 @@ public class LoginDialog extends Dialog implements
                     doResultDeleteUser();
                     break;
                 case FIRST_STEP_LOGIN_SUCCESS:
-                    weakLoginSecond();
+                    LoginSecond();
                     break;
                 case EmaProgressDialog.CODE_LOADING_START://显示进度条
                     mProgress.showProgress((String) msg.obj);
@@ -148,41 +148,6 @@ public class LoginDialog extends Dialog implements
         }
     };
 
-    private void weakLoginSecond() {
-        Map<String, String> params = new HashMap<>();
-        params.put("authCode", authCode);
-        params.put("uid", userid);
-        new HttpInvoker().postAsync(callbackUrl, params,
-                new HttpInvoker.OnResponsetListener() {
-                    @Override
-                    public void OnResponse(String result) {
-                        //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
-                        try {
-                            JSONObject jsonObject = new JSONObject(result);
-                            JSONObject data = jsonObject.getJSONObject("data");
-                            String token = data.getString("token");
-                            LOG.e("token",token);
-
-                            Message msg = new Message();
-                            msg.what = CODE_SUCCESS;
-                            msg.obj=token;
-                            mHandler.sendMessage(msg);
-                        } catch (Exception e) {
-                            LOG.w(TAG, "login error", e);
-                            mHandler.sendEmptyMessage(CODE_FAILED);
-                        }
-                    }
-                });
-
-
-
-
-    }
-
-    private String allianceId;
-    private String authCode;
-    private String callbackUrl;
-    private String nickname;
     // 弱账户第一次登录请求
     private void weakLoginFirst() {
         Map<String, String> params = new HashMap<>();
@@ -215,12 +180,133 @@ public class LoginDialog extends Dialog implements
                             msg.what = FIRST_STEP_LOGIN_SUCCESS;
                             mHandler.sendMessage(msg);
                         } catch (Exception e) {
-                            LOG.w(TAG, "login error", e);
+                            LOG.w(TAG, "AccountLoginFirst error", e);
                             mHandler.sendEmptyMessage(CODE_FAILED);
                         }
                     }
                 });
     }
+
+    /**
+     * 用户名和密码验证登录   第一步验证登录
+     */
+    private void AccountLoginFirst() {
+        String account = mEdtNameView.getText().toString();
+        String passw = mEdtPasswView.getText().toString();
+
+        if (UCommUtil.isStrEmpty(account)) {
+            ToastHelper.toast(mActivity, "用户名不能为空");
+            return;
+        }
+        if (UCommUtil.isStrEmpty(passw)) {
+            ToastHelper.toast(mActivity, "密码不能为空");
+            return;
+        }
+        mProgress.showProgress("登录中...");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("accountType", "1");
+        params.put("mobile", account);
+        params.put("password", passw);
+        params.put("appKey", mConfigManager.getAppKEY());
+        params.put("deviceType", "android");
+        params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
+        params.put("allianceId", mConfigManager.getChannel());
+
+        new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
+            @Override
+            public void OnResponse(String result) {
+                mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
+                try {
+                    JSONObject json = new JSONObject(result);
+                    int resultCode = json.getInt("status");
+                    switch (resultCode) {
+                        case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
+
+                            JSONObject data = json.getJSONObject("data");
+                            userid = data.getString("uid");
+                            LOG.e("uid", userid);
+                            allianceId = data.getString("allianceId");
+                            LOG.e("allianceId", allianceId);
+                            authCode = data.getString("authCode");
+                            LOG.e("authCode", authCode);
+                            callbackUrl = data.getString("callbackUrl");
+                            LOG.e("callbackUrl", callbackUrl);
+                            nickname=data.getString("nickname");
+                            LOG.e("nickname",nickname);
+                            mEmaUser.setUserName(nickname);
+                            mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
+                            LOG.d(TAG, "第一步登录成功");
+                            break;
+                        case HttpInvokerConst.SDK_RESULT_FAILED:
+                            ToastHelper.toast(mActivity,json.getString("message"));
+                            break;
+                    }
+                } catch (Exception e) {
+                    mHandler.sendEmptyMessage(CODE_FAILED);
+                    LOG.w(TAG, "doLogin error", e);
+                }
+            }
+        });
+    }
+
+    /**
+     * 第二步登录验证 都是一样的
+     */
+    private void LoginSecond() {
+        Map<String, String> params = new HashMap<>();
+        params.put("authCode", authCode);
+        params.put("uid", userid);
+        new HttpInvoker().postAsync(callbackUrl, params,
+                new HttpInvoker.OnResponsetListener() {
+                    @Override
+                    public void OnResponse(String result) {
+                        //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            String token = data.getString("token");
+                            LOG.e("token",token);
+
+                            Message msg = new Message();
+                            msg.what = CODE_SUCCESS;
+                            msg.obj=token;
+                            mHandler.sendMessage(msg);
+                        } catch (Exception e) {
+                            LOG.w(TAG, "AccountLoginFirst error", e);
+                            mHandler.sendEmptyMessage(CODE_FAILED);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 从服务器接受到了登录成功的返回 后 的处理
+     */
+    private void doResultSuccFromServer(String token) {
+        /*ToastHelper.toast(mActivity, "登录成功");
+        LoginDialog.this.dismiss();
+        // 保存登录成功用户的信息
+        if (mFlagIsLoginByAnlaiye) {
+            mEmaUser.setIsAnlaiye(true);
+        } else {
+            mEmaUser.setIsAnlaiye(false);
+        }
+        mEmaUser.saveLoginUserInfo(mActivity);*/
+
+
+        // 显示登录成功后的对话框
+        mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
+        mLoginSuccDialog.start();
+        //ToastHelper.toast(mActivity, "登录成功");
+        USharedPerUtil.setParam(mActivity,"token",token);
+        //UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
+        EmaUser.getInstance().setIsLogin(true);
+    }
+
+    private String allianceId;
+    private String authCode;
+    private String callbackUrl;
+    private String nickname;
 
     private UserLoginInfoBean mAutoUserInfoBean;// 自动登录的时候需要使用的用户信息
     // 标记
@@ -449,30 +535,6 @@ public class LoginDialog extends Dialog implements
     }
 
     /**
-     * 从服务器接受到了登录成功的返回 后 的处理
-     */
-    private void doResultSuccFromServer(String token) {
-        /*ToastHelper.toast(mActivity, "登录成功");
-        LoginDialog.this.dismiss();
-        // 保存登录成功用户的信息
-        if (mFlagIsLoginByAnlaiye) {
-            mEmaUser.setIsAnlaiye(true);
-        } else {
-            mEmaUser.setIsAnlaiye(false);
-        }
-        mEmaUser.saveLoginUserInfo(mActivity);*/
-
-
-        // 显示登录成功后的对话框
-        mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
-        mLoginSuccDialog.start();
-        //ToastHelper.toast(mActivity, "登录成功");
-        USharedPerUtil.setParam(mActivity,"token",token);
-        //UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
-        EmaUser.getInstance().setIsLogin(true);
-    }
-
-    /**
      * 选择账户后的处理
      */
     private void doResultSelectAccount(Message msg) {
@@ -548,7 +610,7 @@ public class LoginDialog extends Dialog implements
         if (mEdtPasswView.getText().toString().equals(mPasswShowStr)) {
             loginAutoLogin();
         } else {
-            login();
+            AccountLoginFirst();
         }
     }
 
@@ -568,95 +630,6 @@ public class LoginDialog extends Dialog implements
         //new RegisterDialog(Ema.getInstance().getContext()).show();   这是原来的：一键注册弹出一键注册的框，以及后续逻辑； 现改为以下新逻辑
         mProgress.showProgress("注册登录中...");
         weakLoginFirst();
-
-    }
-
-    /*private void createWeakAccount() {
-        Map<String, String> params = new HashMap<>();
-        params.put("deviceType", "android");
-        params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
-        new HttpInvoker().postAsync(Url.getCreatWeakAcountUrl(), params,
-                new HttpInvoker.OnResponsetListener() {
-                    @Override
-                    public void OnResponse(String result) {
-                        //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
-                        try {
-                            JSONObject jsonObject = new JSONObject(result);
-                            JSONObject data = jsonObject.getJSONObject("data");
-                            userid = data.getString("userid");
-                            LOG.e("uid",userid);
-
-                            Message msg = new Message();
-                            msg.what = GET_UID_SUCCESS;
-                            mHandler.sendMessage(msg);
-                        } catch (Exception e) {
-                            LOG.w(TAG, "login error", e);
-                            mHandler.sendEmptyMessage(CODE_FAILED);
-                        }
-                    }
-                });
-    }*/
-
-    /**
-     * 用户名和密码验证登录   第一步验证登录
-     */
-    private void login() {
-        String account = mEdtNameView.getText().toString();
-        String passw = mEdtPasswView.getText().toString();
-
-        if (UCommUtil.isStrEmpty(account)) {
-                ToastHelper.toast(mActivity, "用户名不能为空");
-                return;
-            }
-        if (UCommUtil.isStrEmpty(passw)) {
-                ToastHelper.toast(mActivity, "密码不能为空");
-                return;
-            }
-        mProgress.showProgress("登录中...");
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("accountType", "1");
-        params.put("mobile", account);
-        params.put("password", passw);
-        params.put("appKey", mConfigManager.getAppKEY());
-        params.put("deviceType", "android");
-        params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
-        params.put("allianceId", mConfigManager.getChannel());
-
-        new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
-            @Override
-            public void OnResponse(String result) {
-                mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
-                try {
-                    JSONObject json = new JSONObject(result);
-                    int resultCode = json.getInt("status");
-                    switch (resultCode) {
-                        case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
-
-                            JSONObject data = json.getJSONObject("data");
-                            userid = data.getString("uid");
-                            LOG.e("uid", userid);
-                            allianceId = data.getString("allianceId");
-                            LOG.e("allianceId", allianceId);
-                            authCode = data.getString("authCode");
-                            LOG.e("authCode", authCode);
-                            callbackUrl = data.getString("callbackUrl");
-                            LOG.e("callbackUrl", callbackUrl);
-                            nickname=data.getString("nickname");
-                            LOG.e("nickname",nickname);
-                            mEmaUser.setUserName(nickname);
-                            mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
-                            LOG.d(TAG, "第一步登录成功");
-                            break;
-                        case HttpInvokerConst.SDK_RESULT_FAILED:
-                            ToastHelper.toast(mActivity,json.getString("message"));
-                            break;
-                    }
-                } catch (Exception e) {
-                    mHandler.sendEmptyMessage(CODE_FAILED);
-                    LOG.w(TAG, "doLogin error", e);
-                }
-            }
-        });
     }
 
     /**

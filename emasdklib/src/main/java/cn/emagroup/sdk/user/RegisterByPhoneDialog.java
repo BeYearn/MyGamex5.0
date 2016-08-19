@@ -133,25 +133,132 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                     doResultSuccFromServer((String) msg.obj);
                     break;
                 case FIRST_STEP_LOGIN_SUCCESS:
-                    weakLoginSecond();
+                    LoginSecond();
                     break;
             }
         }
 
     };
 
-    private void doResultSuccFromServer(String token) {
-        RegisterByPhoneDialog.this.dismiss();
-        // 显示登录成功后的对话框
-        mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
-        mLoginSuccDialog.start();
-        //ToastHelper.toast(mActivity, "登录成功");
-        USharedPerUtil.setParam(mActivity,"token",token);
-        //UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
-        EmaUser.getInstance().setIsLogin(true);
+    /**
+     * 一键登录的开始
+     * 从这里开始后面的流程，和loginDialog里界面上所显示的快速登录的逻辑一样了
+     */
+    private void doRegistByOneKey() {
+        //new RegisterDialog(Ema.getInstance().getContext()).show();   这是原来的：一键注册弹出一键注册的框，以及后续逻辑； 和loginDialog里面那段一样，ok后抽取
+        mProgress.showProgress("注册登录中...");
+        weakLoginFirst();
     }
 
-    private void weakLoginSecond() {
+    /**
+     * 弱账户的第一步登录
+     */
+    private void weakLoginFirst() {
+        Map<String, String> params = new HashMap<>();
+        params.put("accountType", "0");
+        params.put("deviceType", "android");
+        params.put("allianceId", "70");
+        params.put("appKey", mConfigManager.getAppKEY());
+        params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
+        new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params,
+                new HttpInvoker.OnResponsetListener() {
+                    @Override
+                    public void OnResponse(String result) {
+                        //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
+                        try {
+                            JSONObject json = new JSONObject(result);
+                            int resultCode = json.getInt("status");
+                            switch (resultCode) {
+                                case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
+                                    JSONObject data = json.getJSONObject("data");
+                                    userid = data.getString("uid");
+                                    LOG.e("uid", userid);
+                                    allianceId = data.getString("allianceId");
+                                    LOG.e("allianceId", allianceId);
+                                    authCode = data.getString("authCode");
+                                    LOG.e("authCode", authCode);
+                                    callbackUrl = data.getString("callbackUrl");
+                                    LOG.e("callbackUrl", callbackUrl);
+                                    nickname = data.getString("nickname");
+                                    LOG.e("nickname", nickname);
+                                    mEmaUser.setUserName(nickname);
+                                    mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
+                                    LOG.d(TAG, "第一步登录成功");
+                                    break;
+                                case HttpInvokerConst.SDK_RESULT_FAILED:
+                                    ToastHelper.toast(mActivity, json.getString("message"));
+                                    break;
+                            }
+                        } catch (Exception e) {
+                            LOG.w(TAG, "login error", e);
+                            mHandler.sendEmptyMessage(CODE_FAILED);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 手机验证码登录的第一次登录验证
+     */
+    private void phoneLoginFirst() {
+        final String captcha = mEdtContentView.getText().toString();
+        if (UCommUtil.isStrEmpty(captcha)) {
+            LOG.d(TAG, "验证码为空");
+            ToastHelper.toast(mActivity, "验证码不能为空");
+            return;
+        }
+        mProgress.showProgress("登录中...");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("accountType", "1");
+        params.put("mobile", mEmaUser.getPhoneNum());
+        params.put("captcha", captcha);
+        params.put("appKey", mConfigManager.getAppKEY());
+        params.put("deviceType", "android");
+        params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
+        params.put("allianceId", "70");
+
+        new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
+            @Override
+            public void OnResponse(String result) {
+                mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
+                try {
+                    JSONObject json = new JSONObject(result);
+                    int resultCode = json.getInt("status");
+                    switch (resultCode) {
+                        case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
+
+                            JSONObject data = json.getJSONObject("data");
+                            userid = data.getString("uid");
+                            LOG.e("uid", userid);
+                            allianceId = data.getString("allianceId");
+                            LOG.e("allianceId", allianceId);
+                            authCode = data.getString("authCode");
+                            LOG.e("authCode", authCode);
+                            callbackUrl = data.getString("callbackUrl");
+                            LOG.e("callbackUrl", callbackUrl);
+                            nickname = data.getString("nickname");
+                            LOG.e("nickname", nickname);
+                            mEmaUser.setUserName(nickname);
+                            mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
+                            LOG.d(TAG, "第一步登录成功");
+                            break;
+                        case HttpInvokerConst.SDK_RESULT_FAILED:
+                            ToastHelper.toast(mActivity, json.getString("message"));
+                            break;
+                    }
+                } catch (Exception e) {
+                    mHandler.sendEmptyMessage(CODE_LOGIN_FAILED);
+                    LOG.w(TAG, "phoneLoginFirst error", e);
+                }
+            }
+        });
+
+    }
+
+    /**
+     * 第二步登录（各种登录方式的第二步登录一样）
+     */
+    private void LoginSecond() {
         Map<String, String> params = new HashMap<>();
         params.put("authCode", authCode);
         params.put("uid", userid);
@@ -178,55 +285,26 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                 });
     }
 
+    /**
+     * 登录成功后做的操作
+     *
+     * @param token
+     */
+    private void doResultSuccFromServer(String token) {
+        RegisterByPhoneDialog.this.dismiss();
+        // 显示登录成功后的对话框
+        mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
+        mLoginSuccDialog.start();
+        //ToastHelper.toast(mActivity, "登录成功");
+        USharedPerUtil.setParam(mActivity, "token", token);
+        //UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
+        EmaUser.getInstance().setIsLogin(true);
+    }
+
     private String allianceId;
     private String authCode;
     private String callbackUrl;
     private String nickname;
-
-    private void weakLoginFirst() {
-
-        Map<String, String> params = new HashMap<>();
-        params.put("accountType", "0");
-        params.put("deviceType", "android");
-        params.put("allianceId", "70");
-        params.put("appKey", mConfigManager.getAppKEY());
-        params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
-        new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params,
-                new HttpInvoker.OnResponsetListener() {
-                    @Override
-                    public void OnResponse(String result) {
-                        //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
-                        try {
-                            JSONObject json = new JSONObject(result);
-                            int resultCode = json.getInt("status");
-                            switch (resultCode) {
-                                case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
-                                    JSONObject data = json.getJSONObject("data");
-                                    userid = data.getString("uid");
-                                    LOG.e("uid", userid);
-                                    allianceId = data.getString("allianceId");
-                                    LOG.e("allianceId", allianceId);
-                                    authCode = data.getString("authCode");
-                                    LOG.e("authCode", authCode);
-                                    callbackUrl = data.getString("callbackUrl");
-                                    LOG.e("callbackUrl", callbackUrl);
-                                    nickname=data.getString("nickname");
-                                    LOG.e("nickname",nickname);
-                                    mEmaUser.setUserName(nickname);
-                                    mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
-                                    LOG.d(TAG, "第一步登录成功");
-                                    break;
-                                case HttpInvokerConst.SDK_RESULT_FAILED:
-                                    ToastHelper.toast(mActivity,json.getString("message"));
-                                    break;
-                            }
-                        } catch (Exception e) {
-                            LOG.w(TAG, "login error", e);
-                            mHandler.sendEmptyMessage(CODE_FAILED);
-                        }
-                    }
-                });
-    }
 
     private String userid;
 
@@ -290,47 +368,13 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         }
     }
 
-    /**
-     * 从这里开始后面的流程，和loginDialog里界面上所显示的快速登录的逻辑一样了
-     */
-    private void doRegistByOneKey() {
-        //new RegisterDialog(Ema.getInstance().getContext()).show();   这是原来的：一键注册弹出一键注册的框，以及后续逻辑； 和loginDialog里面那段一样，ok后抽取
-        mProgress.showProgress("注册登录中...");
-        weakLoginFirst();
-    }
-
-    /*private void createWeakAccount() {
-        Map<String, String> params = new HashMap<>();
-        params.put("deviceType", "android");
-        params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
-        new HttpInvoker().postAsync(Url.getCreatWeakAcountUrl(), params,
-                new HttpInvoker.OnResponsetListener() {
-                    @Override
-                    public void OnResponse(String result) {
-                        //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
-                        try {
-                            JSONObject jsonObject = new JSONObject(result);
-                            JSONObject data = jsonObject.getJSONObject("data");
-                            userid = data.getString("userid");
-                            LOG.e("uid", userid);
-
-                            Message msg = new Message();
-                            msg.what = GET_UID_SUCCESS;
-                            mHandler.sendMessage(msg);
-                        } catch (Exception e) {
-                            LOG.w(TAG, "login error", e);
-                            mHandler.sendEmptyMessage(CODE_FAILED);
-                        }
-                    }
-                });
-    }*/
 
     /**
      * 获取验证码 / 进入游戏
      */
     private void doStartWork() {
         if (mFlagHasGetAuthCode) {//获取验证码之后，进行的是登录操作
-            doLogin();
+            phoneLoginFirst();
         } else {//还没有获取验证码，进行获取验证码操作
             String phone = mEdtContentView.getText().toString();
             if (UserUtil.checkPhoneInputIsOk(mActivity, phone)) {
@@ -346,19 +390,8 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         mProgress.showProgress("获取验证码");
         //设置用户的电话号码信息
         mEmaUser.setPhoneNum(phoneNum);
-
-        Map<String, String> params = new HashMap<String, String>();
-        //params.put("uuid", phoneNum);
+        Map<String, String> params = new HashMap<>();
         params.put("mobile", phoneNum);
-        //params.put("app_id", mConfigManager.getAppId());
-        //params.put("action", "mobile_login");
-        //long stamp = (int) (System.currentTimeMillis() / 1000);
-        //stamp = stamp - stamp % 600;
-        //String sign = mConfigManager.getAppId() + stamp
-        //        + mConfigManager.getAppKEY();
-       // sign = UCommUtil.MD5(sign);
-       // params.put("sign", sign);
-
         UCommUtil.testMapInfo(params);
 
         new HttpInvoker().postAsync(Url.getSmsUrl(), params,
@@ -403,63 +436,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                 });
     }
 
-    /**
-     * 登录  其实是手机验证码登录的第一次验证
-     */
-    private void doLogin() {
-        final String captcha = mEdtContentView.getText().toString();
-        if (UCommUtil.isStrEmpty(captcha)) {
-            LOG.d(TAG, "验证码为空");
-            ToastHelper.toast(mActivity, "验证码不能为空");
-            return;
-        }
-        mProgress.showProgress("登录中...");
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("accountType", "1");
-        params.put("mobile", mEmaUser.getPhoneNum());
-        params.put("captcha", captcha);
-        params.put("appKey", mConfigManager.getAppKEY());
-        params.put("deviceType", "android");
-        params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
-        params.put("allianceId", "70");
-
-        new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
-            @Override
-            public void OnResponse(String result) {
-                mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
-                try {
-                    JSONObject json = new JSONObject(result);
-                    int resultCode = json.getInt("status");
-                    switch (resultCode) {
-                        case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
-
-                            JSONObject data = json.getJSONObject("data");
-                            userid = data.getString("uid");
-                            LOG.e("uid", userid);
-                            allianceId = data.getString("allianceId");
-                            LOG.e("allianceId", allianceId);
-                            authCode = data.getString("authCode");
-                            LOG.e("authCode", authCode);
-                            callbackUrl = data.getString("callbackUrl");
-                            LOG.e("callbackUrl", callbackUrl);
-                            nickname=data.getString("nickname");
-                            LOG.e("nickname",nickname);
-                            mEmaUser.setUserName(nickname);
-                            mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
-                            LOG.d(TAG, "第一步登录成功");
-                            break;
-                        case HttpInvokerConst.SDK_RESULT_FAILED:
-                            ToastHelper.toast(mActivity,json.getString("message"));
-                            break;
-                    }
-                } catch (Exception e) {
-                    mHandler.sendEmptyMessage(CODE_LOGIN_FAILED);
-                    LOG.w(TAG, "doLogin error", e);
-                }
-            }
-        });
-
-    }
 
     /**
      * 刷新定时器
