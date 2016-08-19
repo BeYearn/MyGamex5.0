@@ -141,6 +141,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
     };
 
     private void doResultSuccFromServer(String token) {
+        RegisterByPhoneDialog.this.dismiss();
         // 显示登录成功后的对话框
         mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
         mLoginSuccDialog.start();
@@ -211,6 +212,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                                     LOG.e("callbackUrl", callbackUrl);
                                     nickname=data.getString("nickname");
                                     LOG.e("nickname",nickname);
+                                    mEmaUser.setUserName(nickname);
                                     mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
                                     LOG.d(TAG, "第一步登录成功");
                                     break;
@@ -292,7 +294,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
      * 从这里开始后面的流程，和loginDialog里界面上所显示的快速登录的逻辑一样了
      */
     private void doRegistByOneKey() {
-        this.dismiss();
         //new RegisterDialog(Ema.getInstance().getContext()).show();   这是原来的：一键注册弹出一键注册的框，以及后续逻辑； 和loginDialog里面那段一样，ok后抽取
         mProgress.showProgress("注册登录中...");
         weakLoginFirst();

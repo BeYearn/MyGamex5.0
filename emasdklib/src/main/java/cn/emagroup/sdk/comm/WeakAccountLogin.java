@@ -2,14 +2,6 @@ package cn.emagroup.sdk.comm;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Message;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import cn.emagroup.sdk.utils.LOG;
 
 
 /**
@@ -61,12 +53,12 @@ public class WeakAccountLogin {
     };
 
     public String registAndloginByOneKey() {
-        createWeakAccount();
+        //createWeakAccount();
         return "";
     }
 
 
-    private void createWeakAccount() {
+    /*private void createWeakAccount() {
 
         Map<String, String> params = new HashMap<>();
         params.put("deviceType", "android");
@@ -91,6 +83,6 @@ public class WeakAccountLogin {
                         }
                     }
                 });
-    }
+    }*/
 
 }

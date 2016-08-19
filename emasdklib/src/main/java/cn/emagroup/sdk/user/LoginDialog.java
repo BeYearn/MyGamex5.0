@@ -209,6 +209,7 @@ public class LoginDialog extends Dialog implements
                             LOG.e("callbackUrl",callbackUrl);
                             nickname=data.getString("nickname");
                             LOG.e("nickname",nickname);
+                            mEmaUser.setUserName(nickname);
 
                             Message msg = new Message();
                             msg.what = FIRST_STEP_LOGIN_SUCCESS;

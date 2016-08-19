@@ -142,18 +142,18 @@ public class Url {
 	/**
 	 * 获取创建弱账户的url  ----------不用这个接口了
 	 * @return
-     */
 	public static String getCreatWeakAcountUrl(){
 		//return getServerUrl() + "";
 		return "http://192.168.155.79:8080/member/createWeakAccount";
-	}
+	}*/
+	private static final String serverUrl="http://120.26.114.129:8081";
 	/**
 	 * 获取第一步登录请求接口
 	 * @return
 	 */
 	public static String getFirstLoginUrl(){
 		//return getServerUrl() + "";
-		return "http://192.168.10.126:8080/ema-platform/member/pfLogin";
+		return serverUrl+"/ema-platform/member/pfLogin";
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class Url {
 	 */
 	public static String getSmsUrl(){
 		//return getServerUrl() + "";
-		return "http://192.168.10.126:8080/ema-platform/notice/sendCaptcha";
+		return serverUrl+"/ema-platform/notice/sendCaptcha";
 	}
 
 
