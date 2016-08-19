@@ -598,91 +598,65 @@ public class LoginDialog extends Dialog implements
     }*/
 
     /**
-     * 用户名和密码验证登录
+     * 用户名和密码验证登录   第一步验证登录
      */
     private void login() {
-        final String account = mEdtNameView.getText().toString();
+        String account = mEdtNameView.getText().toString();
         String passw = mEdtPasswView.getText().toString();
-        if (mFlagIsLoginByAnlaiye) {//俺来也账号只检查用户名和密码是否为空
-            if (UCommUtil.isStrEmpty(account)) {
+
+        if (UCommUtil.isStrEmpty(account)) {
                 ToastHelper.toast(mActivity, "用户名不能为空");
                 return;
             }
-            if (UCommUtil.isStrEmpty(passw)) {
+        if (UCommUtil.isStrEmpty(passw)) {
                 ToastHelper.toast(mActivity, "密码不能为空");
                 return;
             }
-        } else {
-            if (!UserUtil.checkLoginInputIsOk(mActivity, account, passw))
-                return;
-        }
-        // 显示登录进度条
-        mProgress.showProgress("登录中...", false, false);
-
+        mProgress.showProgress("登录中...");
         Map<String, String> params = new HashMap<String, String>();
-        params.put("app_id", mConfigManager.getAppId());
-        params.put("device_id", mDeviceInfoManager.getDEVICE_ID());
-        params.put("channel", mConfigManager.getChannel());
-        params.put("loginname", account);
-        params.put("passwd", passw);
-        params.put("response_type", "code");
-        params.put("grant_type", "authorization_code");
-        params.put("redirect_uri", mConfigManager.getRedirectUri());
-        params.put("server_id", "1");
-        params.put("display", "sdk");
-        if (mFlagIsLoginByAnlaiye) {
-            params.put("platform", "aly");
-        }
-        String state = UCommUtil
-                .MD5(String.valueOf((int) (Math.random() * 100)));
-        params.put("state", state);
+        params.put("accountType", "1");
+        params.put("mobile", account);
+        params.put("password", passw);
+        params.put("appKey", mConfigManager.getAppKEY());
+        params.put("deviceType", "android");
+        params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
+        params.put("allianceId", mConfigManager.getChannel());
 
-        UCommUtil.testMapInfo(params);
+        new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
+            @Override
+            public void OnResponse(String result) {
+                mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
+                try {
+                    JSONObject json = new JSONObject(result);
+                    int resultCode = json.getInt("status");
+                    switch (resultCode) {
+                        case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
 
-        new HttpInvoker().postAsync(Url.getLoginUrlByPassw(), params,
-                new HttpInvoker.OnResponsetListener() {
-                    @Override
-                    public void OnResponse(String result) {
-                        mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
-                        try {
-                            JSONObject json = new JSONObject(result);
-                            int resultCode = json.getInt(HttpInvokerConst.RESULT_CODE);
-                            Message msg = new Message();
-                            switch (resultCode) {
-                                case HttpInvokerConst.SDK_RESULT_SUCCESS:// 登录成功
-                                    mEmaUser.setCode(json.getString("code"));
-                                    mEmaUser.setUUID(json.getString("uuid"));
-                                    mEmaUser.setSid(json.getString("sid"));
-                                    mEmaUser.setUserName(account);
-                                    mEmaUser.setLoginType(UserConst.LOGIN_NORMAL);
-                                    msg.what = CODE_SUCCESS;
-                                    break;
-                                case HttpInvokerConst.SDK_RESULT_ACCOUNT_NOT_EXIST:// 账户不存在
-                                    LOG.w(TAG, "用户名不存在");
-                                    msg.what = CODE_FAILED_NO_ACCOUNT;
-                                    msg.obj = json.getString("errmsg");
-                                    break;
-                                case HttpInvokerConst.SDK_RESULT_PASSW_ERROR:// 密码错误
-                                    LOG.w(TAG, "密码错误");
-                                    msg.what = CODE_FAILED_ERROR_PASSW;
-                                    msg.obj = json.getString("errmsg");
-                                    break;
-                                case HttpInvokerConst.LOGIN_RESULT_URL_IS_NULL:// URL为空
-                                    LOG.w(TAG, "url为空");
-                                    msg.what = CODE_FAILED;
-                                    break;
-                                default:
-                                    LOG.w(TAG, "登录失败");
-                                    msg.what = CODE_FAILED;
-                                    break;
-                            }
-                            mHandler.sendMessage(msg);
-                        } catch (Exception e) {
-                            LOG.w(TAG, "login error", e);
-                            mHandler.sendEmptyMessage(CODE_FAILED);
-                        }
+                            JSONObject data = json.getJSONObject("data");
+                            userid = data.getString("uid");
+                            LOG.e("uid", userid);
+                            allianceId = data.getString("allianceId");
+                            LOG.e("allianceId", allianceId);
+                            authCode = data.getString("authCode");
+                            LOG.e("authCode", authCode);
+                            callbackUrl = data.getString("callbackUrl");
+                            LOG.e("callbackUrl", callbackUrl);
+                            nickname=data.getString("nickname");
+                            LOG.e("nickname",nickname);
+                            mEmaUser.setUserName(nickname);
+                            mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
+                            LOG.d(TAG, "第一步登录成功");
+                            break;
+                        case HttpInvokerConst.SDK_RESULT_FAILED:
+                            ToastHelper.toast(mActivity,json.getString("message"));
+                            break;
                     }
-                });
+                } catch (Exception e) {
+                    mHandler.sendEmptyMessage(CODE_FAILED);
+                    LOG.w(TAG, "doLogin error", e);
+                }
+            }
+        });
     }
 
     /**

@@ -125,7 +125,7 @@
             android:value="fed8ffee39bad093b90d77e50f86ec37" />
         <meta-data
             android:name="EMA_CHANNEL"
-            android:value="1001" />
+            android:value="70" />
         <meta-data
             android:name="0YUANFU_MERCHANT"
             android:value="3771044" />

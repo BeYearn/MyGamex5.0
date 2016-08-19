@@ -444,6 +444,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                             LOG.e("callbackUrl", callbackUrl);
                             nickname=data.getString("nickname");
                             LOG.e("nickname",nickname);
+                            mEmaUser.setUserName(nickname);
                             mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
                             LOG.d(TAG, "第一步登录成功");
                             break;
