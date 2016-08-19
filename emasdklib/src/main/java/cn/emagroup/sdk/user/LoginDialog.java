@@ -182,7 +182,7 @@ public class LoginDialog extends Dialog implements
     private String allianceId;
     private String authCode;
     private String callbackUrl;
-
+    private String nickname;
     // 弱账户第一次登录请求
     private void weakLoginFirst() {
         Map<String, String> params = new HashMap<>();
@@ -207,6 +207,8 @@ public class LoginDialog extends Dialog implements
                             LOG.e("authCode",authCode);
                             callbackUrl=data.getString("callbackUrl");
                             LOG.e("callbackUrl",callbackUrl);
+                            nickname=data.getString("nickname");
+                            LOG.e("nickname",nickname);
 
                             Message msg = new Message();
                             msg.what = FIRST_STEP_LOGIN_SUCCESS;

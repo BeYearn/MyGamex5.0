@@ -140,7 +140,7 @@ public class Url {
 
 
 	/**
-	 * 获取创建弱账户的url
+	 * 获取创建弱账户的url  ----------不用这个接口了
 	 * @return
      */
 	public static String getCreatWeakAcountUrl(){
@@ -153,7 +153,16 @@ public class Url {
 	 */
 	public static String getFirstLoginUrl(){
 		//return getServerUrl() + "";
-		return "http://192.168.155.79:8080/member/pfLogin";
+		return "http://192.168.10.126:8080/ema-platform/member/pfLogin";
+	}
+
+	/**
+	 * 获取验证码
+	 * @return
+	 */
+	public static String getSmsUrl(){
+		//return getServerUrl() + "";
+		return "http://192.168.10.126:8080/ema-platform/notice/sendCaptcha";
 	}
 
 

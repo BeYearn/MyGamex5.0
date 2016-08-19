@@ -5,7 +5,8 @@ public class HttpInvokerConst {
 	public static final String RESULT_CODE = "errno";
 
 	public static final int SDK_RESULT_SUCCESS = 0;//表示请求数据或操作成功
-	
+	public static final int SDK_RESULT_FAILED=1;
+
 	public static final int SDK_RESULT_FAILED_SIGIN_ERROR = 3006;//签名失败
 	
 	// 登录返回标记
