@@ -116,12 +116,12 @@ public class LoginDialog extends Dialog implements
                     break;
                 case CODE_FAILED_ERROR_PASSW:// 登录失败（密码错误）
                     ToastHelper.toast(mActivity, "密码错误");
-                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, msg.obj);
+                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, (String)msg.obj);
                     mEmaUser.clearUserInfo();
                     break;
                 case CODE_FAILED_NO_ACCOUNT:// 登录失败（用户名不存在）
                     ToastHelper.toast(mActivity, "用户名不存在");
-                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, msg.obj);
+                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, (String)msg.obj);
                     mEmaUser.clearUserInfo();
                     break;
                 case CODE_ACCESSID_LOST:// sid过期

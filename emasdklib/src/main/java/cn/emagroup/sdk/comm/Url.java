@@ -51,7 +51,8 @@ public class Url {
 	 * @return
 	 */
 	public static String getWebUrlUserInfo(){
-		return getWebUrl() + "userinfo.html";
+		//return getWebUrl() + "userinfo.html";
+		return "http://192.168.10.80:8080/wap/userinfo.html";
 	}
 	
 	/**

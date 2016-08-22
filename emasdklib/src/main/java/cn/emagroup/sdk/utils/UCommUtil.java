@@ -184,7 +184,7 @@ public class UCommUtil {
 	 * @param msgCode
 	 * @param msgObj
 	 */
-	public static void makeUserCallBack(int msgCode, Object msgObj) {
+	public static void makeUserCallBack(int msgCode, String msgObj) {
 		Ema.getInstance().makeCallBack(msgCode, msgObj);
 	}
 

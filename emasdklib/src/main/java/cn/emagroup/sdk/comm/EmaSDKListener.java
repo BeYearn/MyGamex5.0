@@ -9,5 +9,5 @@ public interface EmaSDKListener {
 	 * @param eventId
 	 *            回调事件id
 	 */
-	public void onCallBack(Message msg);
+	public void onCallBack(int resultCode,String decr);
 }

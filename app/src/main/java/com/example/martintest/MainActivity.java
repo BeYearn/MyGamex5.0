@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.igexin.sdk.PushManager;
 
@@ -62,17 +63,27 @@ public class MainActivity extends Activity implements OnClickListener {
 		Ema.getInstance().init(this, new EmaSDKListener() {
 
 			@Override
-			public void onCallBack(Message msg) {
-				if(msg == null) return;
+			public void onCallBack(int resultCode,String dec) {
 				if(mhandler != null){
-					mhandler.sendMessage(msg);
+					//mhandler.sendMessage(msg);
 				}
-				switch (msg.what) {
-				case EmaCallBackConst.PAYSUCCESS:
-					if(mDialog != null && mDialog.isShowing()){
-						mDialog.dismiss();
-					}
-					break;
+				switch (resultCode) {
+					case EmaCallBackConst.INITSUCCESS://初始化SDK成功回调
+						Toast.makeText(MainActivity.this, "sdk初始化成功", Toast.LENGTH_LONG).show();
+						break;
+					case EmaCallBackConst.INITFALIED://初始化SDK失败回调
+						break;
+					case EmaCallBackConst.LOGINSUCCESS://登陆成功回调
+						break;
+					case EmaCallBackConst.LOGINCANELL://登陆取消回调
+						break;
+					case EmaCallBackConst.LOGINFALIED://登陆失败回调
+						Log.e("++++++++++", Thread.currentThread().getName());
+						break;
+					case EmaCallBackConst.LOGOUTSUCCESS://登出成功回调
+						break;
+					case EmaCallBackConst.LOGOUTFALIED://登出失败回调
+						break;
 				}
 			}
 		});

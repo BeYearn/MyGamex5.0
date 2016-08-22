@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.os.Message;
 
 import java.util.Map;
 
@@ -270,15 +269,12 @@ public class Ema {
 	 * @param msgCode
 	 * @param msgObj
 	 */
-	public void makeCallBack(int msgCode, Object msgObj){
+	public void makeCallBack(int msgCode, String msgObj){
 		if(mEmaListener == null){
 			LOG.w(TAG, "未设置回调");
 			return;
 		}
-		Message msg = new Message();
-		msg.what = msgCode;
-		msg.obj = msgObj;
-		mEmaListener.onCallBack(msg);
+		mEmaListener.onCallBack(msgCode,msgObj);
 	}
 	
 	public Context getContext(){
