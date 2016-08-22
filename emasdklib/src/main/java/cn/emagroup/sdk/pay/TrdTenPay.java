@@ -55,9 +55,6 @@ public class TrdTenPay {
 		params.put("product_id", "0");// 商品ID
 		params.put("product_name", PropertyField.EMA_COIN_UNIT);// 商品名字
 		params.put("product_num", String.valueOf(1));// 商品数量
-		params.put("rold_id", emaPay.getPayInfo().getRold_id());// 角色ID
-		params.put("rold_name", emaPay.getPayInfo().getRold_name());// 角色名字
-		params.put("rold_level", emaPay.getPayInfo().getRold_level() + "");// 角色等级
 		params.put("ext", "充值钱包");// 附加信息
 		params.put("wallet_amount","0");
 		params.put("change_app_id","1001");//充值钱包特定参数

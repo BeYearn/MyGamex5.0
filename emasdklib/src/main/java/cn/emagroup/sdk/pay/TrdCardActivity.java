@@ -1,10 +1,32 @@
 package cn.emagroup.sdk.pay;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.json.JSONObject;
 
 import cn.emagroup.sdk.Ema;
 import cn.emagroup.sdk.comm.ConfigManager;
@@ -21,27 +43,6 @@ import cn.emagroup.sdk.utils.LOG;
 import cn.emagroup.sdk.utils.PropertyField;
 import cn.emagroup.sdk.utils.ToastHelper;
 import cn.emagroup.sdk.utils.UCommUtil;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 /**
  *	游戏卡，手机卡  支付 | 充值
@@ -412,9 +413,6 @@ public class TrdCardActivity extends Activity implements OnClickListener {
 		params.put("product_id", "0");// 商品ID
 		params.put("product_name", PropertyField.EMA_COIN_UNIT);// 商品名字
 		params.put("product_num", String.valueOf(1));// 商品数量
-		params.put("rold_id", emaPay.getPayInfo().getRold_id());// 角色ID
-		params.put("rold_name", emaPay.getPayInfo().getRold_name());// 角色名字
-		params.put("rold_level", emaPay.getPayInfo().getRold_level() + "");// 角色等级
 		params.put("ext", "充值钱包");// 附加信息
 		params.put("change_app_id","1001");//充值钱包特定参数
 		params.put("device_id", deviceInfoManager.getDEVICE_ID());//设备ID

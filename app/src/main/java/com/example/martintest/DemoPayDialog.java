@@ -74,19 +74,12 @@ public class DemoPayDialog extends Dialog {
 			if (0 != amountNum) {
 
 				EmaPayInfoBean infoBean = new EmaPayInfoBean();
-				infoBean.setPartition_id(0);
-				infoBean.setServer_id(0);
 				infoBean.setOrder_amount(amountNum * 100);
 				infoBean.setAmount(amountNum * 100);
-				infoBean.setPoint(0);
 				infoBean.setProduct_num(1);
-				infoBean.setCoupon("0");
 				infoBean.setApp_order_id("order" + System.currentTimeMillis());
 				infoBean.setProduct_name(GoodsName.getText().toString());
 				infoBean.setProduct_id(product_id.getText().toString());
-				infoBean.setRold_id("456");
-				infoBean.setRold_name("789");
-				infoBean.setRold_level(1);
 				infoBean.setExt(ext.getText().toString());
 				Ema.getInstance().pay(infoBean, new EmaPayListener() {
 					@Override
@@ -105,19 +98,12 @@ public class DemoPayDialog extends Dialog {
 
 	protected void payyifen() {
 		EmaPayInfoBean infoBean = new EmaPayInfoBean();
-		infoBean.setPartition_id(0);
-		infoBean.setServer_id(0);
 		infoBean.setOrder_amount(1);
 		infoBean.setAmount(1);
-		infoBean.setPoint(0);
 		infoBean.setProduct_num(1);
-		infoBean.setCoupon("0");
 		infoBean.setApp_order_id("order" + System.currentTimeMillis());
 		infoBean.setProduct_name(GoodsName.getText().toString());
 		infoBean.setProduct_id(product_id.getText().toString());
-		infoBean.setRold_id("456");
-		infoBean.setRold_name("789");
-		infoBean.setRold_level(1);
 		infoBean.setExt(ext.getText().toString());
 		Ema.getInstance().pay(infoBean, new EmaPayListener() {
 			@Override

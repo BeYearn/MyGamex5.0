@@ -86,7 +86,7 @@ public class EmaPay {
 			return;
 		}
 		
-		PayUtil.getWalletSetting(mConfigManager.getAppId(),mEmaUser.getAccessSid(),
+		/*PayUtil.getWalletSetting(mConfigManager.getAppId(),mEmaUser.getAccessSid(),
 				mEmaUser.getUUID(), mConfigManager.getAppKEY(), new HttpInvoker.OnResponsetListener() {
 					@Override
 					public void OnResponse(String result) {
@@ -115,7 +115,8 @@ public class EmaPay {
 							makePayCallback(EmaCallBackConst.PAYFALIED, "支付时，获取余额失败！可能网络出现问题！");
 						}
 					}
-				});
+				});*/
+		doSelectPay();
 	}
 	
 	/**
@@ -134,29 +135,21 @@ public class EmaPay {
 	}
 	
 	/**
-	 * 构建支付参数   
-	 * @param payInfoBean
+	 * 构建支付参数
+	 * @param
 	 * @return
 	 */
 	protected Map<String, String> buildPayParams(){
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("client_id", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
 		map.put("app_id", mConfigManager.getAppId());
-		map.put("partition_id", mPayInfoBean.getPartition_id() + "");
-		map.put("server_id", mPayInfoBean.getServer_id() + "");
 		map.put("order_amount", (int)(mPayInfoBean.getAmount_pricebean().getPriceFen()) + "");
 		map.put("amount", (int)(mPayInfoBean.getAmount_pricebean().getPriceFen()) + "");
-		map.put("point", mPayInfoBean.getPoint() + "");
 		map.put("bank_id", "0");
-		map.put("coupon", mPayInfoBean.getCoupon());
 		map.put("app_order_id", mPayInfoBean.getApp_order_id());//cp_id
 		map.put("product_id", mPayInfoBean.getProduct_id());
 		map.put("product_name", mPayInfoBean.getProduct_name());
 		map.put("product_num", mPayInfoBean.getProduct_num() + "");
-		map.put("rold_id", mPayInfoBean.getRold_id());
-		map.put("rold_name", mPayInfoBean.getRold_name());
-		map.put("rold_level", mPayInfoBean.getRold_level() + "");
-		map.put("ext", mPayInfoBean.getExt());
 		map.put("device_id", mDeviceInfoManager.getDEVICE_ID());
 		map.put("channel", mConfigManager.getChannel());
 		return map;

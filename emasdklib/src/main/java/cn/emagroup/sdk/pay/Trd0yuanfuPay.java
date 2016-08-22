@@ -1,15 +1,16 @@
 package cn.emagroup.sdk.pay;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.emagroup.sdk.comm.ConfigManager;
 import cn.emagroup.sdk.comm.DeviceInfoManager;
 import cn.emagroup.sdk.comm.EmaCallBackConst;
@@ -443,23 +444,15 @@ public class Trd0yuanfuPay {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("client_id", ConfigManager.getInstance(context).getChannel());
 		params.put("app_id", mConfigManager.getAppId());
-		params.put("partition_id", payInfoBean.getPartition_id() + "");  ;
-		params.put("server_id", payInfoBean.getServer_id() + "");
 //		int price = payInfoBean.getAmount_pricebean().getPriceFen() * bean.getDiscount() / 100;
 		int price = payInfoBean.getAmount_pricebean().getPriceFen();
 		params.put("order_amount", price + "");
 		params.put("amount", price + "");
-		params.put("point", payInfoBean.getPoint() + "");
 		params.put("bank_id", "0");
-		params.put("coupon", payInfoBean.getCoupon());
 		params.put("app_order_id", payInfoBean.getApp_order_id());//cp_id
 		params.put("product_id", payInfoBean.getProduct_id());
 		params.put("product_name", payInfoBean.getProduct_name());
 		params.put("product_num", payInfoBean.getProduct_num() + "");
-		params.put("rold_id", payInfoBean.getRold_id());
-		params.put("rold_name", payInfoBean.getRold_name());
-		params.put("rold_level", payInfoBean.getRold_level() + "");
-		params.put("ext", payInfoBean.getExt());
 		params.put("device_id", DeviceInfoManager.getInstance(context).getDEVICE_ID());
 		params.put("channel", mConfigManager.getChannel());
 		params.put("wallet_pwd", "0");
@@ -540,9 +533,6 @@ public class Trd0yuanfuPay {
 		params.put("product_id", "0");// 商品ID
 		params.put("product_name", PropertyField.EMA_COIN_UNIT);// 商品名字
 		params.put("product_num", String.valueOf(1));// 商品数量
-		params.put("rold_id", emaPay.getPayInfo().getRold_id());// 角色ID
-		params.put("rold_name", emaPay.getPayInfo().getRold_name());// 角色名字
-		params.put("rold_level", emaPay.getPayInfo().getRold_level() + "");// 角色等级
 		params.put("ext", "充值钱包");// 附加信息
 		params.put("wallet_amount","0");
 		params.put("change_app_id","1001");//充值钱包特定参数
