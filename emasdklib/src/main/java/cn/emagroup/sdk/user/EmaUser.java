@@ -36,7 +36,6 @@ public class EmaUser {
 	private String mAccessCode;
 	private String mAccessSid;
 	private String mUUID;
-	private String mUserName;
 
 	private String mPhoneNum;
 	private boolean mFlagIsLogin;
@@ -56,7 +55,6 @@ public class EmaUser {
 		mAccessCode = null;
 		mAccessSid = null;
 		mUUID = null;
-		mUserName = null;
 		mFlagIsLogin = false;
 		mLoginType = UserConst.LOGIN_NULL;
 		mBalance = 0;
@@ -85,11 +83,13 @@ public class EmaUser {
 		mAccessCode = null;
 		mAccessSid = null;
 		mUUID = null;
-		mUserName = null;
 		mPhoneNum = null;
 		mFlagIsLogin = false;
 		mLoginType = UserConst.LOGIN_NULL;
 		mRoleInfo = null;
+
+		mUid=null;
+		mNickName=null;
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class EmaUser {
 		List<UserLoginInfoBean> list = USharedPerUtil.getUserLoginInfoList(context);
 		
 		UserLoginInfoBean bean = new UserLoginInfoBean();
-		bean.setUsername(getUserName());
+		bean.setUsername(getNickName());
 		bean.setSid(getAccessSid());
 		bean.setUuid(getUUID());
 		bean.setAnlaiye(getIsAnlaiye());
@@ -199,15 +199,7 @@ public class EmaUser {
 	public String getAccessSid() {
 		return mAccessSid;
 	}
-	
-	protected void setUserName(String userName) {
-		mUserName = userName;
-	}
-	
-	public String getUserName() {
-		return mUserName;
-	}
-	
+
 	protected void setNickName(String nickName) {
 		mNickName = nickName;
 	}
