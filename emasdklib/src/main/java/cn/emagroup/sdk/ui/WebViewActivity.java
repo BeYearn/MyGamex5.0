@@ -1,12 +1,33 @@
 package cn.emagroup.sdk.ui;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebSettings.LayoutAlgorithm;
+import android.webkit.WebSettings.ZoomDensity;
+import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cn.emagroup.sdk.Ema;
-import cn.emagroup.sdk.comm.ActivityManager;
 import cn.emagroup.sdk.comm.ConfigManager;
 import cn.emagroup.sdk.comm.DeviceInfoManager;
 import cn.emagroup.sdk.comm.EmaCallBackConst;
@@ -22,29 +43,6 @@ import cn.emagroup.sdk.utils.LOG;
 import cn.emagroup.sdk.utils.PropertyField;
 import cn.emagroup.sdk.utils.ToastHelper;
 import cn.emagroup.sdk.utils.UCommUtil;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebSettings.LayoutAlgorithm;
-import android.webkit.WebSettings.ZoomDensity;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.TextView;
 
 public class WebViewActivity extends Activity implements OnClickListener {
 
@@ -306,11 +304,10 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		
 		EmaUser emaUser = EmaUser.getInstance();
 		
-		cookieManager.setCookie(url, getCookie("loginname", emaUser.getUserName()));
+		cookieManager.setCookie(url, getCookie("token", emaUser.getmToken()));
+		cookieManager.setCookie(url, getCookie("uid", emaUser.getmUid()));
 		cookieManager.setCookie(url, getCookie("nickname", emaUser.getNickName()));
-		cookieManager.setCookie(url, getCookie("appid", mConfigManager.getAppId()));
-		cookieManager.setCookie(url, getCookie("uuid", emaUser.getUUID()));
-		cookieManager.setCookie(url, getCookie("app_sid", emaUser.getAccessSid()));
+		//cookieManager.setCookie(url, getCookie("appid", mConfigManager.getAppId()));
 		if(emaUser.getRoleInfo() != null){
 			cookieManager.setCookie(url, getCookie(EmaConst.EMA_SUBMIT_ROLE_ID, emaUser.getRoleInfo().getRoleId()));
 			cookieManager.setCookie(url, getCookie(EmaConst.EMA_SUBMIT_ROLE_NAME, emaUser.getRoleInfo().getRoleName()));

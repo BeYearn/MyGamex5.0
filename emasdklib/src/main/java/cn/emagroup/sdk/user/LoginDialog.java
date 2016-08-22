@@ -166,6 +166,7 @@ public class LoginDialog extends Dialog implements
                             JSONObject data = jsonObject.getJSONObject("data");
                             userid = data.getString("uid");
                             LOG.e("uid",userid);
+                            mEmaUser.setmUid(userid);
                             allianceId=data.getString("allianceId");
                             LOG.e("allianceId",allianceId);
                             authCode=data.getString("authCode");
@@ -174,7 +175,7 @@ public class LoginDialog extends Dialog implements
                             LOG.e("callbackUrl",callbackUrl);
                             nickname=data.getString("nickname");
                             LOG.e("nickname",nickname);
-                            mEmaUser.setUserName(nickname);
+                            mEmaUser.setNickName(nickname);
 
                             Message msg = new Message();
                             msg.what = FIRST_STEP_LOGIN_SUCCESS;
@@ -266,6 +267,7 @@ public class LoginDialog extends Dialog implements
                             JSONObject data = jsonObject.getJSONObject("data");
                             String token = data.getString("token");
                             LOG.e("token",token);
+                            mEmaUser.setmToken(token);
 
                             Message msg = new Message();
                             msg.what = CODE_SUCCESS;

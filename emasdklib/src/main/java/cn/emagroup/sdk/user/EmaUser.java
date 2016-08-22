@@ -1,22 +1,43 @@
 package cn.emagroup.sdk.user;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.emagroup.sdk.pay.EmaPriceBean;
 import cn.emagroup.sdk.utils.USharedPerUtil;
-import android.content.Context;
 
 public class EmaUser {
 
 	private static EmaUser mInstance;
 	private static final Object synchron = new Object();
-	
+
+	private String mNickName;//昵称
+	private String mUid;
+	private String mToken;
+
+	public String getmUid() {
+		return mUid;
+	}
+
+	public void setmUid(String mUid) {
+		this.mUid = mUid;
+	}
+
+	public String getmToken() {
+		return mToken;
+	}
+
+	public void setmToken(String mToken) {
+		this.mToken = mToken;
+	}
+
 	private String mAccessCode;
 	private String mAccessSid;
 	private String mUUID;
 	private String mUserName;
-	private String mNickName;//昵称
+
 	private String mPhoneNum;
 	private boolean mFlagIsLogin;
 	private int mLoginType;//登录的方式（普通登录，手机登录）
