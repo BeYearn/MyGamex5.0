@@ -26,6 +26,7 @@ import java.util.Date;
 import cn.emagroup.sdk.Ema;
 import cn.emagroup.sdk.comm.EmaCallBackConst;
 import cn.emagroup.sdk.comm.EmaSDKListener;
+import cn.emagroup.sdk.wrapper.EmaSDK;
 
 //测试界面activity
 
@@ -60,7 +61,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void init() {
 		// 初始化
-		Ema.getInstance().init(this, new EmaSDKListener() {
+		EmaSDK.getInstance().init(this, new EmaSDKListener() {
 
 			@Override
 			public void onCallBack(int resultCode,String dec) {
