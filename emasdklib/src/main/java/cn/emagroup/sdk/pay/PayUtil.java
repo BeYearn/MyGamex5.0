@@ -83,7 +83,7 @@ public class PayUtil {
 		final ResourceManager manager = ResourceManager.getInstance(context);
 		final Map<String, String> idMap = getTrdPayDrawableIdMap();
 		
-		Map<String, String> params = new HashMap<String, String>();
+		/*Map<String, String> params = new HashMap<String, String>();
 		EmaUser mEmaUser = EmaUser.getInstance();
 		ConfigManager mConfigManager = ConfigManager.getInstance(context);
 		params.put("app_id", mConfigManager.getAppId());
@@ -96,11 +96,12 @@ public class PayUtil {
 				mEmaUser.getUUID(),
 				mConfigManager.getAppKEY());
 		params.put("sign", sign);
-		UCommUtil.testMapInfo(params);
-		new HttpInvoker().postAsync(Url.getPayTrdList(), params, new HttpInvoker.OnResponsetListener() {
-			@Override
-			public void OnResponse(String result) {
+		UCommUtil.testMapInfo(params);*/
+		//new HttpInvoker().postAsync(Url.getPayTrdList(), params, new HttpInvoker.OnResponsetListener() {
+			//@Override
+			//public void OnResponse(String result) {
 				try {
+					String result="{\"errno\":0,\"list\":[{\"channel_id\":\"30008\",\"channel_name\":\"\\u652f\\u4ed8\\u5b9dMobile\",\"channel_code\":\"alipay_mobile\",\"discount\":\"100\"},{\"channel_id\":\"9028\",\"channel_name\":\"\\u8d22\\u4ed8\\u901aWAP\",\"channel_code\":\"tenpay_wap_bank\",\"discount\":\"100\"},{\"channel_id\":\"100\",\"channel_name\":\"\\u94b1\\u5305\",\"channel_code\":\"wallet\",\"discount\":\"100\"},{\"channel_id\":\"9011\",\"channel_name\":\"\\u7f51\\u94f6\\u652f\\u4ed8(\\u8d22\\u4ed8\\u901a)\",\"channel_code\":\"tenpay_bank\",\"discount\":\"100\"},{\"channel_id\":\"7000\",\"channel_name\":\"\\u76db\\u4ed8\\u901a\",\"channel_code\":\"sdopay\",\"discount\":\"100\"},{\"channel_id\":\"4000\",\"channel_name\":\"\\u624b\\u673a\\u5361\\u5145\\u503c\",\"channel_code\":\"mobile\",\"discount\":\"100\"},{\"channel_id\":\"9000\",\"channel_name\":\"\\u5b9e\\u7269\\u70b9\\u5361\",\"channel_code\":\"sdopay_card\",\"discount\":\"100\"}]}";
 					JSONObject json = new JSONObject(result);
 					int resultCode = json.getInt(HttpInvokerConst.RESULT_CODE);
 					switch(resultCode){
@@ -132,8 +133,6 @@ public class PayUtil {
 				} catch (Exception e) {
 					LOG.e(TAG, "pay error", e);
 				}
-			}
-		});
 	}
 	
 	private static Map<String, String> getTrdPayDrawableIdMap(){
