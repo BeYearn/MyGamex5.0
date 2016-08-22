@@ -291,6 +291,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
      * @param token
      */
     private void doResultSuccFromServer(String token) {
+
         RegisterByPhoneDialog.this.dismiss();
         // 显示登录成功后的对话框
         mLoginSuccDialog = new LoginSuccDialog(mActivity, true);

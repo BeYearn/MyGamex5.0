@@ -293,7 +293,7 @@ public class LoginDialog extends Dialog implements
         }
         mEmaUser.saveLoginUserInfo(mActivity);*/
 
-
+        LoginDialog.this.dismiss();
         // 显示登录成功后的对话框
         mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
         mLoginSuccDialog.start();
