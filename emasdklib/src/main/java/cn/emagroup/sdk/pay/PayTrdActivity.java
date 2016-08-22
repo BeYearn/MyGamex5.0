@@ -1,25 +1,5 @@
 package cn.emagroup.sdk.pay;
 
-import java.util.List;
-
-import org.json.JSONObject;
-
-import cn.emagroup.sdk.Ema;
-import cn.emagroup.sdk.comm.ActivityManager;
-import cn.emagroup.sdk.comm.ConfigManager;
-import cn.emagroup.sdk.comm.DeviceInfoManager;
-import cn.emagroup.sdk.comm.EmaCallBackConst;
-import cn.emagroup.sdk.comm.EmaProgressDialog;
-import cn.emagroup.sdk.comm.HttpInvokerConst;
-import cn.emagroup.sdk.comm.ResourceManager;
-import cn.emagroup.sdk.ui.ToolBar;
-import cn.emagroup.sdk.ui.WebViewActivity;
-import cn.emagroup.sdk.user.EmaUser;
-import cn.emagroup.sdk.utils.EmaConst;
-import cn.emagroup.sdk.utils.LOG;
-import cn.emagroup.sdk.utils.PropertyField;
-import cn.emagroup.sdk.utils.ToastHelper;
-import cn.emagroup.sdk.utils.UCommUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +14,24 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONObject;
+
+import java.util.List;
+
+import cn.emagroup.sdk.comm.ConfigManager;
+import cn.emagroup.sdk.comm.DeviceInfoManager;
+import cn.emagroup.sdk.comm.EmaCallBackConst;
+import cn.emagroup.sdk.comm.EmaProgressDialog;
+import cn.emagroup.sdk.comm.HttpInvokerConst;
+import cn.emagroup.sdk.comm.ResourceManager;
+import cn.emagroup.sdk.ui.WebViewActivity;
+import cn.emagroup.sdk.user.EmaUser;
+import cn.emagroup.sdk.utils.EmaConst;
+import cn.emagroup.sdk.utils.LOG;
+import cn.emagroup.sdk.utils.PropertyField;
+import cn.emagroup.sdk.utils.ToastHelper;
+import cn.emagroup.sdk.utils.UCommUtil;
 
 public class PayTrdActivity extends Activity implements OnClickListener {
 
@@ -133,7 +131,7 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 	private void initData() {
 		mTxtProductName.setText(mEmaPay.getPayInfo().getProduct_name());
 		mTxtTotalPrice.setText(mEmaPay.getPayInfo().getAmount_pricebean().getPriceYuan() + PropertyField.EMA_COIN_UNIT);
-		mTxtUserName.setText(mEmaUser.getUserName());
+		mTxtUserName.setText(mEmaUser.getNickName());
 		
 		PayUtil.getPayTrdList(this, mHandler);
 	}

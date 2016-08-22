@@ -1,23 +1,5 @@
 package cn.emagroup.sdk.pay;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONObject;
-
-import cn.emagroup.sdk.comm.ConfigManager;
-import cn.emagroup.sdk.comm.DeviceInfoManager;
-import cn.emagroup.sdk.comm.EmaProgressDialog;
-import cn.emagroup.sdk.comm.HttpInvokerConst;
-import cn.emagroup.sdk.comm.ResourceManager;
-import cn.emagroup.sdk.ui.WebViewActivity;
-import cn.emagroup.sdk.user.EmaUser;
-import cn.emagroup.sdk.utils.EmaConst;
-import cn.emagroup.sdk.utils.LOG;
-import cn.emagroup.sdk.utils.PropertyField;
-import cn.emagroup.sdk.utils.ToastHelper;
-import cn.emagroup.sdk.utils.UCommUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -36,6 +18,25 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import cn.emagroup.sdk.comm.ConfigManager;
+import cn.emagroup.sdk.comm.DeviceInfoManager;
+import cn.emagroup.sdk.comm.EmaProgressDialog;
+import cn.emagroup.sdk.comm.HttpInvokerConst;
+import cn.emagroup.sdk.comm.ResourceManager;
+import cn.emagroup.sdk.ui.WebViewActivity;
+import cn.emagroup.sdk.user.EmaUser;
+import cn.emagroup.sdk.utils.EmaConst;
+import cn.emagroup.sdk.utils.LOG;
+import cn.emagroup.sdk.utils.PropertyField;
+import cn.emagroup.sdk.utils.ToastHelper;
+import cn.emagroup.sdk.utils.UCommUtil;
 
 public class RechargeMabiActivity extends Activity implements OnClickListener {
 
@@ -215,7 +216,7 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 	 * 初始化数据
 	 */
 	private void initData() {
-		mTxtAccount.setText(mEmaUser.getUserName());
+		mTxtAccount.setText(mEmaUser.getNickName());
 		mTxtBalance.setText(mEmaUser.getBalancePricebean().getPriceYuan() + "");
 		
 		PayUtil.getRechargeList(this, mHandler);

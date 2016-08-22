@@ -1,10 +1,15 @@
 package cn.emagroup.sdk.user;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.json.JSONObject;
 
 import cn.emagroup.sdk.comm.ConfigManager;
 import cn.emagroup.sdk.comm.DeviceInfoManager;
@@ -15,10 +20,6 @@ import cn.emagroup.sdk.comm.Url;
 import cn.emagroup.sdk.utils.LOG;
 import cn.emagroup.sdk.utils.UCommUtil;
 import cn.emagroup.sdk.utils.USharedPerUtil;
-import android.app.Activity;
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 
 public class EmaAutoLogin {
 
@@ -127,7 +128,7 @@ public class EmaAutoLogin {
 							case HttpInvokerConst.SDK_RESULT_SUCCESS:// 登录成功
 								LOG.d(TAG, "自动登录成功");
 								mEmaUser.setCode(json.getString("code"));
-								mEmaUser.setUserName(mAutoUserInfoBean
+								mEmaUser.setNickName(mAutoUserInfoBean
 										.getUsername());
 								mEmaUser.setUUID(mAutoUserInfoBean.getUuid());
 								mEmaUser.setSid(mAutoUserInfoBean.getSid());

@@ -1,14 +1,5 @@
 package cn.emagroup.sdk.user;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import cn.emagroup.sdk.Ema;
-import cn.emagroup.sdk.comm.EmaCallBackConst;
-import cn.emagroup.sdk.comm.ResourceManager;
-import cn.emagroup.sdk.ui.ToolBar;
-import cn.emagroup.sdk.utils.LOG;
-import cn.emagroup.sdk.utils.UCommUtil;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -19,6 +10,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+import cn.emagroup.sdk.Ema;
+import cn.emagroup.sdk.comm.EmaCallBackConst;
+import cn.emagroup.sdk.comm.ResourceManager;
+import cn.emagroup.sdk.ui.ToolBar;
+import cn.emagroup.sdk.utils.LOG;
+import cn.emagroup.sdk.utils.UCommUtil;
 
 public class LoginSuccDialog extends Dialog {
 
@@ -80,7 +81,7 @@ public class LoginSuccDialog extends Dialog {
 	private void initView() {
 		setContentView(mResourceManager.getLayout("ema_login_succdialog"));
 		TextView nameView = (TextView) findViewById(mResourceManager.getIdentifier("ema_login_succ_txtView", "id"));
-		nameView.setText(mEmaUser.getUserName() + "正在登录...");
+		nameView.setText(mEmaUser.getNickName() + "正在登录...");
 		Button btnSwitchAccount = (Button) findViewById(mResourceManager.getIdentifier("ema_login_succ_buttonView", "id"));
 		if(mFlagIsBtnShow){
 			btnSwitchAccount.setOnClickListener(new View.OnClickListener() {

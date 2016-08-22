@@ -1,9 +1,21 @@
 package cn.emagroup.sdk.user;
 
-import java.util.HashMap;
-import java.util.Map;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.method.NumberKeyListener;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.emagroup.sdk.Ema;
 import cn.emagroup.sdk.comm.ConfigManager;
@@ -19,19 +31,6 @@ import cn.emagroup.sdk.utils.LOG;
 import cn.emagroup.sdk.utils.PropertyField;
 import cn.emagroup.sdk.utils.ToastHelper;
 import cn.emagroup.sdk.utils.UCommUtil;
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.text.method.NumberKeyListener;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 
 public class RegisterDialog extends Dialog implements android.view.View.OnClickListener {
 	
@@ -292,7 +291,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 						int resultCode = json.getInt(HttpInvokerConst.RESULT_CODE);
 						switch(resultCode){
 						case HttpInvokerConst.SDK_RESULT_SUCCESS://注册成功
-							mEmaUser.setUserName(account);
+							mEmaUser.setNickName(account);
 							mEmaUser.setCode(json.getString("code"));
 							mEmaUser.setUUID(json.getString("uuid"));
 							mEmaUser.setSid(json.getString("sid"));
@@ -376,7 +375,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 					int resultCode = json.getInt(HttpInvokerConst.RESULT_CODE);
 					switch(resultCode){
 					case HttpInvokerConst.SDK_RESULT_SUCCESS://注册成功
-						mEmaUser.setUserName(mLoginName);
+						mEmaUser.setNickName(mLoginName);
 						mEmaUser.setCode(json.getString("code"));
 						mEmaUser.setUUID(json.getString("uuid"));
 						mEmaUser.setSid(json.getString("sid"));

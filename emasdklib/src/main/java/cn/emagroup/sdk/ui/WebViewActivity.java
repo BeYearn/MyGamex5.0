@@ -307,6 +307,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		cookieManager.setCookie(url, getCookie("token", emaUser.getmToken()));
 		cookieManager.setCookie(url, getCookie("uid", emaUser.getmUid()));
 		cookieManager.setCookie(url, getCookie("nickname", emaUser.getNickName()));
+		LOG.e("______________",emaUser.getmToken()+emaUser.getmUid()+emaUser.getNickName());
 		//cookieManager.setCookie(url, getCookie("appid", mConfigManager.getAppId()));
 		if(emaUser.getRoleInfo() != null){
 			cookieManager.setCookie(url, getCookie(EmaConst.EMA_SUBMIT_ROLE_ID, emaUser.getRoleInfo().getRoleId()));

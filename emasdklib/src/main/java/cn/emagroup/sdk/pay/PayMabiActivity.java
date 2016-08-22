@@ -1,28 +1,4 @@
 package cn.emagroup.sdk.pay;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONObject;
-
-import cn.emagroup.sdk.Ema;
-import cn.emagroup.sdk.comm.ActivityManager;
-import cn.emagroup.sdk.comm.ConfigManager;
-import cn.emagroup.sdk.comm.DeviceInfoManager;
-import cn.emagroup.sdk.comm.EmaCallBackConst;
-import cn.emagroup.sdk.comm.EmaProgressDialog;
-import cn.emagroup.sdk.comm.EmaReceiver;
-import cn.emagroup.sdk.comm.HttpInvoker;
-import cn.emagroup.sdk.comm.HttpInvokerConst;
-import cn.emagroup.sdk.comm.ResourceManager;
-import cn.emagroup.sdk.comm.Url;
-import cn.emagroup.sdk.pay.EmaPay;
-import cn.emagroup.sdk.ui.ToolBar;
-import cn.emagroup.sdk.ui.WebViewActivity;
-import cn.emagroup.sdk.user.EmaUser;
-import cn.emagroup.sdk.utils.LOG;
-import cn.emagroup.sdk.utils.PropertyField;
-import cn.emagroup.sdk.utils.ToastHelper;
-import cn.emagroup.sdk.utils.UCommUtil;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,8 +6,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.NumberKeyListener;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,6 +15,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import cn.emagroup.sdk.comm.ConfigManager;
+import cn.emagroup.sdk.comm.DeviceInfoManager;
+import cn.emagroup.sdk.comm.EmaCallBackConst;
+import cn.emagroup.sdk.comm.EmaProgressDialog;
+import cn.emagroup.sdk.comm.EmaReceiver;
+import cn.emagroup.sdk.comm.HttpInvoker;
+import cn.emagroup.sdk.comm.HttpInvokerConst;
+import cn.emagroup.sdk.comm.ResourceManager;
+import cn.emagroup.sdk.comm.Url;
+import cn.emagroup.sdk.ui.WebViewActivity;
+import cn.emagroup.sdk.user.EmaUser;
+import cn.emagroup.sdk.utils.LOG;
+import cn.emagroup.sdk.utils.PropertyField;
+import cn.emagroup.sdk.utils.ToastHelper;
+import cn.emagroup.sdk.utils.UCommUtil;
 
 
 public class PayMabiActivity extends Activity implements OnClickListener {
@@ -225,7 +220,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
 		mTxtProductNumber.setText(mEmaPay.getPayInfo().getProduct_num() + "");
 		mTxtTotalPrice.setText(mEmaPay.getPayInfo().getAmount_pricebean().getPriceYuan() + "");
 		mTxtBalance.setText(mEmaUser.getBalancePricebean().getPriceYuan() + "");
-		mTxtAccount.setText(mEmaUser.getUserName());
+		mTxtAccount.setText(mEmaUser.getNickName());
 		mTxtPayLimit.setText(mEmaUser.getPayLimitPricebean().getPriceYuan() + "");
 	}
 	

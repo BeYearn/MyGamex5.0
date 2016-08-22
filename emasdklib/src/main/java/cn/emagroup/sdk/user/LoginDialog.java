@@ -226,6 +226,7 @@ public class LoginDialog extends Dialog implements
                             JSONObject data = json.getJSONObject("data");
                             userid = data.getString("uid");
                             LOG.e("uid", userid);
+                            mEmaUser.setmUid(userid);
                             allianceId = data.getString("allianceId");
                             LOG.e("allianceId", allianceId);
                             authCode = data.getString("authCode");
@@ -234,7 +235,7 @@ public class LoginDialog extends Dialog implements
                             LOG.e("callbackUrl", callbackUrl);
                             nickname=data.getString("nickname");
                             LOG.e("nickname",nickname);
-                            mEmaUser.setUserName(nickname);
+                            mEmaUser.setNickName(nickname);
                             mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
                             LOG.d(TAG, "第一步登录成功");
                             break;
@@ -285,7 +286,7 @@ public class LoginDialog extends Dialog implements
      * 从服务器接受到了登录成功的返回 后 的处理
      */
     private void doResultSuccFromServer(String token) {
-        /*ToastHelper.toast(mActivity, "登录成功");
+        /*ToastHelper.toast(mActivity, "登录成功");123456
         LoginDialog.this.dismiss();
         // 保存登录成功用户的信息
         if (mFlagIsLoginByAnlaiye) {
@@ -528,7 +529,7 @@ public class LoginDialog extends Dialog implements
      * 找回密码
      */
     private void doFindPassw() {
-        EmaUser.getInstance().setUserName(mEdtNameView.getText().toString());
+        EmaUser.getInstance().setNickName(mEdtNameView.getText().toString());
         Intent intent = new Intent(Ema.getInstance().getContext(), WebViewActivity.class);
         intent.putExtra(WebViewActivity.INTENT_TITLE, "找回密码");
         intent.putExtra(WebViewActivity.INTENT_URL, Url.getWebUrlFindpasswUser());
@@ -673,7 +674,7 @@ public class LoginDialog extends Dialog implements
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS:// 登录成功
                                     LOG.d(TAG, "自动登录成功");
                                     mEmaUser.setCode(json.getString("code"));
-                                    mEmaUser.setUserName(mAutoUserInfoBean
+                                    mEmaUser.setNickName(mAutoUserInfoBean
                                             .getUsername());
                                     mEmaUser.setUUID(mAutoUserInfoBean.getUuid());
                                     mEmaUser.setSid(mAutoUserInfoBean.getSid());

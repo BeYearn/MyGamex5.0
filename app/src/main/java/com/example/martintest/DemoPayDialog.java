@@ -69,7 +69,7 @@ public class DemoPayDialog extends Dialog {
 	}
 
 	protected void pay() {
-		if (amount.getText().toString().isEmpty()) {
+		if (!amount.getText().toString().isEmpty()) {
 			float amountNum = Float.valueOf(amount.getText().toString());
 			if (0 != amountNum) {
 
