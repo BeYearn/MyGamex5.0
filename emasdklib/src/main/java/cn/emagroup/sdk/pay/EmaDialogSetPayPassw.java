@@ -1,9 +1,21 @@
 package cn.emagroup.sdk.pay;
 
-import java.util.HashMap;
-import java.util.Map;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.method.NumberKeyListener;
+import android.view.View;
+import android.view.Window;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.emagroup.sdk.comm.ConfigManager;
 import cn.emagroup.sdk.comm.EmaProgressDialog;
@@ -16,17 +28,6 @@ import cn.emagroup.sdk.utils.LOG;
 import cn.emagroup.sdk.utils.PropertyField;
 import cn.emagroup.sdk.utils.ToastHelper;
 import cn.emagroup.sdk.utils.UCommUtil;
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.text.method.NumberKeyListener;
-import android.view.View;
-import android.view.Window;
-import android.widget.EditText;
-import android.widget.TextView;
 
 public class EmaDialogSetPayPassw extends Dialog implements android.view.View.OnClickListener {
 
@@ -125,27 +126,21 @@ public class EmaDialogSetPayPassw extends Dialog implements android.view.View.On
 		
 		mProgress.showProgress("设置密码中...", false, false);
 		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("app_id", mConfigManager.getAppId());
-		params.put("uuid", mEmaUser.getUUID());
-		params.put("sid", mEmaUser.getAccessSid());
-		params.put("new_passwd", passw);
-		String sign = UCommUtil.getSign(mConfigManager.getAppId(),
-				mEmaUser.getAccessSid(), mEmaUser.getUUID(), mConfigManager.getAppKEY());
-		params.put("sign", sign);
-		
-		new HttpInvoker().postAsync(Url.getPayUrlSetPayPassw(), params, new HttpInvoker.OnResponsetListener() {
+		Map<String, String> params = new HashMap<>();
+		params.put("uid", mEmaUser.getmUid());
+		params.put("chargePwd", passw);
+		params.put("token",mEmaUser.getmToken());
+		new HttpInvoker().postAsync(Url.getSetWalletPwd(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {
 				try {
 					JSONObject json = new JSONObject(result);
-					int resultCode = json.getInt(HttpInvokerConst.RESULT_CODE);
+					int resultCode = json.getInt("status");
 					Message msg = new Message();
 					switch(resultCode){
 					case HttpInvokerConst.SDK_RESULT_SUCCESS://设置成功
 						LOG.d(TAG, "密码设置成功！！！");
-						mEmaUser.setPayLimit(json.getInt("pay_limit"));
-						mEmaUser.setIsWalletHasPassw(passw);
+						mEmaUser.setIsWalletHasPassw(true);
 						msg.what = PayConst.CODE_SET_PASSW_SUCC;
 						break;
 					default:
