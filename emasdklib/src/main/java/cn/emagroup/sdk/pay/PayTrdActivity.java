@@ -29,7 +29,6 @@ import cn.emagroup.sdk.ui.WebViewActivity;
 import cn.emagroup.sdk.user.EmaUser;
 import cn.emagroup.sdk.utils.EmaConst;
 import cn.emagroup.sdk.utils.LOG;
-import cn.emagroup.sdk.utils.PropertyField;
 import cn.emagroup.sdk.utils.ToastHelper;
 import cn.emagroup.sdk.utils.UCommUtil;
 
@@ -129,8 +128,8 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 	 * 初始化数据
 	 */
 	private void initData() {
-		mTxtProductName.setText(mEmaPay.getPayInfo().getProduct_name());
-		mTxtTotalPrice.setText(mEmaPay.getPayInfo().getAmount_pricebean().getPriceYuan() + PropertyField.EMA_COIN_UNIT);
+		mTxtProductName.setText(mEmaPay.getPayInfo().getProductName());
+		mTxtTotalPrice.setText(mEmaPay.getPayInfo().getPrice()+"");
 		mTxtUserName.setText(mEmaUser.getNickName());
 		
 		PayUtil.getPayTrdList(this, mHandler);

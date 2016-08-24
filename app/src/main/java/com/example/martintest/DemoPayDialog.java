@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import cn.emagroup.sdk.Ema;
-import cn.emagroup.sdk.pay.EmaPayInfoBean;
+import cn.emagroup.sdk.pay.EmaPayInfo;
 import cn.emagroup.sdk.pay.EmaPayListener;
 import cn.emagroup.sdk.utils.LOG;
 
@@ -24,9 +24,9 @@ public class DemoPayDialog extends Dialog {
 
 	protected EditText GoodsName;
 	protected EditText product_id;
-	protected EditText amount;
 	protected EditText ext;
 	protected Button pay,yifen;
+	private EditText productNum;
 
 	public DemoPayDialog(Context context) {
 		super(context);
@@ -50,7 +50,7 @@ public class DemoPayDialog extends Dialog {
 
 		GoodsName = (EditText) findViewById(R.id.GoodsName);
 		product_id = (EditText) findViewById(R.id.product_id);
-		amount = (EditText) findViewById(R.id.amount);
+		productNum = (EditText) findViewById(R.id.product_num);
 		ext = (EditText) findViewById(R.id.ext);
 		pay = (Button) findViewById(R.id.pay);
 		pay.setOnClickListener(new View.OnClickListener() {
@@ -63,25 +63,21 @@ public class DemoPayDialog extends Dialog {
 		yifen.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				payyifen();
+				//payyifen();
 			}
 		});
 	}
 
 	protected void pay() {
-		if (!amount.getText().toString().isEmpty()) {
-			float amountNum = Float.valueOf(amount.getText().toString());
+		if (!productNum.getText().toString().isEmpty()) {
+			float amountNum = Float.valueOf(productNum.getText().toString());
 			if (0 != amountNum) {
 
-				EmaPayInfoBean infoBean = new EmaPayInfoBean();
-				infoBean.setOrder_amount(amountNum * 100);
-				infoBean.setAmount(amountNum * 100);
-				infoBean.setProduct_num(1);
-				infoBean.setApp_order_id("order" + System.currentTimeMillis());
-				infoBean.setProduct_name(GoodsName.getText().toString());
-				infoBean.setProduct_id(product_id.getText().toString());
-				infoBean.setExt(ext.getText().toString());
-				Ema.getInstance().pay(infoBean, new EmaPayListener() {
+				EmaPayInfo payInfo = new EmaPayInfo();
+				payInfo.setProductName(GoodsName.getText().toString());
+				payInfo.setProductNum(productNum.getText().toString());
+				payInfo.setProductId(product_id.getText().toString());
+				Ema.getInstance().pay(payInfo, new EmaPayListener() {
 					@Override
 					public void onPayCallBack(Message msg) {
 						if(msg != null){
@@ -96,7 +92,7 @@ public class DemoPayDialog extends Dialog {
 		}
 	}
 
-	protected void payyifen() {
+	/*protected void payyifen() {
 		EmaPayInfoBean infoBean = new EmaPayInfoBean();
 		infoBean.setOrder_amount(1);
 		infoBean.setAmount(1);
@@ -116,5 +112,5 @@ public class DemoPayDialog extends Dialog {
 				}
 			}
 		});
-	}
+	}*/
 }

@@ -135,18 +135,18 @@ public class TrdWeixinPay {
 	 */
 	private static void getPayOrderId(final Context context){
 		EmaUser mEmaUser = EmaUser.getInstance();
-		EmaPayInfoBean payInfoBean = EmaPay.getInstance(context).getPayInfo();
+		EmaPayInfo payInfo = EmaPay.getInstance(context).getPayInfo();
 		ConfigManager mConfigManager = ConfigManager.getInstance(context);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("client_id", ConfigManager.getInstance(context).getChannel());
 		params.put("app_id", mConfigManager.getAppId());
-		params.put("order_amount", (int)(payInfoBean.getAmount_pricebean().getPriceFen()) + "");
+		/*params.put("order_amount", (int)(payInfoBean.getAmount_pricebean().getPriceFen()) + "");
 		params.put("amount", (int)(payInfoBean.getAmount_pricebean().getPriceFen()) + "");
 		params.put("bank_id", "0");
 		params.put("app_order_id", payInfoBean.getApp_order_id());//cp_id
 		params.put("product_id", payInfoBean.getProduct_id());
 		params.put("product_name", payInfoBean.getProduct_name());
-		params.put("product_num", payInfoBean.getProduct_num() + "");
+		params.put("product_num", payInfoBean.getProduct_num() + "");*/
 		params.put("device_id", DeviceInfoManager.getInstance(context).getDEVICE_ID());
 		params.put("channel", mConfigManager.getChannel());
 		params.put("wallet_pwd", "0");

@@ -309,13 +309,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		cookieManager.setCookie(url, getCookie("nickname", emaUser.getNickName()));
 		LOG.e("______________",emaUser.getmToken()+emaUser.getmUid()+emaUser.getNickName());
 		//cookieManager.setCookie(url, getCookie("appid", mConfigManager.getAppId()));
-		if(emaUser.getRoleInfo() != null){
-			cookieManager.setCookie(url, getCookie(EmaConst.EMA_SUBMIT_ROLE_ID, emaUser.getRoleInfo().getRoleId()));
-			cookieManager.setCookie(url, getCookie(EmaConst.EMA_SUBMIT_ROLE_NAME, emaUser.getRoleInfo().getRoleName()));
-			cookieManager.setCookie(url, getCookie(EmaConst.EMA_SUBMIT_ROLE_LEVEL, emaUser.getRoleInfo().getRoleLevel()));
-			cookieManager.setCookie(url, getCookie(EmaConst.EMA_SUBMIT_SERVER_ID, emaUser.getRoleInfo().getServerId()));
-			cookieManager.setCookie(url, getCookie(EmaConst.EMA_SUBMIT_SERVER_NAME, emaUser.getRoleInfo().getServerName()));
-		}
+
 		CookieSyncManager.getInstance().sync();
 		
 		String str = cookieManager.getCookie(url);

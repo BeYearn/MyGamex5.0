@@ -153,7 +153,7 @@ public class Trd0yuanfuPay {
 					break;
 				case CODE_PAYMENT_PASSW_EXIST://用户设置了密码，弹出密码框让用户输入密码
 					UCommUtil.sendMesg(handler, EmaProgressDialog.CODE_LOADING_END, "");
-					float price = EmaPay.getInstance(activity).getPayInfo().getAmount_pricebean().getPriceYuan() * bean.getDiscount() / 100;
+					float price = EmaPay.getInstance(activity).getPayInfo().getPrice();
 					showPasswDialog(activity, this, price);
 					break;
 				case CODE_PAYMENT_PASSW_NOT_EXIST://用户未设置密码，弹出密码设置框，让用户设置密码
@@ -164,7 +164,7 @@ public class Trd0yuanfuPay {
 					ToastHelper.toast(activity, "密码设置失败");
 					break;
 				case CODE_PAYMENT_PASSW_UPDATE_SUCC://用户设置密码成功，开始验证密码
-					float price1 = EmaPay.getInstance(activity).getPayInfo().getAmount_pricebean().getPriceYuan() * bean.getDiscount() / 100;
+					float price1 = EmaPay.getInstance(activity).getPayInfo().getPrice();
 					showPasswDialog(activity, this, price1);
 					break;
 				case CODE_PAYMENT_PASSW_VERIFY_FAILED://用户输入支付密码错误
@@ -439,20 +439,20 @@ public class Trd0yuanfuPay {
 	 */
 	private static void getPayOrderId(final Context context, final PayTrdItemBean bean, final Handler handler){
 		EmaUser mEmaUser = EmaUser.getInstance();
-		EmaPayInfoBean payInfoBean = EmaPay.getInstance(context).getPayInfo();
+		EmaPayInfo payInfo = EmaPay.getInstance(context).getPayInfo();
 		ConfigManager mConfigManager = ConfigManager.getInstance(context);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("client_id", ConfigManager.getInstance(context).getChannel());
 		params.put("app_id", mConfigManager.getAppId());
 //		int price = payInfoBean.getAmount_pricebean().getPriceFen() * bean.getDiscount() / 100;
-		int price = payInfoBean.getAmount_pricebean().getPriceFen();
-		params.put("order_amount", price + "");
+//		int price = payInfoBean.getAmount_pricebean().getPriceFen();
+		/*params.put("order_amount", price + "");
 		params.put("amount", price + "");
 		params.put("bank_id", "0");
 		params.put("app_order_id", payInfoBean.getApp_order_id());//cp_id
 		params.put("product_id", payInfoBean.getProduct_id());
 		params.put("product_name", payInfoBean.getProduct_name());
-		params.put("product_num", payInfoBean.getProduct_num() + "");
+		params.put("product_num", payInfoBean.getProduct_num() + "");*/
 		params.put("device_id", DeviceInfoManager.getInstance(context).getDEVICE_ID());
 		params.put("channel", mConfigManager.getChannel());
 		params.put("wallet_pwd", "0");
@@ -482,7 +482,7 @@ public class Trd0yuanfuPay {
 						JSONObject data = json.getJSONObject("data");
 						String orderId = data.getString("trade_id");
 						//TODO 调用0元付 进行支付
-						float price = EmaPay.getInstance(context).getPayInfo().getAmount_pricebean().getPriceYuan() * bean.getDiscount() / 100;
+						float price = EmaPay.getInstance(context).getPayInfo().getPrice();
 						pay(context, orderId, handler, price + "");
 						break;
 					case HttpInvokerConst.SDK_RESULT_FAILED_SIGIN_ERROR://签名验证失败

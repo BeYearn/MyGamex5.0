@@ -8,7 +8,7 @@ import java.util.List;
 import cn.emagroup.sdk.pay.EmaPriceBean;
 import cn.emagroup.sdk.utils.USharedPerUtil;
 
-public class EmaUser {
+public class  EmaUser {
 
 	private static EmaUser mInstance;
 	private static final Object synchron = new Object();
@@ -33,7 +33,6 @@ public class EmaUser {
 		this.mToken = mToken;
 	}
 
-	private String mAccessCode;
 	private String mAccessSid;
 	private String mUUID;
 
@@ -44,52 +43,45 @@ public class EmaUser {
 	
 	//支付相关信息
 	private int mBalance;//余额
-	private int mPayLimit;//支付限额
-	private String mIsWalletHasPassw;//是否有支付密码
+	private boolean mIsWalletHasPassw;//是否有支付密码
 	private EmaPriceBean mBalancePricebean;//跟余额关联
-	private EmaPriceBean mPayLimitPricebaen;//跟支付限额关联
-	
-	private RoleInfo mRoleInfo;
-	
+
 	private EmaUser(){
-		mAccessCode = null;
 		mAccessSid = null;
 		mUUID = null;
 		mFlagIsLogin = false;
 		mLoginType = UserConst.LOGIN_NULL;
 		mBalance = 0;
 		mBalancePricebean = new EmaPriceBean(0, EmaPriceBean.TYPE_FEN);
-		mPayLimit = 500000;
-		mPayLimitPricebaen = new EmaPriceBean(mPayLimit, EmaPriceBean.TYPE_FEN);
-		mIsWalletHasPassw = null;
-		mRoleInfo = null;
+		mIsWalletHasPassw = false;
 	}
-	
+
 	public static EmaUser getInstance(){
 		if(mInstance == null){
 			synchronized (synchron) {
 				if(mInstance == null){
 					mInstance = new EmaUser();
+
 				}
 			}
 		}
 		return mInstance;
 	}
-	
+
 	/**
 	 * 退出登录后，清空所有用户信息
 	 */
 	public void clearUserInfo() {
-		mAccessCode = null;
 		mAccessSid = null;
 		mUUID = null;
 		mPhoneNum = null;
-		mFlagIsLogin = false;
 		mLoginType = UserConst.LOGIN_NULL;
-		mRoleInfo = null;
+
+		mFlagIsLogin = false;
 
 		mUid=null;
 		mNickName=null;
+		mToken=null;
 	}
 	
 	/**
@@ -98,9 +90,7 @@ public class EmaUser {
 	public void clearPayInfo(){
 		mBalance = 0;
 		mBalancePricebean.setPriceByFen(0);
-		mPayLimit = 500000;
-		mPayLimitPricebaen.setPriceByFen(0);
-		mIsWalletHasPassw = null;
+		mIsWalletHasPassw = false;
 	}
 	
 	/**
@@ -114,7 +104,6 @@ public class EmaUser {
 		bean.setUsername(getNickName());
 		bean.setSid(getAccessSid());
 		bean.setUuid(getUUID());
-		bean.setAnlaiye(getIsAnlaiye());
 		bean.setLastLoginTime(System.currentTimeMillis());
 		
 		if(list == null){
@@ -151,14 +140,7 @@ public class EmaUser {
 		}
 		return -1;
 	}
-	
-	public RoleInfo getRoleInfo() {
-		return mRoleInfo;
-	}
 
-	public void setRoleInfo(RoleInfo mRoleInfo) {
-		this.mRoleInfo = mRoleInfo;
-	}
 
 	protected void setLoginType(int loginType) {
 		mLoginType = loginType;
@@ -167,22 +149,7 @@ public class EmaUser {
 	public int getLoginType(){
 		return mLoginType;
 	}
-	
-	protected void setIsAnlaiye(boolean anlaiye) {
-		mFlagIsAnlaiye = anlaiye;
-	}
-	
-	public boolean getIsAnlaiye(){
-		return mFlagIsAnlaiye;
-	}
-	
-	protected void setCode(String code) {
-		mAccessCode = code;
-	}
-	
-	public String getAccessCode() {
-		return mAccessCode;
-	}
+
 	
 	protected void setUUID(String uuid) {
 		mUUID = uuid;
@@ -236,25 +203,12 @@ public class EmaUser {
 	public int getBalance(){
 		return mBalance;
 	}
-	
-	public EmaPriceBean getPayLimitPricebean(){
-		return mPayLimitPricebaen;
+
+	public void setIsWalletHasPassw(boolean hasWalletHasPassw){
+		mIsWalletHasPassw = hasWalletHasPassw;
 	}
 	
-	public void setPayLimit(int paylimit){
-		mPayLimit = paylimit;
-		mPayLimitPricebaen.setPriceByFen(paylimit);
-	}
-	
-	public int getPayLimit(){
-		return mPayLimit;
-	}
-	
-	public void setIsWalletHasPassw(String isWalletHasPassw){
-		mIsWalletHasPassw = isWalletHasPassw;
-	}
-	
-	public String getIsWalletHasPassw(){
+	public boolean getIsWalletHasPassw(){
 		return mIsWalletHasPassw;
 	}
 	

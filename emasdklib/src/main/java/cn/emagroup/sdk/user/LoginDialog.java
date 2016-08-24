@@ -302,7 +302,8 @@ public class LoginDialog extends Dialog implements
         mLoginSuccDialog.start();
         //ToastHelper.toast(mActivity, "登录成功");
         USharedPerUtil.setParam(mActivity,"token",token);
-        //UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
+        USharedPerUtil.setParam(mActivity,"nickname",nickname);
+        USharedPerUtil.setParam(mActivity,"uid",userid);
         EmaUser.getInstance().setIsLogin(true);
     }
 
@@ -673,7 +674,6 @@ public class LoginDialog extends Dialog implements
                             switch (resultCode) {
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS:// 登录成功
                                     LOG.d(TAG, "自动登录成功");
-                                    mEmaUser.setCode(json.getString("code"));
                                     mEmaUser.setNickName(mAutoUserInfoBean
                                             .getUsername());
                                     mEmaUser.setUUID(mAutoUserInfoBean.getUuid());

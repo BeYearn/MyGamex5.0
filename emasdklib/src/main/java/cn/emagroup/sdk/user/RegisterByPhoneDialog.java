@@ -301,7 +301,8 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         mLoginSuccDialog.start();
         //ToastHelper.toast(mActivity, "登录成功");
         USharedPerUtil.setParam(mActivity, "token", token);
-        //UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
+        USharedPerUtil.setParam(mActivity,"nickname",nickname);
+        USharedPerUtil.setParam(mActivity,"uid",userid);
         EmaUser.getInstance().setIsLogin(true);
     }
 

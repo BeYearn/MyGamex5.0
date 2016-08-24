@@ -198,7 +198,7 @@ public class SetPayLimit {
 			}
 		});
 		((TextView) view.findViewById(mResourceManager.getIdentifier("ema_txt_prompt", "id")))
-			.setText("当前支付限额：" + mEmaUser.getPayLimitPricebean().getPriceYuan() + PropertyField.EMA_COIN_UNIT);
+			.setText("当前支付限额：" + PropertyField.EMA_COIN_UNIT);
 		//取消
 		view.findViewById(mResourceManager.getIdentifier("ema_btn_cancel", "id")).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -251,7 +251,7 @@ public class SetPayLimit {
 					case HttpInvokerConst.SDK_RESULT_SUCCESS:
 						LOG.d(TAG, "修改支付限额成功");
 						ToastHelper.toast(mContext, "修改支付限额成功");
-						mEmaUser.setPayLimit(Integer.valueOf(limit) * 100);
+				//		mEmaUser.setPayLimit(Integer.valueOf(limit) * 100);
 						Activity ac = (Activity) mContext;
 						if(ac instanceof PayMabiActivity){
 							PayMabiActivity pac = (PayMabiActivity) ac;

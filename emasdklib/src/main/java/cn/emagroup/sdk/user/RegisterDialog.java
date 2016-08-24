@@ -292,10 +292,8 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 						switch(resultCode){
 						case HttpInvokerConst.SDK_RESULT_SUCCESS://注册成功
 							mEmaUser.setNickName(account);
-							mEmaUser.setCode(json.getString("code"));
 							mEmaUser.setUUID(json.getString("uuid"));
 							mEmaUser.setSid(json.getString("sid"));
-							mEmaUser.setIsAnlaiye(false);
 							LOG.d(TAG, "注册成功");
 							mHandler.sendEmptyMessage(CODE_REGISTER_SUCCESS);
 							break;
@@ -376,10 +374,8 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 					switch(resultCode){
 					case HttpInvokerConst.SDK_RESULT_SUCCESS://注册成功
 						mEmaUser.setNickName(mLoginName);
-						mEmaUser.setCode(json.getString("code"));
 						mEmaUser.setUUID(json.getString("uuid"));
 						mEmaUser.setSid(json.getString("sid"));
-						mEmaUser.setIsAnlaiye(false);
 						LOG.d(TAG, "注册成功！");
 						mHandler.sendEmptyMessage(CODE_REGISTER_SUCCESS);
 						break;

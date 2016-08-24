@@ -13,7 +13,7 @@ import cn.emagroup.sdk.comm.ConfigManager;
 import cn.emagroup.sdk.comm.EmaCallBackConst;
 import cn.emagroup.sdk.comm.EmaSDKListener;
 import cn.emagroup.sdk.pay.EmaPay;
-import cn.emagroup.sdk.pay.EmaPayInfoBean;
+import cn.emagroup.sdk.pay.EmaPayInfo;
 import cn.emagroup.sdk.pay.EmaPayListener;
 import cn.emagroup.sdk.ui.SplashDialog;
 import cn.emagroup.sdk.ui.ToolBar;
@@ -26,6 +26,7 @@ import cn.emagroup.sdk.utils.EmaConst;
 import cn.emagroup.sdk.utils.LOG;
 import cn.emagroup.sdk.utils.LOGToSdcardHelper;
 import cn.emagroup.sdk.utils.UCommUtil;
+import cn.emagroup.sdk.utils.USharedPerUtil;
 
 public class Ema {
 
@@ -177,13 +178,10 @@ public class Ema {
 			LOG.d(TAG, "初始化失败，禁止登录");
 			return;
 		}
-		if(EmaAutoLogin.isAutoLogin(getContext())){
-			((Activity)mContext).runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					EmaAutoLogin.doLoginAuto(getContext());
-				}
-			});
+		if(!EmaAutoLogin.isAutoLogin(getContext())){    // 这里是一个超级奇怪的地方，为毛相反着来才表现出正常的效果啊？？？？？？？？？？
+
+			new EmaAutoLogin().doLoginAuto(getContext());
+
 		}else{
 			((Activity)mContext).runOnUiThread(new Runnable() {
 				@Override
@@ -208,7 +206,7 @@ public class Ema {
 		info.setRoleLevel(map.get(EmaConst.EMA_SUBMIT_ROLE_LEVEL));
 		info.setServerId(map.get(EmaConst.EMA_SUBMIT_SERVER_ID));
 		info.setServerName(map.get(EmaConst.EMA_SUBMIT_SERVER_NAME));
-		EmaUser.getInstance().setRoleInfo(info);
+		//EmaUser.getInstance().setRoleInfo(info);
 	}
 	
 	/**
@@ -218,6 +216,9 @@ public class Ema {
 		LOG.d(TAG, "Logout");
 		EmaUser.getInstance().clearPayInfo();
 		EmaUser.getInstance().clearUserInfo();
+		USharedPerUtil.setParam(getContext(),"token","");
+		USharedPerUtil.setParam(getContext(),"nickname","");
+		USharedPerUtil.setParam(getContext(),"uid","");
 		makeCallBack(EmaCallBackConst.LOGOUTSUCCESS, "登出成功");
 	}
 	
@@ -231,15 +232,15 @@ public class Ema {
 	
 	/**
 	 * 开启支付操作
-	 * @param payInfoBean
+	 * @param
 	 */
-	public void pay(EmaPayInfoBean payInfoBean, EmaPayListener payListener){
+	public void pay(EmaPayInfo payInfo, EmaPayListener payListener){
 		if(!mFlagIsInitSuccess){
 			LOG.d(TAG, "初始化失败，禁止操作");
 			return;
 		}
 		hideToolBar();
-		EmaPay.getInstance(getContext()).pay(payInfoBean, payListener);
+		EmaPay.getInstance(getContext()).pay(payInfo, payListener);
 	}
 	
 	/**

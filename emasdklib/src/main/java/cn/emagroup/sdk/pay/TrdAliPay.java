@@ -144,18 +144,18 @@ public class TrdAliPay {
 	 */
 	private static void getPayOrderId(final Context context, final Handler handler){
 		EmaUser mEmaUser = EmaUser.getInstance();
-		EmaPayInfoBean payInfoBean = EmaPay.getInstance(context).getPayInfo();
+		EmaPayInfo payInfo = EmaPay.getInstance(context).getPayInfo();
 		ConfigManager mConfigManager = ConfigManager.getInstance(context);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("client_id", ConfigManager.getInstance(context).getChannel());
 		params.put("app_id", mConfigManager.getAppId());
-		params.put("order_amount", (int)(payInfoBean.getAmount_pricebean().getPriceFen()) + "");
+		/*params.put("order_amount", (int)(payInfoBean.getAmount_pricebean().getPriceFen()) + "");
 		params.put("amount", (int)(payInfoBean.getAmount_pricebean().getPriceFen()) + "");
 		params.put("bank_id", "0");
 		params.put("app_order_id", payInfoBean.getApp_order_id());//cp_id
 		params.put("product_id", payInfoBean.getProduct_id());
 		params.put("product_name", payInfoBean.getProduct_name());
-		params.put("product_num", payInfoBean.getProduct_num() + "");
+		params.put("product_num", payInfoBean.getProduct_num() + "");*/
 		params.put("device_id", DeviceInfoManager.getInstance(context).getDEVICE_ID());
 		params.put("channel", mConfigManager.getChannel());
 		params.put("wallet_pwd", "0");
@@ -184,7 +184,7 @@ public class TrdAliPay {
 						JSONObject data = json.getJSONObject("data");
 						String orderId = data.getString("trade_id");
 						EmaPay pay = EmaPay.getInstance(Ema.getInstance().getContext());
-						String alipayInfo = buildAlipayInfo(orderId, pay.getPayInfo().getProduct_name(), (int)(pay.getPayInfo().getAmount() / 100));
+						String alipayInfo = buildAlipayInfo(orderId, pay.getPayInfo().getProductName(), (int)(pay.getPayInfo().getPrice()));
 						pay((Activity)context, orderId, handler, alipayInfo);
 						break;
 					case HttpInvokerConst.SDK_RESULT_FAILED_SIGIN_ERROR://签名验证失败
@@ -261,7 +261,7 @@ public class TrdAliPay {
 		sb.append("&total_fee=\"").append(amount).append("\"");
 		
 		// 商品详情
-		sb.append("&body=\"").append(pay.getPayInfo().getProduct_name()).append("\"");
+		sb.append("&body=\"").append(pay.getPayInfo().getProductName()).append("\"");
 		
 		//签名
 		String sign = UCommUtil.aliSign(sb.toString(), RSA_PRIVATE);

@@ -239,7 +239,7 @@ public class PayUtil {
 	public static void GoPayByGameCardpay(Activity activity, int requetCode){
 		LOG.d(TAG, "进入游戏卡支付");
 		Intent intent = new Intent(activity, TrdCardActivity.class);
-		intent.putExtra(TrdCardActivity.INTENT_AMOUNT, EmaPay.getInstance(activity).getPayInfo().getAmount_pricebean());
+		intent.putExtra(TrdCardActivity.INTENT_AMOUNT, EmaPay.getInstance(activity).getPayInfo().getPrice()+"");
 		intent.putExtra(TrdCardActivity.INTENT_TYPE, TrdCardActivity.TYPE_GAMECARD_PAY);
 		activity.startActivityForResult(intent, requetCode);
 	}
@@ -251,7 +251,7 @@ public class PayUtil {
 	public static void GoPayByPhoneCardpay(Activity activity, int requestCode){
 		LOG.d(TAG, "进入手机卡支付");
 		Intent intent = new Intent(activity, TrdCardActivity.class);
-		intent.putExtra(TrdCardActivity.INTENT_AMOUNT, EmaPay.getInstance(activity).getPayInfo().getAmount_pricebean());
+		intent.putExtra(TrdCardActivity.INTENT_AMOUNT, EmaPay.getInstance(activity).getPayInfo().getPrice()+"");
 		intent.putExtra(TrdCardActivity.INTENT_TYPE, TrdCardActivity.TYPE_PHONECARD_PAY);
 		activity.startActivityForResult(intent, requestCode);	
 	}
