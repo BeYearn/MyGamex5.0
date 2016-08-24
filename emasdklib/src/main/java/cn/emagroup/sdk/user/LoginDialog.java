@@ -61,11 +61,8 @@ public class LoginDialog extends Dialog implements
 
 
     private static final int GET_UID_SUCCESS = 31;// 第一步 创建弱账户获得uid陈功
-    private static final int FIRST_STEP_LOGIN_SUCCESS=32; // 第二步 第一步验证登陆成功
+    private static final int FIRST_STEP_LOGIN_SUCCESS = 32; // 第二步 第一步验证登陆成功
     //private static final int SECOND_STEP_LOGIN_SUCCESS=33; // 第三步 第二步验证登陆成功  就是最后的登陆成功
-
-
-
 
 
     private static final String mPasswShowStr = "............";//密码显示
@@ -116,12 +113,12 @@ public class LoginDialog extends Dialog implements
                     break;
                 case CODE_FAILED_ERROR_PASSW:// 登录失败（密码错误）
                     ToastHelper.toast(mActivity, "密码错误");
-                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, (String)msg.obj);
+                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, (String) msg.obj);
                     mEmaUser.clearUserInfo();
                     break;
                 case CODE_FAILED_NO_ACCOUNT:// 登录失败（用户名不存在）
                     ToastHelper.toast(mActivity, "用户名不存在");
-                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, (String)msg.obj);
+                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, (String) msg.obj);
                     mEmaUser.clearUserInfo();
                     break;
                 case CODE_ACCESSID_LOST:// sid过期
@@ -162,24 +159,35 @@ public class LoginDialog extends Dialog implements
                     public void OnResponse(String result) {
                         //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                         try {
-                            JSONObject jsonObject = new JSONObject(result);
-                            JSONObject data = jsonObject.getJSONObject("data");
-                            userid = data.getString("uid");
-                            LOG.e("uid",userid);
-                            mEmaUser.setmUid(userid);
-                            allianceId=data.getString("allianceId");
-                            LOG.e("allianceId",allianceId);
-                            authCode=data.getString("authCode");
-                            LOG.e("authCode",authCode);
-                            callbackUrl=data.getString("callbackUrl");
-                            LOG.e("callbackUrl",callbackUrl);
-                            nickname=data.getString("nickname");
-                            LOG.e("nickname",nickname);
-                            mEmaUser.setNickName(nickname);
+                            JSONObject json = new JSONObject(result);
+                            int resultCode = json.getInt("status");
+                            switch (resultCode) {
+                                case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
 
-                            Message msg = new Message();
-                            msg.what = FIRST_STEP_LOGIN_SUCCESS;
-                            mHandler.sendMessage(msg);
+                                    USharedPerUtil.setParam(mActivity, "accountType", 0);//记录账户类型
+
+                                    JSONObject data = json.getJSONObject("data");
+                                    userid = data.getString("uid");
+                                    LOG.e("uid", userid);
+                                    mEmaUser.setmUid(userid);
+                                    allianceId = data.getString("allianceId");
+                                    LOG.e("allianceId", allianceId);
+                                    authCode = data.getString("authCode");
+                                    LOG.e("authCode", authCode);
+                                    callbackUrl = data.getString("callbackUrl");
+                                    LOG.e("callbackUrl", callbackUrl);
+                                    nickname = data.getString("nickname");
+                                    LOG.e("nickname", nickname);
+                                    mEmaUser.setNickName(nickname);
+
+                                    Message msg = new Message();
+                                    msg.what = FIRST_STEP_LOGIN_SUCCESS;
+                                    mHandler.sendMessage(msg);
+                                    break;
+                                case HttpInvokerConst.SDK_RESULT_FAILED:
+                                    ToastHelper.toast(mActivity, json.getString("message"));
+                                    break;
+                            }
                         } catch (Exception e) {
                             LOG.w(TAG, "AccountLoginFirst error", e);
                             mHandler.sendEmptyMessage(CODE_FAILED);
@@ -222,6 +230,7 @@ public class LoginDialog extends Dialog implements
                     int resultCode = json.getInt("status");
                     switch (resultCode) {
                         case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
+                            USharedPerUtil.setParam(mActivity, "accountType", 1);  //记录账户类型
 
                             JSONObject data = json.getJSONObject("data");
                             userid = data.getString("uid");
@@ -233,14 +242,14 @@ public class LoginDialog extends Dialog implements
                             LOG.e("authCode", authCode);
                             callbackUrl = data.getString("callbackUrl");
                             LOG.e("callbackUrl", callbackUrl);
-                            nickname=data.getString("nickname");
-                            LOG.e("nickname",nickname);
+                            nickname = data.getString("nickname");
+                            LOG.e("nickname", nickname);
                             mEmaUser.setNickName(nickname);
                             mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
                             LOG.d(TAG, "第一步登录成功");
                             break;
                         case HttpInvokerConst.SDK_RESULT_FAILED:
-                            ToastHelper.toast(mActivity,json.getString("message"));
+                            ToastHelper.toast(mActivity, json.getString("message"));
                             break;
                     }
                 } catch (Exception e) {
@@ -267,12 +276,12 @@ public class LoginDialog extends Dialog implements
                             JSONObject jsonObject = new JSONObject(result);
                             JSONObject data = jsonObject.getJSONObject("data");
                             String token = data.getString("token");
-                            LOG.e("token",token);
+                            LOG.e("token", token);
                             mEmaUser.setmToken(token);
 
                             Message msg = new Message();
                             msg.what = CODE_SUCCESS;
-                            msg.obj=token;
+                            msg.obj = token;
                             mHandler.sendMessage(msg);
                         } catch (Exception e) {
                             LOG.w(TAG, "AccountLoginFirst error", e);
@@ -301,9 +310,9 @@ public class LoginDialog extends Dialog implements
         mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
         mLoginSuccDialog.start();
         //ToastHelper.toast(mActivity, "登录成功");
-        USharedPerUtil.setParam(mActivity,"token",token);
-        USharedPerUtil.setParam(mActivity,"nickname",nickname);
-        USharedPerUtil.setParam(mActivity,"uid",userid);
+        USharedPerUtil.setParam(mActivity, "token", token);
+        USharedPerUtil.setParam(mActivity, "nickname", nickname);
+        USharedPerUtil.setParam(mActivity, "uid", userid);
         EmaUser.getInstance().setIsLogin(true);
     }
 

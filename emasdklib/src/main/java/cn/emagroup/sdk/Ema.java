@@ -219,6 +219,7 @@ public class Ema {
 		USharedPerUtil.setParam(getContext(),"token","");
 		USharedPerUtil.setParam(getContext(),"nickname","");
 		USharedPerUtil.setParam(getContext(),"uid","");
+		USharedPerUtil.setParam(getContext(),"accountType",-1);
 		makeCallBack(EmaCallBackConst.LOGOUTSUCCESS, "登出成功");
 	}
 	

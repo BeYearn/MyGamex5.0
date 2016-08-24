@@ -170,6 +170,9 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                             int resultCode = json.getInt("status");
                             switch (resultCode) {
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
+
+                                    USharedPerUtil.setParam(mActivity, "accountType", 0);  //记录账户类型
+
                                     JSONObject data = json.getJSONObject("data");
                                     userid = data.getString("uid");
                                     LOG.e("uid", userid);
@@ -227,6 +230,8 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                     int resultCode = json.getInt("status");
                     switch (resultCode) {
                         case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
+
+                            USharedPerUtil.setParam(mActivity, "accountType", 1);  //记录账户类型
 
                             JSONObject data = json.getJSONObject("data");
                             userid = data.getString("uid");

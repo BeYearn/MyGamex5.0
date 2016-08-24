@@ -16,6 +16,15 @@ public class  EmaUser {
 	private static String mNickName;//昵称
 	private static String mUid;
 	private static String mToken;
+	private static int accountType;  //0 弱帐号 1 手机 2邮箱 3渠道
+
+	public static int getAccountType() {
+		return accountType;
+	}
+
+	public static void setAccountType(int accountType) {
+		EmaUser.accountType = accountType;
+	}
 
 	public String getmUid() {
 		return mUid;
@@ -82,6 +91,7 @@ public class  EmaUser {
 		mUid=null;
 		mNickName=null;
 		mToken=null;
+		accountType=-1;
 	}
 	
 	/**

@@ -99,6 +99,7 @@ public class EmaAutoLogin {
 
         String uid = (String) USharedPerUtil.getParam(context, "uid", "");
         String nickname = (String) USharedPerUtil.getParam(context, "nickname", "");
+        int accountType= (int) USharedPerUtil.getParam(context,"accountType",88);
 
         if (!UCommUtil.isStrEmpty(uid) && !UCommUtil.isStrEmpty(nickname)) {
             // 当前登录用户信息
@@ -106,6 +107,8 @@ public class EmaAutoLogin {
             mEmaUser.setmUid(uid);
             mEmaUser.setNickName(nickname);
             mEmaUser.setmToken(token);
+            mEmaUser.setAccountType(accountType);
+            LOG.e("autologin",uid+"..."+nickname+"..."+accountType+"..."+token);
             // 显示登录成功后的对话框
             new LoginSuccDialog((Activity) context, true).start();
         } else {

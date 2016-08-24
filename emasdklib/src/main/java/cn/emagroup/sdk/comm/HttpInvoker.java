@@ -1,13 +1,6 @@
 package cn.emagroup.sdk.comm;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.KeyStore;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import android.net.http.AndroidHttpClient;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -32,7 +25,15 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
-import android.net.http.AndroidHttpClient;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.KeyStore;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import cn.emagroup.sdk.utils.LOG;
 import cn.emagroup.sdk.utils.UCommUtil;
 
@@ -185,7 +186,12 @@ public class HttpInvoker {
 	private void doHttpPost(String url, Map<String, String> params, OnResponsetListener listener){
 		AndroidHttpClient client = null;
 		try {
-			LOG.d(TAG, "post url__:" + url);
+			StringBuilder builer = new StringBuilder();
+			for (Map.Entry<String,String> entry:params.entrySet()){
+				builer.append(entry.getKey()+"="+entry.getValue()+"&");
+			}
+			LOG.e(TAG, "post url__:" + url);
+			LOG.e(TAG,"params__"+builer.toString());
 //			HttpClient client = new DefaultHttpClient();
 			client = AndroidHttpClient.newInstance("");
 			HttpPost post = new HttpPost(url);
