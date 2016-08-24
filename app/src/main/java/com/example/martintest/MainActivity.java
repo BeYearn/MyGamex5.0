@@ -73,17 +73,23 @@ public class MainActivity extends Activity implements OnClickListener {
 						Toast.makeText(MainActivity.this, "sdk初始化成功", Toast.LENGTH_LONG).show();
 						break;
 					case EmaCallBackConst.INITFALIED://初始化SDK失败回调
+						Toast.makeText(MainActivity.this, "初始化失败", Toast.LENGTH_LONG).show();
 						break;
 					case EmaCallBackConst.LOGINSUCCESS://登陆成功回调
+						Toast.makeText(MainActivity.this, "登录成功", Toast.LENGTH_LONG).show();
 						break;
 					case EmaCallBackConst.LOGINCANELL://登陆取消回调
+						Toast.makeText(MainActivity.this, "登录取消", Toast.LENGTH_LONG).show();
 						break;
 					case EmaCallBackConst.LOGINFALIED://登陆失败回调
 						Log.e("++++++++++", Thread.currentThread().getName());
+						Toast.makeText(MainActivity.this, "登录失败", Toast.LENGTH_LONG).show();
 						break;
 					case EmaCallBackConst.LOGOUTSUCCESS://登出成功回调
+						Toast.makeText(MainActivity.this, "登出成功", Toast.LENGTH_LONG).show();
 						break;
 					case EmaCallBackConst.LOGOUTFALIED://登出失败回调
+						Toast.makeText(MainActivity.this, "登出失败", Toast.LENGTH_LONG).show();
 						break;
 				}
 			}

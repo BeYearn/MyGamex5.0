@@ -126,20 +126,7 @@
         <meta-data
             android:name="EMA_CHANNEL"
             android:value="70" />
-        <meta-data
-            android:name="0YUANFU_MERCHANT"
-            android:value="3771044" />
-        <meta-data
-            android:name="EMA_REDIRECTURL"
-            android:value="http://client.emagroup.cn/index.php/test/oauth/request_receive_authcode" />
-        <!-- 设置AppKey -->
-        <meta-data
-            android:name="TESTIN_APPKEY"
-            android:value="9d92ac72c2ff07c45fd5105b7cef8a62" />
-        <!-- 设置渠道信息 -->
-        <meta-data
-            android:name="TESTIN_CHANNEL"
-            android:value="1001" />
+
 
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->

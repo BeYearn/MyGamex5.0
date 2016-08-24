@@ -191,13 +191,12 @@ public class ConfigManager {
 	/**
 	 * 获取登录回调地址
 	 * @return
-	 */
 	public String getRedirectUri() {
 		if(mRedirectUri == null){
 			mRedirectUri = getStringFromMetaData(mContext, "EMA_REDIRECTURL"); 
 		}
 		return mRedirectUri;
-	}
+	}*/
 	
 	/**
 	 * 获取0元付  诺诺镑客提供给商户商户号

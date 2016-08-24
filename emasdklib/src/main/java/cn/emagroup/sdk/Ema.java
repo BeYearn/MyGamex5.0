@@ -133,10 +133,6 @@ public class Ema {
 			LOG.w(TAG, "Channel为空，请检查Channel配置");
 			return false;
 		}
-		if(UCommUtil.isStrEmpty(configManager.getRedirectUri())){
-			LOG.w(TAG, "redirect_uri为空，请检查redirect_uri配置");
-			return false;
-		}
 		if(mEmaListener == null){
 			LOG.w(TAG, "回调为空，请检查监听回调");
 			return false;
