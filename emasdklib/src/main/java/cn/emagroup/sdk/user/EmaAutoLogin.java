@@ -48,7 +48,7 @@ public class EmaAutoLogin {
         token = (String) USharedPerUtil.getParam(context, "token", "");
 
         if (!UCommUtil.isStrEmpty(token)) {
-            mProgress.showProgress("登录中...", false, false);
+            mProgress.showProgress("登录中...");
             Map<String, String> params = new HashMap<>();
             params.put("token", token);
             params.put("appKey", mConfigManager.getAppKEY());
