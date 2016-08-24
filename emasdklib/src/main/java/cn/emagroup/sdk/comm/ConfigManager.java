@@ -1,5 +1,10 @@
 package cn.emagroup.sdk.comm;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,10 +16,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import cn.emagroup.sdk.utils.LOG;
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
 
 public class ConfigManager {
 
@@ -168,9 +169,6 @@ public class ConfigManager {
 	
 	/**
 	 * 获取appid
-	 * 
-	 * @param context
-	 * @return
 	 */
 	public String getAppId() {
 		if(mAppid == null){
@@ -181,9 +179,7 @@ public class ConfigManager {
 
 	/**
 	 * 获取签名KEY
-	 * 
-	 * @param context
-	 * @return
+	 *
 	 */
 	public String getAppKEY() {
 		if(mAppKey == null){
@@ -194,7 +190,6 @@ public class ConfigManager {
 
 	/**
 	 * 获取登录回调地址
-	 * @param context
 	 * @return
 	 */
 	public String getRedirectUri() {
@@ -218,20 +213,17 @@ public class ConfigManager {
 	/**
 	 * 获取渠道号
 	 * 
-	 * @param context
-	 * @return
 	 */
 	public String getChannel() {
 		if(mChannel == null){
-			mChannel = getChannelFromApk(mContext);
+			//mChannel = getChannelFromApk(mContext);  原来的意欲何为？？？？？？
+			mChannel=getIntegerFromMetaData(mContext,"EMA_CHANNEL")+"";
 		}
 		return mChannel;
 	}
 	
 	/**
 	 * 初始化服务器地址，在sdk初始化的时候做
-	 * @param context
-	 * @return
 	 */
 	public void initServerUrl(){
 		//线上正式环境

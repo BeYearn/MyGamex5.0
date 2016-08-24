@@ -157,7 +157,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         Map<String, String> params = new HashMap<>();
         params.put("accountType", "0");
         params.put("deviceType", "android");
-        params.put("allianceId", "70");
+        params.put("allianceId", mConfigManager.getChannel());
         params.put("appKey", mConfigManager.getAppKEY());
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params,
@@ -219,7 +219,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         params.put("appKey", mConfigManager.getAppKEY());
         params.put("deviceType", "android");
         params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
-        params.put("allianceId", "70");
+        params.put("allianceId", mConfigManager.getChannel());
 
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override

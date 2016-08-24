@@ -150,7 +150,7 @@ public class LoginDialog extends Dialog implements
         Map<String, String> params = new HashMap<>();
         params.put("accountType", "0");
         params.put("deviceType", "android");
-        params.put("allianceId", "70");
+        params.put("allianceId", mConfigManager.getChannel());
         params.put("appKey", mConfigManager.getAppKEY());
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params,
