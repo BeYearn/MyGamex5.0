@@ -203,7 +203,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/ema_button_orange"
             android:minHeight="45dp"
-            android:text="手机一键登录"
+            android:text="手机登录"
             android:textColor="@android:color/white" />
 
         <Button
@@ -213,7 +213,7 @@
             android:layout_gravity="center"
             android:background="@drawable/ema_button_blue"
             android:minHeight="45dp"
-            android:text="快速注册"
+            android:text="一键登录"
             android:textColor="@android:color/white" />
     </LinearLayout>
 
