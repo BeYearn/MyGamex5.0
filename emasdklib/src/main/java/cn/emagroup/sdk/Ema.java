@@ -174,9 +174,9 @@ public class Ema {
 			LOG.d(TAG, "初始化失败，禁止登录");
 			return;
 		}
-		if(!EmaAutoLogin.isAutoLogin(getContext())){    // 这里是一个超级奇怪的地方，为毛相反着来才表现出正常的效果啊？？？？？？？？？？
+		if(EmaAutoLogin.getInstance(getContext()).isAutoLogin()){
 
-			new EmaAutoLogin().doLoginAuto(getContext());
+			EmaAutoLogin.getInstance(getContext()).doLoginAuto();
 
 		}else{
 			((Activity)mContext).runOnUiThread(new Runnable() {
