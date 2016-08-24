@@ -62,7 +62,6 @@ public class MainActivity extends Activity implements OnClickListener {
 	private void init() {
 		// 初始化
 		EmaSDK.getInstance().init(this, new EmaSDKListener() {
-
 			@Override
 			public void onCallBack(int resultCode,String dec) {
 				if(mhandler != null){
@@ -239,33 +238,28 @@ public class MainActivity extends Activity implements OnClickListener {
 	// }).start();
 	// }
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		Ema.getInstance().onStart();
-	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Ema.getInstance().onResume();
+		EmaSDK.getInstance().onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Ema.getInstance().onPause();
+		EmaSDK.getInstance().onPause();
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		Ema.getInstance().onStop();
+		EmaSDK.getInstance().onStop();
 	}
 
 	public void onDestroy() {
 		super.onDestroy();
-		Ema.getInstance().onDestroy();
+		EmaSDK.getInstance().onDestroy();
 	}
 
 	/**

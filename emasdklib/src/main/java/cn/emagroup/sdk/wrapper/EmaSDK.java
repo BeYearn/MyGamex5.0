@@ -28,4 +28,24 @@ public class EmaSDK {
 
 
 
+    public void onStart() {
+        Ema.getInstance().onStart();
+    }
+
+    public void onResume() {
+        Ema.getInstance().onResume();
+    }
+
+    public void onPause() {
+        Ema.getInstance().onPause();
+    }
+
+    public void onStop() {
+        Ema.getInstance().onStop();
+    }
+
+    public void onDestroy() {
+        Ema.getInstance().onDestroy();
+    }
+
 }
