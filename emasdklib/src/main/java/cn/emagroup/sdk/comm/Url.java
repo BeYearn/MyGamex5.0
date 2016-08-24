@@ -47,15 +47,6 @@ public class Url {
 	public static final String URL_LINGYUANFU_PAYMENT_ACTIVITY = "https://openapi.nonobank.com/h5/yima?openId=";
 
 	/**
-	 * 获取用户信息界面
-	 * @return
-	 */
-	public static String getWebUrlUserInfo(){
-		//return getWebUrl() + "userinfo.html";
-		return "http://192.168.10.80:8080/wap/userinfo.html";
-	}
-
-	/**
 	 * 获取礼包界面
 	 * @return
 	 */
@@ -139,7 +130,7 @@ public class Url {
 
 
 
-
+// ------------------------------------------------------------------------------------------------------------------
 	/**
 	 * 获取创建弱账户的url  ----------不用这个接口了
 	 * @return
@@ -147,6 +138,18 @@ public class Url {
 		//return getServerUrl() + "";
 		return "http://192.168.155.79:8080/member/createWeakAccount";
 	}*/
+
+
+	/**
+	 * 获取用户信息界面
+	 * @return
+	 */
+	public static String getWebUrlUserInfo(){
+		//return getWebUrl() + "userinfo.html";
+		return "http://192.168.10.80:8080/wap/userinfo.html";
+	}
+
+
 	private static final String serverUrl="http://120.26.114.129:8081";
 	/**
 	 * 获取第一步登录请求接口
@@ -199,7 +202,7 @@ public class Url {
 
 
 
-
+//-------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
