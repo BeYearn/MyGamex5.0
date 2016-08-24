@@ -203,8 +203,8 @@ public class LoginDialog extends Dialog implements
         String account = mEdtNameView.getText().toString();
         String passw = mEdtPasswView.getText().toString();
 
-        if (UCommUtil.isStrEmpty(account)) {
-            ToastHelper.toast(mActivity, "用户名不能为空");
+        if (!UserUtil.checkPhoneInputIsOk(mActivity, account)) {
+            ToastHelper.toast(mActivity, "帐号不能为空");
             return;
         }
         if (UCommUtil.isStrEmpty(passw)) {
