@@ -13,9 +13,9 @@ public class  EmaUser {
 	private static EmaUser mInstance;
 	private static final Object synchron = new Object();
 
-	private String mNickName;//昵称
-	private String mUid;
-	private String mToken;
+	private static String mNickName;//昵称
+	private static String mUid;
+	private static String mToken;
 
 	public String getmUid() {
 		return mUid;
