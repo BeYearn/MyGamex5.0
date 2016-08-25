@@ -319,7 +319,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
 	
 	private String getCookie(String key, String value){
 		LOG.d(TAG, "key__:" + key + "    vlaue:" + value);
-		return key + "=" + value + ";domain=192.168.10.80;path=/";
+		return key + "=" + value + ";domain=120.26.114.129;path=/";
 	}
 	
 	/**

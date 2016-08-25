@@ -86,14 +86,6 @@ public class Url {
 	}
 
 	/**
-	 * 忘记用户密码界面
-	 * @return
-	 */
-	public static String getWebUrlFindpasswUser(){
-		return getWebUrl() + "forgetpwd.html";
-	}
-
-	/**
 	 * 收集创建的角色信息
 	 * @return
 	 */
@@ -146,9 +138,16 @@ public class Url {
 	 */
 	public static String getWebUrlUserInfo(){
 		//return getWebUrl() + "userinfo.html";
-		return "http://192.168.10.80:8080/wap/userinfo.html";
+		return "http://120.26.114.129:8081/wap/userinfo.html";
 	}
-
+	/**
+	 * 忘记用户密码界面
+	 * @return
+	 */
+	public static String getWebUrlFindpasswUser(){
+		//return getWebUrl() + "forgetpwd.html";
+		return "http://120.26.114.129:8081/wap/forgetpwd.html";
+	}
 
 	private static final String serverUrl="http://120.26.114.129:8081";
 	/**
