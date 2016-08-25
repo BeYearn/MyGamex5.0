@@ -305,11 +305,11 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		cookieManager.setCookie(url, getCookie("token", mEmaUser.getmToken()));
 		cookieManager.setCookie(url, getCookie("uid", mEmaUser.getmUid()));
 		cookieManager.setCookie(url, getCookie("nickname", mEmaUser.getNickName()));
-		LOG.e("______________",mEmaUser.getmToken()+mEmaUser.getmUid()+mEmaUser.getNickName());
 		//cookieManager.setCookie(url, getCookie("appid", mConfigManager.getAppId()));
 		cookieManager.setCookie(url,getCookie("deviceType","android"));
 		cookieManager.setCookie(url,getCookie("deviceKey",mDeviceInfoManager.getDEVICE_ID()));
 		cookieManager.setCookie(url,getCookie("accountType",mEmaUser.getAccountType()+""));
+		LOG.e("______________",mEmaUser.getmToken()+mEmaUser.getmUid()+mEmaUser.getNickName()+"deviceid"+mDeviceInfoManager.getDEVICE_ID()+"type"+mEmaUser.getAccountType()+"");
 		CookieSyncManager.getInstance().sync();
 		
 		String str = cookieManager.getCookie(url);
@@ -318,7 +318,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
 	
 	private String getCookie(String key, String value){
 		LOG.d(TAG, "key__:" + key + "    vlaue:" + value);
-		return key + "=" + value + ";domain=120.26.114.129;path=/";
+		return key + "=" + value + ";domain=192.168.10.80;path=/";
 	}
 	
 	/**

@@ -149,8 +149,8 @@ public class Url {
 		return wapUrl+"/wap/forgetpwd.html";
 	}
 
-	private static final String wapUrl="http://120.26.114.129:8081";
-	private static final String serverUrl="http://120.26.114.129:8081";
+	private static final String wapUrl="http://192.168.10.80:8080";
+	private static final String serverUrl="http://192.168.10.80:8080";
 	/**
 	 * 获取第一步登录请求接口
 	 * @return
