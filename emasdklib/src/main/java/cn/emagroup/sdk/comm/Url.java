@@ -138,7 +138,7 @@ public class Url {
 	 */
 	public static String getWebUrlUserInfo(){
 		//return getWebUrl() + "userinfo.html";
-		return "http://120.26.114.129:8081/wap/userinfo.html";
+		return wapUrl+"/wap/userinfo.html";
 	}
 	/**
 	 * 忘记用户密码界面
@@ -146,9 +146,10 @@ public class Url {
 	 */
 	public static String getWebUrlFindpasswUser(){
 		//return getWebUrl() + "forgetpwd.html";
-		return "http://120.26.114.129:8081/wap/forgetpwd.html";
+		return wapUrl+"/wap/forgetpwd.html";
 	}
 
+	private static final String wapUrl="http://120.26.114.129:8081";
 	private static final String serverUrl="http://120.26.114.129:8081";
 	/**
 	 * 获取第一步登录请求接口
