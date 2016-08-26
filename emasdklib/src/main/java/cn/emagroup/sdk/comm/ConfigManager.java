@@ -5,10 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -116,7 +113,8 @@ public class ConfigManager {
 		if(mPayTrdList == null){
 			mPayTrdList = new ArrayList<String>();
 			try {
-				InputStream input = mContext.getAssets()
+				//下面这一段是从app module的assets中读取的配置然后决定支付顺序的；现在直接写在代码里（依然为了两边统一），日后需要再改回
+				/*InputStream input = mContext.getAssets()
 						.open("emapayconfig");
 				InputStreamReader isReader = new InputStreamReader(input,
 						"UTF-8");
@@ -126,7 +124,14 @@ public class ConfigManager {
 					if(content.startsWith("#"))
 						continue;
 						mPayTrdList.add(content);
-				}
+				}*/
+				mPayTrdList.add("alipay_mobile");
+				mPayTrdList.add("weixin");
+				mPayTrdList.add("tenpay_wap_bank");
+				mPayTrdList.add("wallet");
+				mPayTrdList.add("sdopay_card");
+				mPayTrdList.add("mobile");
+				mPayTrdList.add("lingyuanfu");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
