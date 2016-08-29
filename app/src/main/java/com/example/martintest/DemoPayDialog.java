@@ -6,17 +6,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import cn.emagroup.sdk.Ema;
+import cn.emagroup.sdk.comm.EmaSDKListener;
 import cn.emagroup.sdk.pay.EmaPayInfo;
-import cn.emagroup.sdk.pay.EmaPayListener;
-import cn.emagroup.sdk.utils.LOG;
+import cn.emagroup.sdk.wrapper.EmaSDK;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 @SuppressLint("ClickableViewAccessibility")
@@ -72,20 +70,15 @@ public class DemoPayDialog extends Dialog {
 		if (!productNum.getText().toString().isEmpty()) {
 			float amountNum = Float.valueOf(productNum.getText().toString());
 			if (0 != amountNum) {
-
 				EmaPayInfo payInfo = new EmaPayInfo();
 				payInfo.setProductName(GoodsName.getText().toString());
 				payInfo.setProductNum(productNum.getText().toString());
 				payInfo.setProductId(product_id.getText().toString());
-				Ema.getInstance().pay(payInfo, new EmaPayListener() {
+
+				EmaSDK.getInstance().doPay(payInfo, new EmaSDKListener() {
 					@Override
-					public void onPayCallBack(Message msg) {
-						if(msg != null){
-							LOG.d(DemoPayDialog.class.toString(), "code__:" + msg.what);
-							if(msg.obj != null){
-								LOG.d(DemoPayDialog.class.toString(), "info__:" + msg.obj);
-							}
-						}
+					public void onCallBack(int resultCode, String decr) {
+
 					}
 				});
 			}

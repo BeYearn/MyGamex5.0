@@ -374,7 +374,7 @@ public class ToolBar implements OnClickListener {
 	 * 跳转礼包界面
 	 */
 	private void toGift(){
-		if(!Ema.getInstance().isLogin()){
+		/*if(!Ema.getInstance().isLogin()){
 			LOG.d(TAG, "未登录状态");
 			ToastHelper.toast(mContext, "请先登录");
 		}else{
@@ -385,14 +385,15 @@ public class ToolBar implements OnClickListener {
 			intent.putExtra(WebViewActivity.INTENT_TYPE, WebViewActivity.TYPE_GIFT);
 			mContext.startActivity(intent);
 			hideToolBar();
-		}
+		}*/
+		ToastHelper.toast(mContext, "暂未开放");
 	}
 	
 	/**
 	 * 跳转推广界面
 	 */
 	private void toPromotion(){
-		if(!Ema.getInstance().isLogin()){
+		/*if(!Ema.getInstance().isLogin()){
 			LOG.d(TAG, "未登录状态");
 			ToastHelper.toast(mContext, "请先登录");
 		}else{
@@ -403,14 +404,15 @@ public class ToolBar implements OnClickListener {
 			intent.putExtra(WebViewActivity.INTENT_TYPE, WebViewActivity.TYPE_PROMOTION);
 			mContext.startActivity(intent);
 			hideToolBar();
-		}
+		}*/
+		ToastHelper.toast(mContext, "暂未开放");
 	}
 	
 	/**
 	 * 跳转帮助界面
 	 */
 	private void toHelp(){
-		if(!Ema.getInstance().isLogin()){
+		/*if(!Ema.getInstance().isLogin()){
 			LOG.d(TAG, "未登录状态");
 			ToastHelper.toast(mContext, "请先登录");
 		}else{
@@ -420,7 +422,8 @@ public class ToolBar implements OnClickListener {
 			intent.putExtra(WebViewActivity.INTENT_URL, Url.getWebUrlHelp());
 			intent.putExtra(WebViewActivity.INTENT_TYPE, WebViewActivity.TYPE_HELP);
 			mContext.startActivity(intent);
-		}
+		}*/
+		ToastHelper.toast(mContext, "暂未开放");
 	}
 	   
 	/**

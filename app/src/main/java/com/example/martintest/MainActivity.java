@@ -133,14 +133,14 @@ public class MainActivity extends Activity implements OnClickListener {
 	 * 登录
 	 */
 	private void doLogin() {
-		Ema.getInstance().Login();
+		EmaSDK.getInstance().doLogin();
 	}
 
 	/**
 	 * 登出
 	 */
 	private void doLogout() {
-		 Ema.getInstance().Logout();
+		EmaSDK.getInstance().doLogout();
 	}
 
 	/**
@@ -162,11 +162,11 @@ public class MainActivity extends Activity implements OnClickListener {
 	 * 显示悬浮窗
 	 */
 	private void doShowToolbar() {
-		Ema.getInstance().showToolBar();
+		EmaSDK.getInstance().doShowToolbar();
 	}
 
 	private void doHideToobar() {
-		Ema.getInstance().hideToolBar();
+		EmaSDK.getInstance().doShowToolbar();
 	}
 
 	/**
