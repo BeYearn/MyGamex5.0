@@ -236,8 +236,13 @@ public class HttpInvoker {
 			HttpConnectionParams.setSoTimeout(httpParams, TIME_OUT_SEC);
 			//获取添加了信任的HttpClient
 			HttpClient client = getHttpClientFroHttps(httpParams);
-			
-			LOG.d(TAG, "post url__:" + url);
+
+			StringBuilder builer = new StringBuilder();
+			for (Map.Entry<String,String> entry:params.entrySet()){
+				builer.append(entry.getKey()+"="+entry.getValue()+"&");
+			}
+			LOG.e(TAG, "post url__:" + url);
+			LOG.e(TAG,"params__"+builer.toString());
 			HttpPost post = new HttpPost(url);
 			post.setParams(httpParams);
 			post.setEntity(buildEntry(params));
