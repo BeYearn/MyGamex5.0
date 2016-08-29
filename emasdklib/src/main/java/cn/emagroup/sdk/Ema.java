@@ -183,7 +183,7 @@ public class Ema {
 				@Override
 				public void run() {
 					//new LoginDialog(getContext()).show();    现在首次登录显示的是手机注册的那个页面
-					new RegisterByPhoneDialog(Ema.getInstance().getContext()).show();
+					new RegisterByPhoneDialog(getContext()).show();
 				}
 			});
 		}

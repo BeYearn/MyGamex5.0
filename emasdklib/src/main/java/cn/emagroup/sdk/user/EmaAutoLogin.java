@@ -17,6 +17,7 @@ import cn.emagroup.sdk.comm.HttpInvoker;
 import cn.emagroup.sdk.comm.HttpInvokerConst;
 import cn.emagroup.sdk.comm.Url;
 import cn.emagroup.sdk.utils.LOG;
+import cn.emagroup.sdk.utils.ToastHelper;
 import cn.emagroup.sdk.utils.UCommUtil;
 import cn.emagroup.sdk.utils.USharedPerUtil;
 
@@ -63,8 +64,14 @@ public class EmaAutoLogin {
             mEmaUser.setmToken(token);
             mEmaUser.setAccountType(accountType);
             LOG.e("autologin", uid + "..." + nickname + "..." + accountType + "..." + token);
+
             // 显示登录成功后的对话框
-            new LoginSuccDialog((Activity) context, true).start();
+            if(!((Activity) context).isFinishing()) {
+                new LoginSuccDialog(context, true).start();
+            }else {  // 这个是个临时解决办法--------就是这个context被回收的问题
+                ToastHelper.toast(context,"已登录成功");
+                UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
+            }
         } else {
             new RegisterByPhoneDialog(context).show();
             UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, "自动登录失败");
@@ -121,8 +128,10 @@ public class EmaAutoLogin {
      *
      */
     public void doLoginAuto() {
-
-        mProgress.showProgress("登录中...");
+        if(!((Activity) context).isFinishing()) {
+            //show dialog
+            mProgress.showProgress("登录中...");
+        }
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
         params.put("appKey", mConfigManager.getAppKEY());
