@@ -175,7 +175,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	private void doHideToobar() {
-		EmaSDK.getInstance().doShowToolbar();
+		EmaSDK.getInstance().doHideToobar();
 	}
 
 	/**
