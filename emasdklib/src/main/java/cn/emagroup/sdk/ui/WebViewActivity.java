@@ -195,12 +195,13 @@ public class WebViewActivity extends Activity implements OnClickListener {
 					mWebView.loadUrl(Url.getWebUrlUserInfo());
 					doSetTitle("个人中心");
 				}else if(checkedId == getID("ema_webview_gift")){
-					mWebView.loadUrl(Url.getWebUrlGift());
-					doSetTitle("礼包列表");
-//					ToastHelper.toast(WebViewActivity.this, "礼包暂未开放");
+					/*mWebView.loadUrl(Url.getWebUrlGift());
+					doSetTitle("礼包列表");*/
+					ToastHelper.toast(WebViewActivity.this, "礼包暂未开放");
 				}else if(checkedId == getID("ema_webview_help")){
-					mWebView.loadUrl(Url.getWebUrlHelp());
-					doSetTitle("帮助中心");
+					/*mWebView.loadUrl(Url.getWebUrlHelp());
+					doSetTitle("帮助中心");*/
+					ToastHelper.toast(WebViewActivity.this, "帮助暂未开放");
 				}else if(checkedId == getID("ema_webview_promotion")){
 //					mWebView.loadUrl(Url.getWebUrlPromotion());
 //					doSetTitle("推广");
