@@ -61,14 +61,14 @@ public class UserUtil {
 	 */
 	public static boolean checkPhoneInputIsOk(Context context, String phoneNum){
 		if(UCommUtil.isStrEmpty(phoneNum)){
-			LOG.w(TAG, "电话号码不能为空");
-			ToastHelper.toast(context, "电话号码不能为空");
+			LOG.w(TAG, "手机号码不能为空");
+			ToastHelper.toast(context, "手机号码不能为空");
 			return false;
 		}
 		
 		if(!UCommUtil.isPhone(phoneNum)){
 			LOG.w(TAG, "电话号码格式不正确");
-			ToastHelper.toast(context, "请输入正确格式的电话号码");
+			ToastHelper.toast(context, "手机号码不正确");
 			return false;
 		}
 		
