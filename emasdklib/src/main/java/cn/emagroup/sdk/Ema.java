@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
+import com.igexin.sdk.PushManager;
+
 import java.util.Map;
 
 import cn.emagroup.sdk.analytics.EmaSendInfo;
@@ -90,7 +92,9 @@ public class Ema {
 			//记录崩溃
 			CrashHandler crashHandler = CrashHandler.getInstance();
 			crashHandler.init(mContext);
-			
+
+			//个推初始化
+			PushManager.getInstance().initialize(context.getApplicationContext());
 			//初始化第三方sdk
 			initThirdSDK();
 			

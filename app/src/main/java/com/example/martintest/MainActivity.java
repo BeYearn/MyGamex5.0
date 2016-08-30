@@ -15,8 +15,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.igexin.sdk.PushManager;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -94,7 +92,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		});
 
-		PushManager.getInstance().initialize(this.getApplicationContext());
 	}
 
 	private void findViews() {

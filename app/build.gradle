@@ -5,7 +5,7 @@ android {
     buildToolsVersion '21.1.2'
 
     defaultConfig {
-        applicationId "demo.sdk.emagroup.cn.mygamex40"
+        applicationId "com.example.martintest"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 1

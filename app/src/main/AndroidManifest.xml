@@ -29,7 +29,7 @@
 
     <permission
         android:name="getui.permission.GetuiService.com.example.martintest"
-        android:protectionLevel="normal"></permission>
+        android:protectionLevel="normal"/>
     <!-- 个推SDK权限配置结束 -->
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -132,35 +132,43 @@
         <!-- 配置的第三方参数属性 -->
         <meta-data
             android:name="PUSH_APPID"
-            android:value="mdMmHMLzea8TwUEnFOvya5" />
-        <!-- 替换为应用的APPID -->
+            android:value="augb87iFQ1AcrdvCWfN9L4" /> <!-- 替换为第三方应用的APPID -->
         <meta-data
             android:name="PUSH_APPKEY"
-            android:value="jK8wy5s3fJ6fVcu7mKM063" />
-        <!-- 替换为应用的APPKEY -->
+            android:value="xjqZuyepvi96lbSG3JqLi7" /> <!-- 替换为第三方应用的APPKEY -->
         <meta-data
             android:name="PUSH_APPSECRET"
-            android:value="Mhk9hbyriV6WiiZeF0Gfi5" />
-        <!-- 替换为应用的APPSECRET -->
-        <!-- 配置第三方Receiver 用来接收ClientId和透传消息 -->
+            android:value="JWupfp2Z9f6XBp5rqzaga3" /> <!-- 替换为第三方应用的APPSECRET -->
+
+        <!-- 配置第三方Receiver -->
         <receiver
-            android:name="com.example.martintest.PushDemoReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.mdMmHMLzea8TwUEnFOvya5" />
-            </intent-filter>
-        </receiver>
+        android:name="PushDemoReceiver"
+        android:exported="false">
+        <intent-filter>
+            <action android:name="com.igexin.sdk.action.augb87iFQ1AcrdvCWfN9L4" />
+        </intent-filter>
+    </receiver>
+
+
         <!-- 配置SDK核心服务 -->
         <service
             android:name="com.igexin.sdk.PushService"
             android:exported="true"
             android:label="NotificationCenter"
-            android:process=":pushservice"></service>
-        <!-- SDK　2.6.1.0版本新增配置项 -->
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.service.message" />
+            </intent-filter>
+        </service>
+
         <service
             android:name="com.igexin.sdk.PushServiceUser"
             android:exported="true"
-            android:label="NotificationCenterUser"></service>
+            android:label="NotificationCenterUser">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.user.message" />
+            </intent-filter>
+        </service>
 
         <receiver android:name="com.igexin.sdk.PushReceiver">
             <intent-filter>
@@ -188,46 +196,28 @@
             android:exported="false"
             android:process=":pushservice"
             android:taskAffinity="com.igexin.sdk.PushActivityTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.igexin.sdk.GActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:process=":pushservice"
+            android:taskAffinity="com.igexin.sdk.PushActivityTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <service
             android:name="com.igexin.download.DownloadService"
             android:process=":pushservice" />
-
         <receiver android:name="com.igexin.download.DownloadReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
         <provider
             android:name="com.igexin.download.DownloadProvider"
             android:authorities="downloads.com.example.martintest"
             android:exported="true"
             android:process=":pushservice" />
-
-        <activity
-            android:name="com.igexin.getuiext.activity.GetuiExtActivity"
-            android:configChanges="orientation|keyboard|keyboardHidden"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:process=":pushservice"
-            android:taskAffinity="android.task.myServicetask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <receiver
-            android:name="com.igexin.getuiext.service.PayloadReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.igexin.sdk.action.7fjUl2Z3LH6xYy7NQK4ni4" />
-                <action android:name="com.igexin.sdk.action.mdMmHMLzea8TwUEnFOvya5" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="com.igexin.getuiext.service.GetuiExtService"
-            android:process=":pushservice" />
-
         <!-- 个推SDK配置结束 -->
 
     </application>
