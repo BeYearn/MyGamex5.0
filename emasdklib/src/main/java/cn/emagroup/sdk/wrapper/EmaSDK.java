@@ -7,12 +7,14 @@ import cn.emagroup.sdk.Ema;
 import cn.emagroup.sdk.comm.EmaSDKListener;
 import cn.emagroup.sdk.pay.EmaPayInfo;
 import cn.emagroup.sdk.pay.EmaPayListener;
+import cn.emagroup.sdk.utils.LOG;
 
 /**
  * Created by Administrator on 2016/8/22.
  */
 public class EmaSDK {
     private static EmaSDK mInstance;
+    private EmaSDKListener reciveMsgListener;
 
     private EmaSDK() {
     }
@@ -58,10 +60,17 @@ public class EmaSDK {
         Ema.getInstance().hideToolBar();
     }
 
+    public void doSetRecivePushListner(EmaSDKListener listener){
+        this.reciveMsgListener=listener;
+    }
 
-
-
-
+    public void makeCallBack(int msgCode, String msgObj){
+        if(reciveMsgListener == null){
+            LOG.w("warn", "未设置回调");
+            return;
+        }
+        reciveMsgListener.onCallBack(msgCode,msgObj);
+    }
 
     public void onStart() {
         Ema.getInstance().onStart();

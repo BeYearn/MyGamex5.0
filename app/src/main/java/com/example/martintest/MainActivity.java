@@ -24,6 +24,7 @@ import java.util.Date;
 import cn.emagroup.sdk.Ema;
 import cn.emagroup.sdk.comm.EmaCallBackConst;
 import cn.emagroup.sdk.comm.EmaSDKListener;
+import cn.emagroup.sdk.utils.ToastHelper;
 import cn.emagroup.sdk.wrapper.EmaSDK;
 
 //测试界面activity
@@ -88,6 +89,17 @@ public class MainActivity extends Activity implements OnClickListener {
 					case EmaCallBackConst.LOGOUTFALIED://登出失败回调
 						Toast.makeText(MainActivity.this, "登出失败", Toast.LENGTH_LONG).show();
 						break;
+				}
+			}
+		});
+
+
+		EmaSDK.getInstance().doSetRecivePushListner(new EmaSDKListener() {
+			@Override
+			public void onCallBack(int resultCode, String data) {
+				if(resultCode==EmaCallBackConst.RECIVEMSG_MSG){
+					// TODO:  data为拿到的推送数据,自行处理
+					ToastHelper.toast(MainActivity.this,data);
 				}
 			}
 		});

@@ -142,7 +142,7 @@
 
         <!-- 配置第三方Receiver -->
         <receiver
-        android:name="PushDemoReceiver"
+        android:name="cn.emagroup.sdk.comm.PushDemoReceiver"
         android:exported="false">
         <intent-filter>
             <action android:name="com.igexin.sdk.action.augb87iFQ1AcrdvCWfN9L4" />
