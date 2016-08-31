@@ -289,7 +289,7 @@ public class Ema {
 	public void onDestroy(){
 		LOG.d(TAG, "onDestroy");
 		
-		if(mSplashDialog != null && mSplashDialog.isShowing()){
+		/*if(mSplashDialog != null && mSplashDialog.isShowing()){
 			mSplashDialog.dismiss();
 		}
 		
@@ -303,7 +303,7 @@ public class Ema {
 		try {
 			ToolBar.getInstance(getContext()).hideToolBar();
 		} catch (Exception e) {
-		}
+		}*/
 	}
 	
 	public void onStop(){
@@ -327,9 +327,8 @@ public class Ema {
 	 */
 	public void onResume(){
 		LOG.d(TAG, "onResume");
-		if(mFlagToolbarShowing){
 			ToolBar.getInstance(getContext()).showToolBar();
-		}
+
 	}
 	
 	public void onStart(){
