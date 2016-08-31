@@ -10,12 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.emagroup.sdk.Ema;
 import cn.emagroup.sdk.comm.ConfigManager;
 import cn.emagroup.sdk.comm.EmaCallBackConst;
 import cn.emagroup.sdk.comm.EmaProgressDialog;
 import cn.emagroup.sdk.comm.HttpInvoker;
 import cn.emagroup.sdk.comm.HttpInvokerConst;
 import cn.emagroup.sdk.comm.Url;
+import cn.emagroup.sdk.ui.ToolBar;
 import cn.emagroup.sdk.utils.LOG;
 import cn.emagroup.sdk.utils.ToastHelper;
 import cn.emagroup.sdk.utils.UCommUtil;
@@ -71,6 +73,7 @@ public class EmaAutoLogin {
             }else {  // 这个是个临时解决办法--------就是这个context被回收的问题
                 ToastHelper.toast(context,"已登录成功");
                 UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
+                ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
             }
         } else {
             new RegisterByPhoneDialog(context).show();
