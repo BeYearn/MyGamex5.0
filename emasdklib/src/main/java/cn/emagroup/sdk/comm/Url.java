@@ -149,8 +149,8 @@ public class Url {
 		return wapUrl+"/wap/forgetpwd.html";
 	}
 
-	private static final String wapUrl="https://staging-platform.lemonade-game.com";
-	private static final String serverUrl="https://staging-platform.lemonade-game.com";
+	private static final String wapUrl="https://platform.lemonade-game.com";
+	private static final String serverUrl="https://platform.lemonade-game.com";
 	/**
 	 * 获取第一步登录请求接口
 	 * @return
