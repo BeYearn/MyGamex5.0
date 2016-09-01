@@ -2,6 +2,7 @@ package cn.emagroup.sdk.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.LayoutAlgorithm;
@@ -45,6 +47,7 @@ import cn.emagroup.sdk.utils.PropertyField;
 import cn.emagroup.sdk.utils.ToastHelper;
 import cn.emagroup.sdk.utils.UCommUtil;
 
+@SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends Activity implements OnClickListener {
 
 	private static final String TAG = "WebViewActivity";
@@ -127,7 +130,23 @@ public class WebViewActivity extends Activity implements OnClickListener {
 
 		initData();
 	}
-	
+
+
+	public class JavaScriptinterface {
+		Context context;
+		public JavaScriptinterface(Context c) {
+			context= c;
+		}
+		/**
+		 * 与js交互时用到的方法，在js里直接调用的
+		 */
+		@JavascriptInterface
+		public void close(String num) {
+			WebViewActivity.this.finish();
+			ToastHelper.toast(context,"新密码已发至:"+num);
+		}
+	}
+
 	/**
 	 * 初始化界面
 	 */
@@ -147,6 +166,8 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		mWebView = (WebView) findViewById(getID("ema_webview_url"));
 		
 		mWebView.getSettings().setJavaScriptEnabled(true);
+		mWebView.addJavascriptInterface(new JavaScriptinterface(this),
+				"closeWebview");
 		mWebView.getSettings().setSupportZoom(true);
 		mWebView.getSettings().setUseWideViewPort(true);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
