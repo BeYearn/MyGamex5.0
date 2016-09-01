@@ -4,7 +4,7 @@
     android:layout_height="400dp"
     android:background="#ffffff"
     android:orientation="vertical"
-    tools:context="cn.emagroup.sdk.demo.DemoPayDialog" >
+    tools:context="com.emagroup.sdk.demo.DemoPayDialog" >
 
     <TextView
         android:layout_width="wrap_content"

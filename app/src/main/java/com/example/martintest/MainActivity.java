@@ -15,17 +15,17 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.emagroup.sdk.Ema;
+import com.emagroup.sdk.comm.EmaCallBackConst;
+import com.emagroup.sdk.comm.EmaSDKListener;
+import com.emagroup.sdk.utils.ToastHelper;
+import com.emagroup.sdk.wrapper.EmaSDK;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Date;
-
-import cn.emagroup.sdk.Ema;
-import cn.emagroup.sdk.comm.EmaCallBackConst;
-import cn.emagroup.sdk.comm.EmaSDKListener;
-import cn.emagroup.sdk.utils.ToastHelper;
-import cn.emagroup.sdk.wrapper.EmaSDK;
 
 //测试界面activity
 

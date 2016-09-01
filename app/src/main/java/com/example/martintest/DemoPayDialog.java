@@ -12,9 +12,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import cn.emagroup.sdk.comm.EmaSDKListener;
-import cn.emagroup.sdk.pay.EmaPayInfo;
-import cn.emagroup.sdk.wrapper.EmaSDK;
+import com.emagroup.sdk.comm.EmaSDKListener;
+import com.emagroup.sdk.pay.EmaPayInfo;
+import com.emagroup.sdk.wrapper.EmaSDK;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 @SuppressLint("ClickableViewAccessibility")

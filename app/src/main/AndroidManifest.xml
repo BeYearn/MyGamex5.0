@@ -85,22 +85,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="cn.emagroup.sdk.pay.PayTrdActivity"
+            android:name="com.emagroup.sdk.pay.PayTrdActivity"
             android:launchMode="singleTask" />
-        <activity android:name="cn.emagroup.sdk.pay.PayMabiActivity" />
-        <activity android:name="cn.emagroup.sdk.pay.RechargeMabiActivity" />
+        <activity android:name="com.emagroup.sdk.pay.PayMabiActivity" />
+        <activity android:name="com.emagroup.sdk.pay.RechargeMabiActivity" />
         <activity
-            android:name="cn.emagroup.kom.emagroup.wxapi.WXPayEntryActivity"
+            android:name="com.emagroup.kom.emagroup.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/ema_activity_dialog" />
         <activity
-            android:name="cn.emagroup.sdk.pay.TrdCardActivity"
+            android:name="com.emagroup.sdk.pay.TrdCardActivity"
             android:screenOrientation="landscape" />
-        <activity android:name="cn.emagroup.sdk.ui.WebViewActivity" />
-        <activity android:name="cn.emagroup.sdk.ui.WebViewSimpleActivity" />
+        <activity android:name="com.emagroup.sdk.ui.WebViewActivity" />
+        <activity android:name="com.emagroup.sdk.ui.WebViewSimpleActivity" />
 
-        <service android:name="cn.emagroup.sdk.comm.EmaService" />
+        <service android:name="com.emagroup.sdk.comm.EmaService" />
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -141,7 +141,7 @@
 
         <!-- 配置第三方Receiver -->
         <receiver
-        android:name="cn.emagroup.sdk.comm.PushDemoReceiver"
+        android:name="com.emagroup.sdk.comm.PushDemoReceiver"
         android:exported="false">
         <intent-filter>
             <action android:name="com.igexin.sdk.action.augb87iFQ1AcrdvCWfN9L4" />
