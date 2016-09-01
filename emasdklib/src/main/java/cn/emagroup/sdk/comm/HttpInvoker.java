@@ -196,7 +196,7 @@ public class HttpInvoker {
 			client = AndroidHttpClient.newInstance("");
 			HttpPost post = new HttpPost(url);
 			post.setEntity(buildEntry(params));
-			
+
 			HttpResponse response = client.execute(post);
 
 			int resultCode = response.getStatusLine().getStatusCode();
@@ -205,11 +205,12 @@ public class HttpInvoker {
 			LOG.d(TAG, "return message:" + result);
 			if(resultCode != HttpStatus.SC_OK){
 				LOG.e(TAG, "服务器返回错误 !!!!!!");
+				setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"请求超时\",\"status\":\"9\"}");
 			}
 			setOnresponse(listener, result);
 		} catch (Exception e) {
-			LOG.w(TAG, "doHttpPost error", e);
-			setOnresponse(listener, "网络请求数据失败");
+			setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"请求失败,检查网络\",\"status\":\"9\"}");
+			LOG.w(TAG, "doHttpsPost error", e);
 		} finally{
 			if(client != null){
 				client.close();
@@ -254,11 +255,11 @@ public class HttpInvoker {
 			LOG.d(TAG, "return message:" + result);
 			if(resultCode != HttpStatus.SC_OK){
 				LOG.e(TAG, "服务器返回错误 !!!!!!");
-				setOnresponse(listener,"请求超时");
+				setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"请求超时\",\"status\":\"9\"}");
 			}
 			setOnresponse(listener, result);
 		} catch (Exception e) {
-			setOnresponse(listener, "网络请求数据失败");
+			setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"请求失败,检查网络\",\"status\":\"9\"}");
 			LOG.w(TAG, "doHttpsPost error", e);
 		}
 	}

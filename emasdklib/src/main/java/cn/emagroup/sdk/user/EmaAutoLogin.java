@@ -44,7 +44,7 @@ public class EmaAutoLogin {
                     mProgress.closeProgress();
                     doSetUser();
                     break;
-                case HttpInvokerConst.SDK_RESULT_FAILED:// 登录失败（原因异常）
+                case HttpInvokerConst.SDK_RESULT_FAILED:// 登录失败（原因见返回messge）
                     UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, "请重新登录");
                     mProgress.closeProgress();
                     new RegisterByPhoneDialog(context).show();
@@ -149,9 +149,15 @@ public class EmaAutoLogin {
                             LOG.d(TAG, "自动登录成功！！");
                             mHandler.sendEmptyMessage(HttpInvokerConst.SDK_RESULT_SUCCESS);
                             break;
-                        default:
+                        case HttpInvokerConst.SDK_RESULT_FAILED:
                             LOG.d(TAG, json.getString("message"));
                             mHandler.sendEmptyMessage(HttpInvokerConst.SDK_RESULT_FAILED);
+                            break;
+                        default:
+                            LOG.d(TAG, json.getString("message"));
+                            ToastHelper.toast(context,json.getString("message"));
+                            mProgress.closeProgress();
+                            new RegisterByPhoneDialog(context).show();
                             break;
                     }
                 } catch (Exception e) {

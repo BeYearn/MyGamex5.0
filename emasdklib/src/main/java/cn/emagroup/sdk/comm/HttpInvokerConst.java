@@ -7,6 +7,8 @@ public class HttpInvokerConst {
 	public static final int SDK_RESULT_SUCCESS = 0;//表示请求数据或操作成功
 	public static final int SDK_RESULT_FAILED=1;
 
+	public static final int SDK_RESULT_ERROR=9; //各种失败 比如请求超时啥的
+
 	public static final int SDK_RESULT_FAILED_SIGIN_ERROR = 3006;//签名失败
 	
 	// 登录返回标记

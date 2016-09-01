@@ -186,6 +186,11 @@ public class LoginDialog extends Dialog implements
                                     break;
                                 case HttpInvokerConst.SDK_RESULT_FAILED:
                                     ToastHelper.toast(mActivity, json.getString("message"));
+                                    mProgress.closeProgress();
+                                    break;
+                                default:
+                                    ToastHelper.toast(mActivity, json.getString("message"));
+                                    mProgress.closeProgress();
                                     break;
                             }
                         } catch (Exception e) {
@@ -250,6 +255,11 @@ public class LoginDialog extends Dialog implements
                             break;
                         case HttpInvokerConst.SDK_RESULT_FAILED:
                             ToastHelper.toast(mActivity, json.getString("message"));
+                            mProgress.closeProgress();
+                            break;
+                        default:
+                            ToastHelper.toast(mActivity, json.getString("message"));
+                            mProgress.closeProgress();
                             break;
                     }
                 } catch (Exception e) {
@@ -274,15 +284,29 @@ public class LoginDialog extends Dialog implements
                         //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                         try {
                             JSONObject jsonObject = new JSONObject(result);
-                            JSONObject data = jsonObject.getJSONObject("data");
-                            String token = data.getString("token");
-                            LOG.e("token", token);
-                            mEmaUser.setmToken(token);
+                            int resultCode = jsonObject.getInt("status");
+                            switch (resultCode){
+                                case HttpInvokerConst.SDK_RESULT_SUCCESS:// 成功
+                                    JSONObject data = jsonObject.getJSONObject("data");
+                                    String token = data.getString("token");
+                                    LOG.e("token", token);
+                                    mEmaUser.setmToken(token);
 
-                            Message msg = new Message();
-                            msg.what = CODE_SUCCESS;
-                            msg.obj = token;
-                            mHandler.sendMessage(msg);
+                                    Message msg = new Message();
+                                    msg.what = CODE_SUCCESS;
+                                    msg.obj = token;
+                                    mHandler.sendMessage(msg);
+                                    break;
+                                case HttpInvokerConst.SDK_RESULT_FAILED:
+                                    ToastHelper.toast(mActivity, jsonObject.getString("message"));
+                                    mProgress.closeProgress();
+                                    break;
+                                default:
+                                    ToastHelper.toast(mActivity, jsonObject.getString("message"));
+                                    mProgress.closeProgress();
+                                    break;
+                            }
+
                         } catch (Exception e) {
                             LOG.w(TAG, "AccountLoginFirst error", e);
                             mHandler.sendEmptyMessage(CODE_FAILED);
@@ -620,11 +644,11 @@ public class LoginDialog extends Dialog implements
      * 登录
      */
     private void doLogin() {
-        if (mEdtPasswView.getText().toString().equals(mPasswShowStr)) {
+        /*if (mEdtPasswView.getText().toString().equals(mPasswShowStr)) {
             loginAutoLogin();
-        } else {
+        } else {}*/
             AccountLoginFirst();
-        }
+
     }
 
     /**

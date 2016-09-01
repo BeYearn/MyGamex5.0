@@ -191,6 +191,11 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                                     break;
                                 case HttpInvokerConst.SDK_RESULT_FAILED:
                                     ToastHelper.toast(mActivity, json.getString("message"));
+                                    mProgress.closeProgress();
+                                    break;
+                                default:
+                                    ToastHelper.toast(mActivity, json.getString("message"));
+                                    mProgress.closeProgress();
                                     break;
                             }
                         } catch (Exception e) {
@@ -251,6 +256,11 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                             break;
                         case HttpInvokerConst.SDK_RESULT_FAILED:
                             ToastHelper.toast(mActivity, json.getString("message"));
+                            mProgress.closeProgress();
+                            break;
+                        default:
+                            ToastHelper.toast(mActivity, json.getString("message"));
+                            mProgress.closeProgress();
                             break;
                     }
                 } catch (Exception e) {
@@ -276,15 +286,29 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                         //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                         try {
                             JSONObject jsonObject = new JSONObject(result);
-                            JSONObject data = jsonObject.getJSONObject("data");
-                            String token = data.getString("token");
-                            LOG.e("token", token);
-                            mEmaUser.setmToken(token);
+                            int resultCode = jsonObject.getInt("status");
+                            switch (resultCode){
+                                case HttpInvokerConst.SDK_RESULT_SUCCESS:
+                                    JSONObject data = jsonObject.getJSONObject("data");
+                                    String token = data.getString("token");
+                                    LOG.e("token", token);
+                                    mEmaUser.setmToken(token);
 
-                            Message msg = new Message();
-                            msg.what = CODE_SUCCESS;
-                            msg.obj = token;
-                            mHandler.sendMessage(msg);
+                                    Message msg = new Message();
+                                    msg.what = CODE_SUCCESS;
+                                    msg.obj = token;
+                                    mHandler.sendMessage(msg);
+                                    break;
+                                case HttpInvokerConst.SDK_RESULT_FAILED:
+                                    ToastHelper.toast(mActivity, jsonObject.getString("message"));
+                                    mProgress.closeProgress();
+                                    break;
+                                default:
+                                    ToastHelper.toast(mActivity, jsonObject.getString("message"));
+                                    mProgress.closeProgress();
+                                    break;
+                            }
+
                         } catch (Exception e) {
                             LOG.w(TAG, "login error", e);
                             mHandler.sendEmptyMessage(CODE_FAILED);
@@ -416,26 +440,12 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS:// 成功
                                     mHandler.sendEmptyMessage(CODE_GET_AUTH_CODE_SUCCESS);
                                     break;
-                                case HttpInvokerConst.SEND_PHONE_CODE_FAILED://获取验证码失败
-                                    LOG.d(TAG, "获取验证码失败");
-                                    mHandler.sendEmptyMessage(CODE_GET_AUTH_CODE_FAILED);
-                                    break;
-                                case HttpInvokerConst.SEND_PHONE_CODE_FAILED_TOO_OFFTEN:// 操作过于频繁
-                                    LOG.d(TAG, "请求验证过于频繁，获取验证码失败");
-                                    mHandler.sendEmptyMessage(CODE_FAILED_TOO_OFFTEN);
-                                    break;
-                                case HttpInvokerConst.SEND_PHONE_CODE_FAILED_OVER_MAX:// 发送量达到今日最大限量
-                                case HttpInvokerConst.SEND_PHONE_CODE_FAILED_OVER_MAX_1:
-                                    LOG.d(TAG, "请求验证次数达到上限，获取验证码失败");
-                                    mHandler.sendEmptyMessage(CODE_FAILED_OVER_MAX);
-                                    break;
-                                case HttpInvokerConst.SDK_RESULT_FAILED_SIGIN_ERROR:
-                                    LOG.d(TAG, "签名失败");
-                                    mHandler.sendEmptyMessage(CODE_SIGN_ERROR);
+                                case HttpInvokerConst.SDK_RESULT_FAILED:// 失败
+                                    ToastHelper.toast(mActivity, json.getString("message"));
                                     break;
                                 default:
                                     LOG.d(TAG, "请求验证码失败");
-                                    mHandler.sendEmptyMessage(CODE_GET_AUTH_CODE_FAILED);
+                                    ToastHelper.toast(mActivity, json.getString("message"));
                                     break;
                             }
                         } catch (Exception e) {
