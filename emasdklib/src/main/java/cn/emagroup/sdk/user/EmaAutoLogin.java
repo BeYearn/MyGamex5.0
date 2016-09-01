@@ -45,7 +45,7 @@ public class EmaAutoLogin {
                     doSetUser();
                     break;
                 case HttpInvokerConst.SDK_RESULT_FAILED:// 登录失败（原因异常）
-                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, "自动登录失败");
+                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, "请重新登录");
                     mProgress.closeProgress();
                     new RegisterByPhoneDialog(context).show();
                     break;

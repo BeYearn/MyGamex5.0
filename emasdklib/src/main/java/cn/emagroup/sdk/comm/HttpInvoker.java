@@ -254,6 +254,7 @@ public class HttpInvoker {
 			LOG.d(TAG, "return message:" + result);
 			if(resultCode != HttpStatus.SC_OK){
 				LOG.e(TAG, "服务器返回错误 !!!!!!");
+				setOnresponse(listener,"请求超时");
 			}
 			setOnresponse(listener, result);
 		} catch (Exception e) {
