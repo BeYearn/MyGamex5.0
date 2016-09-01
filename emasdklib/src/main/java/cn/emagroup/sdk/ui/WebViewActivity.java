@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -425,5 +426,23 @@ public class WebViewActivity extends Activity implements OnClickListener {
 			mIDMap.put(key, id);
 		}
 		return mIDMap.get(key);
+	}
+
+	@Override
+	protected void onPause() {
+		Log.e("webview","onPause");
+		super.onPause();
+	}
+
+	@Override
+	protected void onStop() {
+		Log.e("webview","onStop");
+		super.onStop();
+	}
+
+	@Override
+	protected void onDestroy() {
+		Log.e("webview","onDestroy");
+		super.onDestroy();
 	}
 }

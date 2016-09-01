@@ -47,6 +47,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.e("mainactivity","onCreate");
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -250,23 +251,27 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
+		Log.e("mainactivity","onResume");
 		super.onResume();
 		EmaSDK.getInstance().onResume();
 	}
 
 	@Override
 	protected void onPause() {
+		Log.e("mainactivity","onPause");
 		super.onPause();
 		EmaSDK.getInstance().onPause();
 	}
 
 	@Override
 	protected void onStop() {
+		Log.e("mainactivity","onStop");
 		super.onStop();
 		EmaSDK.getInstance().onStop();
 	}
 
 	public void onDestroy() {
+		Log.e("mainactivity","onDestroy");
 		super.onDestroy();
 		EmaSDK.getInstance().onDestroy();
 	}
