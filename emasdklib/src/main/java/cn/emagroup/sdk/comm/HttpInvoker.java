@@ -44,7 +44,7 @@ public class HttpInvoker {
 	}
 	
 	private static final String TAG = "HttpInvoker";
-	private static final int TIME_OUT_SEC = 3000;
+	private static final int TIME_OUT_SEC = 10000;
 	
 	private boolean mFlagIsContinue;//标记是否继续将数据传递回去
 	
