@@ -1,6 +1,6 @@
 package com.emagroup.sdk;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Message;
 
 /**
@@ -21,8 +21,8 @@ public class EmaSDK {
     }
 
 
-    public void init(Context context, EmaSDKListener listener){
-        Ema.getInstance().init(context,listener);
+    public void init(Activity activity, EmaSDKListener listener){
+        Ema.getInstance().init(activity,listener);
     }
 
 
@@ -35,6 +35,7 @@ public class EmaSDK {
         Ema.getInstance().Logout();
     }
 
+    // TODO: 2016/9/2 支付方法还未完全统一，暂时放下
     public void doPay(EmaPayInfo info, final EmaSDKListener listener){
         Ema.getInstance().pay(info, new EmaPayListener() {
             @Override
@@ -64,10 +65,6 @@ public class EmaSDK {
             return;
         }
         reciveMsgListener.onCallBack(msgCode,msgObj);
-    }
-
-    public void onStart() {
-        Ema.getInstance().onStart();
     }
 
     public void onResume() {
