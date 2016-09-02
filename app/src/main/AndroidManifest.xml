@@ -67,12 +67,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <activity
             android:name="com.example.martintest.MainActivity"
             android:configChanges="locale|fontScale|keyboard|keyboardHidden|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|touchscreen"
@@ -85,22 +80,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.emagroup.sdk.pay.PayTrdActivity"
+            android:name="com.emagroup.sdk.PayTrdActivity"
             android:launchMode="singleTask" />
-        <activity android:name="com.emagroup.sdk.pay.PayMabiActivity" />
-        <activity android:name="com.emagroup.sdk.pay.RechargeMabiActivity" />
-        <activity
-            android:name="com.emagroup.kom.emagroup.wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:theme="@style/ema_activity_dialog" />
-        <activity
-            android:name="com.emagroup.sdk.pay.TrdCardActivity"
-            android:screenOrientation="landscape" />
-        <activity android:name="com.emagroup.sdk.ui.WebViewActivity" />
-        <activity android:name="com.emagroup.sdk.ui.WebViewSimpleActivity" />
+        <activity android:name="com.emagroup.sdk.PayMabiActivity" />
+        <activity android:name="com.emagroup.sdk.RechargeMabiActivity" />
 
-        <service android:name="com.emagroup.sdk.comm.EmaService" />
+        <activity
+            android:name="com.emagroup.sdk.TrdCardActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="com.emagroup.sdk.WebViewActivity" />
+        <activity android:name="com.emagroup.sdk.WebViewSimpleActivity" />
+
+        <service android:name="com.emagroup.sdk.EmaService" />
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -141,7 +132,7 @@
 
         <!-- 配置第三方Receiver -->
         <receiver
-        android:name="com.emagroup.sdk.comm.PushDemoReceiver"
+        android:name="com.emagroup.sdk.PushDemoReceiver"
         android:exported="false">
         <intent-filter>
             <action android:name="com.igexin.sdk.action.augb87iFQ1AcrdvCWfN9L4" />

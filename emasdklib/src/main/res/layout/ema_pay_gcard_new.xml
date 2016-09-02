@@ -99,7 +99,7 @@
                     android:textColor="#ff7111"
                     android:textSize="12dp" />
 
-                <com.emagroup.sdk.ui.MyGridView
+                <com.emagroup.sdk.MyGridView
                     android:id="@+id/ema_gridview_gcard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
                     android:listSelector="@android:color/transparent"
                     android:numColumns="5"
                     android:verticalSpacing="10dp" >
-                </com.emagroup.sdk.ui.MyGridView>
+                </com.emagroup.sdk.MyGridView>
 
                 <EditText
                     android:id="@+id/ema_pay_gamecard_card_number"

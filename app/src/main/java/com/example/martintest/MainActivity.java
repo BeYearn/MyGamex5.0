@@ -16,10 +16,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.emagroup.sdk.Ema;
-import com.emagroup.sdk.comm.EmaCallBackConst;
-import com.emagroup.sdk.comm.EmaSDKListener;
-import com.emagroup.sdk.utils.ToastHelper;
-import com.emagroup.sdk.wrapper.EmaSDK;
+import com.emagroup.sdk.EmaCallBackConst;
+import com.emagroup.sdk.EmaSDKListener;
+import com.emagroup.sdk.ToastHelper;
+import com.emagroup.sdk.EmaSDK;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

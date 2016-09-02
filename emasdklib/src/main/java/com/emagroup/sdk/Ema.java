@@ -10,26 +10,6 @@ import com.igexin.sdk.PushManager;
 
 import java.util.Map;
 
-import com.emagroup.sdk.analytics.EmaSendInfo;
-import com.emagroup.sdk.comm.ConfigManager;
-import com.emagroup.sdk.comm.EmaCallBackConst;
-import com.emagroup.sdk.comm.EmaSDKListener;
-import com.emagroup.sdk.pay.EmaPay;
-import com.emagroup.sdk.pay.EmaPayInfo;
-import com.emagroup.sdk.pay.EmaPayListener;
-import com.emagroup.sdk.ui.SplashDialog;
-import com.emagroup.sdk.ui.ToolBar;
-import com.emagroup.sdk.user.EmaAutoLogin;
-import com.emagroup.sdk.user.EmaUser;
-import com.emagroup.sdk.user.RegisterByPhoneDialog;
-import com.emagroup.sdk.user.RoleInfo;
-import com.emagroup.sdk.utils.CrashHandler;
-import com.emagroup.sdk.utils.EmaConst;
-import com.emagroup.sdk.utils.LOG;
-import com.emagroup.sdk.utils.LOGToSdcardHelper;
-import com.emagroup.sdk.utils.UCommUtil;
-import com.emagroup.sdk.utils.USharedPerUtil;
-
 public class Ema {
 
 	private static final String TAG = "Ema";
