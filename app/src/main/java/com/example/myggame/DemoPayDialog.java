@@ -1,4 +1,4 @@
-package com.example.martintest;
+package com.example.myggame;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.martintest"
+    package="com.example.myggame"
     android:installLocation="auto"
     android:versionCode="1"
     android:versionName="1.0">
@@ -25,10 +25,10 @@
     <!-- 支持个推3.0 电子围栏功能 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 自定义权限 -->
-    <uses-permission android:name="getui.permission.GetuiService.com.example.martintest" />
+    <uses-permission android:name="getui.permission.GetuiService.com.example.myggame" />
 
     <permission
-        android:name="getui.permission.GetuiService.com.example.martintest"
+        android:name="getui.permission.GetuiService.com.example.myggame"
         android:protectionLevel="normal"/>
     <!-- 个推SDK权限配置结束 -->
 
@@ -69,7 +69,7 @@
         </activity>
 
         <activity
-            android:name="com.example.martintest.MainActivity"
+            android:name="com.example.myggame.MainActivity"
             android:configChanges="locale|fontScale|keyboard|keyboardHidden|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|touchscreen"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize">
@@ -217,7 +217,7 @@
         </receiver>
         <provider
             android:name="com.igexin.download.DownloadProvider"
-            android:authorities="downloads.com.example.martintest"
+            android:authorities="downloads.com.example.myggame"
             android:exported="true"
             android:process=":pushservice" />
         <!-- 个推SDK配置结束 -->

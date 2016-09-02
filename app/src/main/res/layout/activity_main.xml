@@ -1,95 +1,45 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical">
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp">
 
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MyGameX" />
     <Button
-        android:id="@+id/btn_login"
-        android:layout_width="100dp"
+        android:id="@+id/bt_login"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:background="#777777"
-        android:text="登录" />
-
+        android:layout_below="@+id/tv_login"
+        android:text="点击登陆" />
     <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="100dp"
+        android:id="@+id/bt_logout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:background="#777777"
-        android:text="登出" />
-
+        android:layout_below="@+id/bt_login"
+        android:text="点击登出" />
     <Button
-        android:id="@+id/btn_pay_mabi"
-        android:layout_width="100dp"
+        android:id="@+id/bt_showbar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:background="#777777"
-        android:text="柠檬支付" />
-
+        android:layout_below="@+id/bt_logout"
+        android:text="点击显示bar" />
     <Button
-        android:id="@+id/btn_show_toolbar"
-        android:layout_width="100dp"
+        android:id="@+id/bt_hidebar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:background="#777777"
-        android:text="显示悬浮窗" />
-
+        android:layout_below="@+id/bt_showbar"
+        android:text="点击隐藏bar" />
     <Button
-        android:id="@+id/btn_hide_toolbar"
-        android:layout_width="100dp"
+        android:id="@+id/bt_pay"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:background="#777777"
-        android:text="关闭悬浮窗" />
+        android:layout_below="@+id/bt_hidebar"
+        android:text="点击支付" />
 
-    <Button
-        android:id="@+id/btn_others"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:background="#777777"
-        android:text="开发测试按钮，请忽略"
-        android:visibility="gone" />
-    
-    <Button
-        android:id="@+id/btn_show_token"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:background="#777777"
-        android:text="查看token" />
-    
-    <Button
-        android:id="@+id/btn_show_sign"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:background="#777777"
-        android:text="查看sign"/>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <EditText
-        android:visibility="invisible"
-        android:id="@+id/edt_showtxt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_light"
-        android:layout_gravity="bottom"/>
-
-</LinearLayout>
+</RelativeLayout>
