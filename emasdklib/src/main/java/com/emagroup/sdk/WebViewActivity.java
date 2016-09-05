@@ -93,9 +93,9 @@ public class WebViewActivity extends Activity implements OnClickListener {
 				doUrlChange((String)msg.obj);
 				break;
 			}
-		};
+		}
 	};
-	private String domain;
+	private boolean isStaging;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +116,9 @@ public class WebViewActivity extends Activity implements OnClickListener {
 
 		String emaEnvi = ConfigManager.getInstance(this).getStringFromMetaData(this,"EMA_WHICH_ENVI");
 		if("staging".equals(emaEnvi)){
-			domain="staging-platform.lemonade-game.com;";
+			isStaging=true;
 		}else {
-			domain="platform.lemonade-game.com;";
+			isStaging=false;
 		}
 
 	}
@@ -333,7 +333,11 @@ public class WebViewActivity extends Activity implements OnClickListener {
 	
 	private String getCookie(String key, String value){
 		LOG.d(TAG, "key__:" + key + "    vlaue:" + value);
-		return key + "=" + value + ";domain="+domain+"path=/";
+		if(isStaging){
+			return key + "=" + value + ";domain=staging-platform.lemonade-game.com;path=/";
+		}else {
+			return key + "=" + value + ";domain=platform.lemonade-game.com;path=/";
+		}
 	}
 	
 	/**
