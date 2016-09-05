@@ -1,7 +1,8 @@
 package com.emagroup.sdk;
 
 import android.app.Activity;
-import android.os.Message;
+
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/8/22.
@@ -35,14 +36,14 @@ public class EmaSDK {
         Ema.getInstance().Logout();
     }
 
-    // TODO: 2016/9/2 支付方法还未完全统一，暂时放下
-    public void doPay(EmaPayInfo info, final EmaSDKListener listener){
-        Ema.getInstance().pay(info, new EmaPayListener() {
+    // TODO: 2016/9/2 支付方法还未完全统一，暂时空实现，记得的info--map
+    public void doPay(Map<String,String> info, final EmaSDKListener listener){
+        /*Ema.getInstance().pay(info, new EmaPayListener() {
             @Override
             public void onPayCallBack(Message msg) {
                 listener.onCallBack(msg.what,msg.toString());
             }
-        });
+        });*/
     }
 
 
