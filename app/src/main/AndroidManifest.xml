@@ -52,7 +52,7 @@
 
         <activity
             android:name="com.example.myggame.MainActivity"
-            android:configChanges="locale|fontScale|keyboard|keyboardHidden|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|touchscreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
