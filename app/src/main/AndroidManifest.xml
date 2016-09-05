@@ -97,6 +97,11 @@
         <meta-data
             android:name="EMA_CHANNEL"
             android:value="70" />
+        <meta-data
+            android:name="EMA_WHICH_ENVI"
+            android:value="production" />
+
+
 
 
         <meta-data

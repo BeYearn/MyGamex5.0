@@ -228,7 +228,14 @@ public class ConfigManager {
 	 * 初始化服务器地址，在sdk初始化的时候做
 	 */
 	public void initServerUrl(){
-		//线上正式环境
+
+		String emaEnvi = getStringFromMetaData(mContext,"EMA_WHICH_ENVI");
+		if("staging".equals(emaEnvi)){
+			Url.setServerUrl(Url.STAGING_SERVER_URL);
+			Url.setWapUrl(Url.STAGING_WAP_URL);
+		}
+
+		/*//线上正式环境
 		Url.setServerUrl(Url.SERVER_URL);
 		Url.setWebUrl(Url.WEB_URL);
 		ApplicationInfo appinfo = mContext.getApplicationInfo();
@@ -264,7 +271,7 @@ public class ConfigManager {
 					e.printStackTrace();
 				}
 			}
-		}
+		}*/
 	}
 
 	/**
@@ -334,7 +341,7 @@ public class ConfigManager {
 	 * @param key
 	 * @return
 	 */
-	private String getStringFromMetaData(Context context, String key) {
+	public String getStringFromMetaData(Context context, String key) {
 		ApplicationInfo ai;
 		String value = null;
 		try {

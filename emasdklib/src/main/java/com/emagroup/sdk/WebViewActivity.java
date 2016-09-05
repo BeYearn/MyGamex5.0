@@ -95,7 +95,8 @@ public class WebViewActivity extends Activity implements OnClickListener {
 			}
 		};
 	};
-	
+	private String domain;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,6 +113,14 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		initView();
 
 		initData();
+
+		String emaEnvi = ConfigManager.getInstance(this).getStringFromMetaData(this,"EMA_WHICH_ENVI");
+		if("staging".equals(emaEnvi)){
+			domain="staging-platform.lemonade-game.com;";
+		}else {
+			domain="platform.lemonade-game.com;";
+		}
+
 	}
 
 
@@ -324,7 +333,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
 	
 	private String getCookie(String key, String value){
 		LOG.d(TAG, "key__:" + key + "    vlaue:" + value);
-		return key + "=" + value + ";domain=platform.lemonade-game.com;path=/";
+		return key + "=" + value + ";domain="+domain+"path=/";
 	}
 	
 	/**

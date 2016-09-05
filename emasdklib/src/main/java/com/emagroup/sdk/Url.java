@@ -149,8 +149,19 @@ public class Url {
 		return wapUrl+"/wap/forgetpwd.html";
 	}
 
-	private static final String wapUrl="https://platform.lemonade-game.com";
-	private static final String serverUrl="https://platform.lemonade-game.com";
+	public static final String STAGING_WAP_URL="https://staging-platform.lemonade-game.com";
+	public static final String STAGING_SERVER_URL="https://staging-platform.lemonade-game.com";
+
+	private static String wapUrl="https://platform.lemonade-game.com";
+	private static String serverUrl="https://platform.lemonade-game.com";
+
+	public static void setWapUrl(String url){
+		wapUrl=url;
+	}
+	public static void setServerUrl(String url){
+		serverUrl=url;
+	}
+
 	/**
 	 * 获取第一步登录请求接口
 	 * @return
@@ -342,15 +353,15 @@ public class Url {
 		return WEB_URL_USE;
 	}
 
-	public static void setWebUrl(String webUrl){
+	/*public static void setWebUrl(String webUrl){
 		WEB_URL_USE = webUrl;
-	}
+	}*/
 
 	public static String getServerUrl(){
 		return SERVER_URL_USE;
 	}
 
-	public static void setServerUrl(String serverUrl){
+	/*public static void setServerUrl(String serverUrl){
 		SERVER_URL_USE = serverUrl;
-	}
+	}*/
 }
