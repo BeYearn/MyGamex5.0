@@ -12,9 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.emagroup.sdk.EmaSDKListener;
 import com.emagroup.sdk.EmaPayInfo;
-import com.emagroup.sdk.EmaSDK;
 
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 @SuppressLint("ClickableViewAccessibility")
@@ -75,12 +73,12 @@ public class DemoPayDialog extends Dialog {
 				payInfo.setProductNum(productNum.getText().toString());
 				payInfo.setProductId(product_id.getText().toString());
 
-				EmaSDK.getInstance().doPay(payInfo, new EmaSDKListener() {
+				/*EmaSDK.getInstance().doPay(payInfo, new EmaSDKListener() {
 					@Override
 					public void onCallBack(int resultCode, String decr) {
 
 					}
-				});
+				});*/
 			}
 		}
 	}
