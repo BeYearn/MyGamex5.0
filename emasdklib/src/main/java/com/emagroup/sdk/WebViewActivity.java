@@ -114,13 +114,6 @@ public class WebViewActivity extends Activity implements OnClickListener {
 
 		initData();
 
-		String emaEnvi = ConfigManager.getInstance(this).getStringFromMetaData(this,"EMA_WHICH_ENVI");
-		if("staging".equals(emaEnvi)){
-			isStaging=true;
-		}else {
-			isStaging=false;
-		}
-
 	}
 
 
@@ -333,7 +326,8 @@ public class WebViewActivity extends Activity implements OnClickListener {
 	
 	private String getCookie(String key, String value){
 		LOG.d(TAG, "key__:" + key + "    vlaue:" + value);
-		if(isStaging){
+		String emaEnvi = ConfigManager.getInstance(this).getStringFromMetaData(this,"EMA_WHICH_ENVI");
+		if("staging".equals(emaEnvi)){
 			return key + "=" + value + ";domain=staging-platform.lemonade-game.com;path=/";
 		}else {
 			return key + "=" + value + ";domain=platform.lemonade-game.com;path=/";
