@@ -92,14 +92,14 @@
             android:name="EMA_APP_ID"
             android:value="10000" />
         <meta-data
-            android:name="EMA_PRIVATE_KEY"
+            android:name="EMA_APP_KEY"
             android:value="fed8ffee39bad093b90d77e50f86ec37" />
         <meta-data
             android:name="EMA_CHANNEL"
             android:value="70" />
         <meta-data
             android:name="EMA_WHICH_ENVI"
-            android:value="production" />
+            android:value="staging" />
 
 
 

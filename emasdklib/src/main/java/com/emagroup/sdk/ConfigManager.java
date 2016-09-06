@@ -186,7 +186,7 @@ public class ConfigManager {
 	 */
 	public String getAppKEY() {
 		if(mAppKey == null){
-			mAppKey = getStringFromMetaData(mContext, "EMA_PRIVATE_KEY");
+			mAppKey = getStringFromMetaData(mContext, "EMA_APP_KEY");
 		}
 		return mAppKey;
 	}
