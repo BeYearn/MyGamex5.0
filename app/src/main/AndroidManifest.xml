@@ -103,21 +103,6 @@
 
 
 
-
-        <meta-data
-            android:name="appKey"
-            android:value="B9E60577-E146-C403-0CB4-35FFB8C053E6" />
-        <meta-data
-            android:name="appSecret"
-            android:value="cc78ba68ef75b2249d0a7edf27db5d3d" />
-        <meta-data
-            android:name="privateKey"
-            android:value="E1797C83D90832FAD90784C059C0742B" />
-        <meta-data
-            android:name="authLoginServer"
-            android:value="https://platform.lemonade-game.com/ema-platform/authLogin.jsp"/>
-
-
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->
         <meta-data
