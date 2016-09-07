@@ -34,7 +34,6 @@ public class LoginSuccDialog extends Dialog {
 				LoginSuccDialog.this.dismiss();
 				mEmaUser.setIsLogin(true);
 				UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
-				ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
 				break;
 			case CODE_LOGIN_CANCEL://退出登录
 				LOG.d(TAG, "切换账号，退出登录");

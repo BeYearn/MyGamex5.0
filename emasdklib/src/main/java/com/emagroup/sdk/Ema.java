@@ -95,8 +95,7 @@ public class Ema {
 				mFlagIsInitSuccess = false;
 				makeCallBack(EmaCallBackConst.INITFALIED, "初始化失败！");
 			}
-			//显示悬浮窗
-			showToolBar();
+
 		}
 	}
 	
@@ -257,6 +256,12 @@ public class Ema {
 			return;
 		}
 		mEmaListener.onCallBack(msgCode,msgObj);
+
+		//在登录成功时showtoolbar
+		if(EmaCallBackConst.LOGINSUCCESS==msgCode){
+			//显示悬浮窗
+			showToolBar();
+		}
 	}
 	
 	public Context getContext(){
@@ -272,18 +277,18 @@ public class Ema {
 		/*if(mSplashDialog != null && mSplashDialog.isShowing()){
 			mSplashDialog.dismiss();
 		}
-		
 //		mContext.unbindService(mServiceCon);
-		mFlagIsInitSuccess = false;
-		mFlagToolbarShowing = false;
-		
+
 		EmaUser.getInstance().clearPayInfo();
 		EmaUser.getInstance().clearUserInfo();
-		ConfigManager.getInstance(mContext).clear();
+		ConfigManager.getInstance(mContext).clear();*/
 		try {
 			ToolBar.getInstance(getContext()).hideToolBar();
 		} catch (Exception e) {
-		}*/
+
+		}
+		mFlagToolbarShowing = false;
+		mFlagIsInitSuccess = false;
 	}
 	
 	public void onStop(){
@@ -307,8 +312,9 @@ public class Ema {
 	 */
 	public void onResume(){
 		LOG.d(TAG, "onResume");
+		if(mFlagToolbarShowing){
 			ToolBar.getInstance(getContext()).showToolBar();
-
+		}
 	}
 	
 	public void onStart(){
