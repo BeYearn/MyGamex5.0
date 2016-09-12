@@ -1,11 +1,9 @@
 package com.emagroup.sdk;
 
+import android.content.Context;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.json.JSONObject;
-
-import android.content.Context;
 
 public class EmaSendInfo {
 
@@ -19,7 +17,7 @@ public class EmaSendInfo {
 		LOG.d(TAG, "sendOnlineAlive");
 		Context context = Ema.getInstance().getContext();
 		Map<String, String> params = new HashMap<String, String>();
-		params.put(PropertyField.APP_ID, ConfigManager.getInstance(context).getAppId());
+		/*params.put(PropertyField.APP_ID, ConfigManager.getInstance(context).getAppId());
 		params.put(PropertyField.SEND_CHANNEL_ID, ConfigManager.getInstance(context).getChannel());
 		params.put(PropertyField.UUID, EmaUser.getInstance().getUUID());
 		params.put(PropertyField.IP, DeviceInfoManager.getInstance(context).getIP());
@@ -29,16 +27,16 @@ public class EmaSendInfo {
 		JSONObject json = new JSONObject();
 		try {
 			json.put(ONLINE_TIME, totleTime);
-			
+
 		} catch (Exception e) {
 		}
 		params.put(PropertyField.MEMO, json.toString());//备注信息
-		UCommUtil.testMapInfo(params);
-		
-		new HttpInvoker().postAsync(Url.getGatherInfoUrlOnline(), params, new HttpInvoker.OnResponsetListener() {
+		UCommUtil.testMapInfo(params);*/
+		params.put("token", EmaUser.getInstance().getmToken());
+		new HttpInvoker().postAsync(Url.getHeartbeatUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {
-				LOG.d(TAG, "sendOnlineAlive result__:" + result);
+				LOG.d(TAG, "heartbeat result__:" + result);
 			}
 		});
 	}

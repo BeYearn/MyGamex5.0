@@ -3,6 +3,7 @@ package com.emagroup.sdk;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
@@ -82,8 +83,8 @@ public class Ema {
 			showSplash();
 			
 			//绑定服务
-//			Intent serviceIntent = new Intent(mContext, EmaService.class);
-//			mContext.bindService(serviceIntent, mServiceCon, Context.BIND_AUTO_CREATE);
+			Intent serviceIntent = new Intent(mContext, EmaService.class);
+			mContext.bindService(serviceIntent, mServiceCon, Context.BIND_AUTO_CREATE);
 			
 			//埋点，发送初始化信息
 			EmaSendInfo.sendInitDeviceInfo();
@@ -257,10 +258,14 @@ public class Ema {
 		}
 		mEmaListener.onCallBack(msgCode,msgObj);
 
-		//在登录成功时showtoolbar
+		//在登录成功时
 		if(EmaCallBackConst.LOGINSUCCESS==msgCode){
 			//显示悬浮窗
 			showToolBar();
+
+			//绑定服务,发送心跳
+			Intent serviceIntent = new Intent(mContext, EmaService.class);
+			mContext.bindService(serviceIntent, mServiceCon, Context.BIND_AUTO_CREATE);
 		}
 	}
 	

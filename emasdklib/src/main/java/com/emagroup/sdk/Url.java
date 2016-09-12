@@ -93,13 +93,6 @@ public class Url {
 		return getServerUrl() + "/v1/gather/info/gamerole";
 	}
 
-	/**
-	 * 接收心跳包信息
-	 * @return
-	 */
-	public static String getGatherInfoUrlOnline(){
-		return getServerUrl() + "/v1/gather/info/online";
-	}
 
 	/**
 	 * 收集游戏事件
@@ -207,8 +200,13 @@ public class Url {
 	}
 
 
-
-
+	/**
+	 * 发送心跳包信息
+	 * @return
+	 */
+	public static String getHeartbeatUrl(){
+		return serverUrl+"/ema-platform/member/heartbeat";
+	}
 
 
 
