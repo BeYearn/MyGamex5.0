@@ -81,11 +81,7 @@ public class Ema {
 			
 			//闪屏
 			showSplash();
-			
-			//绑定服务
-			Intent serviceIntent = new Intent(mContext, EmaService.class);
-			mContext.bindService(serviceIntent, mServiceCon, Context.BIND_AUTO_CREATE);
-			
+
 			//埋点，发送初始化信息
 			EmaSendInfo.sendInitDeviceInfo();
 			//检查基本的配置是否正确
