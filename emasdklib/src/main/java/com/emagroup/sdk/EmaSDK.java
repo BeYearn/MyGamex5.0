@@ -60,6 +60,11 @@ public class EmaSDK {
         this.reciveMsgListener=listener;
     }
 
+    /**
+     * 个推的reciver收到透传消息后回调该方法
+     * @param msgCode
+     * @param msgObj
+     */
     public void makeCallBack(int msgCode, String msgObj){
         if(reciveMsgListener == null){
             LOG.w("warn", "未设置回调");
@@ -67,6 +72,12 @@ public class EmaSDK {
         }
         reciveMsgListener.onCallBack(msgCode,msgObj);
     }
+
+
+    public String getChannelId(){
+        return Ema.getInstance().getChannelId();
+    }
+
 
     public void onResume() {
         Ema.getInstance().onResume();

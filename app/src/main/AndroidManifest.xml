@@ -90,7 +90,7 @@
 
         <meta-data
             android:name="EMA_APP_ID"
-            android:value="10000" />
+            android:value="10001" />
         <meta-data
             android:name="EMA_APP_KEY"
             android:value="fed8ffee39bad093b90d77e50f86ec37" />

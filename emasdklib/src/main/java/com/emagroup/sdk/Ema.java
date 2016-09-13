@@ -264,7 +264,13 @@ public class Ema {
 			mContext.bindService(serviceIntent, mServiceCon, Context.BIND_AUTO_CREATE);
 		}
 	}
-	
+
+
+	public String getChannelId(){
+		return ConfigManager.getInstance(mContext).getChannel();
+	}
+
+
 	public Context getContext(){
 		return mContext;
 	}
