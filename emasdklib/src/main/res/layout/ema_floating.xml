@@ -58,6 +58,16 @@
             android:text="帮助"
             android:textColor="@android:color/white"
             android:textSize="10dp" />
+        <Button
+            android:id="@+id/ema_btn_recharge_left"
+            android:layout_width="@dimen/ema_toolbar_width"
+            android:layout_height="@dimen/ema_toolbar_height"
+            android:background="@null"
+            android:drawableTop="@drawable/ema_floating_giftbag"
+            android:padding="@dimen/ema_toolbar_padding"
+            android:text="充值"
+            android:textColor="@android:color/white"
+            android:textSize="10dp" />
     </LinearLayout>
 
     <ImageView
@@ -117,6 +127,16 @@
             android:drawableTop="@drawable/ema_floating_help"
             android:padding="@dimen/ema_toolbar_padding"
             android:text="帮助"
+            android:textColor="@android:color/white"
+            android:textSize="10dp" />
+        <Button
+            android:id="@+id/ema_btn_recharge"
+            android:layout_width="@dimen/ema_toolbar_width"
+            android:layout_height="@dimen/ema_toolbar_height"
+            android:background="@null"
+            android:drawableTop="@drawable/ema_floating_giftbag"
+            android:padding="@dimen/ema_toolbar_padding"
+            android:text="充值"
             android:textColor="@android:color/white"
             android:textSize="10dp" />
     </LinearLayout>

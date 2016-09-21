@@ -167,11 +167,10 @@ public class PayUtil {
 	/**
 	 * 使用支付宝进行 [充值]
 	 * @param activity
-	 * @param money
 	 */
-	public static void GoRecharegeByAlipay(Activity activity, EmaPriceBean money, Handler handler){
+	public static void GoRecharegeByAlipay(Activity activity, EmaPayInfo payInfo, Handler handler){
 		LOG.d(TAG, "使用支付宝进行充值");
-		TrdAliPay.startRecharge(activity, money, handler);
+		TrdAliPay.startRecharge(activity, payInfo, handler);
 	}
 	
 	/**

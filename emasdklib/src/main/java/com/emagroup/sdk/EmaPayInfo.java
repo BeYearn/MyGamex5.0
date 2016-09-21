@@ -19,12 +19,11 @@ public class EmaPayInfo implements Parcelable {
     private String orderId;
     //钱包是否够
     private boolean coinEnough;
-    //订单金额   暂时没有
+    //订单金额
     private float price;
 
     public float getPrice() {
-        //return price;
-        return 96;
+        return price;
     }
 
     public void setPrice(float price) {

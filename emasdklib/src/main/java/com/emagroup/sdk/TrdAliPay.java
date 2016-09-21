@@ -1,17 +1,17 @@
 package com.emagroup.sdk;
 
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
 import com.alipay.sdk.app.PayTask;
+
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrdAliPay {
 
@@ -29,16 +29,17 @@ public class TrdAliPay {
 	private static final String SELLER = "2088021673809637";
 	// 商户私钥，pkcs8格式
 	private static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAL5Dv6AIdcEw186fVLohlCZSRfemwWJ7E1k1OUuJeLfZUNAORlwbRIu+LqOjnWPpgU7SfOyR9liWa0O4wjTYMADPXbWaYlcq/SgkIT1FdD2fBe4N8Czh2tpceAN06KKKMZhXZCI427pqD9ZRuCP5gYORIqGEK/cTgON+R+5F5kg3AgMBAAECgYA2T/ifokqa/2pbXTg+ed9koQ/ABiYmCqQXTw4v9eoz8SEUgz6qhE4o5f1CUS5YmwuCiKuIjJIZ77Zm+pLVqvDoi42pAeqBf7pvKQhSHu1lrSN4EhC1EJ5iWsg7CK12W/bySbtLK0yA28034/n3+2gny6ppbvt2PvthxX7IkSnhYQJBAPXL1TWwswmWOQfKibRa+45A8NQ65xlAQNdqIuqY4krnQKEy0+2B+pYlh8lVwqzBIEs7YPZal+xEOBEsEwfX0T0CQQDGKcLXe1ngwoXAVaxMFU8O1or4c8P8jkxTe5kK7ye7vfgGI+IZw6lFvNNOSLWhCwD4Qe9AhLl9Jm/AhM/Npm6DAkEAvAE9A+Q0DZEp7hutWJZ+80AY9TxYp6fN8Pbt3iMyc7iOZr5J+9D/qvjp88X1Mc5GtUSl1clVixJjED92Dvm0wQJBALUJeADmp1DoRctWOcd0fDqBFIsxL+7ujZqDQ2ky3ijtv8bUR37kOyQEA0P0t0J+TA+CJTLbTp6gW94VN8eYckMCQAe5NuXhMitoB5d4Q3sOqCDg2u3zeOIagNB0OXIfGhW50nrAAB13KvIQL80m3jO3oU0cn22Xs4hcVft1pl7j4Z8=";
-	//回调地址
-	private static final String NOTIFY_URL = "http://api.emagroup.cn/pay/charge_callback_asyn/alipay_mobile";
+
 	
 	/**
 	 * 调用支付宝进行充值
 	 * 
 	 * 首先要去Ema平台服务器获取一个订单号，然后再去调用支付宝充值
 	 */
-	public static void startRecharge(Activity activity, EmaPriceBean money, Handler handler){
-		getRechargeOrderId(activity, money, handler);
+	public static void startRecharge(Activity activity, EmaPayInfo payInfo, Handler handler){
+		LOG.e(TAG, "进入支付宝支付..chongzhi");
+		//getRechargeOrderId(activity, money, handler);
+		getSignedPayInfo(activity,payInfo,handler);
 	}
 
 	/**
@@ -46,13 +47,79 @@ public class TrdAliPay {
 	 * 首先要去Ema平台的服务器获取一个订单号，然后再去调用支付宝支付
 	 */
 	public static void startPay(final Activity activity, final Handler handler){
-		LOG.d(TAG, "进入支付宝支付");
+		LOG.e(TAG, "进入支付宝支付");
 		getPayOrderId(activity, handler);
 	}
-	 
+
+
+	/**
+	 * 将支付信息交给服务器签名拿回后发起支付
+	 * @param activity
+	 * @param payInfo
+	 * @param handler
+	 */
+	private static void getSignedPayInfo(final Activity activity, EmaPayInfo payInfo, final Handler handler) {
+
+		StringBuffer sb = new StringBuffer();
+		// 服务接口名称， 固定值
+		sb.append("service=\"mobile.securitypay.pay\"");
+		// 签约合作者身份ID
+		sb.append("&partner=\"").append(PARTNER).append("\"");
+		// 参数编码， 固定值
+		sb.append("&_input_charset=\"utf-8\"");
+		//支付回调地址
+		sb.append("&notify_url=\"").append(Url.getAliPayCallbackUrl()).append("\"");
+		// 商户网站唯一订单号
+		sb.append("&out_trade_no=\"").append(payInfo.getOrderId()).append("\"");
+		// 商品名称
+		sb.append("&subject=\"").append(payInfo.getProductName()).append("\"");
+		sb.append("&payment_type=\"1\"");
+		// 签约卖家支付宝账号
+		sb.append("&seller_id=\"").append(SELLER).append("\"");
+		// 商品金额
+		//sb.append("&total_fee=\"").append(payInfo.getPrice()).append("\"");
+		//TODO 此处先写死为 一分
+		sb.append("&total_fee=\"").append("0.01").append("\"");
+		// 商品详情
+		sb.append("&body=\"").append(payInfo.getProductName()).append("\"");
+		String rawPayInfoString = sb.toString();
+		LOG.e(TAG, "TrdAliPay rawPayInfoString: " + rawPayInfoString);
+
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("orderInfo",rawPayInfoString);
+		new HttpInvoker().postAsync(Url.getSignedPayInfoUrl(), params, new HttpInvoker.OnResponsetListener() {
+			@Override
+			public void OnResponse(String result) {
+				try {
+					JSONObject json = new JSONObject(result);
+					int resultCode = json.getInt("status");
+					switch(resultCode){
+						case HttpInvokerConst.SDK_RESULT_SUCCESS:
+							LOG.e(TAG, "获取加签信息成功");
+							String signedPayInfo = json.getString("data");
+							LOG.e(TAG, "TrdAliPay signedPayInfo: " + signedPayInfo);
+
+							//拿到签名后的信息发起支付
+							pay(activity, handler, signedPayInfo);
+							break;
+						default:
+							LOG.e(TAG, "获取签名订单信息失败");
+							UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "获取订单号失败");
+							break;
+					}
+				} catch (Exception e) {
+					LOG.e(TAG, "获取签名订单信息失败", e);
+					UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "获取签名订单信息失败");
+				}
+			}
+		});
+
+
+	}
+
+
 	/**
 	 * 获取支付宝充值订单号
-	 * @param activity
 	 * @param money
 	 */
 	private static void getRechargeOrderId(final Context context, final EmaPriceBean money, final Handler handler){
@@ -103,7 +170,7 @@ public class TrdAliPay {
 						JSONObject data = json.getJSONObject("data");
 						String orderId = data.getString("trade_id");
 						String alipayInfo = buildAlipayInfo(orderId, orderId, money.getPriceFen() / 100);
-						pay((Activity)context, orderId, handler, alipayInfo);
+						//pay((Activity)context, handler, alipayInfo);
 						break;
 					case HttpInvokerConst.SDK_RESULT_FAILED_SIGIN_ERROR://签名验证失败
 						LOG.d(TAG, "签名验证失败，获取订单号失败");
@@ -174,7 +241,7 @@ public class TrdAliPay {
 						String orderId = data.getString("trade_id");
 						EmaPay pay = EmaPay.getInstance(Ema.getInstance().getContext());
 						String alipayInfo = buildAlipayInfo(orderId, pay.getPayInfo().getProductName(), (int)(pay.getPayInfo().getPrice()));
-						pay((Activity)context, orderId, handler, alipayInfo);
+						//pay((Activity)context, orderId, handler, alipayInfo);
 						break;
 					case HttpInvokerConst.SDK_RESULT_FAILED_SIGIN_ERROR://签名验证失败
 						LOG.d(TAG, "签名验证失败，获取订单号失败");
@@ -200,19 +267,19 @@ public class TrdAliPay {
 	/**
 	 * 开启支付
 	 */
-	private static void pay(final Activity activity, final String orderId, final Handler handler, final String alipayInfo){
+	private static void pay(final Activity activity,final Handler handler, final String alipayInfo){
 		//支付宝的调用需要异步
 		new Thread(){
 			public void run() {
 				PayTask aliPay = new PayTask(activity);
-				//TODO  we need to build pay info as a param to pass
+
 				String result = aliPay.pay(alipayInfo);
-				LOG.d(TAG, "ALI pay result___:" + result);
+				LOG.e(TAG, "Alipay result___:" + result);
 				Message msg = new Message();
 				msg.what = PayConst.CODE_PAY_ALI_RESULT;
 				msg.obj = result;
 				handler.sendMessage(msg);
-			};
+			}
 		}.start();
 	}
 	
@@ -234,7 +301,7 @@ public class TrdAliPay {
 		sb.append("&_input_charset=\"utf-8\"");
 		
 		//支付回调地址
-		sb.append("&notify_url=\"").append(NOTIFY_URL).append("\"");
+		sb.append("&notify_url=\"").append(Url.getAliPayCallbackUrl()).append("\"");
 		
 		// 商户网站唯一订单号
 		sb.append("&out_trade_no=\"").append(orderId).append("\"");

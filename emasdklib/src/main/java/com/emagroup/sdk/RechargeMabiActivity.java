@@ -165,8 +165,14 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 					ToastHelper.toast(RechargeMabiActivity.this, "金额不能为空");
 					return;
 				}
-				EmaPriceBean money = new EmaPriceBean(Float.valueOf(rechargeMoney), EmaPriceBean.TYPE_YUAN);
-				
+
+				EmaPriceBean money = new EmaPriceBean(Float.valueOf(rechargeMoney), EmaPriceBean.TYPE_YUAN);  //TODO 这个玩意先放在这里，避免把它干掉到处爆红，应该用下面这个
+
+				EmaPayInfo emaPayInfo = new EmaPayInfo();
+				emaPayInfo.setProductName("充值");
+				emaPayInfo.setOrderId("123456789987654321");  //TODO 这里还没获取orderid，瞎写一个先
+				emaPayInfo.setPrice(Float.valueOf(rechargeMoney));
+
 				PayTrdItemBean bean = (PayTrdItemBean) mAdapter.getItem(position);
 				String key = bean.getChannelCode();
 				if(key.equals(PayConst.PAY_TRD_TENPAY)){//财付通充值
@@ -184,7 +190,7 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 					
 				}else if(key.equals(PayConst.PAY_TRD_ALIPAY)){//支付宝充值
 					
-					PayUtil.GoRecharegeByAlipay(RechargeMabiActivity.this, money, mHandler);
+					PayUtil.GoRecharegeByAlipay(RechargeMabiActivity.this, emaPayInfo, mHandler);
 					
 				}else if(key.equals(PayConst.PAY_TRD_WEIXIN)){//微信充值
 					
@@ -303,27 +309,27 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 		sendBroadcast(new Intent(PropertyField.BROADCAST_RECHARGE_SUCC));
 		if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_SUCC)){//支付成功
 		
-//			UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
+			UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
 			showPayResultDialog(EmaConst.PAY_ACTION_TYPE_RECHARGE, EmaConst.PAY_RESULT_SUCC, "充值成功");
 		
 		}else if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_ON_PAYING)){//正在处理中
 		
-//			UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "正在处理中");
+			UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "正在处理中");
 			showPayResultDialog(EmaConst.PAY_ACTION_TYPE_RECHARGE, EmaConst.PAY_RESULT_OTHERS, "正在处理中");
 		
 		}else if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_PAY_CANCEL)){//用户中途取消
 		
-//			UCommUtil.makePayCallBack(EmaCallBackConst.PAYCANELI, "用户中途取消");
+			UCommUtil.makePayCallBack(EmaCallBackConst.PAYCANELI, "用户中途取消");
 			showPayResultDialog(EmaConst.PAY_ACTION_TYPE_RECHARGE, EmaConst.PAY_RESULT_CANCEL, "用户退出充值");
 		
 		}else if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_FAILED)){//订单支付失败
 		
-//			UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
+			UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
 			showPayResultDialog(EmaConst.PAY_ACTION_TYPE_RECHARGE, EmaConst.PAY_RESULT_FAILED, "");
 
 		}else if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_NETWORK_ERROR)){//网络连接出错
 			
-//			UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "网络连接出错");
+			UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "网络连接出错");
 			showPayResultDialog(EmaConst.PAY_ACTION_TYPE_RECHARGE, EmaConst.PAY_RESULT_FAILED, "请检查网络连接是否正常");
 		
 		}
@@ -398,5 +404,11 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 			mIDmap.put(key, mResourceManager.getIdentifier(key, "id"));
 		}
 		return mIDmap.get(key);
+	}
+
+	@Override
+	protected void onStop() {
+		ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
+		super.onStop();
 	}
 }

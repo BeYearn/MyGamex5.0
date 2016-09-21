@@ -38,6 +38,8 @@ public class EmaSDK {
 
     // TODO: 2016/9/2 支付方法还未完全统一，暂时空实现，记得的info--map
     public void doPay(Map<String,String> info, final EmaSDKListener listener){
+        //在这里把这个map转化到emapayinfo里面  目前需要 商品name，pid，价格，数量，    new EmaPayInfo();
+
         /*Ema.getInstance().pay(info, new EmaPayListener() {
             @Override
             public void onPayCallBack(Message msg) {

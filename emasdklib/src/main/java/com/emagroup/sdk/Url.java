@@ -209,8 +209,22 @@ public class Url {
 	}
 
 
-
-
+	/**
+	 * alipay:对支付信息进行签名
+	 */
+	public static String getSignedPayInfoUrl(){
+		//return serverUrl+"";
+		//TODO
+		return "https://testing-platform.lemonade-game.com:8443/ema-platform/sign/add";
+	}
+	/**
+	 * alipay:支付宝的回调接口
+	 */
+	public static String getAliPayCallbackUrl(){
+		//return serverUrl+"";
+		//TODO
+		return "https://testing-platform.lemonade-game.com:8443/ema-platform/alipay/notifyCallback";
+	}
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
 
