@@ -1,16 +1,16 @@
 package com.emagroup.sdk;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONObject;
+import android.app.Activity;
+import android.content.Context;
 
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import android.app.Activity;
-import android.content.Context;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrdWeixinPay {
 
@@ -32,7 +32,6 @@ public class TrdWeixinPay {
 	
 	/**
 	 * 调用微信开始充值
-	 * @param context
 	 */
 	public static void startRecharge(Activity activity, EmaPriceBean money){
 		getRechargeOrderId(activity, money);
@@ -40,7 +39,6 @@ public class TrdWeixinPay {
 	
 	/**
 	 * 获取微信充值订单号
-	 * @param activity
 	 * @param money
 	 */
 	private static void getRechargeOrderId(final Context context, final EmaPriceBean money){
@@ -118,11 +116,10 @@ public class TrdWeixinPay {
 	/**
 	 * 获取支付订单号
 	 * @param context
-	 * @param handler
 	 */
 	private static void getPayOrderId(final Context context){
 		EmaUser mEmaUser = EmaUser.getInstance();
-		EmaPayInfo payInfo = EmaPay.getInstance(context).getPayInfo();
+		//EmaPayInfo payInfo = EmaPay.getInstance(context).getPayInfo();
 		ConfigManager mConfigManager = ConfigManager.getInstance(context);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("client_id", ConfigManager.getInstance(context).getChannel());
@@ -191,8 +188,6 @@ public class TrdWeixinPay {
 	/**
 	 * 调起微信支付
 	 * @param activity
-	 * @param orderId
-	 * @param handler
 	 */
 	private static void pay(Activity activity, JSONObject data){
 		try {

@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/ema_pay_thrd_totalPrice"
-                android:text="10000麻豆"
+                android:text="9.9元"
                 android:textColor="#ff7111"
                 android:textSize="15sp" />
         </RelativeLayout>
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:paddingLeft="10dp"
-                android:text="充值用户："
+                android:text="用户："
                 android:textColor="#000000"
                 android:textSize="15sp" />
 

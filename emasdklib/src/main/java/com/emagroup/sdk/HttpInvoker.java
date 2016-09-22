@@ -188,7 +188,7 @@ public class HttpInvoker {
 				builer.append(entry.getKey()+"="+entry.getValue()+"&");
 			}
 			LOG.e(TAG, "post url__:" + url);
-			LOG.e(TAG,"params__"+builer.toString());
+			LOG.e(TAG,"params__:"+builer.toString());
 //			HttpClient client = new DefaultHttpClient();
 			client = AndroidHttpClient.newInstance("");
 			HttpPost post = new HttpPost(url);
@@ -240,7 +240,7 @@ public class HttpInvoker {
 				builer.append(entry.getKey()+"="+entry.getValue()+"&");
 			}
 			LOG.e(TAG, "post url__:" + url);
-			LOG.e(TAG,"params__"+builer.toString());
+			LOG.e(TAG,"params__:"+builer.toString());
 			HttpPost post = new HttpPost(url);
 			post.setParams(httpParams);
 			post.setEntity(buildEntry(params));

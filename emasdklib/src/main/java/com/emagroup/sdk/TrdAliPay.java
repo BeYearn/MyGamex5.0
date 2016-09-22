@@ -9,7 +9,6 @@ import com.alipay.sdk.app.PayTask;
 
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +26,6 @@ public class TrdAliPay {
 	private static final String PARTNER = "2088021673809637";
 	// 商户收款账号
 	private static final String SELLER = "2088021673809637";
-	// 商户私钥，pkcs8格式
-	private static final String RSA_PRIVATE = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAL5Dv6AIdcEw186fVLohlCZSRfemwWJ7E1k1OUuJeLfZUNAORlwbRIu+LqOjnWPpgU7SfOyR9liWa0O4wjTYMADPXbWaYlcq/SgkIT1FdD2fBe4N8Czh2tpceAN06KKKMZhXZCI427pqD9ZRuCP5gYORIqGEK/cTgON+R+5F5kg3AgMBAAECgYA2T/ifokqa/2pbXTg+ed9koQ/ABiYmCqQXTw4v9eoz8SEUgz6qhE4o5f1CUS5YmwuCiKuIjJIZ77Zm+pLVqvDoi42pAeqBf7pvKQhSHu1lrSN4EhC1EJ5iWsg7CK12W/bySbtLK0yA28034/n3+2gny6ppbvt2PvthxX7IkSnhYQJBAPXL1TWwswmWOQfKibRa+45A8NQ65xlAQNdqIuqY4krnQKEy0+2B+pYlh8lVwqzBIEs7YPZal+xEOBEsEwfX0T0CQQDGKcLXe1ngwoXAVaxMFU8O1or4c8P8jkxTe5kK7ye7vfgGI+IZw6lFvNNOSLWhCwD4Qe9AhLl9Jm/AhM/Npm6DAkEAvAE9A+Q0DZEp7hutWJZ+80AY9TxYp6fN8Pbt3iMyc7iOZr5J+9D/qvjp88X1Mc5GtUSl1clVixJjED92Dvm0wQJBALUJeADmp1DoRctWOcd0fDqBFIsxL+7ujZqDQ2ky3ijtv8bUR37kOyQEA0P0t0J+TA+CJTLbTp6gW94VN8eYckMCQAe5NuXhMitoB5d4Q3sOqCDg2u3zeOIagNB0OXIfGhW50nrAAB13KvIQL80m3jO3oU0cn22Xs4hcVft1pl7j4Z8=";
 
 	
 	/**
@@ -78,15 +75,15 @@ public class TrdAliPay {
 		sb.append("&seller_id=\"").append(SELLER).append("\"");
 		// 商品金额
 		//sb.append("&total_fee=\"").append(payInfo.getPrice()).append("\"");
-		//TODO 此处先写死为 一分
-		sb.append("&total_fee=\"").append("0.01").append("\"");
+		sb.append("&total_fee=\"").append("0.01").append("\""); //TODO 此处先写死为 一分
 		// 商品详情
-		sb.append("&body=\"").append(payInfo.getProductName()).append("\"");
+		sb.append("&body=\"").append(payInfo.getDescription()).append("\"");
 		String rawPayInfoString = sb.toString();
 		LOG.e(TAG, "TrdAliPay rawPayInfoString: " + rawPayInfoString);
 
-		Map<String, String> params = new HashMap<String, String>();
+		Map<String, String> params = new HashMap<>();
 		params.put("orderInfo",rawPayInfoString);
+		params.put("token",EmaUser.getInstance().getmToken());
 		new HttpInvoker().postAsync(Url.getSignedPayInfoUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {
@@ -200,7 +197,7 @@ public class TrdAliPay {
 	 */
 	private static void getPayOrderId(final Context context, final Handler handler){
 		EmaUser mEmaUser = EmaUser.getInstance();
-		EmaPayInfo payInfo = EmaPay.getInstance(context).getPayInfo();
+		//EmaPayInfo payInfo = EmaPay.getInstance(context).getPayInfo();
 		ConfigManager mConfigManager = ConfigManager.getInstance(context);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("client_id", ConfigManager.getInstance(context).getChannel());
@@ -240,7 +237,7 @@ public class TrdAliPay {
 						JSONObject data = json.getJSONObject("data");
 						String orderId = data.getString("trade_id");
 						EmaPay pay = EmaPay.getInstance(Ema.getInstance().getContext());
-						String alipayInfo = buildAlipayInfo(orderId, pay.getPayInfo().getProductName(), (int)(pay.getPayInfo().getPrice()));
+						//String alipayInfo = buildAlipayInfo(orderId, pay.getPayInfo().getProductName(), (int)(pay.getPayInfo().getPrice()));
 						//pay((Activity)context, orderId, handler, alipayInfo);
 						break;
 					case HttpInvokerConst.SDK_RESULT_FAILED_SIGIN_ERROR://签名验证失败
@@ -291,7 +288,7 @@ public class TrdAliPay {
 		EmaPay pay = EmaPay.getInstance(Ema.getInstance().getContext());
 		StringBuffer sb = new StringBuffer();
 		
-		// 服务接口名称， 固定值
+		/*// 服务接口名称， 固定值
 		sb.append("service=\"mobile.securitypay.pay\"");
 		
 		// 签约合作者身份ID
@@ -317,7 +314,7 @@ public class TrdAliPay {
 		sb.append("&total_fee=\"").append(amount).append("\"");
 		
 		// 商品详情
-		sb.append("&body=\"").append(pay.getPayInfo().getProductName()).append("\"");
+		//sb.append("&body=\"").append(pay.getPayInfo().getProductName()).append("\"");
 		
 		//签名
 		String sign = UCommUtil.aliSign(sb.toString(), RSA_PRIVATE);
@@ -330,7 +327,7 @@ public class TrdAliPay {
 		sb.append("&sign=\"").append(sign).append("\"");
 		//签名算法
 		sb.append("&sign_type=\"RSA\"");
-		LOG.d(TAG, "payinfo___: " + sb.toString());
+		LOG.d(TAG, "payinfo___: " + sb.toString());*/
 		return sb.toString();
 	}
 }

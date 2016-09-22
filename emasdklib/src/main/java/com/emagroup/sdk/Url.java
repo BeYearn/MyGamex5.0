@@ -131,7 +131,7 @@ public class Url {
 	 */
 	public static String getWebUrlUserInfo(){
 		//return getWebUrl() + "userinfo.html";
-		return wapUrl+"/wap/userinfo.html";
+		return serverUrl+"/wap/userinfo.html";
 	}
 	/**
 	 * 忘记用户密码界面
@@ -139,18 +139,16 @@ public class Url {
 	 */
 	public static String getWebUrlFindpasswUser(){
 		//return getWebUrl() + "forgetpwd.html";
-		return wapUrl+"/wap/forgetpwd.html";
+		return serverUrl+"/wap/forgetpwd.html";
 	}
 
-	public static final String STAGING_WAP_URL="https://staging-platform.lemonade-game.com";
+	//staging 常量
 	public static final String STAGING_SERVER_URL="https://staging-platform.lemonade-game.com";
 
-	private static String wapUrl="https://platform.lemonade-game.com";
-	private static String serverUrl="https://platform.lemonade-game.com";
+	// TODO: 2016/9/22  这个用于测试,testing不对外开放 所以直接放在这里 正确的应该是下面这个
+	public static String serverUrl="https://testing-platform.lemonade-game.com:8443";
+	//private static String serverUrl="https://platform.lemonade-game.com";
 
-	public static void setWapUrl(String url){
-		wapUrl=url;
-	}
 	public static void setServerUrl(String url){
 		serverUrl=url;
 	}
@@ -160,7 +158,7 @@ public class Url {
 	 * @return
 	 */
 	public static String getFirstLoginUrl(){
-		//return getServerUrl() + "";
+
 		return serverUrl+"/ema-platform/member/pfLogin";
 	}
 
@@ -178,7 +176,9 @@ public class Url {
 	 * @return
      */
 	public static String getOrderStartUrl(){
-		return serverUrl+"/ema-platform/billing/buy";
+		//return serverUrl+"/ema-platform/order/createOrder";
+		// TODO: 2016/9/21
+		return serverUrl+"/ema-platform/order/createOrder";
 	}
 	/**
 	 * 设置支付密码
@@ -190,8 +190,9 @@ public class Url {
      * 钱包确认支付
      */
     public static String getWalletPayUrl(){
-        return serverUrl+"/ema-platform/billing/confirm";
-    }
+		// TODO: 2016/9/21
+		return serverUrl+"/ema-platform/order/confirmOrder";
+	}
 	/**
 	 * 验证登录状态
 	 */
@@ -213,17 +214,15 @@ public class Url {
 	 * alipay:对支付信息进行签名
 	 */
 	public static String getSignedPayInfoUrl(){
-		//return serverUrl+"";
-		//TODO
-		return "https://testing-platform.lemonade-game.com:8443/ema-platform/sign/add";
+		//return serverUrl+"/ema-platform/sign/add";  //"http://192.168.10.95:8081/ema-platform/sign/add";
+		return serverUrl+"/ema-platform/sign/add";
 	}
 	/**
 	 * alipay:支付宝的回调接口
 	 */
 	public static String getAliPayCallbackUrl(){
-		//return serverUrl+"";
-		//TODO
-		return "https://testing-platform.lemonade-game.com:8443/ema-platform/alipay/notifyCallback";
+
+		return serverUrl+"/ema-platform/alipay/notifycallback";
 	}
 //-------------------------------------------------------------------------------------------------------------------------------------------
 

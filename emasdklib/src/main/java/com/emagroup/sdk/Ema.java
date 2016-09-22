@@ -83,7 +83,7 @@ public class Ema {
 			showSplash();
 
 			//埋点，发送初始化信息
-			EmaSendInfo.sendInitDeviceInfo();
+			//EmaSendInfo.sendInitDeviceInfo();
 			//检查基本的配置是否正确
 			if(checkInitIsOK()){
 				mFlagIsInitSuccess = true;

@@ -138,8 +138,8 @@ public class Trd0yuanfuPay {
 					break;
 				case CODE_PAYMENT_PASSW_EXIST://用户设置了密码，弹出密码框让用户输入密码
 					UCommUtil.sendMesg(handler, EmaProgressDialog.CODE_LOADING_END, "");
-					float price = EmaPay.getInstance(activity).getPayInfo().getPrice();
-					showPasswDialog(activity, this, price);
+					//float price = EmaPay.getInstance(activity).getPayInfo().getPrice();
+					//showPasswDialog(activity, this, price);
 					break;
 				case CODE_PAYMENT_PASSW_NOT_EXIST://用户未设置密码，弹出密码设置框，让用户设置密码
 					UCommUtil.sendMesg(handler, EmaProgressDialog.CODE_LOADING_END, "");
@@ -149,8 +149,8 @@ public class Trd0yuanfuPay {
 					ToastHelper.toast(activity, "密码设置失败");
 					break;
 				case CODE_PAYMENT_PASSW_UPDATE_SUCC://用户设置密码成功，开始验证密码
-					float price1 = EmaPay.getInstance(activity).getPayInfo().getPrice();
-					showPasswDialog(activity, this, price1);
+					//float price1 = EmaPay.getInstance(activity).getPayInfo().getPrice();
+					//showPasswDialog(activity, this, price1);
 					break;
 				case CODE_PAYMENT_PASSW_VERIFY_FAILED://用户输入支付密码错误
 					ToastHelper.toast(activity, "密码错误");
@@ -424,7 +424,7 @@ public class Trd0yuanfuPay {
 	 */
 	private static void getPayOrderId(final Context context, final PayTrdItemBean bean, final Handler handler){
 		EmaUser mEmaUser = EmaUser.getInstance();
-		EmaPayInfo payInfo = EmaPay.getInstance(context).getPayInfo();
+		//EmaPayInfo payInfo = EmaPay.getInstance(context).getPayInfo();
 		ConfigManager mConfigManager = ConfigManager.getInstance(context);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("client_id", ConfigManager.getInstance(context).getChannel());
@@ -467,8 +467,8 @@ public class Trd0yuanfuPay {
 						JSONObject data = json.getJSONObject("data");
 						String orderId = data.getString("trade_id");
 						//TODO 调用0元付 进行支付
-						float price = EmaPay.getInstance(context).getPayInfo().getPrice();
-						pay(context, orderId, handler, price + "");
+						//float price = EmaPay.getInstance(context).getPayInfo().getPrice();
+						//pay(context, orderId, handler, price + "");
 						break;
 					case HttpInvokerConst.SDK_RESULT_FAILED_SIGIN_ERROR://签名验证失败
 						LOG.d(TAG, "签名验证失败，获取订单号失败");

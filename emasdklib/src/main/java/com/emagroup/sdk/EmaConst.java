@@ -22,4 +22,12 @@ public class EmaConst {
 	public static final int PAY_RESULT_OTHERS = 203;//其他情况，统一视为支付失败
 	
 	public static String EMA_WEIXIN_APPID = "";//微信appid
+
+
+//------------------------------------------------------------------------------------
+	public static final String EMA_PAYINFO_PRODUCT_ID = "product_id";  //商品id
+	public static final String EMA_PAYINFO_PRODUCT_COUNT = "product_count"; //商品数量
+
+
+
 }

@@ -30,9 +30,7 @@ public class EmaPay {
     private EmaUser mEmaUser;
     private ConfigManager mConfigManager;
     private DeviceInfoManager mDeviceInfoManager;
-    private EmaPayListener mPayListener;
-
-    private static EmaPayInfo mPayInfo;
+    public  EmaPayListener mPayListener;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -70,14 +68,6 @@ public class EmaPay {
         return mInstance;
     }
 
-    /**
-     * 获取支付相关信息
-     *
-     * @return
-     */
-    public EmaPayInfo getPayInfo() {
-        return mPayInfo;
-    }
 
     /**
      * 开启支付
@@ -85,20 +75,20 @@ public class EmaPay {
      * @param
      */
     public void pay(final EmaPayInfo payInfo, EmaPayListener payListener) {
-
+        this.mPayListener=payListener;
         if (!mEmaUser.getIsLogin()) {
             ToastHelper.toast(mContext, "还未登陆，请先登陆！");
             LOG.d(TAG, "没有登陆，或者已经退出！");
             return;
         }
 
-        //发起购买、对订单号的请求
+        //发起购买---->对订单号及信息的请求
         Map<String, String> params = new HashMap<>();
         params.put("pid", payInfo.getProductId());
-        params.put("uid", mEmaUser.getmUid());
         params.put("token",mEmaUser.getmToken());
-        LOG.e("8888888888",mEmaUser.getmToken());
         params.put("quantity", payInfo.getProductNum());
+        LOG.e("Emapay_pay",payInfo.getProductId()+".."+mEmaUser.getmToken()+".."+payInfo.getProductNum());
+
         new HttpInvoker().postAsync(Url.getOrderStartUrl(), params,
                 new HttpInvoker.OnResponsetListener() {
                     @Override
@@ -106,16 +96,31 @@ public class EmaPay {
                         //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                         try {
                             JSONObject jsonObject = new JSONObject(result);
-                            JSONObject data = jsonObject.getJSONObject("data");
-                            String description = data.getString("description");
-                            boolean coinEnough = data.getBoolean("coinEnough");
-                            String orderId = data.getString("orderId");
-                            LOG.e("description...coinEnough...orderId", description + coinEnough + orderId);
+                            String message= jsonObject.getString("message");
+                            String status= jsonObject.getString("status");
+
+                            JSONObject productData = jsonObject.getJSONObject("data");
+                            boolean coinEnough = productData.getBoolean("coinEnough");
+                            String orderId = productData.getString("orderId");
+                            JSONObject productInfo = productData.getJSONObject("productInfo");
+
+                            String appId = productInfo.getString("appId");
+                            String channelId = productInfo.getString("channelId");
+                            String channelProductCode = productInfo.getString("channelProductCode");
+                            String description = productInfo.getString("description");
+                            String emaProductCode = productInfo.getString("emaProductCode");
+                            String productName = productInfo.getString("productName");
+                            String productPrice = productInfo.getString("productPrice");
+                            String unit = productInfo.getString("unit");
 
                             payInfo.setOrderId(orderId);
                             payInfo.setUid(mEmaUser.getmUid());
                             payInfo.setCoinEnough(coinEnough);
-                            //还有一个金额的
+                            payInfo.setProductName(productName);
+                            payInfo.setPrice(Integer.parseInt(productPrice));
+                            payInfo.setDescription(description);
+
+                            LOG.e("createOrder",message+coinEnough+orderId+unit+productPrice);
 
                             Message msg = new Message();
                             msg.what = ORDER_SUCCESS;
@@ -174,7 +179,6 @@ public class EmaPay {
 
 
     private void doNextPay(EmaPayInfo payInfo) {
-        mPayInfo = payInfo;
         Intent intent = null;
         if (payInfo.isCoinEnough()) {    //正确的应该这里不加“！”
             LOG.d(TAG, "余额足够，显示钱包支付");

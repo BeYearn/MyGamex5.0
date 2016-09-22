@@ -232,46 +232,7 @@ public class ConfigManager {
 		String emaEnvi = getStringFromMetaData(mContext,"EMA_WHICH_ENVI");
 		if("staging".equals(emaEnvi)){
 			Url.setServerUrl(Url.STAGING_SERVER_URL);
-			Url.setWapUrl(Url.STAGING_WAP_URL);
 		}
-
-		/*//线上正式环境
-		Url.setServerUrl(Url.SERVER_URL);
-		Url.setWebUrl(Url.WEB_URL);
-		ApplicationInfo appinfo = mContext.getApplicationInfo();
-		String sourceDir = appinfo.sourceDir;
-		ZipFile zipfile = null;
-		try {
-			zipfile = new ZipFile(sourceDir);
-			Enumeration<?> entries = zipfile.entries();
-			while (entries.hasMoreElements()) {
-				ZipEntry entry = ((ZipEntry) entries.nextElement());
-				String entryName = entry.getName();
-				if(entryName.equals("META-INF/env_dev")){//内部开发环境
-					Url.setServerUrl(Url.SERVER_URL_ENV_DEV);
-					Url.setWebUrl(Url.WEB_URL_DEV);
-					break;
-				}else if(entryName.equals("META-INF/test_dev")){//内部测试环境
-					Url.setServerUrl(Url.SERVER_URL_TEST_DEV);
-					Url.setWebUrl(Url.WEB_URL_DEV);
-					break;
-				}else if(entryName.equals("META-INF/env_online_test")){//线上测试环境
-					Url.setServerUrl(Url.SERVER_URL_ENV_ONLINE_TEST);
-					Url.setWebUrl(Url.WEB_URL_DEV);
-					break;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (zipfile != null) {
-				try {
-					zipfile.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}*/
 	}
 
 	/**

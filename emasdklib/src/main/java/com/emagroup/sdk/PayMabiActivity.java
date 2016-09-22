@@ -324,18 +324,11 @@ public class PayMabiActivity extends Activity implements OnClickListener {
             ToastHelper.toast(this, PropertyField.ERROR_PASSW_INCORRECT_LENGTH);
             return;
         }
-        /*//判断需要支付的总额是否超过了支付限额
-		if(mEmaPay.getPayInfo().getAmount() > mEmaUser.getPayLimit()){
-			//TODO 显示修改支付限额的对话框
-			ToastHelper.toast(this, "支付金额超出支付限额，请修改支付限额");
-//			doChangePayLimit();
-		}else{*/
-        //TODO 支付
+
         LOG.d(TAG, "支付中...");
         mProgress.showProgress("支付中", false, false);
 
         Map<String, String> params = new HashMap<>();
-        params.put("uid", mEmaUser.getmUid());
         params.put("orderId", mPayInfo.getOrderId());
         params.put("chargePwd", passw);
         params.put("token", mEmaUser.getmToken());
@@ -346,6 +339,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
                 try {
                     JSONObject json = new JSONObject(result);
                     int resultCode = json.getInt("status");
+
                     ToastHelper.toast(PayMabiActivity.this, json.getString("message"));
                     switch (resultCode) {
                         case HttpInvokerConst.SDK_RESULT_SUCCESS://支付成功,目前只知道这个case（0）和下面（1）这两种情况

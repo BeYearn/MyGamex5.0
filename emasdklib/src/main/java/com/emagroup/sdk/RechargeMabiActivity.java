@@ -170,8 +170,9 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 
 				EmaPayInfo emaPayInfo = new EmaPayInfo();
 				emaPayInfo.setProductName("充值");
-				emaPayInfo.setOrderId("123456789987654321");  //TODO 这里还没获取orderid，瞎写一个先
-				emaPayInfo.setPrice(Float.valueOf(rechargeMoney));
+				emaPayInfo.setDescription("钱包充值");
+				emaPayInfo.setOrderId("xxxxxxxx");  //服务器加签后会补上
+				emaPayInfo.setPrice(Integer.valueOf(rechargeMoney));
 
 				PayTrdItemBean bean = (PayTrdItemBean) mAdapter.getItem(position);
 				String key = bean.getChannelCode();

@@ -99,7 +99,7 @@
             android:value="70" />
         <meta-data
             android:name="EMA_WHICH_ENVI"
-            android:value="staging" />
+            android:value="production" />
 
 
 

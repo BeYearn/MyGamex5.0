@@ -1,18 +1,18 @@
 package com.emagroup.sdk;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PayUtil {
 	
@@ -22,7 +22,6 @@ public class PayUtil {
 	/**
 	 * 获取钱包信息
 	 * @param appId
-	 * @param si
 	 * @param uuid
 	 */
 	public static void getWalletSetting(String appId, String sid, String uuid, String appKey, HttpInvoker.OnResponsetListener listener){
@@ -197,7 +196,6 @@ public class PayUtil {
 	
 	/**
 	 * 进入钱包[支付]
-	 * @param context
 	 */
 	public static void GoPayByMabi(Activity activity, int requestCode){
 		LOG.d(TAG, "进入钱包支付");
@@ -207,7 +205,6 @@ public class PayUtil {
 	
 	/**
 	 * 进入财付通[支付]
-	 * @param context
 	 */
 	public static void GoPayByTenpay(Activity activity){
 		LOG.d(TAG, "进入财付通支付");
@@ -221,7 +218,7 @@ public class PayUtil {
 	public static void GoPayByGameCardpay(Activity activity, int requetCode){
 		LOG.d(TAG, "进入游戏卡支付");
 		Intent intent = new Intent(activity, TrdCardActivity.class);
-		intent.putExtra(TrdCardActivity.INTENT_AMOUNT, EmaPay.getInstance(activity).getPayInfo().getPrice()+"");
+		//intent.putExtra(TrdCardActivity.INTENT_AMOUNT, EmaPay.getInstance(activity).getPayInfo().getPrice()+"");
 		intent.putExtra(TrdCardActivity.INTENT_TYPE, TrdCardActivity.TYPE_GAMECARD_PAY);
 		activity.startActivityForResult(intent, requetCode);
 	}
@@ -233,7 +230,7 @@ public class PayUtil {
 	public static void GoPayByPhoneCardpay(Activity activity, int requestCode){
 		LOG.d(TAG, "进入手机卡支付");
 		Intent intent = new Intent(activity, TrdCardActivity.class);
-		intent.putExtra(TrdCardActivity.INTENT_AMOUNT, EmaPay.getInstance(activity).getPayInfo().getPrice()+"");
+		//intent.putExtra(TrdCardActivity.INTENT_AMOUNT, EmaPay.getInstance(activity).getPayInfo().getPrice()+"");
 		intent.putExtra(TrdCardActivity.INTENT_TYPE, TrdCardActivity.TYPE_PHONECARD_PAY);
 		activity.startActivityForResult(intent, requestCode);	
 	}
@@ -352,7 +349,6 @@ public class PayUtil {
 	
 	/**
 	 * 获取游戏卡面额列表
-	 * @param amount 需要充值的最低面额
 	 * @return
 	 */
 	public static List<PayTrdItemBean> getTrdSelectCardAmount(EmaPriceBean amountBean){
@@ -388,9 +384,6 @@ public class PayUtil {
 	
 	/**
 	 * 添加面额值到面额列表
-	 * @param list
-	 * @param amountBean
-	 * @param price
 	 */
 	private static List<PayTrdItemBean> addPayTrdItemBean(EmaPriceBean amountBean, int[] prices){
 		List<PayTrdItemBean> list = new ArrayList<PayTrdItemBean>();

@@ -20,13 +20,23 @@ public class EmaPayInfo implements Parcelable {
     //钱包是否够
     private boolean coinEnough;
     //订单金额
-    private float price;
+    private int price;
+    // 描述
+    private String description;
 
-    public float getPrice() {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -104,7 +114,7 @@ public class EmaPayInfo implements Parcelable {
         productId = source.readString();
         orderId = source.readString();
         uid = source.readString();
-        price = source.readFloat();
+        price = source.readInt();
         coinEnough = source.readByte() != 0;     //myBoolean == true if byte != 0
     }
 

@@ -27,31 +27,31 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 	private static final int REQUEST_CODE_PAY_TENPAY = 11;
 	private static final int REQUEST_CODE_PAY_GAMECARD = 12;
 	private static final int REQUEST_CODE_PAY_PHONECARD = 13;
-	
+
 	public static final int CODE_PAY_TENTPAY_URL = 50;//获取财付通支付的url
 	public static final int CODE_PAY_TENPAY_URL_FAILED = 51;//获取财付通支付的url失败
-	
+
 	private EmaUser mEmaUser;
 	private ConfigManager mConfigManager;
 	private DeviceInfoManager mDeviceInfoManager;
 	private ResourceManager mResourceManager;
-	private EmaPay mEmaPay;
-	
+
 	//views
 	private ImageView mBtnBackToGameView;
 	private TextView mTxtTotalPrice;
 	private TextView mTxtUserName;
 	private TextView mTxtProductName;
 	private GridView mGridView;
-	
+
 	private PayTrdListAdapter mAdapter;
-	
+
+	private EmaPayInfo mPayInfo;
+
 	//保存按钮的资源ID
 	private int mIDBtnBackToGameView;
-	
+
 	// 进度条
 	private EmaProgressDialog mProgress;
-	
 	private Handler mHandler = new Handler(){
 		public void handleMessage(Message msg) {
 			switch(msg.what){
@@ -68,7 +68,7 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 			case CODE_PAY_TENPAY_URL_FAILED://获取财付通支付的url失败
 				ToastHelper.toast(PayTrdActivity.this, "跳转失败");
 				break;
-			case PayConst.CODE_PAY_ALI_RESULT://支付宝支付结果
+			case PayConst.CODE_PAY_ALI_RESULT://支付宝支付结果（此处也就是充值结果）
 				if(msg.obj != null && msg.obj instanceof String){
 					doResultAlipay((String)msg.obj);
 				}
@@ -87,7 +87,7 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 			}
 		};
 	};
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -102,9 +102,12 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 		mConfigManager = ConfigManager.getInstance(this);
 		mDeviceInfoManager = DeviceInfoManager.getInstance(this);
 		mResourceManager = ResourceManager.getInstance(this);
-		mEmaPay = EmaPay.getInstance(this);
 		mProgress = new EmaProgressDialog(this);
 		mIDBtnBackToGameView = 0;
+
+		//获得订单信息
+		Intent intent = this.getIntent();
+		mPayInfo = intent.getParcelableExtra("payInfo");
 		
 		initView();
 		
@@ -115,8 +118,8 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 	 * 初始化数据
 	 */
 	private void initData() {
-		mTxtProductName.setText(mEmaPay.getPayInfo().getProductName());
-		mTxtTotalPrice.setText(mEmaPay.getPayInfo().getPrice()+"");
+		mTxtProductName.setText(mPayInfo.getProductName());
+		mTxtTotalPrice.setText(mPayInfo.getPrice()+"");
 		mTxtUserName.setText(mEmaUser.getNickName());
 		
 		PayUtil.getPayTrdList(this, mHandler);
@@ -159,7 +162,14 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 					
 				}else if(key.equals(PayConst.PAY_TRD_ALIPAY)){//支付宝支付
 					
-					PayUtil.GoPayByAlipay(PayTrdActivity.this, mHandler);
+					//PayUtil.GoPayByAlipay(PayTrdActivity.this, mHandler);   现在如下：钱不够先走充值完了再用余额支付（用户感知为直接用钱买）
+					//把上面得到的那个mPayInfo拿好，充值ok后还得用它钱包支付。
+					EmaPayInfo rechargePayInfo = new EmaPayInfo();
+					rechargePayInfo.setOrderId("xxxxxxxx"); //服务器加签后会补上
+					rechargePayInfo.setProductName(mPayInfo.getProductName());
+					rechargePayInfo.setPrice(mPayInfo.getPrice());
+					rechargePayInfo.setDescription(mPayInfo.getDescription());
+					PayUtil.GoRecharegeByAlipay(PayTrdActivity.this, rechargePayInfo, mHandler);
 					
 				}else if(key.equals(PayConst.PAY_TRD_WEIXIN)){//微信支付
 					
@@ -223,10 +233,13 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 	 */
 	private void doResultAlipay(String result){
 		TrdAliPayResult data = new TrdAliPayResult(result);
-		if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_SUCC)){//支付成功
+		if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_SUCC)){//支付 充值成功
 		
-			UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
-			showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_SUCC, "");
+			//UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
+			//showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_SUCC, "");
+
+			//充值成功，此时再重新走一边支付
+			EmaPay.getInstance(Ema.getInstance().getContext()).pay(mPayInfo,EmaPay.getInstance(Ema.getInstance().getContext()).mPayListener);
 		
 		}else if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_ON_PAYING)){//正在处理中
 		
