@@ -1,9 +1,9 @@
 package com.emagroup.sdk;
 
+import android.os.Environment;
+
 import java.io.File;
 import java.io.RandomAccessFile;
-
-import android.os.Environment;
 
 public class LOGToSdcardHelper {
 
@@ -59,7 +59,6 @@ public class LOGToSdcardHelper {
 				}
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

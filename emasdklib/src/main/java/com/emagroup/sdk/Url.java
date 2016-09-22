@@ -177,7 +177,6 @@ public class Url {
      */
 	public static String getOrderStartUrl(){
 		//return serverUrl+"/ema-platform/order/createOrder";
-		// TODO: 2016/9/21
 		return serverUrl+"/ema-platform/order/createOrder";
 	}
 	/**
@@ -190,7 +189,6 @@ public class Url {
      * 钱包确认支付
      */
     public static String getWalletPayUrl(){
-		// TODO: 2016/9/21
 		return serverUrl+"/ema-platform/order/confirmOrder";
 	}
 	/**

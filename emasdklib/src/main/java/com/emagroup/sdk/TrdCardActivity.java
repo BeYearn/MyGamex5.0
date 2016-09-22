@@ -137,7 +137,7 @@ public class TrdCardActivity extends Activity implements OnClickListener {
 				}
 				bean.setSelect(true);
 				mSelectTempBean = bean;
-				//TODO 修改右边的面额列表
+				// 修改右边的面额列表
 				mListSelectAmount = PayUtil.getTrdSelectCardAmount(mSelectTempBean, mAmount);
 				if(mListSelectAmount != null && mListSelectAmount.size() > 0){
 					mSelectAmountBean = mListSelectAmount.get(0);
@@ -523,7 +523,6 @@ public class TrdCardActivity extends Activity implements OnClickListener {
 
 		@Override
 		public long getItemId(int arg0) {
-			// TODO Auto-generated method stub
 			return arg0;
 		}
 
@@ -593,7 +592,6 @@ public class TrdCardActivity extends Activity implements OnClickListener {
 
 		@Override
 		public long getItemId(int arg0) {
-			// TODO Auto-generated method stub
 			return arg0;
 		}
 

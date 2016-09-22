@@ -434,7 +434,6 @@ public class LoginDialog extends Dialog implements
 
             @Override
             protected char[] getAcceptedChars() {
-                // TODO Auto-generated method stub
                 return PropertyField.PASSW_DIGITS;
             }
         });

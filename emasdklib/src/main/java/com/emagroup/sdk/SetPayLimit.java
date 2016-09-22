@@ -1,10 +1,5 @@
 package com.emagroup.sdk;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -18,6 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SetPayLimit {
 
@@ -75,7 +75,6 @@ public class SetPayLimit {
 			}
 			@Override
 			protected char[] getAcceptedChars() {
-				// TODO Auto-generated method stub
 				return PropertyField.PASSW_DIGITS;
 			}
 		});
@@ -267,7 +266,6 @@ public class SetPayLimit {
 	 * 检查输入的限额是否符合规定
 	 * 首先不能以0开头
 	 * 其实最多5位数字
-	 * @param str
 	 * @param edtLimit
 	 */
 	private void isLimitOk(EditText edtLimit){

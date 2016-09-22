@@ -46,7 +46,6 @@ public class EmaService extends Service {
 				 mIntervalTime += 300;
 				 trySleep(INTERVAL_TIME_THIRD);
 				if(EmaUser.getInstance().getIsLogin()){
-					//TODO send alive package...
 					EmaSendInfo.sendOnlineAlive(mIntervalTime);
 				}
 			}

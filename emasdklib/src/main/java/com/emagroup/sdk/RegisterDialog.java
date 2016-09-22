@@ -66,7 +66,6 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 
 	private Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
-			//TODO FIXME (do not close progress here)
 			mProgress.closeProgress();
 			switch(msg.what){
 			case CODE_AUTO_REGISTER_GETINFO_SUCCESS://自动注册获取默认账户信息成功
@@ -154,13 +153,11 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 			
 			@Override
 			public int getInputType() {
-				// TODO Auto-generated method stub
 				return android.text.InputType.TYPE_CLASS_TEXT;
 			}
 			
 			@Override
 			protected char[] getAcceptedChars() {
-				// TODO Auto-generated method stub
 				return PropertyField.PASSW_DIGITS;
 			}
 		});

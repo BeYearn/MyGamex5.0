@@ -173,7 +173,6 @@ public class PayMabiActivity extends Activity implements OnClickListener {
         mEdtPasswView.setKeyListener(new NumberKeyListener() {
             @Override
             public int getInputType() {
-                // TODO Auto-generated method stub
                 return android.text.InputType.TYPE_CLASS_TEXT;
             }
 

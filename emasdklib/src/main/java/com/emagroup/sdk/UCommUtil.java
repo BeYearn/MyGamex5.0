@@ -1,5 +1,10 @@
 package com.emagroup.sdk;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+
 import java.io.UnsupportedEncodingException;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
@@ -13,11 +18,6 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import android.app.Activity;
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 
 public class UCommUtil {
 
@@ -54,7 +54,6 @@ public class UCommUtil {
 				.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
 						new EmaDialogSystemBusy(context).show();
 					}
 				});
@@ -101,7 +100,6 @@ public class UCommUtil {
 	/**
 	 * 获取指定长度的随机字符串(个数不超过32位)
 	 * 
-	 * @param 字符串长度
 	 * @return
 	 */
 	public static String getRandomStr(int length) {
@@ -154,7 +152,6 @@ public class UCommUtil {
 				return true;
 			}
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -335,7 +332,6 @@ public class UCommUtil {
 	/**
 	 * 返回格式化后的时间格式
 	 * 
-	 * @param content
 	 * @return
 	 */
 	public static String DateFormat(Date date) {

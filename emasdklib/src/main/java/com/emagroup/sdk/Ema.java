@@ -124,7 +124,7 @@ public class Ema {
 	 * 第三方sdk初始化
 	 */
 	private void initThirdSDK(){
-		//TODO 初始化第三方的sdk  （支付等）
+		// 初始化第三方的sdk  （支付等）
 	}
 	
 	/**

@@ -303,7 +303,6 @@ public class Trd0yuanfuPay {
 		new Handler(context.getMainLooper()).post(new Runnable() {
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				EmaDialogPay0YuanFuPassw dialog = new EmaDialogPay0YuanFuPassw(context, price, new EmaDialogPay0YuanFuPassw.OnResultListener() {
 					@Override
 					public void onResult(String code, String result) {
@@ -466,7 +465,7 @@ public class Trd0yuanfuPay {
 						LOG.d(TAG, "获取订单号成功");
 						JSONObject data = json.getJSONObject("data");
 						String orderId = data.getString("trade_id");
-						//TODO 调用0元付 进行支付
+						// 调用0元付 进行支付
 						//float price = EmaPay.getInstance(context).getPayInfo().getPrice();
 						//pay(context, orderId, handler, price + "");
 						break;

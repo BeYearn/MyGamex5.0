@@ -18,7 +18,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
             case PushConsts.GET_CLIENTID:
 
                 String cid = bundle.getString("clientid");
-                // TODO:处理cid返回
+                // 处理cid返回
 
                 break;
             case PushConsts.GET_MSG_DATA:
