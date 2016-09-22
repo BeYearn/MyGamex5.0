@@ -240,6 +240,7 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 
 			//充值成功，此时再重新走一边支付
 			EmaPay.getInstance(Ema.getInstance().getContext()).pay(mPayInfo,EmaPay.getInstance(Ema.getInstance().getContext()).mPayListener);
+			PayTrdActivity.this.finish();
 		
 		}else if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_ON_PAYING)){//正在处理中
 		

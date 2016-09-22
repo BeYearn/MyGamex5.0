@@ -34,9 +34,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
 
     private EmaUser mEmaUser;
     private ConfigManager mConfigManager;
-    private DeviceInfoManager mDeviceInfoManager;
     private ResourceManager mResourceManager;
-    private EmaPay mEmaPay;
 
     //views
     private Button mBtnBack;//返回按钮
@@ -89,8 +87,8 @@ public class PayMabiActivity extends Activity implements OnClickListener {
                     break;
                 //--------------pay result -------
                 case CODE_PAY_SUCC:
-                    ToastHelper.toast(PayMabiActivity.this, "支付成功");
                     PayMabiActivity.this.finish();
+                    ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
                     break;
                 case CODE_REFRESH_INFO:
                     setViews();
@@ -112,9 +110,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
 
         mEmaUser = EmaUser.getInstance();
         mConfigManager = ConfigManager.getInstance(this);
-        mDeviceInfoManager = DeviceInfoManager.getInstance(this);
         mResourceManager = ResourceManager.getInstance(this);
-        mEmaPay = EmaPay.getInstance(this);
         mProgress = new EmaProgressDialog(this);
 
         //获得订单信息
