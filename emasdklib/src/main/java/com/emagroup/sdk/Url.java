@@ -176,7 +176,7 @@ public class Url {
 	 * @return
      */
 	public static String getOrderStartUrl(){
-		//return serverUrl+"/ema-platform/order/createOrder";
+		//return "http://192.168.155.79:8080/ema-platform/order/createOrder";
 		return serverUrl+"/ema-platform/order/createOrder";
 	}
 	/**

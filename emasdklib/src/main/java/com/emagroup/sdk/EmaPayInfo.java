@@ -103,7 +103,7 @@ public class EmaPayInfo implements Parcelable {
         dest.writeString(productId);
         dest.writeString(orderId);
         dest.writeString(uid);
-        dest.writeFloat(price);
+        dest.writeInt(price);
         dest.writeByte((byte) (coinEnough ? 1 : 0));     //if myBoolean == true, byte == 1
     }
 

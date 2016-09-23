@@ -205,7 +205,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
     private void setViews() {
         mTxtProductName.setText(mPayInfo.getProductName());
         mTxtProductNumber.setText(mPayInfo.getProductNum());
-        mTxtTotalPrice.setText(mPayInfo.getPrice() + "");  // 支付类里面应该有金额这个字段，现在还没写入
+        mTxtTotalPrice.setText(mPayInfo.getPrice() + "");
         mTxtAccount.setText(mEmaUser.getNickName());
     }
 
