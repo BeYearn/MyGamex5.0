@@ -69,14 +69,14 @@ public class TrdWeixinPay {
 		params.put("device_id", deviceInfoManager.getDEVICE_ID());//设备ID
 		params.put("channel", configManager.getChannel());
 		
-		params.put("sid", emaUser.getAccessSid());
+		/*params.put("sid", emaUser.getAccessSid());
 		params.put("uuid", emaUser.getUUID());
 		
 		String sign = UCommUtil.getSign(configManager.getAppId(),
 				emaUser.getAccessSid(),
 				emaUser.getUUID(),
 				configManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		new HttpInvoker().postAsync(Url.getPayUrlRecharge(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {
@@ -135,7 +135,7 @@ public class TrdWeixinPay {
 		params.put("channel", mConfigManager.getChannel());
 		params.put("wallet_pwd", "0");
 		params.put("wallet_amount", "0");
-		params.put("sid", mEmaUser.getAccessSid());
+		/*params.put("sid", mEmaUser.getAccessSid());
 		params.put("uuid", mEmaUser.getUUID());
 		params.put("charge_channel", PayConst.PAY_CHARGE_CHANNEL_WEIXINPAY + "");
 		String sign = UCommUtil.getSign(
@@ -143,7 +143,7 @@ public class TrdWeixinPay {
 				mEmaUser.getAccessSid(),
 				mEmaUser.getUUID(),
 				mConfigManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		
 		UCommUtil.testMapInfo(params);
 		UCommUtil.buildUrl(Url.getPayUrlRecharge(), params);

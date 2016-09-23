@@ -34,7 +34,6 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 	public static final int INTENT_REQUEST_CODE_GAME_CARD = 100;
 	public static final int INTENT_REQUEST_CODE_PHONE_CARD = 101;
 	
-	private EmaUser mEmaUser;
 	private ConfigManager mConfigManager;
 	private DeviceInfoManager mDeviceInfoManager;
 	private ResourceManager mResourceManager;
@@ -118,7 +117,6 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 		// 将activity添加到列表，方便管理
 		EmaPayProcessManager.getInstance().addRechargeActivity(this);
 		
-		mEmaUser = EmaUser.getInstance();
 		mConfigManager = ConfigManager.getInstance(this);
 		mDeviceInfoManager = DeviceInfoManager.getInstance(this);
 		mResourceManager = ResourceManager.getInstance(this);
@@ -210,9 +208,8 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 	 * 初始化数据
 	 */
 	private void initData() {
-		mTxtAccount.setText(mEmaUser.getNickName());
-		mTxtBalance.setText(mEmaUser.getBalancePricebean().getPriceYuan() + "");
-		
+		mTxtAccount.setText(EmaUser.getInstance().getNickName());
+		mTxtBalance.setText(EmaUser.getInstance().getBalance());
 		PayUtil.getRechargeList(this, mHandler);
 	}
 

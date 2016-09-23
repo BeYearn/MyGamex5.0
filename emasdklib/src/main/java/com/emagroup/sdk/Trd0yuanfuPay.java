@@ -134,7 +134,7 @@ public class Trd0yuanfuPay {
 					break;
 				case CODE_PAYMENT_IS_NOT_ACTIVATED://用户未激活0元付，开始激活
 					UCommUtil.sendMesg(handler, EmaProgressDialog.CODE_LOADING_END, "");
-					startPaymentActivated(activity, Url.URL_LINGYUANFU_PAYMENT_ACTIVITY + EmaUser.getInstance().getUUID());
+					//startPaymentActivated(activity, Url.URL_LINGYUANFU_PAYMENT_ACTIVITY + EmaUser.getInstance().getUUID());
 					break;
 				case CODE_PAYMENT_PASSW_EXIST://用户设置了密码，弹出密码框让用户输入密码
 					UCommUtil.sendMesg(handler, EmaProgressDialog.CODE_LOADING_END, "");
@@ -183,9 +183,9 @@ public class Trd0yuanfuPay {
 		JSONObject json = new JSONObject();
 		String merchant = ConfigManager.getInstance(activity).getMerchant();
 		try {
-			json.put("openId", EmaUser.getInstance().getUUID());
+			//json.put("openId", EmaUser.getInstance().getUUID());
 			json.put("merchant", merchant);
-			json.put("msgKey", UCommUtil.MD5(EmaUser.getInstance().getUUID() + merchant));
+			//json.put("msgKey", UCommUtil.MD5(EmaUser.getInstance().getUUID() + merchant));
 		} catch (Exception e) {
 		}
 		params.put("request", json.toString());
@@ -223,9 +223,9 @@ public class Trd0yuanfuPay {
 		JSONObject json = new JSONObject();
 		String merchant = ConfigManager.getInstance(context).getMerchant();
 		try {
-			json.put("openId", EmaUser.getInstance().getUUID());
+			//json.put("openId", EmaUser.getInstance().getUUID());
 			json.put("merchant", merchant);
-			json.put("msgKey", UCommUtil.MD5(EmaUser.getInstance().getUUID() + merchant));
+			//json.put("msgKey", UCommUtil.MD5(EmaUser.getInstance().getUUID() + merchant));
 		} catch (Exception e) {
 		}
 		params.put("request", json.toString());
@@ -332,14 +332,14 @@ public class Trd0yuanfuPay {
 		JSONObject json = new JSONObject();
 		String merchant = ConfigManager.getInstance(context).getMerchant();
 		try {
-			json.put("openId", EmaUser.getInstance().getUUID());
+			//json.put("openId", EmaUser.getInstance().getUUID());
 			json.put("merchant", merchant);
 			json.put("amount", amount);
 			json.put("orderNo", orderId);
 			json.put("type", "0");
 			json.put("orderTime", UCommUtil.DateFormat(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss"));
 //			openId+merchant+orderNo+amount+type
-			json.put("msgKey", UCommUtil.MD5(EmaUser.getInstance().getUUID() + merchant + orderId + amount + 0));
+			//json.put("msgKey", UCommUtil.MD5(EmaUser.getInstance().getUUID() + merchant + orderId + amount + 0));
 		} catch (Exception e) {
 			LOG.e(TAG, "build request error:", e);
 		}
@@ -381,14 +381,14 @@ public class Trd0yuanfuPay {
 		params.put("trade_id", orderId);
 		params.put("app_id", mConfigManager.getAppId());
 		params.put("client_id", mConfigManager.getChannel());
-		params.put("sid", mEmaUser.getAccessSid());
+		/*params.put("sid", mEmaUser.getAccessSid());
 		params.put("uuid", mEmaUser.getUUID());
 		String sign = UCommUtil.getSign(
 				mConfigManager.getAppId(),
 				mEmaUser.getAccessSid(),
 				mEmaUser.getUUID(),
 				mConfigManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		UCommUtil.testMapInfo(params);
 		new HttpInvoker().postAsync(Url.get0YuanFUNotifyUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
@@ -441,7 +441,7 @@ public class Trd0yuanfuPay {
 		params.put("channel", mConfigManager.getChannel());
 		params.put("wallet_pwd", "0");
 		params.put("wallet_amount", "0");
-		params.put("sid", mEmaUser.getAccessSid());
+		/*params.put("sid", mEmaUser.getAccessSid());
 		params.put("uuid", mEmaUser.getUUID());
 		params.put("charge_channel", PayConst.PAY_CHARGE_CHANNEL_0YUANFU + "");
 		String sign = UCommUtil.getSign(
@@ -449,7 +449,7 @@ public class Trd0yuanfuPay {
 				mEmaUser.getAccessSid(),
 				mEmaUser.getUUID(),
 				mConfigManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		
 		UCommUtil.testMapInfo(params);
 		
@@ -523,14 +523,14 @@ public class Trd0yuanfuPay {
 		params.put("device_id", deviceInfoManager.getDEVICE_ID());//设备ID
 		params.put("channel", configManager.getChannel());
 		
-		params.put("sid", emaUser.getAccessSid());
+		/*params.put("sid", emaUser.getAccessSid());
 		params.put("uuid", emaUser.getUUID());
 		
 		String sign = UCommUtil.getSign(configManager.getAppId(),
 				emaUser.getAccessSid(),
 				emaUser.getUUID(),
 				configManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		UCommUtil.testMapInfo(params);
 		new HttpInvoker().postAsync(Url.getPayUrlRecharge(), params, new HttpInvoker.OnResponsetListener() {
 			@Override

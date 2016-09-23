@@ -8,12 +8,36 @@ import java.util.List;
 public class EmaUser {
 
     private static EmaUser mInstance;
-    private static final Object synchron = new Object();
 
     private static String mNickName;//昵称
     private static String mUid;
     private static String mToken;
     private static int accountType;  //0 弱帐号 1 手机 2邮箱 3渠道
+    private static String mBalance;//余额
+    private static String email;
+    private static String mobile;
+    private static boolean mIsWalletHasPassw;//是否有支付密码
+
+    private int mLoginType;//登录的方式（普通登录，手机登录）
+
+    private boolean mFlagIsLogin;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
     public int getAccountType() {
         return accountType;
@@ -39,37 +63,11 @@ public class EmaUser {
         this.mToken = mToken;
     }
 
-    private String mAccessSid;
-    private String mUUID;
-
-    private String mPhoneNum;
-    private boolean mFlagIsLogin;
-    private int mLoginType;//登录的方式（普通登录，手机登录）
-    private boolean mFlagIsAnlaiye;//标记是否是俺来也账号
-
-    //支付相关信息
-    private int mBalance;//余额
-    private boolean mIsWalletHasPassw;//是否有支付密码
-    private EmaPriceBean mBalancePricebean;//跟余额关联
-
-    private EmaUser() {
-        mAccessSid = null;
-        mUUID = null;
-        mFlagIsLogin = false;
-        mLoginType = UserConst.LOGIN_NULL;
-        mBalance = 0;
-        mBalancePricebean = new EmaPriceBean(0, EmaPriceBean.TYPE_FEN);
-        mIsWalletHasPassw = false;
-    }
+    private EmaUser() {}
 
     public static EmaUser getInstance() {
         if (mInstance == null) {
-            synchronized (synchron) {
-                if (mInstance == null) {
-                    mInstance = new EmaUser();
-
-                }
-            }
+            mInstance = new EmaUser();
         }
         return mInstance;
     }
@@ -78,26 +76,14 @@ public class EmaUser {
      * 退出登录后，清空所有用户信息
      */
     public void clearUserInfo() {
-        mAccessSid = null;
-        mUUID = null;
-        mPhoneNum = null;
-        mLoginType = UserConst.LOGIN_NULL;
-
-        mFlagIsLogin = false;
-
-        mUid = null;
-        mNickName = null;
-        mToken = null;
-        accountType = -1;
+        mInstance=null;
     }
 
     /**
      * 情况用户的支付信息
      */
     public void clearPayInfo() {
-        mBalance = 0;
-        mBalancePricebean.setPriceByFen(0);
-        mIsWalletHasPassw = false;
+
     }
 
     /**
@@ -110,8 +96,6 @@ public class EmaUser {
 
         UserLoginInfoBean bean = new UserLoginInfoBean();
         bean.setUsername(getNickName());
-        bean.setSid(getAccessSid());
-        bean.setUuid(getUUID());
         bean.setLastLoginTime(System.currentTimeMillis());
 
         if (list == null) {
@@ -159,23 +143,6 @@ public class EmaUser {
         return mLoginType;
     }
 
-
-    protected void setUUID(String uuid) {
-        mUUID = uuid;
-    }
-
-    public String getUUID() {
-        return mUUID;
-    }
-
-    protected void setSid(String sid) {
-        mAccessSid = sid;
-    }
-
-    public String getAccessSid() {
-        return mAccessSid;
-    }
-
     protected void setNickName(String nickName) {
         mNickName = nickName;
     }
@@ -192,24 +159,11 @@ public class EmaUser {
         return mFlagIsLogin;
     }
 
-    protected void setPhoneNum(String phoneNum) {
-        mPhoneNum = phoneNum;
-    }
-
-    public String getPhoneNum() {
-        return mPhoneNum;
-    }
-
-    public EmaPriceBean getBalancePricebean() {
-        return mBalancePricebean;
-    }
-
-    public void setBalance(int balance) {
+    public void setBalance(String balance) {
         mBalance = balance;
-        mBalancePricebean.setPriceByFen(balance);
     }
 
-    public int getBalance() {
+    public String getBalance() {
         return mBalance;
     }
 

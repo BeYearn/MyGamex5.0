@@ -1,10 +1,5 @@
 package com.emagroup.sdk;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
@@ -13,6 +8,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EmaDialogPay0YuanFuSetPassw extends Dialog implements android.view.View.OnClickListener {
 
@@ -105,11 +105,11 @@ public class EmaDialogPay0YuanFuSetPassw extends Dialog implements android.view.
 		JSONObject json = new JSONObject();
 		String merchant = ConfigManager.getInstance(mContext).getMerchant();
 		try {
-			json.put("openId", EmaUser.getInstance().getUUID());
+			//json.put("openId", EmaUser.getInstance().getUUID());
 			json.put("merchant", merchant);
 			String passwrod = UCommUtil.MD5(mEdtPassw.getText().toString());
 			json.put("password", passwrod);
-			json.put("msgKey", UCommUtil.MD5(EmaUser.getInstance().getUUID() + merchant + passwrod));
+			//json.put("msgKey", UCommUtil.MD5(EmaUser.getInstance().getUUID() + merchant + passwrod));
 		} catch (Exception e) {
 		}
 		params.put("request", json.toString());

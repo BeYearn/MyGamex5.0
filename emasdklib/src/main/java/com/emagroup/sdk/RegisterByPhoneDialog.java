@@ -204,7 +204,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         mProgress.showProgress("登录中...");
         Map<String, String> params = new HashMap<String, String>();
         params.put("accountType", "1");
-        params.put("mobile", mEmaUser.getPhoneNum());
+        params.put("mobile", mEmaUser.getMobile());
         params.put("captcha", captcha);
         params.put("appKey", mConfigManager.getAppKEY());
         params.put("deviceType", "android");
@@ -383,7 +383,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
             doRegistByOneKey();
         } else if (id == getId("ema_btn_get_auth_code")) {//重新获取验证码
             startTimeTask();
-            doGetAuthCode(mEmaUser.getPhoneNum());
+            doGetAuthCode(mEmaUser.getMobile());
         }
     }
 
@@ -408,7 +408,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
     private void doGetAuthCode(String phoneNum) {
         mProgress.showProgress("获取验证码");
         //设置用户的电话号码信息
-        mEmaUser.setPhoneNum(phoneNum);
+        mEmaUser.setMobile(phoneNum);
         Map<String, String> params = new HashMap<>();
         params.put("mobile", phoneNum);
         UCommUtil.testMapInfo(params);
@@ -506,7 +506,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         super.onBackPressed();
         EmaUser.getInstance().clearUserInfo();
         UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINCANELL, "取消登录");
-        ToolBar.getInstance(mActivity).showToolBar();
     }
 
     /**

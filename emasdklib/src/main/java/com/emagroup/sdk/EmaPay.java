@@ -51,7 +51,6 @@ public class EmaPay {
     private EmaPay(Context context) {
         mContext = context;
         mEmaUser = EmaUser.getInstance();
-        mEmaUser.clearPayInfo();
         mConfigManager = ConfigManager.getInstance(context);
         mDeviceInfoManager = DeviceInfoManager.getInstance(context);
         mProgress = new EmaProgressDialog(context);
@@ -133,48 +132,6 @@ public class EmaPay {
                     }
                 });
 
-
-		/*//由pay入口给 mPayInfoBean赋值
-        mPayInfoBean = payInfoBean;
-		mPayListener = payListener;
-		
-
-		//检查支付参数是否符合相应的规则
-		if(!payInfoBean.getFlagCheckOk()){
-			ToastHelper.toast(mContext, payInfoBean.getErrorInfo());
-			return;
-		}
-		
-		PayUtil.getWalletSetting(mConfigManager.getAppId(),mEmaUser.getAccessSid(),
-				mEmaUser.getUUID(), mConfigManager.getAppKEY(), new HttpInvoker.OnResponsetListener() {
-					@Override
-					public void OnResponse(String result) {
-						try {
-							JSONObject json = new JSONObject(result);
-							int resultCode = json.getInt(HttpInvokerConst.RESULT_CODE);
-							switch(resultCode){
-							case HttpInvokerConst.SDK_RESULT_SUCCESS:
-								LOG.d(TAG, "获取钱包信息成功！");
-								LOG.d(TAG, json.getInt("balance") + "");
-								LOG.d(TAG, json.getInt("pay_limit") + "");
-								mEmaUser.setBalance(json.getInt("balance"));
-								mEmaUser.setPayLimit(json.getInt("pay_limit"));
-								mEmaUser.setIsWalletHasPassw(json.getString("is_wallet_pwd"));
-								doSelectPay();
-								break;
-							case HttpInvokerConst.SDK_RESULT_FAILED_SIGIN_ERROR://签名验证失败
-								LOG.d(TAG, "签名验证失败");
-							default:
-								LOG.e(TAG, "获取钱包信息失败");
-								makePayCallback(EmaCallBackConst.PAYFALIED, "获取钱包信息失败");
-								break;
-							}
-						} catch (Exception e) {
-							LOG.e(TAG, "pay error", e);
-							makePayCallback(EmaCallBackConst.PAYFALIED, "支付时，获取余额失败！可能网络出现问题！");
-						}
-					}
-				});*/
     }
 
 
@@ -197,11 +154,16 @@ public class EmaPay {
 //        payInfo=(EmaPayInfo)intent.getParcelableExtra("payInfo");
     }
 
+
+    /**
+     *  //TODO 取消订单
+     */
+    private void cancelOrder(){
+
+    }
+
     /**
      * 构建支付参数
-     *
-     * @param
-     * @return
      */
     protected Map<String, String> buildPayParams() {
         Map<String, String> map = new HashMap<String, String>();
@@ -221,7 +183,6 @@ public class EmaPay {
 
     /**
      * 设置支付回调
-     *
      * @param code
      * @param obj
      */

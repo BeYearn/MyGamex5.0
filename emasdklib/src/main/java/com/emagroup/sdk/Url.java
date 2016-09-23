@@ -222,6 +222,13 @@ public class Url {
 
 		return serverUrl+"/ema-platform/alipay/notifycallback";
 	}
+
+	/**
+	 * 查询用户所有信息
+	 */
+	public static String getUserInfoUrl(){
+		return serverUrl+"/ema-platform/member/getUserInfo";
+	}
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
 

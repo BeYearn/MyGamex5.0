@@ -50,7 +50,7 @@ public class EmaSendInfo {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(PropertyField.APP_ID, ConfigManager.getInstance(context).getAppId());
 		params.put(PropertyField.SEND_CHANNEL_ID, ConfigManager.getInstance(context).getChannel());
-		params.put(PropertyField.UUID, EmaUser.getInstance().getUUID());
+		//params.put(PropertyField.UUID, EmaUser.getInstance().getUUID());
 		params.put(PropertyField.IP, DeviceInfoManager.getInstance(context).getIP());
 		params.put(PropertyField.SEND_DEVICE_ID, DeviceInfoManager.getInstance(context).getDEVICE_ID());
 		params.put(PropertyField.GAME_SERVER_ID, "");

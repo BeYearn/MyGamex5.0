@@ -118,14 +118,14 @@ public class SetPayLimit {
 	private void doCheckPassw(final String passw){
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("app_id", mConfigManager.getAppId());
-		params.put("sid", mEmaUser.getAccessSid());
-		params.put("uuid", mEmaUser.getUUID());
+		//params.put("sid", mEmaUser.getAccessSid());
+		//params.put("uuid", mEmaUser.getUUID());
 		params.put("wallet_pwd", passw);
-		String sign = UCommUtil.getSign(mConfigManager.getAppId(),
+		/*String sign = UCommUtil.getSign(mConfigManager.getAppId(),
 				mEmaUser.getAccessSid(),
 				mEmaUser.getUUID(),
 				mConfigManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		
 		new HttpInvoker().postAsync(Url.getPayUrlCheckPayPassw(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
@@ -217,15 +217,15 @@ public class SetPayLimit {
 	private void doChangeLimit(final String limit, String passw){
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("app_id", mConfigManager.getAppId());
-		params.put("sid", mEmaUser.getAccessSid());
-		params.put("uuid", mEmaUser.getUUID());
+		//params.put("sid", mEmaUser.getAccessSid());
+		//params.put("uuid", mEmaUser.getUUID());
 		params.put("cur_passwd", passw);
 		params.put("limit", Integer.valueOf(limit) * 100 + "");
-		String sign = UCommUtil.getSign(mConfigManager.getAppId(),
+		/*String sign = UCommUtil.getSign(mConfigManager.getAppId(),
 				mEmaUser.getAccessSid(),
 				mEmaUser.getUUID(),
 				mConfigManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		
 		 new HttpInvoker().postAsync(Url.getPayUrlSetPayLimit(), params, new HttpInvoker.OnResponsetListener() {
 			@Override

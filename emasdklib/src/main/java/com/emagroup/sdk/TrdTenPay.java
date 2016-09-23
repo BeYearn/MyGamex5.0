@@ -1,11 +1,11 @@
 package com.emagroup.sdk;
 
-import java.util.HashMap;
-import java.util.Map;
+import android.app.Activity;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 使用财付通进行充值，支付
@@ -49,14 +49,14 @@ public class TrdTenPay {
 		params.put("device_id", deviceInfoManager.getDEVICE_ID());//设备ID
 		params.put("channel", configManager.getChannel());
 		
-		params.put("sid", emaUser.getAccessSid());
+		/*params.put("sid", emaUser.getAccessSid());
 		params.put("uuid", emaUser.getUUID());
 		
 		String sign = UCommUtil.getSign(configManager.getAppId(),
 				emaUser.getAccessSid(),
 				emaUser.getUUID(),
 				configManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		
 		UCommUtil.testMapInfo(params);
 		
@@ -96,7 +96,6 @@ public class TrdTenPay {
 	/**
 	 * 获取财付通支付url
 	 * @param activity
-	 * @param money
 	 */
 	public static void getPayUrl(final Activity activity){
 		EmaUser emaUser = EmaUser.getInstance();
@@ -106,14 +105,14 @@ public class TrdTenPay {
 		
 		Map<String, String> params = emaPay.buildPayParams();
 		params.put("wallet_amount", "0");
-		params.put("sid", emaUser.getAccessSid());
-		params.put("uuid", emaUser.getUUID());
+		//params.put("sid", emaUser.getAccessSid());
+		//params.put("uuid", emaUser.getUUID());
 		params.put("charge_channel", PayConst.PAY_CHARGE_CHANNEL_TENPAY + "");
 		params.put("device_id", deviceInfoManager.getDEVICE_ID());
 		params.put("channel", configManager.getChannel());
-		String sign = UCommUtil.getSign(configManager.getAppId(),
+		/*String sign = UCommUtil.getSign(configManager.getAppId(),
 				emaUser.getAccessSid(), emaUser.getUUID(), configManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		
 		UCommUtil.testMapInfo(params);
 		

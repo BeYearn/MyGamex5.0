@@ -244,7 +244,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
      */
     private void refreshWalletInfo() {
         // 重新从服务器获取余额
-        PayUtil.getWalletSetting(mConfigManager.getAppId(), mEmaUser.getAccessSid(),
+        /*PayUtil.getWalletSetting(mConfigManager.getAppId(), mEmaUser.getAccessSid(),
                 mEmaUser.getUUID(), mConfigManager.getAppKEY(), new HttpInvoker.OnResponsetListener() {
                     @Override
                     public void OnResponse(String result) {
@@ -254,7 +254,6 @@ public class PayMabiActivity extends Activity implements OnClickListener {
                             switch (resultCode) {
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS:
                                     LOG.d(TAG, "获取钱包信息成功！");
-                                    mEmaUser.setBalance(json.getInt("balance"));
                                     //mEmaUser.setPayLimit(json.getInt("pay_limit"));
                                     //mEmaUser.setIsWalletHasPassw(json.getString("is_wallet_pwd"));
                                     mHandler.sendEmptyMessage(CODE_REFRESH_INFO);
@@ -270,7 +269,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
                             LOG.w(TAG, "onActivityResult get wallet setting error", e);
                         }
                     }
-                });
+                });*/
     }
 
     /**
@@ -406,5 +405,12 @@ public class PayMabiActivity extends Activity implements OnClickListener {
             mIDmap.put(key, mResourceManager.getIdentifier(key, "id"));
         }
         return mIDmap.get(key);
+    }
+
+
+    @Override
+    protected void onStop() {
+        ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
+        super.onStop();
     }
 }

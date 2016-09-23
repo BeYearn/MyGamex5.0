@@ -93,7 +93,7 @@
             android:value="10001" />
         <meta-data
             android:name="EMA_APP_KEY"
-            android:value="fed8ffee39bad093b90d77e50f86ec37" />
+            android:value="800a924c499772bac7b76432803ea47a"/>
         <meta-data
             android:name="EMA_CHANNEL"
             android:value="70" />

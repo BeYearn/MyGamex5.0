@@ -4,8 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#eeeeee"
-    android:orientation="vertical"
-    tools:context=".EmaRechargeMabi" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"

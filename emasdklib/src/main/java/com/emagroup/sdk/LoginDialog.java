@@ -691,8 +691,8 @@ public class LoginDialog extends Dialog implements
                                     LOG.d(TAG, "自动登录成功");
                                     mEmaUser.setNickName(mAutoUserInfoBean
                                             .getUsername());
-                                    mEmaUser.setUUID(mAutoUserInfoBean.getUuid());
-                                    mEmaUser.setSid(mAutoUserInfoBean.getSid());
+                                    //mEmaUser.setUUID(mAutoUserInfoBean.getUuid());
+                                    //mEmaUser.setSid(mAutoUserInfoBean.getSid());
                                     mEmaUser.setLoginType(UserConst.LOGIN_WITH_SID);
                                     msg.what = CODE_SUCCESS;
                                     break;

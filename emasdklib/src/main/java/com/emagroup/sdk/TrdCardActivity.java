@@ -282,8 +282,8 @@ public class TrdCardActivity extends Activity implements OnClickListener {
 		
 		Map<String, String> params = emaPay.buildPayParams();
 		params.put("wallet_amount", "0");
-		params.put("sid", emaUser.getAccessSid());
-		params.put("uuid", emaUser.getUUID());
+		//params.put("sid", emaUser.getAccessSid());
+		//params.put("uuid", emaUser.getUUID());
 		if(type == TYPE_GAMECARD_PAY){
 			params.put("charge_channel", PayConst.PAY_CHARGE_CHANNEL_GAMECARD + "");
 		}else{
@@ -295,9 +295,9 @@ public class TrdCardActivity extends Activity implements OnClickListener {
 		params.put("cardinfo", cardInfo);//目前格式 cardNum_cardPassw_面值
 		params.put("device_id", deviceInfoManager.getDEVICE_ID());
 		params.put("channel", configManager.getChannel());
-		String sign = UCommUtil.getSign(configManager.getAppId(),
+		/*String sign = UCommUtil.getSign(configManager.getAppId(),
 				emaUser.getAccessSid(), emaUser.getUUID(), configManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		
 		UCommUtil.buildUrl(Url.getPayUrlRecharge(), params);
 		
@@ -402,14 +402,14 @@ public class TrdCardActivity extends Activity implements OnClickListener {
 		params.put("device_id", deviceInfoManager.getDEVICE_ID());//设备ID
 		params.put("channel", configManager.getChannel());
 		params.put("wallet_amount", "0");
-		params.put("sid", emaUser.getAccessSid());
+		/*params.put("sid", emaUser.getAccessSid());
 		params.put("uuid", emaUser.getUUID());
 		
 		String sign = UCommUtil.getSign(configManager.getAppId(),
 				emaUser.getAccessSid(),
 				emaUser.getUUID(),
 				configManager.getAppKEY());
-		params.put("sign", sign);
+		params.put("sign", sign);*/
 		
 		UCommUtil.buildUrl(Url.getPayUrlRecharge(), params);
 		

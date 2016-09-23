@@ -9,6 +9,9 @@ import android.os.IBinder;
 
 import com.igexin.sdk.PushManager;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class Ema {
@@ -168,29 +171,13 @@ public class Ema {
 			});
 		}
 	}
-	
-	/**
-	 * 游戏方登陆后，获取到了游戏角色信息后，调用此接口（必接）
-	 * 
-	 * 提交游戏数据
-	 */
-	public void submitLoginGameRole(Map<String, String> map){
-		LOG.d(TAG, "submitLoginGameRole");
-		RoleInfo info = new RoleInfo();
-		info.setRoleId(map.get(EmaConst.EMA_SUBMIT_ROLE_ID));
-		info.setRoleName(map.get(map.get(EmaConst.EMA_SUBMIT_ROLE_NAME)));
-		info.setRoleLevel(map.get(EmaConst.EMA_SUBMIT_ROLE_LEVEL));
-		info.setServerId(map.get(EmaConst.EMA_SUBMIT_SERVER_ID));
-		info.setServerName(map.get(EmaConst.EMA_SUBMIT_SERVER_NAME));
-		//EmaUser.getInstance().setRoleInfo(info);
-	}
-	
+
 	/**
 	 * 登出操作
 	 */
 	public void Logout(){
 		LOG.d(TAG, "Logout");
-		EmaUser.getInstance().clearPayInfo();
+		//EmaUser.getInstance().clearPayInfo();
 		EmaUser.getInstance().clearUserInfo();
 		USharedPerUtil.setParam(getContext(),"token","");
 		USharedPerUtil.setParam(getContext(),"nickname","");
@@ -259,6 +246,9 @@ public class Ema {
 			//显示悬浮窗
 			showToolBar();
 
+			//查询所有用户信息
+			getUserInfo();
+
 			//绑定服务,发送心跳
 			Intent serviceIntent = new Intent(mContext, EmaService.class);
 			mContext.bindService(serviceIntent, mServiceCon, Context.BIND_AUTO_CREATE);
@@ -273,6 +263,45 @@ public class Ema {
 
 	public Context getContext(){
 		return mContext;
+	}
+
+	/**
+	 * call一次拿到所有用户信息
+	 */
+	public void getUserInfo(){
+		Map<String, String> params = new HashMap<>();
+		params.put("token",EmaUser.getInstance().getmToken());
+		new HttpInvoker().postAsync(Url.getUserInfoUrl(), params,
+				new HttpInvoker.OnResponsetListener() {
+					@Override
+					public void OnResponse(String result) {
+						try {
+							JSONObject jsonObject = new JSONObject(result);
+							String message= jsonObject.getString("message");
+							String status= jsonObject.getString("status");
+
+							JSONObject productData = jsonObject.getJSONObject("data");
+							String email = productData.getString("email");
+							boolean ifSetChargePwd = productData.getString("ifSetChargePwd").equals("1");
+							String mobile = productData.getString("mobile");
+							String nickname = productData.getString("nickname");
+							String pfCoin = productData.getString("pfCoin");
+							String uid = productData.getString("uid");
+
+							EmaUser.getInstance().setEmail(email);
+							EmaUser.getInstance().setIsWalletHasPassw(ifSetChargePwd);
+							EmaUser.getInstance().setMobile(mobile);
+							EmaUser.getInstance().setNickName(nickname);
+							EmaUser.getInstance().setBalance(pfCoin);
+							EmaUser.getInstance().setmUid(uid);
+
+							LOG.e("getUserInfo",message+ifSetChargePwd+nickname+pfCoin+uid);
+
+						} catch (Exception e) {
+							LOG.w(TAG, "login error", e);
+						}
+					}
+				});
 	}
 	
 	/**
