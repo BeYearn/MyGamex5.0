@@ -12,6 +12,16 @@ public class EmaPayInfo implements Parcelable {
     private String productNum;
     private String productId;
 
+    private String gameTransCode; // 游戏需要的一个透传参数，可空
+
+    public String getGameTransCode() {
+        return gameTransCode;
+    }
+
+    public void setGameTransCode(String gameTransCode) {
+        this.gameTransCode = gameTransCode;
+    }
+
     //登录后才能拿到
     private String uid;
 
@@ -105,6 +115,7 @@ public class EmaPayInfo implements Parcelable {
         dest.writeString(uid);
         dest.writeInt(price);
         dest.writeByte((byte) (coinEnough ? 1 : 0));     //if myBoolean == true, byte == 1
+        dest.writeString(gameTransCode);
     }
 
     public EmaPayInfo(Parcel source) {
@@ -116,6 +127,7 @@ public class EmaPayInfo implements Parcelable {
         uid = source.readString();
         price = source.readInt();
         coinEnough = source.readByte() != 0;     //myBoolean == true if byte != 0
+        gameTransCode = source.readString();
     }
 
     //实例化静态内部对象CREATOR实现接口Parcelable.Creator

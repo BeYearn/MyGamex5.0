@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 
 import org.json.JSONObject;
 
@@ -86,6 +87,9 @@ public class EmaPay {
         params.put("pid", payInfo.getProductId());
         params.put("token",mEmaUser.getmToken());
         params.put("quantity", payInfo.getProductNum());
+        if(!TextUtils.isEmpty(payInfo.getGameTransCode())){
+            params.put("gameTransCode", payInfo.getGameTransCode());
+        }
         LOG.e("Emapay_pay",payInfo.getProductId()+".."+mEmaUser.getmToken()+".."+payInfo.getProductNum());
 
         new HttpInvoker().postAsync(Url.getOrderStartUrl(), params,
