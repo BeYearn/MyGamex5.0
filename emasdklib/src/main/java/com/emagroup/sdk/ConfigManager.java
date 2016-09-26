@@ -28,7 +28,8 @@ public class ConfigManager {
 	
 	
 	private static final Object synchron = new Object();
-	
+	private String channelTag;
+
 	public static ConfigManager getInstance(Context context){
 		if(mInstance == null){
 			synchronized (synchron) {
@@ -223,7 +224,17 @@ public class ConfigManager {
 		}
 		return mChannel;
 	}
-	
+	/**
+	 * 获取渠道号tag
+	 */
+	public String getChannelTag(){
+		if(channelTag == null){
+			channelTag = getIntegerFromMetaData(mContext,"EMA_CHANNEL_TAG")+"";
+		}
+		return channelTag;
+	}
+
+
 	/**
 	 * 初始化服务器地址，在sdk初始化的时候做
 	 */

@@ -134,6 +134,7 @@ public class LoginDialog extends Dialog implements
         params.put("accountType", "0");
         params.put("deviceType", "android");
         params.put("allianceId", mConfigManager.getChannel());
+        params.put("channelTag", mConfigManager.getChannelTag());
         params.put("appKey", mConfigManager.getAppKEY());
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params,
@@ -208,6 +209,7 @@ public class LoginDialog extends Dialog implements
         params.put("deviceType", "android");
         params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
         params.put("allianceId", mConfigManager.getChannel());
+        params.put("channelTag", mConfigManager.getChannelTag());
 
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
@@ -663,6 +665,7 @@ public class LoginDialog extends Dialog implements
         params.put("sid", mAutoUserInfoBean.getSid());
         params.put("uuid", mAutoUserInfoBean.getUuid());
         params.put("channel", mConfigManager.getChannel());
+        params.put("channelTag", mConfigManager.getChannelTag());
         params.put("device_id", mDeviceInfoManager.getDEVICE_ID());
         if (mFlagIsLoginByAnlaiye) {
             params.put("paltform", "aly");

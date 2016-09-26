@@ -87,7 +87,8 @@ public class Ema {
 
 			//埋点，发送初始化信息
 			//EmaSendInfo.sendInitDeviceInfo();
-			//检查基本的配置是否正确
+
+			//检查基本的配置是否正确,仿佛并无卵用（因为不会得到null的）
 			if(checkInitIsOK()){
 				mFlagIsInitSuccess = true;
 				makeCallBack(EmaCallBackConst.INITSUCCESS, "初始化完成");

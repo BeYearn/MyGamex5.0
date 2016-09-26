@@ -263,7 +263,8 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 			params.put("device_id", mDeviceInfoManager.getDEVICE_ID());
 			params.put("app_id", mConfigManager.getAppId());
 			params.put("channel", mConfigManager.getChannel());
-			
+			params.put("channelTag", mConfigManager.getChannelTag());
+
 			new HttpInvoker().postAsync(Url.getRegisterUrlNomarl(), params, new HttpInvoker.OnResponsetListener() {
 				@Override
 				public void OnResponse(String result) {
@@ -341,6 +342,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 		params.put("loginname", mEdtNameView.getText().toString());
 		params.put("passwd", mEdtPasswView.getText().toString());
 		params.put("channel", mConfigManager.getChannel());
+		params.put("channelTag", mConfigManager.getChannelTag());
 		params.put("device_id", mDeviceInfoManager.getDEVICE_ID());
 		params.put("app_id", mConfigManager.getAppId());
 		
