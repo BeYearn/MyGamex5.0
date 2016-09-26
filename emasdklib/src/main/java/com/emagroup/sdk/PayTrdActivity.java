@@ -145,20 +145,20 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 				String key = bean.getChannelCode();
 				if(key.equals(PayConst.PAY_TRD_QIANBAO)){//钱包支付
 					
-					PayUtil.GoPayByMabi(PayTrdActivity.this, REQUEST_CODE_PAY_MABI);
+					//PayUtil.GoPayByMabi(PayTrdActivity.this, REQUEST_CODE_PAY_MABI);
 					
 				}else if(key.equals(PayConst.PAY_TRD_TENPAY)){//财付通支付
 					
-					mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
-					PayUtil.GoPayByTenpay(PayTrdActivity.this);
+					//mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
+					//PayUtil.GoPayByTenpay(PayTrdActivity.this);
 					
 				}else if(key.equals(PayConst.PAY_TRD_GAMECARD)){//游戏卡支付
 					
-					PayUtil.GoPayByGameCardpay(PayTrdActivity.this, REQUEST_CODE_PAY_GAMECARD);
+					//PayUtil.GoPayByGameCardpay(PayTrdActivity.this, REQUEST_CODE_PAY_GAMECARD);
 					
 				}else if(key.equals(PayConst.PAY_TRD_PHONE_CARD)){//手机卡支付
 					
-					PayUtil.GoPayByPhoneCardpay(PayTrdActivity.this, REQUEST_CODE_PAY_PHONECARD);
+					//PayUtil.GoPayByPhoneCardpay(PayTrdActivity.this, REQUEST_CODE_PAY_PHONECARD);
 					
 				}else if(key.equals(PayConst.PAY_TRD_ALIPAY)){//支付宝支付
 					
@@ -173,12 +173,12 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 					
 				}else if(key.equals(PayConst.PAY_TRD_WEIXIN)){//微信支付
 					
-					mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
-					PayUtil.GoPayByWeixin(PayTrdActivity.this, mHandler);
+					//mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
+					//PayUtil.GoPayByWeixin(PayTrdActivity.this, mHandler);
 					
 				}else if(key.equals(PayConst.PAY_TRD_0YUANFU)){//0元付
 					
-					PayUtil.GoPayBy0yuanfu(PayTrdActivity.this, bean,  mHandler);
+					//PayUtil.GoPayBy0yuanfu(PayTrdActivity.this, bean,  mHandler);
 					
 				}
 			}

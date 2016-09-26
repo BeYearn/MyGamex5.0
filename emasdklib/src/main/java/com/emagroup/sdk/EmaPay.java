@@ -141,7 +141,7 @@ public class EmaPay {
 
     private void doNextPay(EmaPayInfo payInfo) {
         Intent intent = null;
-        if (payInfo.isCoinEnough()) {    //正确的应该这里不加“！”
+        if (payInfo.isCoinEnough()) {
             LOG.d(TAG, "余额足够，显示钱包支付");
             intent = new Intent(mContext, PayMabiActivity.class);
         } else {
