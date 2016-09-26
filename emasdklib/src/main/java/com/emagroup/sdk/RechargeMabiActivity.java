@@ -176,16 +176,16 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 				String key = bean.getChannelCode();
 				if(key.equals(PayConst.PAY_TRD_TENPAY)){//财付通充值
 					
-					mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
-					PayUtil.GoRechargeByTenpay(RechargeMabiActivity.this, money);
+					//mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
+					//PayUtil.GoRechargeByTenpay(RechargeMabiActivity.this, money);
 					
 				}else if(key.equals(PayConst.PAY_TRD_GAMECARD)){//游戏卡充值
 					
-					PayUtil.GoRechargeByGamecard(RechargeMabiActivity.this, money);
+					//PayUtil.GoRechargeByGamecard(RechargeMabiActivity.this, money);
 					
 				}else if(key.equals(PayConst.PAY_TRD_PHONE_CARD)){//手机充值
 					
-					PayUtil.GoRechargeByPhonecard(RechargeMabiActivity.this, money);
+					//PayUtil.GoRechargeByPhonecard(RechargeMabiActivity.this, money);
 					
 				}else if(key.equals(PayConst.PAY_TRD_ALIPAY)){//支付宝充值
 					
@@ -193,11 +193,11 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 					
 				}else if(key.equals(PayConst.PAY_TRD_WEIXIN)){//微信充值
 					
-					PayUtil.GoRechargeByWeixin(RechargeMabiActivity.this, money, mHandler);
+					//PayUtil.GoRechargeByWeixin(RechargeMabiActivity.this, money, mHandler);
 					
 				}else if(key.equals(PayConst.PAY_TRD_0YUANFU)){//0元付充值
 					
-					PayUtil.GoRechargeBy0YuanFu(RechargeMabiActivity.this, money, mHandler);
+					//PayUtil.GoRechargeBy0YuanFu(RechargeMabiActivity.this, money, mHandler);
 					
 				}
 			}
