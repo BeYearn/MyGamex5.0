@@ -146,20 +146,20 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 				if(key.equals(PayConst.PAY_TRD_QIANBAO)){//钱包支付
 					
 					//PayUtil.GoPayByMabi(PayTrdActivity.this, REQUEST_CODE_PAY_MABI);
-					
+					ToastHelper.toast(PayTrdActivity.this,"暂不支持");
 				}else if(key.equals(PayConst.PAY_TRD_TENPAY)){//财付通支付
 					
 					//mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
 					//PayUtil.GoPayByTenpay(PayTrdActivity.this);
-					
+					ToastHelper.toast(PayTrdActivity.this,"暂不支持");
 				}else if(key.equals(PayConst.PAY_TRD_GAMECARD)){//游戏卡支付
 					
 					//PayUtil.GoPayByGameCardpay(PayTrdActivity.this, REQUEST_CODE_PAY_GAMECARD);
-					
+					ToastHelper.toast(PayTrdActivity.this,"暂不支持");
 				}else if(key.equals(PayConst.PAY_TRD_PHONE_CARD)){//手机卡支付
 					
 					//PayUtil.GoPayByPhoneCardpay(PayTrdActivity.this, REQUEST_CODE_PAY_PHONECARD);
-					
+					ToastHelper.toast(PayTrdActivity.this,"暂不支持");
 				}else if(key.equals(PayConst.PAY_TRD_ALIPAY)){//支付宝支付
 					
 					//PayUtil.GoPayByAlipay(PayTrdActivity.this, mHandler);   现在如下：钱不够先走充值完了再用余额支付（用户感知为直接用钱买）
@@ -175,9 +175,9 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 					
 					//mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
 					//PayUtil.GoPayByWeixin(PayTrdActivity.this, mHandler);
-					
+					ToastHelper.toast(PayTrdActivity.this,"暂不支持");
 				}else if(key.equals(PayConst.PAY_TRD_0YUANFU)){//0元付
-					
+					ToastHelper.toast(PayTrdActivity.this,"暂不支持");
 					//PayUtil.GoPayBy0yuanfu(PayTrdActivity.this, bean,  mHandler);
 					
 				}

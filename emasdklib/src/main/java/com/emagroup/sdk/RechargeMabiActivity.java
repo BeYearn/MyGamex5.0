@@ -178,13 +178,13 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 					
 					//mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
 					//PayUtil.GoRechargeByTenpay(RechargeMabiActivity.this, money);
-					
+					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 				}else if(key.equals(PayConst.PAY_TRD_GAMECARD)){//游戏卡充值
-					
+					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 					//PayUtil.GoRechargeByGamecard(RechargeMabiActivity.this, money);
 					
 				}else if(key.equals(PayConst.PAY_TRD_PHONE_CARD)){//手机充值
-					
+					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 					//PayUtil.GoRechargeByPhonecard(RechargeMabiActivity.this, money);
 					
 				}else if(key.equals(PayConst.PAY_TRD_ALIPAY)){//支付宝充值
@@ -192,11 +192,11 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 					PayUtil.GoRecharegeByAlipay(RechargeMabiActivity.this, emaPayInfo, mHandler);
 					
 				}else if(key.equals(PayConst.PAY_TRD_WEIXIN)){//微信充值
-					
+					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 					//PayUtil.GoRechargeByWeixin(RechargeMabiActivity.this, money, mHandler);
 					
 				}else if(key.equals(PayConst.PAY_TRD_0YUANFU)){//0元付充值
-					
+					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 					//PayUtil.GoRechargeBy0YuanFu(RechargeMabiActivity.this, money, mHandler);
 					
 				}
