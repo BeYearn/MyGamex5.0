@@ -187,7 +187,9 @@ public class ConfigManager {
 	 */
 	public String getAppKEY() {
 		if(mAppKey == null){
-			mAppKey = getStringFromMetaData(mContext, "EMA_APP_KEY");
+			//mAppKey = getStringFromMetaData(mContext, "EMA_APP_KEY");
+			mAppKey = EmaUser.getInstance().getAppKey();  //改为从网络获取，不再写到本地
+			//mAppKey ="800a924c499772bac7b76432803ea47a";
 		}
 		return mAppKey;
 	}

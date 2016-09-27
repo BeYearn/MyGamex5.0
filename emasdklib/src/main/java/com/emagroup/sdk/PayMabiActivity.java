@@ -304,7 +304,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
     }
 
     /**
-     * 支付
+     * 钱包支付，余额足够的情况下，显现钱包页面，输入钱包密码支付；
      */
     private void doPay() {
         String passw = mEdtPasswView.getText().toString();
@@ -380,6 +380,43 @@ public class PayMabiActivity extends Activity implements OnClickListener {
         });
     }
 
+    /**
+     * 钱包支付：用户不可感知的，充值完后进行的钱包支付（无需密码！！）
+     */
+    public static void doPayNoKeyWord(EmaPayInfo payInfo){
+        LOG.e(TAG, "充值成功后，继续支付中...");
+        Map<String, String> params = new HashMap<>();
+        params.put("orderId", payInfo.getOrderId());
+        params.put("token", EmaUser.getInstance().getmToken());
+        new HttpInvoker().postAsync(Url.getWalletPayNoPswUrl(), params, new HttpInvoker.OnResponsetListener() {
+            @Override
+            public void OnResponse(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    int resultCode = json.getInt("status");
+                    switch (resultCode) {
+                        case HttpInvokerConst.SDK_RESULT_SUCCESS://支付成功,目前只知道这个case（0）和下面（1）这两种情况
+                            LOG.d(TAG, "支付成功");
+                            ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
+                            UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
+                            break;
+                        case HttpInvokerConst.SDK_RESULT_FAILED:
+                            LOG.d(TAG, "支付失败");
+                            ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
+                            UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, json.getString("message"));
+                            break;
+                        default:
+                            LOG.d(TAG, "支付失败，失败原因未知");
+                            UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "支付失败");
+                            break;
+                    }
+                } catch (Exception e) {
+                    LOG.w(TAG, "doPay error", e);
+                    UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "支付失败");
+                }
+            }
+        });
+    }
 
     /**
      * 关闭设置支付密码对话框

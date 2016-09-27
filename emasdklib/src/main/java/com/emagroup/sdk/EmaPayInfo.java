@@ -8,6 +8,8 @@ import android.os.Parcelable;
  */
 public class EmaPayInfo implements Parcelable {
 
+    private boolean isReChargePay;
+
     private String productName;
     private String productNum;
     private String productId;
@@ -33,6 +35,14 @@ public class EmaPayInfo implements Parcelable {
     private int price;
     // 描述
     private String description;
+
+    public boolean isReChargePay() {
+        return isReChargePay;
+    }
+
+    public void setReChargePay(boolean isReChargePay) {
+        this.isReChargePay = isReChargePay;
+    }
 
     public String getDescription() {
         return description;
@@ -116,6 +126,7 @@ public class EmaPayInfo implements Parcelable {
         dest.writeInt(price);
         dest.writeByte((byte) (coinEnough ? 1 : 0));     //if myBoolean == true, byte == 1
         dest.writeString(gameTransCode);
+        dest.writeByte((byte) (isReChargePay ? 1 : 0));
     }
 
     public EmaPayInfo(Parcel source) {
@@ -128,6 +139,7 @@ public class EmaPayInfo implements Parcelable {
         price = source.readInt();
         coinEnough = source.readByte() != 0;     //myBoolean == true if byte != 0
         gameTransCode = source.readString();
+        isReChargePay = source.readByte() != 0;
     }
 
     //实例化静态内部对象CREATOR实现接口Parcelable.Creator

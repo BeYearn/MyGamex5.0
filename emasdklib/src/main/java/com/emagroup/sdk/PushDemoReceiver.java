@@ -28,8 +28,7 @@ public class PushDemoReceiver extends BroadcastReceiver {
                 if (payload != null) {
                     String data = new String(payload);
                     LOG.e("个推透传数据",data);
-                    // TODO:接收处理透传（payload）数据
-
+                    //接收处理透传（payload）数据
                     EmaSDK.getInstance().makeCallBack(EmaCallBackConst.RECIVEMSG_MSG,data);
                 }
                 break;

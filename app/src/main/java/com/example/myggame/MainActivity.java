@@ -1,8 +1,6 @@
 package com.example.myggame;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,6 +16,7 @@ import com.emagroup.sdk.EmaConst;
 import com.emagroup.sdk.EmaSDK;
 import com.emagroup.sdk.EmaSDKListener;
 import com.emagroup.sdk.EmaUser;
+import com.emagroup.sdk.ToastHelper;
 
 import java.util.HashMap;
 
@@ -60,7 +59,7 @@ public class MainActivity extends Activity implements OnClickListener {
                         Log.e("Mainactivity","sdk初始化失败");
                         break;
                     case EmaCallBackConst.LOGINSUCCESS://登陆成功回调
-                        showDialog("登陆成功\n设备id为\n----");
+                        ToastHelper.toast(MainActivity.this,"登陆成功");
                         Log.e("Mainactivity",EmaUser.getInstance().getNickName());
                         Log.e("Mainactivity", EmaUser.getInstance().getmUid());
                         Log.e("Mainactivity", EmaSDK.getInstance().getChannelId());
@@ -69,7 +68,7 @@ public class MainActivity extends Activity implements OnClickListener {
                         break;
                     case EmaCallBackConst.LOGINFALIED://登陆失败回调
                         Log.e("++++++++++", Thread.currentThread().getName());
-                        showDialog("登陆失败");
+                        ToastHelper.toast(MainActivity.this,"登陆失败");
                         break;
                     case EmaCallBackConst.LOGOUTSUCCESS://登出成功回调
                         break;
@@ -140,13 +139,13 @@ public class MainActivity extends Activity implements OnClickListener {
                         Log.d(String.valueOf(arg0), arg1);
                         switch (arg0) {
                             case EmaCallBackConst.PAYSUCCESS:// 支付成功回调
-                                showDialog("pay successful---");
+                                ToastHelper.toast(MainActivity.this,"pay successful---");
                                 break;
                             case EmaCallBackConst.PAYFALIED:// 支付失败回调
-                                showDialog("pay failed---");
+                                ToastHelper.toast(MainActivity.this,"pay failed---");
                                 break;
                             case EmaCallBackConst.PAYCANELI:// 支付取消回调
-                                showDialog("pay Cancel");
+                                ToastHelper.toast(MainActivity.this,"pay Cancel");
                                 break;
                         }
                     }
@@ -157,7 +156,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
     }
 
-    private void showDialog(String str) {
+    /*private void showDialog(String str) {
         final String curMsg = str;
         uiHandler.post(new Runnable() {
             @Override
@@ -168,14 +167,14 @@ public class MainActivity extends Activity implements OnClickListener {
                 //builder.setMessage("是否确认退出?"); //设置内容
                 //builder.setIcon(R.drawable.ic_launcher);//设置图标，图片id即可
                 //设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
-        /*builder.setItems(items,new DialogInterface.OnClickListener() {
+        *//*builder.setItems(items,new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 Toast.makeText(MainActivity.this, items[which], Toast.LENGTH_SHORT).show();
 
             }
-        });*/
+        });*//*
                 builder.setMessage(curMsg);
                 builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
@@ -187,7 +186,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 builder.create().show();
             }
         });
-    }
+    }*/
 
 
     @Override

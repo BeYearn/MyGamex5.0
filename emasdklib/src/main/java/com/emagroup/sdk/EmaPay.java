@@ -142,8 +142,14 @@ public class EmaPay {
     private void doNextPay(EmaPayInfo payInfo) {
         Intent intent = null;
         if (payInfo.isCoinEnough()) {
-            LOG.d(TAG, "余额足够，显示钱包支付");
-            intent = new Intent(mContext, PayMabiActivity.class);
+            if(!payInfo.isReChargePay()){
+                LOG.d(TAG, "余额足够，显示钱包支付");
+                intent = new Intent(mContext, PayMabiActivity.class);
+
+            }else {  // 如果是充值来的，就静默走这个
+                PayMabiActivity.doPayNoKeyWord(payInfo);
+                return;
+            }
         } else {
             LOG.d(TAG, "余额不足，显示第三方支付");
             intent = new Intent(mContext, PayTrdActivity.class);

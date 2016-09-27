@@ -125,6 +125,48 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 		
 		initView();
 		initData();
+		reFreshUserInfo();
+	}
+
+	/**
+	 * 刷新一次用户信息，主要是为了刷新余额
+	 */
+	private void reFreshUserInfo() {
+			Map<String, String> params = new HashMap<>();
+			params.put("token",EmaUser.getInstance().getmToken());
+			new HttpInvoker().postAsync(Url.getUserInfoUrl(), params,
+					new HttpInvoker.OnResponsetListener() {
+						@Override
+						public void OnResponse(String result) {
+							try {
+								JSONObject jsonObject = new JSONObject(result);
+								String message= jsonObject.getString("message");
+								String status= jsonObject.getString("status");
+
+								JSONObject productData = jsonObject.getJSONObject("data");
+								String email = productData.getString("email");
+								boolean ifSetChargePwd = productData.getString("ifSetChargePwd").equals("1");
+								String mobile = productData.getString("mobile");
+								String nickname = productData.getString("nickname");
+								String pfCoin = productData.getString("pfCoin");
+								String uid = productData.getString("uid");
+
+								EmaUser.getInstance().setEmail(email);
+								EmaUser.getInstance().setIsWalletHasPassw(ifSetChargePwd);
+								EmaUser.getInstance().setMobile(mobile);
+								EmaUser.getInstance().setNickName(nickname);
+								EmaUser.getInstance().setBalance(pfCoin);
+								EmaUser.getInstance().setmUid(uid);
+
+								LOG.e("getUserInfo",message+ifSetChargePwd+nickname+pfCoin+uid);
+
+								initData();  // 刷新一次余额
+
+							} catch (Exception e) {
+								LOG.w(TAG, "login error", e);
+							}
+						}
+					});
 	}
 
 	/**

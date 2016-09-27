@@ -239,6 +239,8 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 			//showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_SUCC, "");
 
 			//充值成功，此时再重新走一边支付
+			LOG.e("paythirdActivity","充值完毕再走一次钱包支付");
+			mPayInfo.setReChargePay(true);
 			EmaPay.getInstance(Ema.getInstance().getContext()).pay(mPayInfo,EmaPay.getInstance(Ema.getInstance().getContext()).mPayListener);
 			PayTrdActivity.this.finish();
 		
