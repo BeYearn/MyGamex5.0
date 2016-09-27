@@ -74,8 +74,7 @@ public class TrdAliPay {
 		// 签约卖家支付宝账号
 		sb.append("&seller_id=\"").append(SELLER).append("\"");
 		// 商品金额
-		//sb.append("&total_fee=\"").append(payInfo.getPrice()).append("\"");
-		sb.append("&total_fee=\"").append("0.01").append("\""); //TODO 此处先写死为 一分
+		sb.append("&total_fee=\"").append(payInfo.getPrice()).append("\"");
 		// 商品详情
 		sb.append("&body=\"").append(payInfo.getDescription()).append("\"");
 		String rawPayInfoString = sb.toString();
