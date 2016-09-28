@@ -23,8 +23,8 @@ public class EmaSDK {
     }
 
 
-    public void init(Activity activity, EmaSDKListener listener){
-        Ema.getInstance().init(activity,listener);
+    public void init(String appKey,Activity activity, EmaSDKListener listener){
+        Ema.getInstance().init(appKey,activity,listener);
     }
 
 

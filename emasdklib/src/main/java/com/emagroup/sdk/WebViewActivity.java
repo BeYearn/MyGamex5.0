@@ -329,7 +329,9 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		String emaEnvi = ConfigManager.getInstance(this).getStringFromMetaData(this,"EMA_WHICH_ENVI");
 		if("staging".equals(emaEnvi)){
 			return key + "=" + value + ";domain=staging-platform.lemonade-game.com;path=/";
-		}else {
+		}else if("testing".equals(emaEnvi)){
+			return key + "=" + value + ";domain=testing-platform.lemonade-game.com;path=/";
+		}else{
 			return key + "=" + value + ";domain=platform.lemonade-game.com;path=/";
 		}
 	}

@@ -77,13 +77,6 @@ public class Url {
 		return getWebUrl() + "spread/login.html";
 	}
 
-	/**
-	 * 忘记支付密码界面
-	 * @return
-	 */
-	public static String getWebUrlFindpasswWallet(){
-		return getWebUrl() + "forgetwtpwd.html";
-	}
 
 	/**
 	 * 收集创建的角色信息
@@ -142,12 +135,20 @@ public class Url {
 		return serverUrl+"/wap/forgetpwd.html";
 	}
 
-	//staging 常量
-	public static final String STAGING_SERVER_URL="https://staging-platform.lemonade-game.com";
+	/**
+	 * 忘记钱包支付密码界面
+	 */
+	public static String getWebUrlFindpasswWallet(){
+		// TODO: 2016/9/26  忘记钱包支付密码界面
+		return serverUrl+"";
+	}
 
-	// TODO: 2016/9/22  这个用于测试,testing不对外开放 所以直接放在这里 正确的应该是下面这个
-	public static String serverUrl="https://testing-platform.lemonade-game.com:8443";
-	//private static String serverUrl="https://platform.lemonade-game.com";
+	//三个环境 常量
+	public static final String PRODUCTION_SERVER_URL="https://platform.lemonade-game.com";
+	public static final String STAGING_SERVER_URL="https://staging-platform.lemonade-game.com";
+	public static final String TESTING_SERVER_URL="https://testing-platform.lemonade-game.com:8443";
+
+	private static String serverUrl="https://platform.lemonade-game.com";
 
 	public static void setServerUrl(String url){
 		serverUrl=url;
@@ -192,6 +193,12 @@ public class Url {
 		return serverUrl+"/ema-platform/order/confirmOrder";
 	}
 	/**
+	 * 钱包确认支付，免密！！
+	 */
+	public static String getWalletPayNoPswUrl(){
+		return serverUrl+"/ema-platform/order/confirmOrderSilient";
+	}
+	/**
 	 * 验证登录状态
 	 */
 	public static  String getCheckLoginUrl(){
@@ -228,6 +235,21 @@ public class Url {
 	 */
 	public static String getUserInfoUrl(){
 		return serverUrl+"/ema-platform/member/getUserInfo";
+	}
+
+	/**
+	 * 检查维护状态
+	 */
+	public static String getSDKStatusUrl(){
+
+		return serverUrl+"/ema-platform/admin/getSystemInfo";
+	}
+
+	/**
+	 * 获取渠道key信息
+     */
+	public static String getChannelKayInfo(){
+		return serverUrl+"/ema-platform/admin/channelKeyInfo";
 	}
 //-------------------------------------------------------------------------------------------------------------------------------------------
 

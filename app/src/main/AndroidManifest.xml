@@ -1,10 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myggame"
     android:installLocation="auto"
-    android:versionCode="1"
+    android:versionCode="5"
     android:versionName="1.0">
-
-
 
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
@@ -90,7 +88,8 @@
 
         <meta-data
             android:name="EMA_APP_ID"
-            android:value="10001" />
+            android:value="10000" />
+        <!--这是四大名捕的参数-->
         <meta-data
             android:name="EMA_CHANNEL"
             android:value="26" />
@@ -99,7 +98,7 @@
             android:value="0" />
         <meta-data
             android:name="EMA_WHICH_ENVI"
-            android:value="production" />
+            android:value="testing" />
 
 
 

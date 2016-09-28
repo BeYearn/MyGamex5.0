@@ -9,10 +9,10 @@ public class EmaUser {
 
     //太不专业啦，但是还是暂时先把appkey放到这里
     private static String appKey;
-    public static String getAppKey() {
+    public String getAppKey() {
         return appKey;
     }
-    public static void setAppKey(String appKey) {
+    public void setAppKey(String appKey) {
         EmaUser.appKey = appKey;
     }
 

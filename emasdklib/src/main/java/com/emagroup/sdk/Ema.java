@@ -58,16 +58,25 @@ public class Ema {
 	/**
 	 * EmaSDK初始化
 	 */
-	public void init(Context context, EmaSDKListener listener){
+	public void init(String appKey,Context context, EmaSDKListener listener){
 		if(!mFlagIsInitSuccess){
-			//清除上次的日志记录文件
-			LOGToSdcardHelper.cleanFile();
-			
+
+			EmaUser.getInstance().setAppKey(appKey);
 			mContext = context;
 			mEmaListener = listener;
-			
+
 			//初始化，从配置文件设定服务器地址
 			ConfigManager.getInstance(getContext()).initServerUrl();
+
+			//先检查维护状态,并能从该方法中拿到appkey（这一步现在放在闪屏dialog中）
+			checkSDKStatus();
+
+			//闪屏
+			showSplash();
+
+			//清除上次的日志记录文件
+			LOGToSdcardHelper.cleanFile();
+
 			//从配置配置文件设定是否要将日志写入sdcard
 			LOGToSdcardHelper.setWriteFlag(ConfigManager.getInstance(getContext()).isNeedLogToSdcard());
 			
@@ -82,9 +91,6 @@ public class Ema {
 			//初始化第三方sdk
 			initThirdSDK();
 			
-			//闪屏
-			showSplash();
-
 			//埋点，发送初始化信息
 			//EmaSendInfo.sendInitDeviceInfo();
 
@@ -99,7 +105,14 @@ public class Ema {
 
 		}
 	}
-	
+
+	/**
+	 * 检查sdk是否维护状态，并能拿到appkey(这一步现在放在闪屏dialog中)
+	 */
+	private void checkSDKStatus() {
+		//long time = SystemClock.currentThreadTimeMillis();
+	}
+
 	/**
 	 * 检查初始化结果
 	 */
@@ -107,10 +120,6 @@ public class Ema {
 		ConfigManager configManager = ConfigManager.getInstance(mContext);
 		if(UCommUtil.isStrEmpty(configManager.getAppId())){
 			LOG.w(TAG, "APP_ID为空，请检查APP_ID配置");
-			return false;
-		}
-		if(UCommUtil.isStrEmpty(configManager.getAppKEY())){
-			LOG.w(TAG, "APP_KEY为空，请检查APP_KEY配置");
 			return false;
 		}
 		if(UCommUtil.isStrEmpty(configManager.getChannel())){

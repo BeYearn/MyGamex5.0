@@ -2,6 +2,7 @@ package com.emagroup.sdk;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -245,6 +246,10 @@ public class ConfigManager {
 		String emaEnvi = getStringFromMetaData(mContext,"EMA_WHICH_ENVI");
 		if("staging".equals(emaEnvi)){
 			Url.setServerUrl(Url.STAGING_SERVER_URL);
+		}else if("testing".equals(emaEnvi)){
+			Url.setServerUrl(Url.TESTING_SERVER_URL);
+		}else{
+			Url.setServerUrl(Url.PRODUCTION_SERVER_URL);
 		}
 	}
 
@@ -328,6 +333,24 @@ public class ConfigManager {
 			e.printStackTrace();
 		}
 		return value;
+	}
+
+	/**
+	 * 获取versioncode 整数
+	 * @param context
+     * @return
+     */
+	public int getVersionCode(Context context){
+		PackageManager packageManager=context.getPackageManager();
+		PackageInfo packageInfo;
+		int versionCode=0;
+		try {
+			packageInfo=packageManager.getPackageInfo(context.getPackageName(),0);
+			versionCode=packageInfo.versionCode;
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return versionCode;
 	}
 
 }
