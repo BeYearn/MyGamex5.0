@@ -87,12 +87,14 @@ public class EmaPay {
         params.put("pid", payInfo.getProductId());
         params.put("token",mEmaUser.getmToken());
         params.put("quantity", payInfo.getProductNum());
+        params.put("appId",ConfigManager.getInstance(mContext).getAppId());
         if(!TextUtils.isEmpty(payInfo.getGameTransCode())){
             params.put("gameTransCode", payInfo.getGameTransCode());
         }
         LOG.e("Emapay_pay",payInfo.getProductId()+".."+mEmaUser.getmToken()+".."+payInfo.getProductNum());
 
-        String sign = (TextUtils.isEmpty(payInfo.getGameTransCode())?null:payInfo.getGameTransCode())+payInfo.getProductId()+payInfo.getProductNum()+mEmaUser.getmToken();
+        String sign = ConfigManager.getInstance(mContext).getAppId()+(TextUtils.isEmpty(payInfo.getGameTransCode())?null:payInfo.getGameTransCode())+payInfo.getProductId()+payInfo.getProductNum()+mEmaUser.getmToken()+EmaUser.getInstance().getAppKey();
+        LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
 

@@ -148,7 +148,8 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         params.put("appId", mConfigManager.getAppId());
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
 
-        String sign = 0+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android";
+        String sign = 0+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+EmaUser.getInstance().getAppKey();
+        LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
 
@@ -157,9 +158,9 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                     @Override
                     public void OnResponse(String result) {
                         //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
-                        firstLoginResult=result;
                         try {
                             JSONObject json = new JSONObject(result);
+                            firstLoginResult=json.getString("data");
                             int resultCode = json.getInt("status");
                             switch (resultCode) {
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
@@ -220,17 +221,18 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         params.put("allianceId", mConfigManager.getChannel());
         params.put("channelTag", mConfigManager.getChannelTag());
 
-        String sign = 1+mConfigManager.getChannel()+mConfigManager.getAppId()+captcha+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+mEmaUser.getMobile();
+        String sign = 1+mConfigManager.getChannel()+mConfigManager.getAppId()+captcha+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+mEmaUser.getMobile()+EmaUser.getInstance().getAppKey();
+        LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
 
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
-                firstLoginResult=result;
                 mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                 try {
                     JSONObject json = new JSONObject(result);
+                    firstLoginResult=json.getString("data");
                     int resultCode = json.getInt("status");
                     switch (resultCode) {
                         case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
