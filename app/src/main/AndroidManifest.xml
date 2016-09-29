@@ -51,7 +51,6 @@
         <activity
             android:name="com.example.myggame.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,14 +87,14 @@
 
         <meta-data
             android:name="EMA_APP_ID"
-            android:value="10000" />
+            android:value="n10000" />
         <!--这是四大名捕的参数-->
         <meta-data
             android:name="EMA_CHANNEL"
-            android:value="26" />
+            android:value="n26" />
         <meta-data
             android:name="EMA_CHANNEL_TAG"
-            android:value="0" />
+            android:value="n0" />
         <meta-data
             android:name="EMA_WHICH_ENVI"
             android:value="testing" />

@@ -177,7 +177,7 @@ public class ConfigManager {
 	 */
 	public String getAppId() {
 		if(mAppid == null){
-			mAppid = getIntegerFromMetaData(mContext, "EMA_APP_ID") + "";
+			mAppid = getStringFromMetaData(mContext, "EMA_APP_ID").substring(1);
 		}
 		return mAppid;
 	}
@@ -223,7 +223,7 @@ public class ConfigManager {
 	public String getChannel() {
 		if(mChannel == null){
 			//mChannel = getChannelFromApk(mContext);  原来的意欲何为？？？？？？
-			mChannel=getIntegerFromMetaData(mContext,"EMA_CHANNEL")+"";
+			mChannel=getStringFromMetaData(mContext,"EMA_CHANNEL").substring(1);
 		}
 		return mChannel;
 	}
@@ -232,7 +232,7 @@ public class ConfigManager {
 	 */
 	public String getChannelTag(){
 		if(channelTag == null){
-			channelTag = getIntegerFromMetaData(mContext,"EMA_CHANNEL_TAG")+"";
+			channelTag = getStringFromMetaData(mContext,"EMA_CHANNEL_TAG").substring(1);
 		}
 		return channelTag;
 	}
