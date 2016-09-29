@@ -147,6 +147,11 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         params.put("channelTag", mConfigManager.getChannelTag());
         params.put("appId", mConfigManager.getAppId());
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
+
+        String sign = 0+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android";
+        sign = UCommUtil.MD5(sign);
+        params.put("sign", sign);
+
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params,
                 new HttpInvoker.OnResponsetListener() {
                     @Override
@@ -214,6 +219,10 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
         params.put("allianceId", mConfigManager.getChannel());
         params.put("channelTag", mConfigManager.getChannelTag());
+
+        String sign = 1+mConfigManager.getChannel()+mConfigManager.getAppId()+captcha+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+mEmaUser.getMobile();
+        sign = UCommUtil.MD5(sign);
+        params.put("sign", sign);
 
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
