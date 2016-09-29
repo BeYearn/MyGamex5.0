@@ -77,11 +77,12 @@ public class LoginDialog extends Dialog implements
     private LoginSuccDialog mLoginSuccDialog;// 登录成功后显示的对话框
 
 
+    private String firstLoginResult;
+
     private Map<String, Integer> mIDmap;
 
     // 进度条
     private EmaProgressDialog mProgress;
-
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -142,6 +143,7 @@ public class LoginDialog extends Dialog implements
                     @Override
                     public void OnResponse(String result) {
                         //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
+                        firstLoginResult=result;
                         try {
                             JSONObject json = new JSONObject(result);
                             int resultCode = json.getInt("status");
@@ -214,6 +216,7 @@ public class LoginDialog extends Dialog implements
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
+                firstLoginResult=result;
                 mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                 try {
                     JSONObject json = new JSONObject(result);
@@ -260,8 +263,9 @@ public class LoginDialog extends Dialog implements
      */
     private void LoginSecond() {
         Map<String, String> params = new HashMap<>();
-        params.put("authCode", authCode);
-        params.put("uid", userid);
+        /*params.put("authCode", authCode);
+        params.put("uid", userid);*/
+        params.put("data",firstLoginResult);
         new HttpInvoker().postAsync(callbackUrl, params,
                 new HttpInvoker.OnResponsetListener() {
                     @Override

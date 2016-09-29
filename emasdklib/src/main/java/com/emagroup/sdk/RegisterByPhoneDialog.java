@@ -65,9 +65,10 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
 
     //标记
     private boolean mFlagHasGetAuthCode;//标记当前状态是获取验证码之前(false)，还是获取了验证码之后(true)
+    private String firstLoginResult;
+
     // 进度条
     private EmaProgressDialog mProgress;
-
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
@@ -151,6 +152,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                     @Override
                     public void OnResponse(String result) {
                         //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
+                        firstLoginResult=result;
                         try {
                             JSONObject json = new JSONObject(result);
                             int resultCode = json.getInt("status");
@@ -216,6 +218,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
+                firstLoginResult=result;
                 mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                 try {
                     JSONObject json = new JSONObject(result);
@@ -264,8 +267,9 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
      */
     private void LoginSecond() {
         Map<String, String> params = new HashMap<>();
-        params.put("authCode", authCode);
-        params.put("uid", userid);
+        /*params.put("authCode", authCode);
+        params.put("uid", userid);*/
+        params.put("data",firstLoginResult);
         new HttpInvoker().postAsync(callbackUrl, params,
                 new HttpInvoker.OnResponsetListener() {
                     @Override
