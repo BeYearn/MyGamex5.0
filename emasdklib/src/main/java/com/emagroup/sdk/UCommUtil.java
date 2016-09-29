@@ -313,7 +313,7 @@ public class UCommUtil {
 					sb.append("0").append(Integer.toHexString(0xff & bytes[i]));
 				else
 					sb.append(Integer.toHexString(0xff & bytes[i]));
-			return sb.toString();
+			return sb.toString().toUpperCase();
 		} catch (Exception e) {
 		}
 		return "";

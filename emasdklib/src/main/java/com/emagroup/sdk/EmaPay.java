@@ -92,6 +92,10 @@ public class EmaPay {
         }
         LOG.e("Emapay_pay",payInfo.getProductId()+".."+mEmaUser.getmToken()+".."+payInfo.getProductNum());
 
+        String sign = (TextUtils.isEmpty(payInfo.getGameTransCode())?null:payInfo.getGameTransCode())+payInfo.getProductId()+payInfo.getProductNum()+mEmaUser.getmToken();
+        sign = UCommUtil.MD5(sign);
+        params.put("sign", sign);
+
         new HttpInvoker().postAsync(Url.getOrderStartUrl(), params,
                 new HttpInvoker.OnResponsetListener() {
                     @Override

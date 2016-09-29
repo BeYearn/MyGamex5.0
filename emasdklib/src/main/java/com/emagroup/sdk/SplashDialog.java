@@ -120,6 +120,11 @@ public class SplashDialog extends Dialog {
 		Map<String,String> params = new HashMap<>();
 		params.put("appId",ConfigManager.getInstance(mActivity).getAppId());
 		params.put("channelId",ConfigManager.getInstance(mActivity).getChannel());
+
+		String sign =ConfigManager.getInstance(mActivity).getAppId()+ConfigManager.getInstance(mActivity).getChannel();
+		sign = UCommUtil.MD5(sign);
+		params.put("sign", sign);
+
 		new HttpInvoker().postAsync(Url.getSDKStatusUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {
