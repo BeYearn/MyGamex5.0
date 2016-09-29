@@ -223,7 +223,7 @@ public class ConfigManager {
 	public String getChannel() {
 		if(mChannel == null){
 			//mChannel = getChannelFromApk(mContext);  原来的意欲何为？？？？？？
-			mChannel=getStringFromMetaData(mContext,"EMA_CHANNEL").substring(1);
+			mChannel=getStringFromMetaData(mContext,"EMA_CHANNEL_ID").substring(1);
 		}
 		return mChannel;
 	}

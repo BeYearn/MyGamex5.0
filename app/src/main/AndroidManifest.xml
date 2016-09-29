@@ -87,10 +87,9 @@
 
         <meta-data
             android:name="EMA_APP_ID"
-            android:value="n10000" />
-        <!--这是四大名捕的参数-->
+            android:value="n10001" />
         <meta-data
-            android:name="EMA_CHANNEL"
+            android:name="EMA_CHANNEL_ID"
             android:value="n26" />
         <meta-data
             android:name="EMA_CHANNEL_TAG"
