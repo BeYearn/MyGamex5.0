@@ -122,7 +122,7 @@ public class SplashDialog extends Dialog {
 		params.put("channelId",ConfigManager.getInstance(mActivity).getChannel());
 
 		String sign =ConfigManager.getInstance(mActivity).getAppId()+ConfigManager.getInstance(mActivity).getChannel()+EmaUser.getInstance().getAppKey();
-		LOG.e("rawSign",sign);
+		//LOG.e("rawSign",sign);
 		sign = UCommUtil.MD5(sign);
 		params.put("sign", sign);
 

@@ -140,7 +140,7 @@ public class LoginDialog extends Dialog implements
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
 
         String sign = 0+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+EmaUser.getInstance().getAppKey();
-        LOG.e("rawSign",sign);
+        //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
 
@@ -220,7 +220,7 @@ public class LoginDialog extends Dialog implements
         params.put("channelTag", mConfigManager.getChannelTag());
 
         String sign = 1+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+account+passw+EmaUser.getInstance().getAppKey();
-        LOG.e("rawSign",sign);
+        //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
 
