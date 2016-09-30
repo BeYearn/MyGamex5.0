@@ -77,10 +77,12 @@ public class EmaWebviewDialog extends Dialog {
 							message.what=ALERT_SHOW;
 							message.arg1=2;  // 两个按钮
 							message.arg2=2;  // 确定开始更新 取消退出
+							message.obj=mContentMap;
 						}else {
 							message.what=ALERT_SHOW;
 							message.arg1=2;
 							message.arg2=1;  // 确定开始更新 取消继续进去
+							message.obj=mContentMap;
 						}
 						mHandler.sendMessage(message);
 					}
