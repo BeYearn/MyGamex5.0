@@ -358,7 +358,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
                     android:background="@drawable/ema_shape_corner_btn5"
-                    android:text="忘记密码"
+                    android:text="修改密码"
                     android:textColor="#ff7111"
                     android:textSize="10dp" />
             </RelativeLayout>
