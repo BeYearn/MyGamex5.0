@@ -31,7 +31,7 @@ public class EmaPayInfo implements Parcelable {
     private String orderId;
     //钱包是否够
     private boolean coinEnough;
-    //订单金额
+    //订单金额(订单总额，乘以productNum得到)
     private int price;
     // 描述
     private String description;

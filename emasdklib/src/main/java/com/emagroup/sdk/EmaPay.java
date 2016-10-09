@@ -126,7 +126,7 @@ public class EmaPay {
                             payInfo.setUid(mEmaUser.getmUid());
                             payInfo.setCoinEnough(coinEnough);
                             payInfo.setProductName(productName);
-                            payInfo.setPrice(Integer.parseInt(productPrice));
+                            payInfo.setPrice(Integer.parseInt(productPrice)*Integer.parseInt(payInfo.getProductNum()));  // 总额
                             payInfo.setDescription(description);
 
                             LOG.e("createOrder",message+coinEnough+orderId+unit+productPrice);

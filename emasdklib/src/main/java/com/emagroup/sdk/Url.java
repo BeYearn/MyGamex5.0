@@ -139,8 +139,7 @@ public class Url {
 	 * 忘记钱包支付密码界面
 	 */
 	public static String getWebUrlFindpasswWallet(){
-		// TODO: 2016/9/26  忘记钱包支付密码界面
-		return serverUrl+"";
+		return serverUrl+"/wap/walletpwd.html";
 	}
 
 	//三个环境 常量
