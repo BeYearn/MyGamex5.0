@@ -159,8 +159,8 @@ public class LoginDialog extends Dialog implements
                                     USharedPerUtil.setParam(mActivity, "accountType", 0);//记录账户类型
 
                                     JSONObject data = json.getJSONObject("data");
-                                    userid = data.getString("uid");
-                                    LOG.e("uid", userid);
+                                    userid = data.getString("allianceUid");
+                                    LOG.e("allianceUid", userid);
                                     mEmaUser.setmUid(userid);
                                     allianceId = data.getString("allianceId");
                                     LOG.e("allianceId", allianceId);
@@ -237,8 +237,8 @@ public class LoginDialog extends Dialog implements
                             USharedPerUtil.setParam(mActivity, "accountType", 1);  //记录账户类型
 
                             JSONObject data = json.getJSONObject("data");
-                            userid = data.getString("uid");
-                            LOG.e("uid", userid);
+                            userid = data.getString("allianceUid");
+                            LOG.e("allianceUid", userid);
                             mEmaUser.setmUid(userid);
                             allianceId = data.getString("allianceId");
                             LOG.e("allianceId", allianceId);
