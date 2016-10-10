@@ -82,7 +82,7 @@ public class TrdAliPay {
 
 		Map<String, String> params = new HashMap<>();
 		params.put("orderInfo",rawPayInfoString);
-		params.put("token",EmaUser.getInstance().getmToken());
+		params.put("token",EmaUser.getInstance().getToken());
 		new HttpInvoker().postAsync(Url.getSignedPayInfoUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {

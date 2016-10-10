@@ -325,7 +325,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
         Map<String, String> params = new HashMap<>();
         params.put("orderId", mPayInfo.getOrderId());
         params.put("chargePwd", passw);
-        params.put("token", mEmaUser.getmToken());
+        params.put("token", mEmaUser.getToken());
         new HttpInvoker().postAsync(Url.getWalletPayUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
@@ -387,7 +387,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
         LOG.e(TAG, "充值成功后，继续支付中...");
         Map<String, String> params = new HashMap<>();
         params.put("orderId", payInfo.getOrderId());
-        params.put("token", EmaUser.getInstance().getmToken());
+        params.put("token", EmaUser.getInstance().getToken());
         new HttpInvoker().postAsync(Url.getWalletPayNoPswUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {

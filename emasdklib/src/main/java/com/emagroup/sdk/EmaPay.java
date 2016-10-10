@@ -85,15 +85,15 @@ public class EmaPay {
         //发起购买---->对订单号及信息的请求
         Map<String, String> params = new HashMap<>();
         params.put("pid", payInfo.getProductId());
-        params.put("token",mEmaUser.getmToken());
+        params.put("token",mEmaUser.getToken());
         params.put("quantity", payInfo.getProductNum());
         params.put("appId",ConfigManager.getInstance(mContext).getAppId());
         if(!TextUtils.isEmpty(payInfo.getGameTransCode())){
             params.put("gameTransCode", payInfo.getGameTransCode());
         }
-        LOG.e("Emapay_pay",payInfo.getProductId()+".."+mEmaUser.getmToken()+".."+payInfo.getProductNum());
+        LOG.e("Emapay_pay",payInfo.getProductId()+".."+mEmaUser.getToken()+".."+payInfo.getProductNum());
 
-        String sign = ConfigManager.getInstance(mContext).getAppId()+(TextUtils.isEmpty(payInfo.getGameTransCode())?null:payInfo.getGameTransCode())+payInfo.getProductId()+payInfo.getProductNum()+mEmaUser.getmToken()+EmaUser.getInstance().getAppKey();
+        String sign = ConfigManager.getInstance(mContext).getAppId()+(TextUtils.isEmpty(payInfo.getGameTransCode())?null:payInfo.getGameTransCode())+payInfo.getProductId()+payInfo.getProductNum()+mEmaUser.getToken()+EmaUser.getInstance().getAppKey();
         //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
@@ -123,7 +123,7 @@ public class EmaPay {
                             String unit = productInfo.getString("unit");
 
                             payInfo.setOrderId(orderId);
-                            payInfo.setUid(mEmaUser.getmUid());
+                            payInfo.setUid(mEmaUser.getAllianceUid());
                             payInfo.setCoinEnough(coinEnough);
                             payInfo.setProductName(productName);
                             payInfo.setPrice(Integer.parseInt(productPrice)*Integer.parseInt(payInfo.getProductNum()));  // 总额

@@ -61,7 +61,7 @@ public class MainActivity extends Activity implements OnClickListener {
                     case EmaCallBackConst.LOGINSUCCESS://登陆成功回调
                         ToastHelper.toast(MainActivity.this,"登陆成功");
                         Log.e("Mainactivity",EmaUser.getInstance().getNickName());
-                        Log.e("Mainactivity", EmaUser.getInstance().getmUid());
+                        Log.e("Mainactivity", EmaUser.getInstance().getAllianceUid());
                         Log.e("Mainactivity", EmaSDK.getInstance().getChannelId());
                         break;
                     case EmaCallBackConst.LOGINCANELL://登陆取消回调

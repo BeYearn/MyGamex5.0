@@ -280,7 +280,7 @@ public class Ema {
 	 */
 	public void getUserInfo(){
 		Map<String, String> params = new HashMap<>();
-		params.put("token",EmaUser.getInstance().getmToken());
+		params.put("token",EmaUser.getInstance().getToken());
 		new HttpInvoker().postAsync(Url.getUserInfoUrl(), params,
 				new HttpInvoker.OnResponsetListener() {
 					@Override

@@ -115,9 +115,9 @@ public class EmaDialogSetPayPassw extends Dialog implements android.view.View.On
 		mProgress.showProgress("设置密码中...", false, false);
 		
 		Map<String, String> params = new HashMap<>();
-		params.put("uid", mEmaUser.getmUid());
+		params.put("uid", mEmaUser.getAllianceUid());
 		params.put("chargePwd", passw);
-		params.put("token",mEmaUser.getmToken());
+		params.put("token",mEmaUser.getToken());
 		new HttpInvoker().postAsync(Url.getSetWalletPwdUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {

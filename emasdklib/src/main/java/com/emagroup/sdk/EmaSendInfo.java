@@ -32,7 +32,7 @@ public class EmaSendInfo {
 		}
 		params.put(PropertyField.MEMO, json.toString());//备注信息
 		UCommUtil.testMapInfo(params);*/
-		params.put("token", EmaUser.getInstance().getmToken());
+		params.put("token", EmaUser.getInstance().getToken());
 		new HttpInvoker().postAsync(Url.getHeartbeatUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {

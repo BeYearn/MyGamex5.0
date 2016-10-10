@@ -313,14 +313,14 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		cookieManager.setAcceptCookie(true);
 		cookieManager.removeAllCookie();
 		
-		cookieManager.setCookie(url, getCookie("token", mEmaUser.getmToken()));
-		cookieManager.setCookie(url, getCookie("uid", mEmaUser.getmUid()));
+		cookieManager.setCookie(url, getCookie("token", mEmaUser.getToken()));
+		cookieManager.setCookie(url, getCookie("uid", mEmaUser.getAllianceUid()));
 		cookieManager.setCookie(url, getCookie("nickname", mEmaUser.getNickName()));
 		//cookieManager.setCookie(url, getCookie("appid", mConfigManager.getAppId()));
 		cookieManager.setCookie(url,getCookie("deviceType","android"));
 		cookieManager.setCookie(url,getCookie("deviceKey",mDeviceInfoManager.getDEVICE_ID()));
 		cookieManager.setCookie(url,getCookie("accountType",mEmaUser.getAccountType()+""));
-		LOG.e("______________",mEmaUser.getmToken()+mEmaUser.getmUid()+mEmaUser.getNickName()+"deviceid"+mDeviceInfoManager.getDEVICE_ID()+"type"+mEmaUser.getAccountType()+"");
+		LOG.e("______________",mEmaUser.getToken()+mEmaUser.getAllianceUid()+mEmaUser.getNickName()+"deviceid"+mDeviceInfoManager.getDEVICE_ID()+"type"+mEmaUser.getAccountType()+"");
 		CookieSyncManager.getInstance().sync();
 		
 		String str = cookieManager.getCookie(url);

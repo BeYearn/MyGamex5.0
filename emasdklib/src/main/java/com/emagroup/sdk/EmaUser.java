@@ -56,7 +56,7 @@ public class EmaUser {
         EmaUser.accountType = accountType;
     }
 
-    public String getmUid() {
+    public String getAllianceUid() {
         return mUid;
     }
 
@@ -64,7 +64,7 @@ public class EmaUser {
         this.mUid = mUid;
     }
 
-    public String getmToken() {
+    public String getToken() {
         return mToken;
     }
 
