@@ -262,6 +262,9 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		case TYPE_FIND_LOGIN_PASSW:
 			doSetCookies(url);
 			break;
+		case TYPE_FIND_WALLET_PASSW:
+			doSetCookies(url);
+			break;
 		}
 		LOG.d(TAG, "url__:" + url);
 		mWebView.loadUrl(url);
