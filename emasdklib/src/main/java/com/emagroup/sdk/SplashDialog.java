@@ -46,6 +46,9 @@ public class SplashDialog extends Dialog {
 					break;
 				case DISMISS_NOW:
 					SplashDialog.this.dismiss();
+
+					//闪屏关闭 之后开始检查维护状态
+					checkSDKStatus();
 					break;
 				case ALERT_WEBVIEW_SHOW:
 					new EmaWebviewDialog(mActivity,SplashDialog.this,(Map) msg.obj,msg.arg1,msg.arg2,mHandler).show();
@@ -82,13 +85,9 @@ public class SplashDialog extends Dialog {
 		this.show();
 		startTime=System.currentTimeMillis();//记录show开始时间
 
-		//show之后开始检查维护状态
-		checkSDKStatus();
-
 		//得到appkey相关信息  官方平台不需要
 		//getChannelKeyInfo();
 
-		// TODO: 2016/9/27 暂时这样关闭闪屏
 		mTimer = new Timer();
 		mTimer.schedule(new TimerTask() {
 			@Override
