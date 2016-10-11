@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -104,6 +105,8 @@ public class EmaPay {
                     public void OnResponse(String result) {
                         //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                         try {
+                            Log.e("creatOrder",result);
+
                             JSONObject jsonObject = new JSONObject(result);
                             String message= jsonObject.getString("message");
                             String status= jsonObject.getString("status");
@@ -128,6 +131,7 @@ public class EmaPay {
                             payInfo.setProductName(productName);
                             payInfo.setPrice(Integer.parseInt(productPrice)*Integer.parseInt(payInfo.getProductNum()));  // 总额
                             payInfo.setDescription(description);
+                            payInfo.setProductId(channelProductCode); // 新加的，不过对于官方平台来说emaProductCode和channelProductCode一样的
 
                             LOG.e("createOrder",message+coinEnough+orderId+unit+productPrice);
 
