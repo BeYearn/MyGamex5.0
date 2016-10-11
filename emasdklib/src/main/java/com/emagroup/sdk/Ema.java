@@ -97,7 +97,7 @@ public class Ema {
 			//检查基本的配置是否正确,仿佛并无卵用（因为不会得到null的）
 			if(checkInitIsOK()){
 				mFlagIsInitSuccess = true;
-				makeCallBack(EmaCallBackConst.INITSUCCESS, "初始化完成");
+				//初始化成功调整到闪屏关闭后回调
 			}else{
 				mFlagIsInitSuccess = false;
 				makeCallBack(EmaCallBackConst.INITFALIED, "初始化失败！");

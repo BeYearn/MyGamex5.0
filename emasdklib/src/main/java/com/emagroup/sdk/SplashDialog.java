@@ -139,6 +139,8 @@ public class SplashDialog extends Dialog {
 						case HttpInvokerConst.SDK_RESULT_SUCCESS:// 请求状态成功
 							LOG.d(TAG, "请求状态成功！！");
 
+							Ema.getInstance().makeCallBack(EmaCallBackConst.INITSUCCESS, "初始化完成"); //一连串走完了到这里
+
 							JSONObject dataObj = json.getJSONObject("data");
 							JSONObject appVersionInfo = dataObj.getJSONObject("appVersionInfo");
 							JSONObject maintainInfo = dataObj.getJSONObject("maintainInfo");
