@@ -223,8 +223,9 @@ public class SplashDialog extends Dialog {
 											contentMap.put("whichUpdate","soft");
 										}
 									}
+								}else {
+									contentMap.put("whichUpdate","none");
 								}
-								contentMap.put("whichUpdate","none");
 								mHandler.sendMessage(message);
 
 							}else if("0".equals(showStatus)){ //维护状态

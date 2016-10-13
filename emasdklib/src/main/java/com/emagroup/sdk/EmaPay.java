@@ -49,6 +49,7 @@ public class EmaPay {
         }
 
     };
+    private EmaPayInfo mPayInfo;
 
     private EmaPay(Context context) {
         mContext = context;
@@ -75,7 +76,8 @@ public class EmaPay {
      *
      * @param
      */
-    public void pay(final EmaPayInfo payInfo, EmaPayListener payListener) {
+    public void pay(EmaPayInfo payInfo, EmaPayListener payListener) {
+        this.mPayInfo=payInfo;
         this.mPayListener=payListener;
         if (!mEmaUser.getIsLogin()) {
             ToastHelper.toast(mContext, "还未登陆，请先登陆！");
@@ -85,16 +87,16 @@ public class EmaPay {
 
         //发起购买---->对订单号及信息的请求
         Map<String, String> params = new HashMap<>();
-        params.put("pid", payInfo.getProductId());
+        params.put("pid", mPayInfo.getProductId());
         params.put("token",mEmaUser.getToken());
-        params.put("quantity", payInfo.getProductNum());
+        params.put("quantity", mPayInfo.getProductNum());
         params.put("appId",ConfigManager.getInstance(mContext).getAppId());
-        if(!TextUtils.isEmpty(payInfo.getGameTransCode())){
-            params.put("gameTransCode", payInfo.getGameTransCode());
+        if(!TextUtils.isEmpty(mPayInfo.getGameTransCode())){
+            params.put("gameTransCode", mPayInfo.getGameTransCode());
         }
-        LOG.e("Emapay_pay",payInfo.getProductId()+".."+mEmaUser.getToken()+".."+payInfo.getProductNum());
+        LOG.e("Emapay_pay",mPayInfo.getProductId()+".."+mEmaUser.getToken()+".."+mPayInfo.getProductNum());
 
-        String sign = ConfigManager.getInstance(mContext).getAppId()+(TextUtils.isEmpty(payInfo.getGameTransCode())?null:payInfo.getGameTransCode())+payInfo.getProductId()+payInfo.getProductNum()+mEmaUser.getToken()+EmaUser.getInstance().getAppKey();
+        String sign = ConfigManager.getInstance(mContext).getAppId()+(TextUtils.isEmpty(mPayInfo.getGameTransCode())?null:mPayInfo.getGameTransCode())+mPayInfo.getProductId()+mPayInfo.getProductNum()+mEmaUser.getToken()+EmaUser.getInstance().getAppKey();
         //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
@@ -125,19 +127,19 @@ public class EmaPay {
                             String productPrice = productInfo.getString("productPrice");
                             String unit = productInfo.getString("unit");
 
-                            payInfo.setOrderId(orderId);
-                            payInfo.setUid(mEmaUser.getAllianceUid());
-                            payInfo.setCoinEnough(coinEnough);
-                            payInfo.setProductName(productName);
-                            payInfo.setPrice(Integer.parseInt(productPrice)*Integer.parseInt(payInfo.getProductNum()));  // 总额
-                            payInfo.setDescription(description);
-                            payInfo.setProductId(channelProductCode); // 新加的，不过对于官方平台来说emaProductCode和channelProductCode一样的
+                            mPayInfo.setOrderId(orderId);
+                            mPayInfo.setUid(mEmaUser.getAllianceUid());
+                            mPayInfo.setCoinEnough(coinEnough);
+                            mPayInfo.setProductName(productName);
+                            mPayInfo.setPrice(Integer.parseInt(productPrice)*Integer.parseInt(mPayInfo.getProductNum()));  // 总额
+                            mPayInfo.setDescription(description);
+                            mPayInfo.setProductId(channelProductCode); // 新加的，不过对于官方平台来说emaProductCode和channelProductCode一样的
 
                             LOG.e("createOrder",message+coinEnough+orderId+unit+productPrice);
 
                             Message msg = new Message();
                             msg.what = ORDER_SUCCESS;
-                            msg.obj = payInfo;
+                            msg.obj = mPayInfo;
                             mHandler.sendMessage(msg);
                         } catch (Exception e) {
                             LOG.w(TAG, "login error", e);
@@ -176,10 +178,26 @@ public class EmaPay {
 
 
     /**
-     *  //TODO 取消订单
+     * 取消订单
      */
-    private void cancelOrder(){
+    public void cancelOrder(){
+        Map<String, String> params = new HashMap<>();
+        params.put("orderId", mPayInfo.getOrderId());
+        params.put("token",mEmaUser.getToken());
 
+        new HttpInvoker().postAsync(Url.getRejectOrderUrl(), params,
+                new HttpInvoker.OnResponsetListener() {
+                    @Override
+                    public void OnResponse(String result) {
+                        try {
+                            Log.e("cancleOrder",mPayInfo.getProductId()+"...."+result);
+
+                        } catch (Exception e) {
+                            LOG.w(TAG, "login error", e);
+                            mHandler.sendEmptyMessage(ORDER_FAIL);
+                        }
+                    }
+                });
     }
 
     /**

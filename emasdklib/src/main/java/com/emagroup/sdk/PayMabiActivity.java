@@ -231,6 +231,14 @@ public class PayMabiActivity extends Activity implements OnClickListener {
     }
 
     /**
+     * 监听返回按钮
+     */
+    @Override
+    public void onBackPressed() {
+        new EmaDialogPayPromptCancel(this).show();
+    }
+
+    /**
      * 修改支付额度完成后的回调
      *
      * @param msg

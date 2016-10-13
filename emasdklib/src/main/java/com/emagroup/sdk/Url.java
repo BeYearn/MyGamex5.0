@@ -179,6 +179,15 @@ public class Url {
 		//return "http://192.168.155.79:8080/ema-platform/order/createOrder";
 		return serverUrl+"/ema-platform/order/createOrder";
 	}
+
+	/**
+	 * 取消订单接口
+	 * @return
+     */
+	public static String getRejectOrderUrl(){
+		return serverUrl+"/ema-platform/order/rejectOrder";
+	}
+
 	/**
 	 * 设置支付密码
 	 */
