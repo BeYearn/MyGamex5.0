@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -56,6 +57,17 @@ public class SplashDialog extends Dialog {
 			}
 		}
 	};
+
+
+
+
+	private int necessary;
+	private String updateUrl;
+	private int version;
+	private String maintainBg;
+	private String maintainContent;
+	private String showStatus;
+
 
 	public SplashDialog(Context context) {
 		super(context, ResourceManager.getInstance(context).getIdentifier("ema_dialog", "style"));
@@ -142,39 +154,77 @@ public class SplashDialog extends Dialog {
 							Ema.getInstance().makeCallBack(EmaCallBackConst.INITSUCCESS, "初始化完成"); //一连串走完了到这里
 
 							JSONObject dataObj = json.getJSONObject("data");
-							JSONObject appVersionInfo = dataObj.getJSONObject("appVersionInfo");
-							JSONObject maintainInfo = dataObj.getJSONObject("maintainInfo");
-							//将得到的menubar信息存sp，在toobbar那边取
-							String menuBarInfo = dataObj.getString("menuBarInfo");
-							USharedPerUtil.setParam(mActivity, "menuBarInfo", menuBarInfo);
+							try{
+								JSONObject appVersionInfo = dataObj.getJSONObject("appVersionInfo");
+								necessary = appVersionInfo.getInt("necessary");
+								updateUrl = appVersionInfo.getString("updateUrl");
+								version = appVersionInfo.getInt("version");
+							}catch (Exception e) {
+								LOG.w(TAG, "jiexi appVersionInfo error", e);
+							}
 
-							int necessary = appVersionInfo.getInt("necessary");
-							String updateUrl = appVersionInfo.getString("updateUrl");
-							int version = appVersionInfo.getInt("version");
+							try {
+								JSONObject maintainInfo = dataObj.getJSONObject("maintainInfo");
+								maintainBg = maintainInfo.getString("maintainBg");
+								maintainContent = maintainInfo.getString("maintainContent");
+								showStatus = maintainInfo.getString("status");// 0-维护/1-公告
+							}catch (Exception e) {
+								LOG.w(TAG, "jiexi maintainInfo error", e);
+							}
 
-							String maintainBg = maintainInfo.getString("maintainBg");
-							String maintainContent = maintainInfo.getString("maintainContent");
-							String showStatus = maintainInfo.getString("status"); // 0-维护/1-公告
+							try {
+								//将得到的menubar信息存sp，在toolbar那边取
+								String menuBarInfo = dataObj.getString("menuBarInfo");
+								USharedPerUtil.setParam(mActivity, "menuBarInfo", menuBarInfo);
+							}catch (Exception e) {
+								USharedPerUtil.setParam(mActivity, "menuBarInfo", "");
+								LOG.w(TAG, "jiexi menuBarInfo error", e);
+							}
+
 
 							contentMap.put("updateUrl",updateUrl);
 							contentMap.put("maintainContent",maintainContent);
 							contentMap.put("whichUpdate","none");
 
-							if("1".equals(showStatus)){ //显示公告
+							if(TextUtils.isEmpty(showStatus)){
+
+								if(!TextUtils.isEmpty(updateUrl)){
+									HashMap<String, String> updateMap = new HashMap<>();
+									updateMap.put("updateUrl",updateUrl);
+
+									if(ConfigManager.getInstance(mActivity).getVersionCode(mActivity)<version){ // 需要更新
+										Log.e("gengxin",ConfigManager.getInstance(mActivity).getVersionCode(mActivity)+"..."+version);
+										if(1==necessary){  //necessary 1强更
+											message.arg2=2;
+										}else {
+											message.arg2=1;
+										}
+
+										message.what=ALERT_SHOW;
+										message.arg1=2;               //显示形式 1只有确定按钮
+										message.obj=updateMap; 		//内容
+										mHandler.sendMessage(message);
+									}
+								}
+
+							}else if("1".equals(showStatus)){ //显示公告
 
 								message.what=ALERT_WEBVIEW_SHOW;
 								message.arg1=1;               //显示形式 1只有确定按钮
 								message.arg2=2;					//------2确定按钮按下顺利进  3有更新，有后续dialog
 								message.obj=contentMap; //内容
 
-								if(ConfigManager.getInstance(mActivity).getVersionCode(mActivity)<version){ // 需要更新
-									Log.e("gengxin",ConfigManager.getInstance(mActivity).getVersionCode(mActivity)+"..."+version);
-									if(1==necessary){  //necessary 1强更
-										contentMap.put("whichUpdate","hard");
-									}else {
-										contentMap.put("whichUpdate","soft");
+								if(!TextUtils.isEmpty(updateUrl)){
+									if(ConfigManager.getInstance(mActivity).getVersionCode(mActivity)<version){ // 需要更新
+										Log.e("gengxin",ConfigManager.getInstance(mActivity).getVersionCode(mActivity)+"..."+version);
+										if(1==necessary){  //necessary 1强更
+											contentMap.put("whichUpdate","hard");
+										}else {
+											contentMap.put("whichUpdate","soft");
+										}
 									}
 								}
+								contentMap.put("whichUpdate","none");
 								mHandler.sendMessage(message);
 
 							}else if("0".equals(showStatus)){ //维护状态

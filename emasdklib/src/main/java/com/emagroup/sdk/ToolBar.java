@@ -202,6 +202,9 @@ public class ToolBar implements OnClickListener {
         String toolBarInfoStr = (String) USharedPerUtil.getParam(mContext, "menuBarInfo", "");
         barInfoList = new ArrayList<>();
         try {
+            if(TextUtils.isEmpty(toolBarInfoStr)){
+                toolBarInfoStr=null;
+            }
             JSONObject toolBarInfo = new JSONObject(toolBarInfoStr);
             isCanShow=toolBarInfo.getInt("show_float")==1;
             JSONArray details = toolBarInfo.getJSONArray("details");
@@ -220,6 +223,7 @@ public class ToolBar implements OnClickListener {
             }
 
         } catch (JSONException e) {
+            isCanShow=false;
             e.printStackTrace();
         }
 
