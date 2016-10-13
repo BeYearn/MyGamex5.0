@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -20,6 +21,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -28,8 +34,8 @@ import java.util.TimerTask;
 @SuppressLint("NewApi")
 public class ToolBar implements OnClickListener {
 
-    private Button mBtnRecharge;
-    private Button mBtnRechargeLeft;
+    private boolean isCanShow;  // 1可以显示  0的话toobar失效
+    private ArrayList<BarInfo> barInfoList;
 
     public enum ToolbarState {
         mini,//小图标
@@ -62,21 +68,31 @@ public class ToolBar implements OnClickListener {
     private ImageView mBtnToolBarView;//悬浮窗的显示图标
 
     private LinearLayout mToolRightView;//悬浮窗图标右边的布局
-    private Button mBtnAccount;
-    private Button mBtnGift;
-    private Button mBtnPromotion;//推广
-    private Button mBtnHelp;
+    private Button mToolBarBtn1;
+    private Button mToolBarBtn2;
+    private Button mToolBarBtn3;
+    private Button mToolBarBtn4;
+    private Button mToolBarBtn5;
 
     private LinearLayout mToolLeftView;//悬浮窗图标 左边的布局
-    private Button mBtnAccountLeft;
-    private Button mBtnGiftLeft;
-    private Button mBtnPromotionLeft;//推广
-    private Button mBtnHelpLeft;
+    private Button mToolBarBtn1Left;
+    private Button mToolBarBtn2Left;
+    private Button mToolBarBtn3Left;
+    private Button mToolBarBtn4Left;
+    private Button mToolBarBtn5Left;
 
     //标记
     private boolean mFlagIsShowing;
 
     private Map<String, Integer> mIDMap;
+
+    class BarInfo{
+        String id;
+        String name;
+        String icon;
+        String url;
+    }
+
 
     private ToolBar(Context context) {
         mContext = context;
@@ -101,6 +117,11 @@ public class ToolBar implements OnClickListener {
      * 显示悬浮窗
      */
     public void showToolBar() {
+
+        if(!isCanShow){
+            return;
+        }
+
         ((Activity) Ema.getInstance().getContext()).runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -176,32 +197,97 @@ public class ToolBar implements OnClickListener {
      * 初始化界面
      */
     private void initToolbarView() {
+
+        //获取bar的显示信息
+        String toolBarInfoStr = (String) USharedPerUtil.getParam(mContext, "menuBarInfo", "");
+        barInfoList = new ArrayList<>();
+        try {
+            JSONObject toolBarInfo = new JSONObject(toolBarInfoStr);
+            isCanShow=toolBarInfo.getInt("show_float")==1;
+            JSONArray details = toolBarInfo.getJSONArray("details");
+            int detailsLen=details.length();
+            for (int i=0;i<detailsLen;i++){
+                JSONObject barObject = details.getJSONObject(i);
+                int type = barObject.getInt("type");
+                if(type==0||type==1){  //0通用 1android
+                    BarInfo barInfo = new BarInfo();
+                    barInfo.id=barObject.getString("id");
+                    barInfo.name=barObject.getString("name");
+                    barInfo.icon=barObject.getString("icon");
+                    barInfo.url=barObject.getString("url");
+                    barInfoList.add(barInfo);
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
         mToolView = (LinearLayout) LayoutInflater.from(mContext).inflate(
                 mResourceManager.getIdentifier("ema_floating", "layout"), null);
-        mBtnToolBarView = (ImageView) mToolView.findViewById(getId("ema_btn_toolbar"));
+
+        mBtnToolBarView = (ImageView) mToolView.findViewById(getId("ema_img_toolbar"));
+
         mToolRightView = (LinearLayout) mToolView.findViewById(getId("ema_toolbar_right"));
         mToolLeftView = (LinearLayout) mToolView.findViewById(getId("ema_toolbar_left"));
-        mBtnAccount = (Button) mToolView.findViewById(getId("ema_btn_account"));
-        mBtnAccountLeft = (Button) mToolView.findViewById(getId("ema_btn_account_left"));
-        mBtnGift = (Button) mToolView.findViewById(getId("ema_btn_gift"));
-        mBtnGiftLeft = (Button) mToolView.findViewById(getId("ema_btn_gift_left"));
-        mBtnPromotion = (Button) mToolView.findViewById(getId("ema_btn_promotion"));
-        mBtnPromotionLeft = (Button) mToolView.findViewById(getId("ema_btn_promotion_left"));
-        mBtnHelp = (Button) mToolView.findViewById(getId("ema_btn_help"));
-        mBtnHelpLeft = (Button) mToolView.findViewById(getId("ema_btn_help_left"));
-        mBtnRecharge = (Button) mToolView.findViewById(getId("ema_btn_recharge"));
-        mBtnRechargeLeft = (Button) mToolView.findViewById(getId("ema_btn_recharge_left"));
 
-        mBtnAccount.setOnClickListener(this);
-        mBtnAccountLeft.setOnClickListener(this);
-        mBtnGift.setOnClickListener(this);
-        mBtnGiftLeft.setOnClickListener(this);
-        mBtnPromotion.setOnClickListener(this);
-        mBtnPromotionLeft.setOnClickListener(this);
-        mBtnHelp.setOnClickListener(this);
-        mBtnHelpLeft.setOnClickListener(this);
-        mBtnRecharge.setOnClickListener(this);
-        mBtnRechargeLeft.setOnClickListener(this);
+        mToolBarBtn1 = (Button) mToolView.findViewById(getId("ema_btn_1"));
+        mToolBarBtn1Left = (Button) mToolView.findViewById(getId("ema_btn_1_left"));
+        mToolBarBtn2 = (Button) mToolView.findViewById(getId("ema_btn_2"));
+        mToolBarBtn2Left = (Button) mToolView.findViewById(getId("ema_btn_2_left"));
+        mToolBarBtn3 = (Button) mToolView.findViewById(getId("ema_btn_3"));
+        mToolBarBtn3Left = (Button) mToolView.findViewById(getId("ema_btn_3_left"));
+        mToolBarBtn4 = (Button) mToolView.findViewById(getId("ema_btn_4"));
+        mToolBarBtn4Left = (Button) mToolView.findViewById(getId("ema_btn_4_left"));
+        mToolBarBtn5 = (Button) mToolView.findViewById(getId("ema_btn_5"));
+        mToolBarBtn5Left = (Button) mToolView.findViewById(getId("ema_btn_5_left"));
+
+        mToolBarBtn1.setOnClickListener(this);
+        mToolBarBtn1Left.setOnClickListener(this);
+        mToolBarBtn2.setOnClickListener(this);
+        mToolBarBtn2Left.setOnClickListener(this);
+        mToolBarBtn3.setOnClickListener(this);
+        mToolBarBtn3Left.setOnClickListener(this);
+        mToolBarBtn4.setOnClickListener(this);
+        mToolBarBtn4Left.setOnClickListener(this);
+        mToolBarBtn5.setOnClickListener(this);
+        mToolBarBtn5Left.setOnClickListener(this);
+
+        ArrayList<Button> buttonList = new ArrayList<>();
+        buttonList.add(mToolBarBtn1);
+        buttonList.add(mToolBarBtn1Left);
+        buttonList.add(mToolBarBtn2);
+        buttonList.add(mToolBarBtn2Left);
+        buttonList.add(mToolBarBtn3);
+        buttonList.add(mToolBarBtn3Left);
+        buttonList.add(mToolBarBtn4);
+        buttonList.add(mToolBarBtn4Left);
+        buttonList.add(mToolBarBtn5);
+        buttonList.add(mToolBarBtn5Left);
+
+        //将barinfo设置到btn上
+        for (int i=0;i<barInfoList.size();i++){
+            BarInfo barInfo = barInfoList.get(i);
+
+            buttonList.get(2*i).setVisibility(View.VISIBLE);
+            buttonList.get(2*i+1).setVisibility(View.VISIBLE);
+
+            buttonList.get(2*i).setText(barInfo.name);
+            buttonList.get(2*i+1).setText(barInfo.name);
+            if(barInfo.icon.contains("http")){
+                new MyImageLoad().setPicture(barInfo.icon,buttonList.get(2*i));
+                new MyImageLoad().setPicture(barInfo.icon,buttonList.get(2*i+1));
+            }else {
+                int drawable = mResourceManager.getIdentifier(barInfo.icon, "drawable");
+                buttonList.get(2*i).setCompoundDrawablesRelativeWithIntrinsicBounds(0,drawable,0,0);
+                buttonList.get(2*i+1).setCompoundDrawablesRelativeWithIntrinsicBounds(0,drawable,0,0);
+            }
+        }
+
+
+
 
         //获取屏幕的高宽
         Display display = mWindowManager.getDefaultDisplay();
@@ -345,16 +431,49 @@ public class ToolBar implements OnClickListener {
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == getId("ema_btn_account") || id == getId("ema_btn_account_left")) {
-            toAccount();
-        } else if (id == getId("ema_btn_gift") || id == getId("ema_btn_gift_left")) {
-            toGift();
-        } else if (id == getId("ema_btn_help") || id == getId("ema_btn_help_left")) {
-            toHelp();
-        } else if (id == getId("ema_btn_promotion") || id == getId("ema_btn_promotion_left")) {
-            toPromotion();
-        } else if (id == getId("ema_btn_recharge") || id == getId("ema_btn_recharge_left")) {
-            toRecharge();
+        if (id == getId("ema_btn_1") || id == getId("ema_btn_1_left")) {
+            //toAccount();
+            doToolBarClick(barInfoList.get(0));
+        } else if (id == getId("ema_btn_2") || id == getId("ema_btn_2_left")) {
+            //toGift();
+            doToolBarClick(barInfoList.get(1));
+        } else if (id == getId("ema_btn_3") || id == getId("ema_btn_3_left")) {
+            //toHelp();
+            doToolBarClick(barInfoList.get(2));
+        } else if (id == getId("ema_btn_4") || id == getId("ema_btn_4_left")) {
+            //toPromotion();
+            doToolBarClick(barInfoList.get(3));
+        } else if (id == getId("ema_btn_5") || id == getId("ema_btn_5_left")) {
+            //toRecharge();
+            doToolBarClick(barInfoList.get(4));   // 后面的如果barInfoList里面没有这么多，前面就不会让它显示，不必担心nullpoint
+        }
+    }
+
+    public  void doToolBarClick(BarInfo barInfo){
+        if(!TextUtils.isEmpty(barInfo.url)){
+            toWebView(barInfo.name,barInfo.url);
+        }else {
+            ToastHelper.toast(mContext,"暂未开放");
+        }
+    }
+
+    /**
+     * 跳转webview页面
+     * @param tab 名字
+     * @param url webview的url
+     */
+    private void toWebView(String tab,String url){
+        if (!Ema.getInstance().isLogin()) {
+            LOG.d(TAG, "未登录状态");
+            ToastHelper.toast(mContext, "请先登录");
+        } else {
+            LOG.d(TAG, "跳转"+tab);
+            Intent intent = new Intent(mContext, WebViewActivity.class);
+            intent.putExtra(WebViewActivity.INTENT_TITLE, tab);
+            intent.putExtra(WebViewActivity.INTENT_URL, url);
+            intent.putExtra(WebViewActivity.INTENT_TYPE, WebViewActivity.TYPE_EMAACCOUNT);
+            mContext.startActivity(intent);
+            hideToolBar();
         }
     }
 

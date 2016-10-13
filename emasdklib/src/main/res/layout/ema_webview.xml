@@ -85,6 +85,7 @@
     <!-- 底部状态 -->
 
     <RadioGroup
+        android:visibility="gone"
         android:id="@+id/ema_webview_RadioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

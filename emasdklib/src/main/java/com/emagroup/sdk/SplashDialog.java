@@ -144,6 +144,9 @@ public class SplashDialog extends Dialog {
 							JSONObject dataObj = json.getJSONObject("data");
 							JSONObject appVersionInfo = dataObj.getJSONObject("appVersionInfo");
 							JSONObject maintainInfo = dataObj.getJSONObject("maintainInfo");
+							//将得到的menubar信息存sp，在toobbar那边取
+							String menuBarInfo = dataObj.getString("menuBarInfo");
+							USharedPerUtil.setParam(mActivity, "menuBarInfo", menuBarInfo);
 
 							int necessary = appVersionInfo.getInt("necessary");
 							String updateUrl = appVersionInfo.getString("updateUrl");
