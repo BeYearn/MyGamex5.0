@@ -165,7 +165,7 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 					//PayUtil.GoPayByAlipay(PayTrdActivity.this, mHandler);   现在如下：钱不够先走充值完了再用余额支付（用户感知为直接用钱买）
 					//把上面得到的那个mPayInfo拿好，充值ok后还得用它钱包支付。
 					EmaPayInfo rechargePayInfo = new EmaPayInfo();
-					rechargePayInfo.setOrderId("xxxxxxxx"); //服务器加签后会补上
+					rechargePayInfo.setOrderId(mPayInfo.getOrderId());    //服务器加签后会补上(已废,原来是xxxxxxx)
 					rechargePayInfo.setProductName(mPayInfo.getProductName());
 					rechargePayInfo.setPrice(mPayInfo.getPrice());
 					rechargePayInfo.setDescription(mPayInfo.getDescription());
@@ -238,10 +238,12 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 			//UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
 			//showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_SUCC, "");
 
-			//充值成功，此时再重新走一边支付
-			LOG.e("paythirdActivity","充值完毕再走一次钱包支付");
-			mPayInfo.setReChargePay(true);
-			EmaPay.getInstance(Ema.getInstance().getContext()).pay(mPayInfo,EmaPay.getInstance(Ema.getInstance().getContext()).mPayListener);
+			//充值成功，此时再重新走一边支付(下面三行已废，但emapay那边的逻辑还保留着，充值然后再买应该认为是一次订单，一个orderid)
+//			LOG.e("paythirdActivity","充值完毕再走一次钱包支付");
+//			mPayInfo.setReChargePay(true);
+//			EmaPay.getInstance(Ema.getInstance().getContext()).pay(mPayInfo,EmaPay.getInstance(Ema.getInstance().getContext()).mPayListener);
+
+			PayMabiActivity.doPayNoKeyWord(mPayInfo);
 			PayTrdActivity.this.finish();
 		
 		}else if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_ON_PAYING)){//正在处理中
