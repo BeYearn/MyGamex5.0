@@ -466,6 +466,8 @@ public class ToolBar implements OnClickListener {
         if (!Ema.getInstance().isLogin()) {
             LOG.d(TAG, "未登录状态");
             ToastHelper.toast(mContext, "请先登录");
+        }else if(url.contains("charge")){  // 特殊 android专有,该url是假的
+          toRecharge();
         } else {
             LOG.d(TAG, "跳转"+tab);
             Intent intent = new Intent(mContext, WebViewActivity.class);
@@ -481,15 +483,10 @@ public class ToolBar implements OnClickListener {
      * 充值
      */
     private void toRecharge() {
-        if (!Ema.getInstance().isLogin()) {
-            LOG.d(TAG, "未登录状态");
-            ToastHelper.toast(mContext, "请先登录");
-        } else {
-            LOG.d(TAG, "跳转充值页面...");
-            Intent intent = new Intent(mContext, RechargeMabiActivity.class);
-            mContext.startActivity(intent);
-            hideToolBar();
-        }
+        LOG.d(TAG, "跳转充值页面...");
+        Intent intent = new Intent(mContext, RechargeMabiActivity.class);
+        mContext.startActivity(intent);
+        hideToolBar();
     }
 
     /**
