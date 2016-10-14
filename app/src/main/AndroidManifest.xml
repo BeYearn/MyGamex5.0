@@ -87,7 +87,7 @@
 
         <meta-data
             android:name="EMA_APP_ID"
-            android:value="n10001" />
+            android:value="n10000" />
         <meta-data
             android:name="EMA_CHANNEL_ID"
             android:value="n26" />
@@ -185,7 +185,11 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
+        <provider
+            android:name="com.igexin.download.DownloadProvider"
+            android:authorities="downloads.com.example.myggame"
+            android:exported="true"
+            android:process=":pushservice"/><!--"authorities' downloads后配为你的包名-->
         <!-- 个推SDK配置结束 -->
 
     </application>
