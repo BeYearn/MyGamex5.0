@@ -57,7 +57,7 @@ public class EmaAlertDialog extends Dialog {
 	private void initView() {
 		setContentView(mResourceManager.getIdentifier("ema_alert_dialog", "layout"));
 
-		mImgPromptView = (ImageView) findViewById(mResourceManager.getIdentifier("ema_img_pay_result", "id"));//那个小图标
+		//mImgPromptView = (ImageView) findViewById(mResourceManager.getIdentifier("ema_img_pay_result", "id"));//那个小图标
 		mTxtPromptView = (TextView) findViewById(mResourceManager.getIdentifier("ema_txt_content", "id"));//dialog显示的内容
 
 		mBtnSure= (TextView) findViewById(mResourceManager.getIdentifier("ema_tv_sure", "id"));
@@ -111,6 +111,6 @@ public class EmaAlertDialog extends Dialog {
 			mTxtPromptView.setText(contentStr);
 		}
 		mImgPromptView.setImageResource(drawableId);*/
-		mTxtPromptView.setText("有更新！！！");
+		mTxtPromptView.setText("又有新的版本啦！\n赶紧去更新吧");
 	}
 }

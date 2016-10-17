@@ -128,6 +128,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		@JavascriptInterface
 		public void close(String num) {
 			WebViewActivity.this.finish();
+			ToolBar.getInstance(WebViewActivity.this).showToolBar();
 			ToastHelper.toast(context,"新密码已发至:"+num);
 		}
 	}
