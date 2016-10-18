@@ -79,6 +79,16 @@ public class EmaPay {
     public void pay(EmaPayInfo payInfo, EmaPayListener payListener) {
         this.mPayInfo=payInfo;
         this.mPayListener=payListener;
+
+        try {
+            if(mPayInfo.getGameTransCode().getBytes().length>256){
+                throw new RuntimeException("参数过长，超过256byte");
+            }
+        }catch(Exception e){
+            Log.e("pay","参数过长，超过256byte");
+            return;
+        }
+
         if (!mEmaUser.getIsLogin()) {
             ToastHelper.toast(mContext, "还未登陆，请先登陆！");
             LOG.d(TAG, "没有登陆，或者已经退出！");
