@@ -59,11 +59,6 @@ public class EmaSDK {
             @Override
             public void onPayCallBack(Message msg) {
                 listener.onCallBack(msg.what,msg.toString());
-
-                if(msg.what==EmaCallBackConst.PAYFALIED||msg.what==EmaCallBackConst.PAYCANELI){
-                    //call一次取消订单
-                    EmaPay.getInstance(Ema.getInstance().getContext()).cancelOrder();
-                }
             }
         });
     }

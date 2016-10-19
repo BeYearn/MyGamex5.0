@@ -38,6 +38,8 @@ public class EmaDialogPayPromptCancel extends Dialog {
 				EmaPayProcessManager.getInstance().closeAll();
 				
 				UCommUtil.makePayCallBack(EmaCallBackConst.PAYCANELI, "取消支付");
+				//call一次取消订单
+				EmaPay.getInstance(Ema.getInstance().getContext()).cancelOrder();
 			}
 		});
 	}

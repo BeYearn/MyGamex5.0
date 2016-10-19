@@ -353,26 +353,6 @@ public class PayMabiActivity extends Activity implements OnClickListener {
                             LOG.d(TAG, "支付失败");
                             UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, json.getString("message"));
                             break;
-                        case HttpInvokerConst.PAY_RECHARGE_FAILED_SHORT_MONEY://余额不足
-                            LOG.d(TAG, "余额不足，支付失败");
-                            ToastHelper.toast(PayMabiActivity.this, "钱包余额不足");
-                            UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "余额不足，支付失败");
-                            break;
-                        case HttpInvokerConst.PAY_RECHARGE_FAILED_PASSW_ERROR://密码错误
-                            LOG.d(TAG, "密码错误，支付失败");
-                            ToastHelper.toast(PayMabiActivity.this, "钱包支付密码错误");
-                            UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "密码错误，支付失败");
-                            break;
-                        case HttpInvokerConst.PAY_RECHARGE_FAILED_PASSW_ERROR_OVER://密码错误次数过多
-                            LOG.d(TAG, "您输入的错误密码次数过多，为保证您的财产安全我们将暂时锁定您的钱包。您可以进行如下操作：找回密码，使用其他支付方式。");
-                            ToastHelper.toast(PayMabiActivity.this, "您输入的错误密码次数过多，为保证您的财产安全我们将暂时锁定您的钱包。");
-                            UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "您输入的错误密码次数过多，为保证您的财产安全我们将暂时锁定您的钱包。");
-                            break;
-                        case HttpInvokerConst.SDK_RESULT_FAILED_SIGIN_ERROR://签名验证失败
-                            LOG.d(TAG, "签名验证失败，支付失败");
-                            ToastHelper.toast(PayMabiActivity.this, "支付失败");
-                            UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "签名验证失败，支付失败");
-                            break;
                         default:
                             LOG.d(TAG, "支付失败，失败原因未知");
                             ToastHelper.toast(PayMabiActivity.this, "支付失败");
