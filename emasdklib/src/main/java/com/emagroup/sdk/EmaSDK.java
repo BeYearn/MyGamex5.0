@@ -117,4 +117,8 @@ public class EmaSDK {
         Ema.getInstance().onDestroy();
     }
 
+    public void onBackPressed(EmaBackPressedAction action){
+        Ema.getInstance().onBackPressed(action);
+    }
+
 }

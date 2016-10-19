@@ -370,5 +370,9 @@ public class Ema {
 	public void onRestart(){
 		LOG.d(TAG, "onRestart");
 	}
-	
+
+	public void onBackPressed(EmaBackPressedAction action) {
+		//官方sdk返回键没有操作,进行游戏的动作acion
+		action.doBackPressedAction();
+	}
 }

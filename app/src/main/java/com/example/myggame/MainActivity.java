@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.emagroup.sdk.EmaBackPressedAction;
 import com.emagroup.sdk.EmaCallBackConst;
 import com.emagroup.sdk.EmaConst;
 import com.emagroup.sdk.EmaSDK;
@@ -134,7 +135,7 @@ public class MainActivity extends Activity implements OnClickListener {
                 HashMap<String, String> payInfoMap = new HashMap<>();
                 payInfoMap.put(EmaConst.EMA_PAYINFO_PRODUCT_ID, "10001");
                 payInfoMap.put(EmaConst.EMA_PAYINFO_PRODUCT_COUNT, "1");
-                payInfoMap.put(EmaConst.EMA_GAMETRANS_CODE,"游戏透传参数");
+                payInfoMap.put(EmaConst.EMA_GAMETRANS_CODE,"游戏透传参数的分加拉科技的分垃圾两地分居阿拉斯加了扩大解放啦三季度福利卡江苏两地分居家了扩大解放拉近了据了解的浪费姐啊来得及福利啊姐快接啊类似的科技发来击落敌机分垃圾的疯狂姐啊了空间的了空间flak觉得浪费姐啊来得及福利健康的分动力科技发来科技的分垃圾的浪费姐啊了三季度分垃圾斯大林发送家乐福基督教");
                 //payInfoMap.put("Product_Name","gold");
                 //payInfoMap.put("Server_Id", "13");
                 //payInfoMap.put("Role_Id","1");
@@ -223,5 +224,15 @@ public class MainActivity extends Activity implements OnClickListener {
         super.onStop();
     }
 
-
+    @Override
+    public void onBackPressed() {
+        EmaSDK.getInstance().onBackPressed(new EmaBackPressedAction(){
+            @Override
+            public void doBackPressedAction() {
+                //游戏需要做的逻辑
+                ToastHelper.toast(MainActivity.this,"我是游戏自己的逻辑xxxxxxxxxxxxx");
+            }
+        });
+        super.onBackPressed();
+    }
 }
