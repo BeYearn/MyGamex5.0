@@ -191,6 +191,10 @@ public class EmaPay {
      * 取消订单
      */
     public void cancelOrder(){
+        if(mPayInfo==null){
+            return;
+        }
+
         Map<String, String> params = new HashMap<>();
         params.put("orderId", mPayInfo.getOrderId());
         params.put("token",mEmaUser.getToken());
@@ -204,7 +208,6 @@ public class EmaPay {
 
                         } catch (Exception e) {
                             LOG.w(TAG, "login error", e);
-                            mHandler.sendEmptyMessage(ORDER_FAIL);
                         }
                     }
                 });

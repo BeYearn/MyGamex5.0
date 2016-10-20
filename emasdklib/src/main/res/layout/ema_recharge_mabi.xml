@@ -17,6 +17,7 @@
             android:background="#ff7111" >
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/ema_recharge_mabi_back"
                 android:layout_width="45dp"
                 android:layout_height="19dp"

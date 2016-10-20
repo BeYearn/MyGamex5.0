@@ -48,13 +48,13 @@ public class EmaDialogPayPromptResult extends Dialog {
 			@Override
 			public void onClick(View arg0) {
 				EmaDialogPayPromptResult.this.dismiss();
-				if(mActionType == EmaConst.PAY_ACTION_TYPE_PAY){
+				/*if(mActionType == EmaConst.PAY_ACTION_TYPE_PAY){
 					// TODO: 2016/9/23 支付系列页面管理
 					EmaPayProcessManager.getInstance().closePay();
 				}else if(mActionType == EmaConst.PAY_ACTION_TYPE_RECHARGE){
 					// TODO: 2016/9/23  充值系列页面管理
 					EmaPayProcessManager.getInstance().closeRecharge();
-				}
+				}*/
 			}
 		});
 	}
