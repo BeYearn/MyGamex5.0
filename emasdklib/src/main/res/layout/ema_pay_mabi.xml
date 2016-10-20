@@ -4,8 +4,7 @@
     android:id="@+id/ema_scrollView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#eeeeee"
-    tools:context=".PayMabiActivity" >
+    android:background="#eeeeee">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,6 +18,7 @@
             android:background="#ff7111" >
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/ema_pay_mabi_back"
                 android:layout_width="45dp"
                 android:layout_height="19dp"
