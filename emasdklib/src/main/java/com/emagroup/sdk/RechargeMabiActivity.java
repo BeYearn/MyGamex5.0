@@ -448,7 +448,7 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onStop() {
-		ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
+		//ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
 		super.onStop();
 	}
 
