@@ -194,7 +194,16 @@ public class Ema {
 		USharedPerUtil.setParam(getContext(),"accountType",-1);
 		makeCallBack(EmaCallBackConst.LOGOUTSUCCESS, "登出成功");
 	}
-	
+
+	public void swichAccount() {
+		LOG.d(TAG, "swichAccount");
+		EmaUser.getInstance().clearUserInfo();
+		USharedPerUtil.setParam(getContext(),"token","");
+		USharedPerUtil.setParam(getContext(),"nickname","");
+		USharedPerUtil.setParam(getContext(),"uid","");
+		USharedPerUtil.setParam(getContext(),"accountType",-1);
+		makeCallBack(EmaCallBackConst.ACCOUNTSWITCHSUCCESS, "切换帐号成功");
+	}
 
 	/**
 	 * 开启支付操作

@@ -37,6 +37,10 @@ public class EmaSDK {
         Ema.getInstance().Logout();
     }
 
+    public void doSwichAccount() {
+        Ema.getInstance().swichAccount();
+    }
+
     // TODO: 2016/9/22 暂时先传pid和count这两个参数
     public void doPay(Map<String,String> info, final EmaSDKListener listener){
         //在这里把这个map转化到emapayinfo里面  目前需要 商品pid，数量

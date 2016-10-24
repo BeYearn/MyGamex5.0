@@ -32,6 +32,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private Button btLogout;
     private Button btShowBar;
     private Button btHideBar;
+    private Button btSwichAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,8 @@ public class MainActivity extends Activity implements OnClickListener {
         btLogout= (Button) findViewById(R.id.bt_logout);
         btShowBar= (Button) findViewById(R.id.bt_showbar);
         btHideBar= (Button) findViewById(R.id.bt_hidebar);
+        btSwichAccount= (Button) findViewById(R.id.bt_swichaccount);
+
 
         EmaSDK.getInstance().init("6cdd60ea0045eb7a6ec44c54d29ed402",this, new EmaSDKListener() {
         //EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b",this, new EmaSDKListener() {
@@ -76,6 +79,11 @@ public class MainActivity extends Activity implements OnClickListener {
                         break;
                     case EmaCallBackConst.LOGOUTFALIED://登出失败回调
                         break;
+                    case EmaCallBackConst.ACCOUNTSWITCHSUCCESS:
+                        Log.e("EMASDK","ACCOUNTSWITCHSUCCESS");//切换帐号成功回调
+                        break;
+                    case EmaCallBackConst.ACCOUNTSWITCHFAIL:
+                        break;
                 }
             }
         });
@@ -97,6 +105,7 @@ public class MainActivity extends Activity implements OnClickListener {
         btLogout.setOnClickListener(this);
         btShowBar.setOnClickListener(this);
         btHideBar.setOnClickListener(this);
+        btSwichAccount.setOnClickListener(this);
 
         Log.e("++++++++++", Thread.currentThread().getName());
     }
@@ -105,6 +114,7 @@ public class MainActivity extends Activity implements OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_login:
+
                 break;
             case R.id.bt_login:
                 MainActivity.this.runOnUiThread(  //有的接入会发生不在主线程调用该方法，所以最外面加上这个
@@ -160,6 +170,10 @@ public class MainActivity extends Activity implements OnClickListener {
                         }
                     }
                 });
+                break;
+            case R.id.bt_swichaccount:
+                Log.e("bt_swichaccount","dianjile ");
+                EmaSDK.getInstance().doSwichAccount();
                 break;
         }
 

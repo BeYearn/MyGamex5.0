@@ -41,5 +41,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bt_hidebar"
         android:text="点击支付" />
-
+    <Button
+        android:id="@+id/bt_swichaccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_pay"
+        android:text="点击支付" />
 </RelativeLayout>
