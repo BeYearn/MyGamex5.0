@@ -85,15 +85,9 @@ public class EmaUser {
      * 退出登录后，清空所有用户信息
      */
     public void clearUserInfo() {
-        mInstance=null;
+        mInstance=null;  //这样再getInstance就得到的是一个空的实例 妙
     }
 
-    /**
-     * 情况用户的支付信息
-     */
-    public void clearPayInfo() {
-
-    }
 
     /**
      * 保存当前登录用户的信息，最多保存5个

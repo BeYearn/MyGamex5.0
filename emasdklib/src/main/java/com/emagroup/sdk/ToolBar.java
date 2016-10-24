@@ -467,7 +467,7 @@ public class ToolBar implements OnClickListener {
      * @param url webview的url
      */
     private void toWebView(String tab,String url){
-        if (!Ema.getInstance().isLogin()) {
+        if (!EmaUser.getInstance().getIsLogin()) {
             LOG.d(TAG, "未登录状态");
             ToastHelper.toast(mContext, "请先登录");
         }else if(url.contains("charge")){  // 特殊 android专有,该url是假的
@@ -497,7 +497,7 @@ public class ToolBar implements OnClickListener {
      * 跳转到账号界面
      */
     private void toAccount() {
-        if (!Ema.getInstance().isLogin()) {
+        if (!EmaUser.getInstance().getIsLogin()) {
             LOG.d(TAG, "未登录状态");
             ToastHelper.toast(mContext, "请先登录");
         } else {

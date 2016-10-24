@@ -187,7 +187,6 @@ public class Ema {
 	 */
 	public void Logout(){
 		LOG.d(TAG, "Logout");
-		//EmaUser.getInstance().clearPayInfo();
 		EmaUser.getInstance().clearUserInfo();
 		USharedPerUtil.setParam(getContext(),"token","");
 		USharedPerUtil.setParam(getContext(),"nickname","");
@@ -196,14 +195,7 @@ public class Ema {
 		makeCallBack(EmaCallBackConst.LOGOUTSUCCESS, "登出成功");
 	}
 	
-	/**
-	 * 获取当前是否是登录状态
-	 * @return
-	 */
-	public boolean isLogin(){
-		return EmaUser.getInstance().getIsLogin();
-	}
-	
+
 	/**
 	 * 开启支付操作
 	 * @param
