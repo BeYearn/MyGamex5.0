@@ -13,12 +13,9 @@ import java.util.Map;
 public class EmaAutoLogin {
 
     private static final String TAG = EmaAutoLogin.class.toString();
-    private static final int CODE_SUCCESS = 3;// 成功
-    private static final int CODE_FAILED = 4;// 失败
-    private static final int CODE_ACCESSID_LOST = 7;// SID过期
+
     private static EmaAutoLogin mInstance;
-    private final Context context;
-    private EmaUser mEmaUser;
+    private Context context;
     private static String token;
     private final ConfigManager mConfigManager;
     private final EmaProgressDialog mProgress;
@@ -34,7 +31,7 @@ public class EmaAutoLogin {
                 case HttpInvokerConst.SDK_RESULT_FAILED:// 登录失败（原因见返回messge）
                     UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, "请重新登录");
                     mProgress.closeProgress();
-                    new RegisterByPhoneDialog(context).show();
+                    new RegisterByPhoneDialog(Ema.getInstance().getContext()).show();
                     break;
             }
         }
@@ -47,7 +44,7 @@ public class EmaAutoLogin {
 
         if (!UCommUtil.isStrEmpty(uid) && !UCommUtil.isStrEmpty(nickname)) {
             // 当前登录用户信息
-            mEmaUser = EmaUser.getInstance();
+            EmaUser mEmaUser = EmaUser.getInstance();
             mEmaUser.setmUid(uid);
             mEmaUser.setNickName(nickname);
             mEmaUser.setmToken(token);
@@ -55,15 +52,9 @@ public class EmaAutoLogin {
             LOG.e("autologin", uid + "..." + nickname + "..." + accountType + "..." + token);
 
             // 显示登录成功后的对话框
-            if(!((Activity) context).isFinishing()) {
-                new LoginSuccDialog(context, true).start();
-            }else {  // 这个是个临时解决办法--------就是这个context被回收的问题
-                ToastHelper.toast(context,"已登录成功");
-                UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINSUCCESS, "登录成功");
-                ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
-            }
+            new LoginSuccDialog(Ema.getInstance().getContext(), true).start();
         } else {
-            new RegisterByPhoneDialog(context).show();
+            new RegisterByPhoneDialog(Ema.getInstance().getContext()).show();
             UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, "自动登录失败");
         }
     }
@@ -142,9 +133,9 @@ public class EmaAutoLogin {
                             break;
                         default:
                             LOG.d(TAG, json.getString("message"));
-                            ToastHelper.toast(context,json.getString("message"));
+                            ToastHelper.toast(Ema.getInstance().getContext(),json.getString("message"));
                             mProgress.closeProgress();
-                            new RegisterByPhoneDialog(context).show();
+                            new RegisterByPhoneDialog(Ema.getInstance().getContext()).show();
                             break;
                     }
                 } catch (Exception e) {

@@ -29,7 +29,7 @@ public class EmaPay {
     private final EmaProgressDialog mProgress;
 
     private Context mContext;
-    private EmaUser mEmaUser;
+    //private EmaUser mEmaUser;  因为mEmauser这个对象的状态有可能在变化，所以不应该直接得到一个示例就放在这里一劳永逸，每次应该getInstance；
     private ConfigManager mConfigManager;
     private DeviceInfoManager mDeviceInfoManager;
     public  EmaPayListener mPayListener;
@@ -53,7 +53,6 @@ public class EmaPay {
 
     private EmaPay(Context context) {
         mContext = context;
-        mEmaUser = EmaUser.getInstance();
         mConfigManager = ConfigManager.getInstance(context);
         mDeviceInfoManager = DeviceInfoManager.getInstance(context);
         mProgress = new EmaProgressDialog(context);
@@ -89,7 +88,7 @@ public class EmaPay {
             return;
         }
 
-        if (!mEmaUser.getIsLogin()) {
+        if (!EmaUser.getInstance().getIsLogin()) {
             ToastHelper.toast(mContext, "还未登陆，请先登陆！");
             LOG.d(TAG, "没有登陆，或者已经退出！");
             return;
@@ -98,15 +97,15 @@ public class EmaPay {
         //发起购买---->对订单号及信息的请求
         Map<String, String> params = new HashMap<>();
         params.put("pid", mPayInfo.getProductId());
-        params.put("token",mEmaUser.getToken());
+        params.put("token",EmaUser.getInstance().getToken());
         params.put("quantity", mPayInfo.getProductNum());
         params.put("appId",ConfigManager.getInstance(mContext).getAppId());
         if(!TextUtils.isEmpty(mPayInfo.getGameTransCode())){
             params.put("gameTransCode", mPayInfo.getGameTransCode());
         }
-        LOG.e("Emapay_pay",mPayInfo.getProductId()+".."+mEmaUser.getToken()+".."+mPayInfo.getProductNum());
+        LOG.e("Emapay_pay",mPayInfo.getProductId()+".."+EmaUser.getInstance().getToken()+".."+mPayInfo.getProductNum());
 
-        String sign = ConfigManager.getInstance(mContext).getAppId()+(TextUtils.isEmpty(mPayInfo.getGameTransCode())?null:mPayInfo.getGameTransCode())+mPayInfo.getProductId()+mPayInfo.getProductNum()+mEmaUser.getToken()+EmaUser.getInstance().getAppKey();
+        String sign = ConfigManager.getInstance(mContext).getAppId()+(TextUtils.isEmpty(mPayInfo.getGameTransCode())?null:mPayInfo.getGameTransCode())+mPayInfo.getProductId()+mPayInfo.getProductNum()+EmaUser.getInstance().getToken()+EmaUser.getInstance().getAppKey();
         //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
@@ -138,7 +137,7 @@ public class EmaPay {
                             String unit = productInfo.getString("unit");
 
                             mPayInfo.setOrderId(orderId);
-                            mPayInfo.setUid(mEmaUser.getAllianceUid());
+                            mPayInfo.setUid(EmaUser.getInstance().getAllianceUid());
                             mPayInfo.setCoinEnough(coinEnough);
                             mPayInfo.setProductName(productName);
                             mPayInfo.setPrice(Integer.parseInt(productPrice)*Integer.parseInt(mPayInfo.getProductNum()));  // 总额
@@ -197,7 +196,7 @@ public class EmaPay {
 
         Map<String, String> params = new HashMap<>();
         params.put("orderId", mPayInfo.getOrderId());
-        params.put("token",mEmaUser.getToken());
+        params.put("token",EmaUser.getInstance().getToken());
 
         new HttpInvoker().postAsync(Url.getRejectOrderUrl(), params,
                 new HttpInvoker.OnResponsetListener() {
