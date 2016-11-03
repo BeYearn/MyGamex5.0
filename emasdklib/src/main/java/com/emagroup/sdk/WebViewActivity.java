@@ -131,6 +131,12 @@ public class WebViewActivity extends Activity implements OnClickListener {
 			ToolBar.getInstance(WebViewActivity.this).showToolBar();
 			ToastHelper.toast(context,"新密码已发至:"+num);
 		}
+		@JavascriptInterface
+		public void logout() {
+			WebViewActivity.this.finish();
+			ToolBar.getInstance(WebViewActivity.this).hideToolBar();
+			EmaSDK.getInstance().doLogout();
+		}
 	}
 
 	/**
@@ -152,8 +158,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		mWebView = (WebView) findViewById(getID("ema_webview_url"));
 		
 		mWebView.getSettings().setJavaScriptEnabled(true);
-		mWebView.addJavascriptInterface(new JavaScriptinterface(this),
-				"closeWebview");
+		mWebView.addJavascriptInterface(new JavaScriptinterface(this),"webview");
 		mWebView.getSettings().setSupportZoom(true);
 		mWebView.getSettings().setUseWideViewPort(true);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
