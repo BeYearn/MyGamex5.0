@@ -206,7 +206,19 @@ public class ToolBar implements OnClickListener {
                 toolBarInfoStr=null;
             }
             JSONObject toolBarInfo = new JSONObject(toolBarInfoStr);
-            isCanShow=toolBarInfo.getInt("show_float")==1;
+
+            boolean canShow1 = toolBarInfo.getInt("show_float") == 1;
+            String hide_channel_id = toolBarInfo.getString("hide_channel_id");
+            String[] split = hide_channel_id.split("|");
+
+            boolean canShow2=true;
+            for (String s:split) {
+                if(s.contains(EmaSDK.getInstance().getChannelId())){
+                    canShow2=false;
+                }
+            }
+            isCanShow=canShow1&&canShow2;
+
             JSONArray details = toolBarInfo.getJSONArray("details");
             int detailsLen=details.length();
             for (int i=0;i<detailsLen;i++){
