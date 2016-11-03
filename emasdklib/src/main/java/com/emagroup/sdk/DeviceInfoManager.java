@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 
 import java.io.BufferedReader;
@@ -44,7 +46,7 @@ public class DeviceInfoManager {
 	
 	/*******设备信息*******/
 	//设备ID
-	private String DEVICE_ID = "";
+	//private String DEVICE_ID = "";
 	//网络类型
 	private int NETWORKTYPE=0;
 	//游戏包名
@@ -119,10 +121,19 @@ public class DeviceInfoManager {
 	//设备ID
 	public String getDEVICE_ID()
 	{
-		if(UCommUtil.isStrEmpty(DEVICE_ID)){
-			TelephonyManager tm = (TelephonyManager) mContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-			DEVICE_ID = tm.getDeviceId();
+		TelephonyManager tm = (TelephonyManager) mContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+		WifiManager manager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+
+		String DEVICE_ID = tm.getDeviceId();
+		String MacAddress = manager.getConnectionInfo().getMacAddress();
+		String AndroidSerialNum=android.os.Build.SERIAL;
+
+		if(TextUtils.isEmpty(DEVICE_ID)){
+			String oneIdNoMd5=MacAddress+AndroidSerialNum;
+			String oneId = UCommUtil.MD5(oneIdNoMd5).substring(8, 24);
+			return oneId;
 		}
+		Log.e("DEVICE_ID"+"MAC",DEVICE_ID+"......"+MacAddress+"..."+AndroidSerialNum);
 		return DEVICE_ID;
 	}
 
