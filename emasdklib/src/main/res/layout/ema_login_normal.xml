@@ -67,7 +67,7 @@
             android:cursorVisible="true"
             android:digits="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_.@"
             android:ems="10"
-            android:hint="请输入账号/手机/邮箱"
+            android:hint="请输入手机号码"
             android:inputType="textEmailAddress"
             android:maxLength="50"
             android:paddingBottom="0dp"
@@ -81,6 +81,7 @@
         </EditText>
 
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/ema_account_go_list"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -203,7 +204,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/ema_button_orange"
             android:minHeight="45dp"
-            android:text="手机登录"
+            android:text="帐号登录"
             android:textColor="@android:color/white" />
 
         <Button

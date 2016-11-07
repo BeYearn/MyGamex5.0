@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.NumberKeyListener;
 import android.view.View;
@@ -199,9 +200,17 @@ public class LoginDialog extends Dialog implements
     private void AccountLoginFirst() {
         String account = mEdtNameView.getText().toString();
         String passw = mEdtPasswView.getText().toString();
-
-        if (!UserUtil.checkPhoneInputIsOk(mActivity, account)) {
+        String accountType="";
+        if(TextUtils.isEmpty(account)){
+            ToastHelper.toast(mActivity, "帐号不能为空");
             return;
+        }
+        if(UCommUtil.isPhone(account)){
+            accountType="1"; // youxiang 2
+        }else if(UCommUtil.isEmail(account)){
+            accountType="2";
+        }else {
+            ToastHelper.toast(mActivity,"请输入正确的帐号");
         }
         if (UCommUtil.isStrEmpty(passw)) {
             ToastHelper.toast(mActivity, "密码不能为空");
@@ -209,16 +218,21 @@ public class LoginDialog extends Dialog implements
         }
         mProgress.showProgress("登录中...");
         Map<String, String> params = new HashMap<String, String>();
-        params.put("accountType", "1");
-        params.put("mobile", account);
+        params.put("accountType", accountType);
         params.put("password", passw);
         params.put("appId", mConfigManager.getAppId());
         params.put("deviceType", "android");
         params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
         params.put("allianceId", mConfigManager.getChannel());
         params.put("channelTag", mConfigManager.getChannelTag());
-
-        String sign = 1+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+account+passw+EmaUser.getInstance().getAppKey();
+        String sign="";
+        if("1".equals(accountType)){
+            params.put("mobile", account);
+            sign = accountType+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+account+passw+EmaUser.getInstance().getAppKey();
+        }else {
+            params.put("email", account);
+            sign = accountType+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+account+passw+EmaUser.getInstance().getAppKey();
+        }
         //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
@@ -706,8 +720,7 @@ public class LoginDialog extends Dialog implements
                             switch (resultCode) {
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS:// 登录成功
                                     LOG.d(TAG, "自动登录成功");
-                                    mEmaUser.setNickName(mAutoUserInfoBean
-                                            .getUsername());
+                                    mEmaUser.setNickName(mAutoUserInfoBean.getUsername());
                                     //mEmaUser.setUUID(mAutoUserInfoBean.getUuid());
                                     //mEmaUser.setSid(mAutoUserInfoBean.getSid());
                                     mEmaUser.setLoginType(UserConst.LOGIN_WITH_SID);

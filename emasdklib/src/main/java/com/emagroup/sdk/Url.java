@@ -172,6 +172,15 @@ public class Url {
 	}
 
 	/**
+	 * 发送验证码邮件
+	 * @return
+	 */
+	public static String getSendEmailUrl(){
+		//return getServerUrl() + "";
+		return serverUrl+"/ema-platform/notice/sendEmailCaptcha";
+	}
+
+	/**
 	 * 发起购买接口
 	 * @return
      */
