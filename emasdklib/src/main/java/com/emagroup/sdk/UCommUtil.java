@@ -259,7 +259,7 @@ public class UCommUtil {
 			return false;
 		} else {
 			Pattern pattern = Pattern
-					.compile("^((13[0-9])|(14[0,9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9]))\\d{8}$");
+					.compile("^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9]))\\d{8}$");
 			Matcher matcher = pattern.matcher(str);
 			return matcher.find();
 		}

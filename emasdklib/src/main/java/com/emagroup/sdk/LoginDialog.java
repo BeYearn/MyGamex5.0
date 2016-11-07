@@ -87,8 +87,8 @@ public class LoginDialog extends Dialog implements
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case CODE_SUCCESS:// 登录成功，并保存用户的信息(不要保存密码)
-                    mProgress.closeProgress();
                     doResultSuccFromServer((String) msg.obj);
+                    mProgress.closeProgress();
                     break;
                 case CODE_FAILED:// 登录失败（原因异常）
                     ToastHelper.toast(mActivity, "登录失败");
@@ -201,7 +201,6 @@ public class LoginDialog extends Dialog implements
         String passw = mEdtPasswView.getText().toString();
 
         if (!UserUtil.checkPhoneInputIsOk(mActivity, account)) {
-            ToastHelper.toast(mActivity, "帐号不能为空");
             return;
         }
         if (UCommUtil.isStrEmpty(passw)) {

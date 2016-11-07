@@ -38,7 +38,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
     private static final int CODE_FAILED = 4;// 失败
     private static final int CODE_SUCCESS = 3;
 
-    private static final int GET_UID_SUCCESS = 31;// 第一步 创建弱账户获得uid陈功
     private static final int FIRST_STEP_LOGIN_SUCCESS = 32; // 第二步 第一步验证登陆成功
     //private static final int SECOND_STEP_LOGIN_SUCCESS=33; // 第三步 第二步验证登陆成功  就是最后的登陆成功
 
@@ -115,8 +114,8 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                     ToastHelper.toast(mActivity, "验证码错误，请重新输入");
                     break;
                 case CODE_SUCCESS:
-                    mProgress.closeProgress();
                     doResultSuccFromServer((String) msg.obj);
+                    mProgress.closeProgress();
                     break;
                 case FIRST_STEP_LOGIN_SUCCESS:
                     LoginSecond();
@@ -533,7 +532,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
      */
     private int getId(String key) {
         if (mIDmap == null) {
-            mIDmap = new HashMap<String, Integer>();
+            mIDmap = new HashMap<>();
         }
         if (!mIDmap.containsKey(key)) {
             mIDmap.put(key, mResourceManager.getIdentifier(key, "id"));
