@@ -25,14 +25,8 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
     private static final String TAG = "RegisterByPhoneDialog";
 
     private static final int CODE_GET_AUTH_CODE_SUCCESS = 100;//成功
-    private static final int CODE_GET_AUTH_CODE_FAILED = 101;//失败，但原因不明
-    private static final int CODE_FAILED_TOO_OFFTEN = 102;//失败，由于操作频繁
-    private static final int CODE_FAILED_OVER_MAX = 103;//失败，由于发送量达到上限
-    private static final int CODE_SIGN_ERROR = 104;//失败，签名验证失败
 
     private static final int CODE_LOGIN_SUCC = 300;
-    private static final int CODE_LOGIN_FAILED = 301;
-    private static final int CODE_LOGIN_FAILED_ERROR_AUTH_CODE = 302;
 
     private static final int CODE_TIMER = 400;//发送定时器计数消息
 
@@ -40,7 +34,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
     private static final int CODE_SUCCESS = 3;
 
     private static final int FIRST_STEP_LOGIN_SUCCESS = 32; // 第二步 第一步验证登陆成功
-    //private static final int SECOND_STEP_LOGIN_SUCCESS=33; // 第三步 第二步验证登陆成功  就是最后的登陆成功
 
     private Activity mActivity;
     private ResourceManager mResourceManager;// 资源管理
@@ -55,10 +48,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
 
     private LoginSuccDialog mLoginSuccDialog;// 登录成功后显示的对话框
 
-    //Views
-    private Button mBtnStartWork;//用于获取验证码 和  登录
-    private Button mBtnReturnLogin;//返回普通登录界面
-    private Button mBtnReturnRegister;//返回普通注册界面
     private Button mBtnGetAuthCode;//获取验证码
     private EditText mEdtContentView;//输入手机号码 或者 验证码
 
@@ -75,26 +64,9 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
             switch (msg.what) {
                 case CODE_GET_AUTH_CODE_SUCCESS://成功
                     ToastHelper.toast(mActivity, "请查收验证码！");
+                    mProgress.closeProgress();
                     setViewChange();
                     startTimeTask();
-                    break;
-                case CODE_SIGN_ERROR:
-                    ToastHelper.toast(mActivity, "签名验证失败");
-                    break;
-                case CODE_GET_AUTH_CODE_FAILED://失败，但原因不明
-                    ToastHelper.toast(mActivity, "请求失败，请检查手机号！");
-                    break;
-                case CODE_FAILED_TOO_OFFTEN://失败，由于操作频繁
-                    ToastHelper.toast(mActivity, "请求过于频繁，请稍后再试");
-                    break;
-                case CODE_FAILED_OVER_MAX://失败，由于发送量达到上限
-                    ToastHelper.toast(mActivity, "今日请求数量已达上限");
-                    break;
-                case EmaProgressDialog.CODE_LOADING_START://开始显示进度条
-                    mProgress.showProgress((String) msg.obj);
-                    break;
-                case EmaProgressDialog.CODE_LOADING_END://关闭进度条
-                    mProgress.closeProgress();
                     break;
                 case CODE_TIMER://发送定时器消息，刷新定时器
                     updateTimeTask();
@@ -109,14 +81,10 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                     mLoginSuccDialog = new LoginSuccDialog(mActivity, false);
                     mLoginSuccDialog.start();
                     break;
-                case CODE_LOGIN_FAILED://登录失败，原因未知
-                    ToastHelper.toast(mActivity, "登录失败");
-                    break;
-                case CODE_LOGIN_FAILED_ERROR_AUTH_CODE://登录失败，原因 验证码错误
-                    ToastHelper.toast(mActivity, "验证码错误，请重新输入");
-                    break;
                 case CODE_SUCCESS:
                     doResultSuccFromServer((String) msg.obj);
+                    RegisterByPhoneDialog.this.dismiss();
+                    mProgress.closeProgress();
                     break;
                 case FIRST_STEP_LOGIN_SUCCESS:
                     LoginSecond();
@@ -203,7 +171,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
     /**
      * 手机验证码登录的第一次登录验证
      */
-    private void phoneLoginFirst() {
+    private void accountLoginFirst() {
         final String captcha = mEdtContentView.getText().toString();
         if (UCommUtil.isStrEmpty(captcha)) {
             LOG.d(TAG, "验证码为空");
@@ -234,7 +202,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
-                mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                 try {
                     JSONObject json = new JSONObject(result);
                     firstLoginResult=json.getString("data");
@@ -270,8 +237,9 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                             break;
                     }
                 } catch (Exception e) {
-                    mHandler.sendEmptyMessage(CODE_LOGIN_FAILED);
-                    LOG.w(TAG, "phoneLoginFirst error", e);
+                    ToastHelper.toast(mActivity, "登录失败");
+                    mProgress.closeProgress();
+                    LOG.w(TAG, "accountLoginFirst error:"+e);
                 }
             }
         });
@@ -290,7 +258,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                 new HttpInvoker.OnResponsetListener() {
                     @Override
                     public void OnResponse(String result) {
-                        mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             int resultCode = jsonObject.getInt("status");
@@ -317,8 +284,9 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                             }
 
                         } catch (Exception e) {
-                            LOG.w(TAG, "login error", e);
-                            mHandler.sendEmptyMessage(CODE_FAILED);
+                            ToastHelper.toast(mActivity, "登录失败");
+                            mProgress.closeProgress();
+                            LOG.w(TAG, "accountLoginsecond error:"+e);
                         }
                     }
                 });
@@ -331,7 +299,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
      */
     private void doResultSuccFromServer(String token) {
 
-        RegisterByPhoneDialog.this.dismiss();
         // 显示登录成功后的对话框
         mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
         mLoginSuccDialog.start();
@@ -350,7 +317,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
     private String userid;
 
     public RegisterByPhoneDialog(Context context) {
-        super(context);
+        super(context,ResourceManager.getInstance(context).getIdentifier("ema_activity_dialog", "style"));
         mActivity = (Activity) context;
         mResourceManager = ResourceManager.getInstance(mActivity);
         mDeviceInfoManager = DeviceInfoManager.getInstance(mActivity);
@@ -380,9 +347,9 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
      */
     private void initView() {
         setContentView(mResourceManager.getIdentifier("ema_register_by_phone", "layout"));
-        mBtnStartWork = (Button) findViewById(getId("ema_btn_start_work"));
-        mBtnReturnLogin = (Button) findViewById(getId("ema_btn_return_login"));
-        mBtnReturnRegister = (Button) findViewById(getId("ema_btn_return_register"));
+        Button mBtnStartWork = (Button) findViewById(getId("ema_btn_start_work"));
+        Button mBtnReturnLogin = (Button) findViewById(getId("ema_btn_return_login"));
+        Button mBtnReturnRegister = (Button) findViewById(getId("ema_btn_return_register"));
         mBtnGetAuthCode = (Button) findViewById(getId("ema_btn_get_auth_code"));
         mEdtContentView = (EditText) findViewById(getId("ema_phone_info_inputText"));
         mBtnGetAuthCode.setVisibility(View.GONE);
@@ -405,7 +372,11 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
             doRegistByOneKey();
         } else if (id == getId("ema_btn_get_auth_code")) {//重新获取验证码
             startTimeTask();
-            doGetAuthCode(mEmaUser.getMobile());
+            if("1"==accountType){
+                doGetAuthCode(mEmaUser.getMobile());
+            }else if("2"==accountType){
+                doSendEmail(mEmaUser.getEmail());
+            }
         }
     }
 
@@ -415,7 +386,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
      */
     private void doStartWork() {
         if (mFlagHasGetAuthCode) {//获取验证码之后，进行的是登录操作
-            phoneLoginFirst();
+            accountLoginFirst();
         } else {//还没有获取验证码，进行获取验证码操作
             String accountNum = mEdtContentView.getText().toString();
 
@@ -448,11 +419,9 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
         params.put("email", accountNum);
         UCommUtil.testMapInfo(params);
 
-        new HttpInvoker().postAsync(Url.getSendEmailUrl(), params,
-                new HttpInvoker.OnResponsetListener() {
+        new HttpInvoker().postAsync(Url.getSendEmailUrl(), params, new HttpInvoker.OnResponsetListener() {
                     @Override
                     public void OnResponse(String result) {
-                        mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                         try {
                             JSONObject json = new JSONObject(result);
                             int resultCode = json.getInt("status");
@@ -462,14 +431,17 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                                     break;
                                 case HttpInvokerConst.SDK_RESULT_FAILED:// 失败
                                     ToastHelper.toast(mActivity, json.getString("message"));
+                                    mProgress.closeProgress();
                                     break;
                                 default:
                                     ToastHelper.toast(mActivity, json.getString("message"));
+                                    mProgress.closeProgress();
                                     break;
                             }
                         } catch (Exception e) {
-                            LOG.w(TAG, "doGetAuthCode error", e);
-                            mHandler.sendEmptyMessage(CODE_GET_AUTH_CODE_FAILED);
+                            LOG.w(TAG, "doSendEmail error", e);
+                            ToastHelper.toast(mActivity, "请求失败");
+                            mProgress.closeProgress();
                         }
                     }
                 });
@@ -490,7 +462,6 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                 new HttpInvoker.OnResponsetListener() {
                     @Override
                     public void OnResponse(String result) {
-                        mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                         try {
                             JSONObject json = new JSONObject(result);
                             int resultCode = json.getInt("status");
@@ -500,14 +471,17 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
                                     break;
                                 case HttpInvokerConst.SDK_RESULT_FAILED:// 失败
                                     ToastHelper.toast(mActivity, json.getString("message"));
+                                    mProgress.closeProgress();
                                     break;
                                 default:
                                     ToastHelper.toast(mActivity, json.getString("message"));
+                                    mProgress.closeProgress();
                                     break;
                             }
                         } catch (Exception e) {
                             LOG.w(TAG, "doGetAuthCode error", e);
-                            mHandler.sendEmptyMessage(CODE_GET_AUTH_CODE_FAILED);
+                            ToastHelper.toast(mActivity, "请求失败");
+                            mProgress.closeProgress();
                         }
                     }
                 });

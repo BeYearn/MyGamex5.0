@@ -88,6 +88,7 @@ public class LoginDialog extends Dialog implements
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case CODE_SUCCESS:// 登录成功，并保存用户的信息(不要保存密码)
+                    LoginDialog.this.dismiss();
                     doResultSuccFromServer((String) msg.obj);
                     mProgress.closeProgress();
                     break;
@@ -118,12 +119,6 @@ public class LoginDialog extends Dialog implements
                 case FIRST_STEP_LOGIN_SUCCESS:
                     LoginSecond();
                     break;
-                case EmaProgressDialog.CODE_LOADING_START://显示进度条
-                    mProgress.showProgress((String) msg.obj);
-                    break;
-                case EmaProgressDialog.CODE_LOADING_END://关闭进度条
-                    mProgress.closeProgress();
-                    break;
                 default:
                     break;
             }
@@ -132,6 +127,9 @@ public class LoginDialog extends Dialog implements
 
     // 弱账户第一次登录请求
     private void weakLoginFirst() {
+
+        mProgress.showProgress("注册登录中...");
+
         Map<String, String> params = new HashMap<>();
         params.put("accountType", "0");
         params.put("deviceType", "android");
@@ -149,7 +147,6 @@ public class LoginDialog extends Dialog implements
                 new HttpInvoker.OnResponsetListener() {
                     @Override
                     public void OnResponse(String result) {
-                        //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                         try {
                             JSONObject json = new JSONObject(result);
                             firstLoginResult=json.getString("data");
@@ -240,7 +237,6 @@ public class LoginDialog extends Dialog implements
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
-                mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                 try {
                     JSONObject json = new JSONObject(result);
                     firstLoginResult=json.getString("data");
@@ -294,7 +290,6 @@ public class LoginDialog extends Dialog implements
                 new HttpInvoker.OnResponsetListener() {
                     @Override
                     public void OnResponse(String result) {
-                        //mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_END);
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             int resultCode = jsonObject.getInt("status");
@@ -332,17 +327,6 @@ public class LoginDialog extends Dialog implements
      * 从服务器接受到了登录成功的返回 后 的处理
      */
     private void doResultSuccFromServer(String token) {
-        /*ToastHelper.toast(mActivity, "登录成功");123456
-        LoginDialog.this.dismiss();
-        // 保存登录成功用户的信息
-        if (mFlagIsLoginByAnlaiye) {
-            mEmaUser.setIsAnlaiye(true);
-        } else {
-            mEmaUser.setIsAnlaiye(false);
-        }
-        mEmaUser.saveLoginUserInfo(mActivity);*/
-
-        LoginDialog.this.dismiss();
         // 显示登录成功后的对话框
         mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
         mLoginSuccDialog.start();
@@ -366,7 +350,7 @@ public class LoginDialog extends Dialog implements
     private String userid;//弱账户创建出的uid
 
     public LoginDialog(Context context) {
-        super(context);
+        super(context,ResourceManager.getInstance(context).getIdentifier("ema_activity_dialog", "style"));
         mActivity = (Activity) context;
         mResourceManager = ResourceManager.getInstance(mActivity);
         mDeviceInfoManager = DeviceInfoManager.getInstance(mActivity);
@@ -414,8 +398,7 @@ public class LoginDialog extends Dialog implements
      * 初始化界面
      */
     private void initView() {
-        setContentView(mResourceManager.getIdentifier("ema_login_normal",
-                "layout"));
+        setContentView(mResourceManager.getIdentifier("ema_login_normal", "layout"));
 
         mBtnLogin = (Button) findViewById(getId("ema_normalLogin_enterGame"));
         mImageLogoView = (ImageView) findViewById(getId("ema_login_image_logo"));
@@ -440,13 +423,11 @@ public class LoginDialog extends Dialog implements
         mEdtNameView.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2,
-                                      int arg3) {
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1,
-                                          int arg2, int arg3) {
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
             }
 
             @Override
@@ -660,7 +641,6 @@ public class LoginDialog extends Dialog implements
             loginAutoLogin();
         } else {}*/
             AccountLoginFirst();
-
     }
 
     /**
@@ -677,7 +657,6 @@ public class LoginDialog extends Dialog implements
     private void doRegistByOneKey() {
         this.dismiss();
         //new RegisterDialog(Ema.getInstance().getContext()).show();   这是原来的：一键注册弹出一键注册的框，以及后续逻辑； 现改为以下新逻辑
-        mProgress.showProgress("注册登录中...");
         weakLoginFirst();
     }
 

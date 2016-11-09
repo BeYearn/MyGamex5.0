@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="320dp"
     android:layout_height="300dp"
-    android:background="#ffffff"
+    android:background="@drawable/ema_shape_webview_dialog"
     android:gravity="left|right"
     android:orientation="vertical"
-    android:paddingTop="0dp" >
+    android:padding="3dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -160,18 +160,26 @@
             android:textColor="#ff7111"
             android:textSize="10dp" />
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/ema_normalLogin_enterGame"
-        android:layout_width="300dp"
-        android:layout_marginTop="20dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:adjustViewBounds="false"
-        android:background="@drawable/ema_button_blue_long"
-        android:minHeight="45dp"
-        android:text="进入游戏"
-        android:textColor="@android:color/white" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/ema_normalLogin_enterGame"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:adjustViewBounds="false"
+            android:background="@drawable/ema_button_blue_long"
+            android:minHeight="45dp"
+            android:text="进入游戏"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/ema_normallogin_change_emalogin"
@@ -189,6 +197,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:weightSum="2"
         android:layout_gravity="center"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="10dp"
@@ -198,10 +207,11 @@
 
         <Button
             android:id="@+id/ema_normalLogin_phoneLogin"
-            android:layout_width="145dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/ema_button_orange"
             android:minHeight="45dp"
             android:text="帐号登录"
@@ -209,9 +219,11 @@
 
         <Button
             android:id="@+id/ema_normalLogin_oneKeyReg"
-            android:layout_width="145dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
             android:background="@drawable/ema_button_blue"
             android:minHeight="45dp"
             android:text="一键登录"

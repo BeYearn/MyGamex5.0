@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="320dp"
     android:layout_height="255dp"
-    android:background="#ffffff"
+    android:background="@drawable/ema_shape_webview_dialog"
     android:gravity="left|right"
     android:orientation="vertical"
-    android:paddingTop="0dp" >
+    android:padding="3dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -92,7 +92,7 @@
 
         <Button
             android:id="@+id/ema_btn_start_work"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:adjustViewBounds="false"
@@ -110,11 +110,13 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:weightSum="2"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/ema_btn_return_login"
-            android:layout_width="145dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
@@ -125,7 +127,8 @@
 
         <Button
             android:id="@+id/ema_btn_return_register"
-            android:layout_width="145dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:background="@drawable/ema_button_blue"
