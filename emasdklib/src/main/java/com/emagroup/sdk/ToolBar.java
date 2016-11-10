@@ -22,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -233,7 +232,7 @@ public class ToolBar implements OnClickListener {
                 }
             }
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             isCanShow=false;
             e.printStackTrace();
         }
