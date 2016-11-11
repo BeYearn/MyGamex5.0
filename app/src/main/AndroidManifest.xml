@@ -203,6 +203,13 @@
             android:exported="false" >
         </activity>
         <!--微博组件 end-->
+
+        <!--微信组件 start-->
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:theme="@android:style/Theme.Translucent"
+            android:exported="true">
+        </activity>
+        <!--微信组件 end-->
     </application>
 
 </manifest>

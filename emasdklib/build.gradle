@@ -34,9 +34,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:support-v4:22.1.1'
-    compile files('libs/libammsdk.jar')
     compile files('libs/alipaySDK-20150818.jar')
     compile files('libs/GetuiSDK2.9.0.0.jar')
     compile files('libs/libPluginProtocolForJava_fat.jar')
     compile files('libs/weibosdkcore_release.jar')
+    compile files('libs/libammsdk.jar')
 }
