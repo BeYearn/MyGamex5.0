@@ -2,8 +2,6 @@ package com.example.myggame;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -20,29 +18,14 @@ import com.emagroup.sdk.EmaSDK;
 import com.emagroup.sdk.EmaSDKListener;
 import com.emagroup.sdk.EmaUser;
 import com.emagroup.sdk.ToastHelper;
-import com.sina.weibo.sdk.api.ImageObject;
-import com.sina.weibo.sdk.api.TextObject;
-import com.sina.weibo.sdk.api.WeiboMultiMessage;
+import com.emagroup.sdk.WeiboShareUtils;
 import com.sina.weibo.sdk.api.share.BaseResponse;
-import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
-import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
-import com.sina.weibo.sdk.api.share.WeiboShareSDK;
-import com.sina.weibo.sdk.constant.WBConstants;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXImageObject;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXTextObject;
-import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.net.URL;
 import java.util.HashMap;
 
-public class MainActivity extends Activity implements OnClickListener, IWeiboHandler.Response {
+public class MainActivity extends Activity implements OnClickListener, WeiboShareUtils.Response {
 
     private Button btLogin;
     protected boolean isSuccess;
@@ -62,17 +45,6 @@ public class MainActivity extends Activity implements OnClickListener, IWeiboHan
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        // 创建微博分享接口实例-----------------------------------------------------------------------------------
-        mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, "721964606");
-        mWeiboShareAPI.registerApp();
-        //微博-------------------------------------------------------------------------------------
-
-        // 微信-------------------------------
-        mWeixinapi = WXAPIFactory.createWXAPI(this, "wx3b310a6bcccbd788", true);
-        mWeixinapi.registerApp("wx3b310a6bcccbd788");
-        // 微信--------------------------------
 
         uiHandler = new Handler();
         btLogin = (Button) findViewById(R.id.bt_login);
@@ -133,7 +105,6 @@ public class MainActivity extends Activity implements OnClickListener, IWeiboHan
                 }
             }
         });
-        //initPayListner();
 
         btLogin.setOnClickListener(this);
         btPay.setOnClickListener(this);
@@ -155,7 +126,7 @@ public class MainActivity extends Activity implements OnClickListener, IWeiboHan
         // 从当前应用唤起微博并进行分享后，返回到当前应用时，需要在此处调用该函数
         // 来接收微博客户端返回的数据；执行成功，返回 true，并调用
         // {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
-        mWeiboShareAPI.handleWeiboResponse(intent, this);
+        EmaSDK.getInstance().onNewIntent(this,intent);
     }
 
     @Override
@@ -163,52 +134,17 @@ public class MainActivity extends Activity implements OnClickListener, IWeiboHan
         if (baseResponse != null) {
             Log.e("weibofenxiang", baseResponse.toString());
             switch (baseResponse.errCode) {
-                case WBConstants.ErrorCode.ERR_OK:
+                case EmaCallBackConst.WEIBO_OK:
                     ToastHelper.toast(MainActivity.this, "share successful");
                     break;
-                case WBConstants.ErrorCode.ERR_CANCEL:
+                case EmaCallBackConst.WEIBO_CANCLE:
                     ToastHelper.toast(MainActivity.this, "share cancel");
                     break;
-                case WBConstants.ErrorCode.ERR_FAIL:
+                case EmaCallBackConst.WEIBO_FAIL:
                     ToastHelper.toast(MainActivity.this, "share fail");
                     break;
             }
         }
-    }
-    private void doWbShare() {
-        // 1. 初始化微博的分享消息
-        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-        weiboMessage.textObject = getTextObj();
-        weiboMessage.imageObject = getImageObj();
-
-        // 2. 初始化从第三方到微博的消息请求
-        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-        // 用transaction唯一标识一个请求
-        request.transaction = String.valueOf(System.currentTimeMillis());
-        request.multiMessage = weiboMessage;
-
-        // 3. 发送请求消息到微博，唤起微博分享界面
-        mWeiboShareAPI.sendRequest(this, request);
-    }
-
-    private ImageObject getImageObj() {
-        ImageObject imageObject = new ImageObject();
-        //BitmapDrawable bitmapDrawable = (BitmapDrawable) mImageView.getDrawable();
-        //设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ema_floating_icon);
-        imageObject.setImageObject(bitmap);
-        return imageObject;
-    }
-
-    /**
-     * 创建文本消息对象。
-     *
-     * @return 文本消息对象。
-     */
-    private TextObject getTextObj() {
-        TextObject textObject = new TextObject();
-        textObject.text = "我是微信分享模板";
-        return textObject;
     }
 
     //微博-------------------------------------------------------------------------------------
@@ -253,7 +189,7 @@ public class MainActivity extends Activity implements OnClickListener, IWeiboHan
                 //payInfoMap.put("Role_Grade", "1");
                 //payInfoMap.put("Role_Balance", "1");
 
-                EmaSDK.getInstance().doPay(payInfoMap, new EmaSDKListener() {
+                EmaSDK.getInstance().doPay(payInfoMap,new EmaSDKListener() {
                     @Override
                     public void onCallBack(int arg0, String arg1) {
                         Log.d(String.valueOf(arg0), arg1);
@@ -276,136 +212,33 @@ public class MainActivity extends Activity implements OnClickListener, IWeiboHan
                 EmaSDK.getInstance().doSwichAccount();
                 break;
             case R.id.bt_wbshare:
-                doWbShare();
+                EmaSDK.getInstance().doWeiboShare(this);
                 break;
             case R.id.bt_wxshare:
-                doWxShareWebpage();
+                EmaSDK.getInstance().doWeixinShare(this, new EmaSDKListener() {
+                    @Override
+                    public void onCallBack(int resultCode, String decr) {
+                        switch (resultCode) {
+                            case EmaCallBackConst.WEIXIN_OK:
+                                ToastHelper.toast(MainActivity.this,"main weixin share successful");
+                                //分享成功
+                                break;
+                            case EmaCallBackConst.WEIXIN_CANCLE:
+                                ToastHelper.toast(MainActivity.this,"main weixin share cancle");
+                                //分享取消
+                                break;
+                            case EmaCallBackConst.WEIBO_FAIL:
+                                //分享拒绝
+                                ToastHelper.toast(MainActivity.this,"main weixin share denied");
+                                break;
+                        }
+                    }
+                });
                 break;
         }
-
-
     }
 
-    private void doWxShareText() {
-        WXTextObject textObject = new WXTextObject();
-        textObject.text="我是微信模板";
 
-        WXMediaMessage wxMediaMessage = new WXMediaMessage();
-        wxMediaMessage.mediaObject=textObject;
-        wxMediaMessage.description="我是微信模板description";
-
-        // 构造一个Req
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
-        req.message = wxMediaMessage;
-        req.scene =SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
-
-        // 调用api接口发送数据到微信
-        mWeixinapi.sendReq(req);
-
-    }
-    private void doWxShareImg1(){
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ema_floating_icon);
-        WXImageObject imgObj = new WXImageObject(bmp);
-
-        WXMediaMessage msg = new WXMediaMessage();
-        msg.mediaObject = imgObj;
-
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-        bmp.recycle();
-        msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置缩略图
-
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
-        req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
-        mWeixinapi.sendReq(req);
-    }
-    private void doWxShareImg2(){
-        //String path = SDCARD_ROOT + "/test.png";
-        String path = "storage/emulated/0/DCIM/Camera"+ "/cup.jpg";
-        File file = new File(path);
-        if (!file.exists()) {
-            ToastHelper.toast(this,"请检查路径");
-            return;
-        }
-
-        WXImageObject imgObj = new WXImageObject();
-        imgObj.setImagePath(path);
-
-        WXMediaMessage msg = new WXMediaMessage();
-        msg.mediaObject = imgObj;
-
-        Bitmap bmp = BitmapFactory.decodeFile(path);
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-        bmp.recycle();
-        msg.thumbData = bmpToByteArray(thumbBmp, true);
-
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
-        req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
-        mWeixinapi.sendReq(req);
-    }
-
-    private void doWxShareImg3(){
-        String url = "http://weixin.qq.com/zh_CN/htmledition/images/weixin/weixin_logo0d1938.png";
-
-        try{
-            WXImageObject imgObj = new WXImageObject();
-            //imgObj.imageUrl=url;
-
-            WXMediaMessage msg = new WXMediaMessage();
-            msg.mediaObject = imgObj;
-
-            Bitmap bmp = BitmapFactory.decodeStream(new URL(url).openStream());
-            Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-            bmp.recycle();
-            msg.thumbData = bmpToByteArray(thumbBmp, true);
-
-            SendMessageToWX.Req req = new SendMessageToWX.Req();
-            req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
-            req.message = msg;
-            req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
-            mWeixinapi.sendReq(req);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // 分享网页 注意这里的那个图一定要小于30k
-    private  void doWxShareWebpage(){
-        WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = "http://www.baidu.com";
-        WXMediaMessage msg = new WXMediaMessage(webpage);
-        msg.title = "WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title Very Long Very Long V";
-        msg.description = "WebPage Description WebPage Description WebPage Description WebPage Description WebPage Description WebPage Description WebPage Descr";
-        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-        msg.thumbData = bmpToByteArray(thumb, true);
-
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction =  String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
-        req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
-        mWeixinapi.sendReq(req);
-    }
-
-    public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
-        if (needRecycle) {
-            bmp.recycle();
-        }
-
-        byte[] result = output.toByteArray();
-        try {
-            output.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
 
     /*private void showDialog(String str) {
         final String curMsg = str;

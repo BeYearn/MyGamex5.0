@@ -39,7 +39,16 @@ public class EmaCallBackConst {
 	public final static int ACCOUNTSWITCHFAIL = 601;
 
 
+	//微博分享回调状态
+	public final static int WEIBO_OK = 0;
+	public final static int WEIBO_CANCLE = 1;
+	public final static int WEIBO_FAIL = 2;
 
+
+	//微信分享回调状态
+	public final static int WEIXIN_OK = 0;
+	public final static int WEIXIN_CANCLE = -2;
+	public final static int WEIXIN_FAIL = -4;
 
 
 	//接收推送消息

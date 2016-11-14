@@ -100,6 +100,18 @@ public class EmaSDK {
         return Ema.getInstance().getChannelId();
     }
 
+    public void doWeiboShare(Activity activity){
+        WeiboShareUtils.getInstance(activity).doWeiboShare();
+    }
+
+    public void doWeixinShare(Activity activity,EmaSDKListener listener) {
+        WeixinShareUtils.getInstance(activity).doWeixinShare(listener);
+    }
+
+    public void onNewIntent(Activity activity,Intent intent) {
+        WeiboShareUtils.getInstance(activity).onNewIntent(intent);
+    }
+
     public void onNewIntent(Intent intent){
         Ema.getInstance().onNewIntent(intent);
     }
