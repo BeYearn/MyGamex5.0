@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.emagroup.sdk.ToastHelper;
+import com.emagroup.sdk.WeixinShareUtils;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -38,14 +38,19 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	public void onResp(BaseResp resp) {
 		switch (resp.errCode) {
 			case BaseResp.ErrCode.ERR_OK:
-				ToastHelper.toast(this,"weixin share successful");
+				//ToastHelper.toast(this,"weixin share successful");
+				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"weixin share successful");
 				//分享成功
 				break;
 			case BaseResp.ErrCode.ERR_USER_CANCEL:
+				//ToastHelper.toast(this,"weixin share cancle");
+				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_USER_CANCEL,"weixin share cancle");
 				//分享取消
 				break;
 			case BaseResp.ErrCode.ERR_AUTH_DENIED:
 				//分享拒绝
+				//ToastHelper.toast(this,"weixin share denied");
+				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_AUTH_DENIED,"weixin share failed");
 				break;
 		}
 		finish();

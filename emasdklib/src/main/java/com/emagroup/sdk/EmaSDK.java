@@ -1,6 +1,7 @@
 package com.emagroup.sdk;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Message;
 
 import java.util.Map;
@@ -97,6 +98,18 @@ public class EmaSDK {
 
     public String getChannelId(){
         return Ema.getInstance().getChannelId();
+    }
+
+    public void doWeiboShare(Activity activity){
+        WeiboShareUtils.getInstance(activity).doWeiboShare();
+    }
+
+    public void doWeixinShare(Activity activity,EmaSDKListener listener) {
+        WeixinShareUtils.getInstance(activity).doWeixinShare(listener);
+    }
+
+    public void onNewIntent(Activity activity,Intent intent) {
+        WeiboShareUtils.getInstance(activity).onNewIntent(intent);
     }
 
 
