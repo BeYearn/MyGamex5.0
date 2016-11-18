@@ -376,4 +376,12 @@ public class Ema {
 		//官方sdk返回键没有操作,进行游戏的动作acion
 		action.doBackPressedAction();
 	}
+
+	public void onNewIntent(Intent intent) {
+
+	}
+
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+	}
 }

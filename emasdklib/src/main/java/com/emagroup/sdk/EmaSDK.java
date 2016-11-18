@@ -1,6 +1,7 @@
 package com.emagroup.sdk;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Message;
 
 import java.util.Map;
@@ -99,6 +100,13 @@ public class EmaSDK {
         return Ema.getInstance().getChannelId();
     }
 
+    public void onNewIntent(Intent intent){
+        Ema.getInstance().onNewIntent(intent);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        Ema.getInstance().onActivityResult(requestCode, resultCode, data);
+    }
 
     public void onResume() {
         Ema.getInstance().onResume();
@@ -110,6 +118,10 @@ public class EmaSDK {
 
     public void onStop() {
         Ema.getInstance().onStop();
+    }
+
+    public void onRestart(){
+        Ema.getInstance().onRestart();
     }
 
     public void onDestroy() {
