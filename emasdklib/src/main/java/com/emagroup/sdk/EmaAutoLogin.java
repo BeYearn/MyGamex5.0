@@ -31,7 +31,7 @@ public class EmaAutoLogin {
                 case HttpInvokerConst.SDK_RESULT_FAILED:// 登录失败（原因见返回messge）
                     UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, "请重新登录");
                     mProgress.closeProgress();
-                    new RegisterByPhoneDialog(Ema.getInstance().getContext()).show();
+                    RegisterByPhoneDialog.getInstance(Ema.getInstance().getContext()).show();
                     break;
             }
         }
@@ -54,7 +54,7 @@ public class EmaAutoLogin {
             // 显示登录成功后的对话框
             new LoginSuccDialog(Ema.getInstance().getContext(), true).start();
         } else {
-            new RegisterByPhoneDialog(Ema.getInstance().getContext()).show();
+            RegisterByPhoneDialog.getInstance(Ema.getInstance().getContext()).show();
             UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, "自动登录失败");
         }
     }
@@ -135,7 +135,7 @@ public class EmaAutoLogin {
                             LOG.d(TAG, json.getString("message"));
                             ToastHelper.toast(Ema.getInstance().getContext(),json.getString("message"));
                             mProgress.closeProgress();
-                            new RegisterByPhoneDialog(Ema.getInstance().getContext()).show();
+                            RegisterByPhoneDialog.getInstance(Ema.getInstance().getContext()).show();
                             break;
                     }
                 } catch (Exception e) {

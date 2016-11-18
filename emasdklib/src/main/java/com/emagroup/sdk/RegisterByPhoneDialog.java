@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickListener {
+class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickListener {
 
     private static final String TAG = "RegisterByPhoneDialog";
 
@@ -313,10 +313,18 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
     private String authCode;
     private String callbackUrl;
     private String nickname;
-
+    private static RegisterByPhoneDialog mInstance;
     private String userid;
 
-    public RegisterByPhoneDialog(Context context) {
+    public static RegisterByPhoneDialog getInstance(Context context){
+        if(mInstance==null){
+            mInstance=new RegisterByPhoneDialog(context);
+        }
+        return mInstance;
+    }
+
+
+    private RegisterByPhoneDialog(Context context) {
         super(context,ResourceManager.getInstance(context).getIdentifier("ema_activity_dialog", "style"));
         mActivity = (Activity) context;
         mResourceManager = ResourceManager.getInstance(mActivity);
@@ -367,7 +375,7 @@ public class RegisterByPhoneDialog extends Dialog implements android.view.View.O
             doStartWork();
         } else if (id == getId("ema_btn_return_login")) {//账号登录
             this.dismiss();
-            new LoginDialog(Ema.getInstance().getContext()).show();
+            LoginDialog.getInstance(Ema.getInstance().getContext()).show();
         } else if (id == getId("ema_btn_return_register")) {//快速注册
             doRegistByOneKey();
         } else if (id == getId("ema_btn_get_auth_code")) {//重新获取验证码

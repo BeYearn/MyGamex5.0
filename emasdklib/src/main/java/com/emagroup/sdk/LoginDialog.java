@@ -349,7 +349,17 @@ public class LoginDialog extends Dialog implements
 
     private String userid;//弱账户创建出的uid
 
-    public LoginDialog(Context context) {
+    private static LoginDialog mInstance;
+
+
+    public static LoginDialog getInstance(Context context){
+        if(null==mInstance){
+            mInstance=new LoginDialog(context);
+        }
+        return mInstance;
+    }
+
+    private LoginDialog(Context context) {
         super(context,ResourceManager.getInstance(context).getIdentifier("ema_activity_dialog", "style"));
         mActivity = (Activity) context;
         mResourceManager = ResourceManager.getInstance(mActivity);
@@ -648,7 +658,7 @@ public class LoginDialog extends Dialog implements
      */
     private void doRegistByPhone() {
         this.dismiss();
-        new RegisterByPhoneDialog(Ema.getInstance().getContext()).show();
+        RegisterByPhoneDialog.getInstance(Ema.getInstance().getContext()).show();
     }
 
     /**

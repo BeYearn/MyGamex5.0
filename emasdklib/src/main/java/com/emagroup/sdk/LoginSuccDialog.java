@@ -39,7 +39,7 @@ public class LoginSuccDialog extends Dialog {
 				LOG.d(TAG, "切换账号，退出登录");
 				LoginSuccDialog.this.dismiss();
 				mEmaUser.clearUserInfo();
-				new LoginDialog(Ema.getInstance().getContext()).show();
+				LoginDialog.getInstance(Ema.getInstance().getContext()).show();
 				break;
 			}
 		};

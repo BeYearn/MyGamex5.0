@@ -398,7 +398,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 	private void doRegisterByPhone(){
 		clear();
 		this.dismiss();
-		new RegisterByPhoneDialog(Ema.getInstance().getContext()).show();
+		RegisterByPhoneDialog.getInstance(Ema.getInstance().getContext()).show();
 	}
 	
 	/**
@@ -407,7 +407,7 @@ public class RegisterDialog extends Dialog implements android.view.View.OnClickL
 	private void doReturnLogin(){
 		clear();
 		this.dismiss();
-		new LoginDialog(Ema.getInstance().getContext()).show();
+		LoginDialog.getInstance(Ema.getInstance().getContext()).show();
 	}
 	/**
 	 * 清理(不确定是否有用，为了让系统回收这个dialog)
