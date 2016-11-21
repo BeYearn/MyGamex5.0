@@ -99,9 +99,9 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         EmaSDK.getInstance().doSetRecivePushListner(new EmaSDKListener() {
             @Override
             public void onCallBack(int resultCode, String data) {
-                if(resultCode== EmaCallBackConst.RECIVEMSG_MSG){
+                if (resultCode == EmaCallBackConst.RECIVEMSG_MSG) {
                     // TODO:  data为拿到的推送数据,自行处理
-                    Toast.makeText(MainActivity.this,data, Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -322,4 +322,5 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         });
         //super.onBackPressed();
     }
+
 }
