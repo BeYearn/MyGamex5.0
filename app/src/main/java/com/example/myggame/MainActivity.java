@@ -272,11 +272,6 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         });
     }*/
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        EmaSDK.getInstance().onNewIntent(intent);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
