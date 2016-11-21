@@ -35,7 +35,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
 
     private static final int FIRST_STEP_LOGIN_SUCCESS = 32; // 第二步 第一步验证登陆成功
 
-    private Activity mActivity;
+    private static Activity mActivity;
     private ResourceManager mResourceManager;// 资源管理
     private DeviceInfoManager mDeviceInfoManager;// 设备信息管理
     private ConfigManager mConfigManager;// 配置项管理
@@ -317,7 +317,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     private String userid;
 
     public static RegisterByPhoneDialog getInstance(Context context){
-        if(mInstance==null){
+        if(mInstance==null||!mActivity.equals(context)){
             mInstance=new RegisterByPhoneDialog(context);
         }
         return mInstance;

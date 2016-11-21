@@ -1,6 +1,5 @@
 package com.emagroup.sdk;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -172,13 +171,8 @@ public class Ema {
 			EmaAutoLogin.getInstance(getContext()).doLoginAuto();
 
 		}else{
-			((Activity)mContext).runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					//new LoginDialog(getContext()).show();    现在首次登录显示的是手机注册的那个页面
-					RegisterByPhoneDialog.getInstance(getContext()).show();
-				}
-			});
+			//new LoginDialog(getContext()).show();    现在首次登录显示的是手机注册的那个页面
+			RegisterByPhoneDialog.getInstance(getContext()).show();
 		}
 	}
 
@@ -193,6 +187,7 @@ public class Ema {
 		USharedPerUtil.setParam(getContext(),"uid","");
 		USharedPerUtil.setParam(getContext(),"accountType",-1);
 		makeCallBack(EmaCallBackConst.LOGOUTSUCCESS, "登出成功");
+		ToolBar.getInstance(mContext).hideToolBar();
 	}
 
 	public void swichAccount() {
