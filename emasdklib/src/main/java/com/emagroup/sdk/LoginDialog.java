@@ -51,7 +51,7 @@ public class LoginDialog extends Dialog implements
 
     private static final String mPasswShowStr = "............";//密码显示
 
-    private Activity mActivity;
+    private static Activity mActivity;
     private ResourceManager mResourceManager;// 资源管理
     private DeviceInfoManager mDeviceInfoManager;// 设备信息管理
     private ConfigManager mConfigManager;// 配置项管理
@@ -353,7 +353,7 @@ public class LoginDialog extends Dialog implements
 
 
     public static LoginDialog getInstance(Context context){
-        if(null==mInstance){
+        if(null==mInstance||!mActivity.equals(context)){
             mInstance=new LoginDialog(context);
         }
         return mInstance;
