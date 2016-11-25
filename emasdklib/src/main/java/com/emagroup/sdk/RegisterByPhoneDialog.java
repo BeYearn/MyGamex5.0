@@ -83,7 +83,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                     break;
                 case CODE_SUCCESS:
                     doResultSuccFromServer((String) msg.obj);
-                    RegisterByPhoneDialog.this.dismiss();
+                    mInstance.dismiss();
+                    mInstance=null;   //否则下次进入该界面还是验证码状态（未刷新）
                     mProgress.closeProgress();
                     break;
                 case FIRST_STEP_LOGIN_SUCCESS:
