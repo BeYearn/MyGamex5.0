@@ -375,7 +375,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         if (id == getId("ema_btn_start_work")) {//获取验证码，或者进入游戏
             doStartWork();
         } else if (id == getId("ema_btn_return_login")) {//账号登录
-            this.dismiss();
+            mInstance.dismiss();
+            mInstance=null; //用户如果切换为帐号登录，则置空这个，以便回来时重新走手机流程
             LoginDialog.getInstance(Ema.getInstance().getContext()).show();
         } else if (id == getId("ema_btn_return_register")) {//快速注册
             doRegistByOneKey();
