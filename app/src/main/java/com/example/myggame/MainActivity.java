@@ -126,7 +126,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         // 从当前应用唤起微博并进行分享后，返回到当前应用时，需要在此处调用该函数
         // 来接收微博客户端返回的数据；执行成功，返回 true，并调用
         // {@link IWeiboHandler.Response#onResponse}；失败返回 false，不调用上述回调
-        EmaSDK.getInstance().onNewIntent(this,intent);
+        EmaSDK.getInstance().onNewIntent(intent);
     }
 
     @Override

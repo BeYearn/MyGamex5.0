@@ -108,8 +108,8 @@ public class EmaSDK {
         WeixinShareUtils.getInstance(activity).doWeixinShare(listener);
     }
 
-    public void onNewIntent(Activity activity,Intent intent) {
-        WeiboShareUtils.getInstance(activity).onNewIntent(intent);
+    public void onNewIntent(Intent intent) {
+        //WeiboShareUtils.getInstance(activity).onNewIntent(intent);
         Ema.getInstance().onNewIntent(intent);
     }
 
