@@ -33,6 +33,10 @@ public class EmaSendInfo {
 		params.put(PropertyField.MEMO, json.toString());//备注信息
 		UCommUtil.testMapInfo(params);*/
 		params.put("token", EmaUser.getInstance().getToken());
+		params.put("uid",EmaUser.getInstance().getAllianceUid());
+		params.put("appId",ConfigManager.getInstance(Ema.getInstance().getContext()).getAppId());
+		params.put("allianceId ","EmaUser.getInstance().getAllianceUid()");
+		params.put("channelTag",ConfigManager.getInstance(Ema.getInstance().getContext()).getChannelTag());
 		new HttpInvoker().postAsync(Url.getHeartbeatUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {

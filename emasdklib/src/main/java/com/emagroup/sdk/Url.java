@@ -228,7 +228,8 @@ public class Url {
 	 * @return
 	 */
 	public static String getHeartbeatUrl(){
-		return serverUrl+"/ema-platform/member/heartbeat";
+		//return serverUrl+"/ema-platform/member/heartbeat";
+		return serverUrl+"/ema-platform/member/newheartbeat";
 	}
 
 
@@ -259,7 +260,8 @@ public class Url {
 	 */
 	public static String getSDKStatusUrl(){
 
-		return serverUrl+"/ema-platform/admin/getSystemInfo";
+		//return serverUrl+"/ema-platform/admin/getSystemInfo";
+		return serverUrl+"/ema-platform/admin/getSystemInfoEx";
 	}
 
 	/**

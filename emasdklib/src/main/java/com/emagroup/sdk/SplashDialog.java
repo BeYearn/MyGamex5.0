@@ -132,8 +132,14 @@ public class SplashDialog extends Dialog {
 		params.put("appId",ConfigManager.getInstance(mActivity).getAppId());
 		params.put("channelId",ConfigManager.getInstance(mActivity).getChannel());
 
-		String sign =ConfigManager.getInstance(mActivity).getAppId()+ConfigManager.getInstance(mActivity).getChannel()+EmaUser.getInstance().getAppKey();
-		//LOG.e("rawSign",sign);
+		params.put("channelTag",ConfigManager.getInstance(mActivity).getChannelTag());
+		params.put("deviceId",DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
+		String sign =ConfigManager.getInstance(mActivity).getAppId()+ConfigManager.getInstance(mActivity).getChannel()
+				+ConfigManager.getInstance(mActivity).getChannelTag()+DeviceInfoManager.getInstance(mActivity).getDEVICE_ID()
+				+EmaUser.getInstance().getAppKey();
+
+		//String sign =ConfigManager.getInstance(mActivity).getAppId()+ConfigManager.getInstance(mActivity).getChannel()+EmaUser.getInstance().getAppKey();
+ 		//LOG.e("rawSign",sign);
 		sign = UCommUtil.MD5(sign);
 		params.put("sign", sign);
 

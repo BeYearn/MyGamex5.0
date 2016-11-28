@@ -56,6 +56,7 @@ public class EmaUser {
         EmaUser.accountType = accountType;
     }
 
+    //官网渠道AllianceUid和UId相同
     public String getAllianceUid() {
         return mUid;
     }
