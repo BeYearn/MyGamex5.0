@@ -27,6 +27,8 @@ public class EmaAlertDialog extends Dialog {
 	private TextView mBtnSure;
 	private TextView mBtnCancle;
 
+	//private boolean isUpdateVersion;
+
 	/**
 	 *
 	 * @param context
@@ -35,7 +37,7 @@ public class EmaAlertDialog extends Dialog {
 	 * @param showType   1 显示一个确定按钮  2 显示确定 取消
      * @param clickType  1确定按钮按下退出   2确定按钮按下顺利进入 3确定按钮按下可选更新  4确定按钮按下强制更新
      */
-	public EmaAlertDialog(Context context, Dialog dialog, Map contentMap, int showType, int clickType) {
+	public EmaAlertDialog(Context context, Dialog dialog, Map contentMap, int showType, int clickType /*,boolean isUpdateVersion*/) {
 		super(context, ResourceManager.getInstance(context).getIdentifier("ema_activity_dialog", "style"));
 		this.mContext=context;
 		this.showType=showType;
@@ -45,6 +47,7 @@ public class EmaAlertDialog extends Dialog {
 		setCancelable(false);
 		setCanceledOnTouchOutside(false);
 		this.mContentMap = contentMap;
+		//this.isUpdateVersion=isUpdateVersion;
 	}
 
 	@Override
@@ -112,5 +115,10 @@ public class EmaAlertDialog extends Dialog {
 		}
 		mImgPromptView.setImageResource(drawableId);*/
 		mTxtPromptView.setText("又有新的版本啦！\n赶紧去更新吧");
+	/*	if(isUpdateVersion){
+			mTxtPromptView.setText("又有新的版本啦！\n赶紧去更新吧");
+		}else{
+			mTxtPromptView.setText("您的账号有风险！\n赶紧去绑定手机或者邮箱吧");
+		}*/
 	}
 }

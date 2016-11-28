@@ -1,10 +1,13 @@
 package com.emagroup.sdk;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.text.TextUtils;
+import android.view.View;
 
 import com.igexin.sdk.PushManager;
 
@@ -302,6 +305,22 @@ public class Ema {
 							EmaUser.getInstance().setmUid(uid);
 
 							LOG.e("getUserInfo",message+ifSetChargePwd+nickname+pfCoin+uid);
+						 if(/*true */TextUtils.isEmpty(email)&&TextUtils.isEmpty(mobile)){
+							 ((Activity)mContext).runOnUiThread(new Runnable() {
+								 @Override
+								 public void run() {
+									 final EmaBinderAlertDialog emaBinderAlertDialog= new EmaBinderAlertDialog(mContext);
+									 emaBinderAlertDialog.setCanelClickListener(new View.OnClickListener() {
+										 @Override
+										 public void onClick(View view) {
+											 emaBinderAlertDialog.dismiss();
+										 }
+									 });
+									 emaBinderAlertDialog.show();
+								 }
+							 });
+
+							}
 
 						} catch (Exception e) {
 							LOG.w(TAG, "login error", e);

@@ -1,5 +1,6 @@
 package com.emagroup.sdk;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import org.json.JSONObject;
 
@@ -35,11 +37,25 @@ public class EmaPay {
     public  EmaPayListener mPayListener;
 
     private Handler mHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+        public void handleMessage( android.os.Message msg) {
             switch (msg.what) {
-                case ORDER_SUCCESS://成功
+                case ORDER_SUCCESS://成功.
+                    final EmaPayInfo emaPayInfo=(EmaPayInfo) msg.obj;
                     //ToastHelper.toast(mContext, "订单ok");
-                    doNextPay((EmaPayInfo) msg.obj);
+                    if(true){
+                        final EmaBinderAlertDialog emaBinderAlertDialog= new EmaBinderAlertDialog(mContext);
+                        emaBinderAlertDialog.setCanelClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                doNextPay(emaPayInfo);
+                                emaBinderAlertDialog.dismiss();
+                            }
+                        });
+                        emaBinderAlertDialog.show();
+                    }else{
+                        doNextPay(emaPayInfo);
+                    }
+                   // doNextPay((EmaPayInfo) msg.obj);
                     break;
                 case ORDER_FAIL:
                     ToastHelper.toast(mContext, "订单创建失败");
@@ -150,6 +166,8 @@ public class EmaPay {
                             msg.what = ORDER_SUCCESS;
                             msg.obj = mPayInfo;
                             mHandler.sendMessage(msg);
+
+
                         } catch (Exception e) {
                             LOG.w(TAG, "login error", e);
                             mHandler.sendEmptyMessage(ORDER_FAIL);
@@ -161,6 +179,7 @@ public class EmaPay {
 
 
     private void doNextPay(EmaPayInfo payInfo) {
+
         Intent intent = null;
         if (payInfo.isCoinEnough()) {
             if(!payInfo.isReChargePay()){

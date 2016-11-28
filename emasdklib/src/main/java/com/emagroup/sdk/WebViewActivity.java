@@ -52,6 +52,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
 	public static final int TYPE_FIND_LOGIN_PASSW = 5;//找回用户密码
 	public static final int TYPE_FIND_WALLET_PASSW = 7;//找回钱包密码
 	public static final int TYPE_PROMOTION = 6;//推广
+	public static final int TYPE_BIND=8;//绑定提醒
 	
 	private int mType;//标记打开网页的类型（即从哪个入口进来的）
 	//标记
@@ -242,14 +243,14 @@ public class WebViewActivity extends Activity implements OnClickListener {
 		}
 		
 		String url = intent.getStringExtra(INTENT_URL);
-		
+		doSetCookies(url);
 		switch(mType){
 		case TYPE_EMAACCOUNT:
-			doSetCookies(url);
+		//	doSetCookies(url);
 			mBtnAccount.setChecked(true);
 			break;
 		case TYPE_GIFT:
-			doSetCookies(url);
+			//doSetCookies(url);
 			mBtnGift.setChecked(true);
 //			ToastHelper.toast(WebViewActivity.this, "礼包暂未开放");
 			break;
@@ -259,17 +260,17 @@ public class WebViewActivity extends Activity implements OnClickListener {
 			ToastHelper.toast(WebViewActivity.this, "推广暂未开放");
 			return;
 		case TYPE_HELP:
-			doSetCookies(url);
+			//doSetCookies(url);
 			mBtnHelp.setChecked(true);
 			break;
 		case TYPE_TENPAY:
 			mRadioGroupView.setVisibility(View.GONE);
 			break;
 		case TYPE_FIND_LOGIN_PASSW:
-			doSetCookies(url);
+			//doSetCookies(url);
 			break;
 		case TYPE_FIND_WALLET_PASSW:
-			doSetCookies(url);
+			//doSetCookies(url);
 			break;
 		}
 		LOG.d(TAG, "url__:" + url);
