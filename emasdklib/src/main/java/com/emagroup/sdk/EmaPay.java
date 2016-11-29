@@ -40,7 +40,7 @@ public class EmaPay {
         public void handleMessage( android.os.Message msg) {
             switch (msg.what) {
                 case ORDER_SUCCESS://成功.
-                    final EmaPayInfo emaPayInfo=(EmaPayInfo) msg.obj;
+                   /* final EmaPayInfo emaPayInfo=(EmaPayInfo) msg.obj;
                     //ToastHelper.toast(mContext, "订单ok");
                     if(true){
                         final EmaBinderAlertDialog emaBinderAlertDialog= new EmaBinderAlertDialog(mContext);
@@ -54,8 +54,8 @@ public class EmaPay {
                         emaBinderAlertDialog.show();
                     }else{
                         doNextPay(emaPayInfo);
-                    }
-                   // doNextPay((EmaPayInfo) msg.obj);
+                    }*/
+                    doNextPay((EmaPayInfo) msg.obj);
                     break;
                 case ORDER_FAIL:
                     ToastHelper.toast(mContext, "订单创建失败");
@@ -110,12 +110,24 @@ public class EmaPay {
             return;
         }
 
+        Ema.getInstance().getUserInfo(new Ema.BindRemind() {
+            @Override
+            public void canelNext() {
+                startPay();
+            }
+        });
+
+
+
+    }
+
+    private void startPay() {
         //发起购买---->对订单号及信息的请求
         Map<String, String> params = new HashMap<>();
         params.put("pid", mPayInfo.getProductId());
-        params.put("token",EmaUser.getInstance().getToken());
+        params.put("token", EmaUser.getInstance().getToken());
         params.put("quantity", mPayInfo.getProductNum());
-        params.put("appId",ConfigManager.getInstance(mContext).getAppId());
+        params.put("appId", ConfigManager.getInstance(mContext).getAppId());
         if(!TextUtils.isEmpty(mPayInfo.getGameTransCode())){
             params.put("gameTransCode", mPayInfo.getGameTransCode());
         }
@@ -174,7 +186,6 @@ public class EmaPay {
                         }
                     }
                 });
-
     }
 
 

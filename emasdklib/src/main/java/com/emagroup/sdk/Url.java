@@ -117,6 +117,15 @@ public class Url {
 		return "http://192.168.155.79:8080/member/createWeakAccount";
 	}*/
 
+	/**
+	 * 获取绑定手机号信息界面
+	 * @return
+	 */
+	public static String getWebUrlBinder(){
+		//return getWebUrl() + "userinfo.html";
+		return serverUrl+"/wap/bindphone.html";
+	}
+
 
 	/**
 	 * 获取用户信息界面

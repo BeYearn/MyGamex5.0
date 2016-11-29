@@ -97,12 +97,13 @@
         <meta-data
             android:name="EMA_CHANNEL_TAG"
             android:value="n0" />
-<!--        <meta-data
+     <meta-data
             android:name="EMA_WHICH_ENVI"
-            android:value="staging" />-->
-        <meta-data
+            android:value="staging" />
+       <!-- <meta-data
+
             android:name="EMA_WHICH_ENVI"
-            android:value="testing" />  <!--测试环境-->
+            android:value="testing" /> --> <!--测试环境-->
 
 
         <!-- 个推SDK配置开始 -->

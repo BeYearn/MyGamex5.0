@@ -42,34 +42,37 @@
             android:textSize="12sp"
             android:textColor="#000000" />
     </RelativeLayout>
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+       >
+
+
 
         <TextView
+            android:layout_alignParentRight="true"
             android:id="@+id/ema_tv_sure"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:layout_marginRight="15sp"
             android:background="@drawable/ema_shape_corner_btn0"
             android:gravity="center"
-            android:text="确定"
+            android:padding="5dp"
+            android:text="现在就去"
+            android:layout_marginRight="10dp"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
-
         <TextView
+            android:layout_alignParentLeft="true"
             android:id="@+id/ema_tv_cancel"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/ema_shape_corner_btn0"
+            android:layout_alignBottom="@+id/ema_tv_sure"
             android:gravity="center"
-            android:text="取消"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
-    </LinearLayout>
+            android:text="下次再说"
+            android:textColor="#ff7111"
+            android:textSize="12sp" />
+    </RelativeLayout>
 
 </LinearLayout>

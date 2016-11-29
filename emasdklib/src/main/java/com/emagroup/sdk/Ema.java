@@ -19,7 +19,9 @@ import java.util.Map;
 public class Ema {
 
 	private static final String TAG = "Ema";
-	
+	 public static  final int DIALOG_SHOW_FROM_LOGIN=1;//绑定提示框在登录时显示
+	public static  final int DIALOG_SHOW_FROM_CREATE_ORDER=2;//绑定提示框在创建订单前显示
+	 private EmaBinderAlertDialog emaBinderAlertDialog;
 	private SplashDialog mSplashDialog;
 	
 	private Context mContext;
@@ -207,13 +209,20 @@ public class Ema {
 	 * 开启支付操作
 	 * @param
 	 */
-	public void pay(EmaPayInfo payInfo, EmaPayListener payListener){
+	public void pay(final EmaPayInfo payInfo, final EmaPayListener payListener){
 		if(!mFlagIsInitSuccess){
 			LOG.d(TAG, "初始化失败，禁止操作");
 			return;
 		}
 		hideToolBar();
-		EmaPay.getInstance(getContext()).pay(payInfo, payListener);
+	/*	getUserInfo(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				emaBinderAlertDialog.dismiss();
+				EmaPay.getInstance(getContext()).pay(payInfo, payListener);
+			}
+		},DIALOG_SHOW_FROM_CREATE_ORDER);*/
+		 EmaPay.getInstance(getContext()).pay(payInfo, payListener);
 	}
 	
 	/**
@@ -256,7 +265,13 @@ public class Ema {
 			showToolBar();
 
 			//查询所有用户信息
-			getUserInfo();
+			/*getUserInfo(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					emaBinderAlertDialog.dismiss();
+				}
+			},DIALOG_SHOW_FROM_LOGIN);*/
+			getUserInfo(null);
 
 			//绑定服务,发送心跳
 			Intent serviceIntent = new Intent(mContext, EmaService.class);
@@ -277,7 +292,7 @@ public class Ema {
 	/**
 	 * call一次拿到所有用户信息
 	 */
-	public void getUserInfo(){
+	public void getUserInfo(final BindRemind bindRemind/*final View.OnClickListener onClickListener,*//* ,final int showFrom*/){
 		Map<String, String> params = new HashMap<>();
 		params.put("token",EmaUser.getInstance().getToken());
 		new HttpInvoker().postAsync(Url.getUserInfoUrl(), params,
@@ -309,18 +324,26 @@ public class Ema {
 							 ((Activity)mContext).runOnUiThread(new Runnable() {
 								 @Override
 								 public void run() {
-									 final EmaBinderAlertDialog emaBinderAlertDialog= new EmaBinderAlertDialog(mContext);
-									 emaBinderAlertDialog.setCanelClickListener(new View.OnClickListener() {
+									 emaBinderAlertDialog = new EmaBinderAlertDialog(mContext);
+									 // emaBinderAlertDialog.setCanelClickListener(onClickListener);
+								 	 emaBinderAlertDialog.setCanelClickListener(new View.OnClickListener() {
 										 @Override
 										 public void onClick(View view) {
 											 emaBinderAlertDialog.dismiss();
+											  if(bindRemind!=null){
+												 bindRemind.canelNext();
+											 }
 										 }
 									 });
 									 emaBinderAlertDialog.show();
 								 }
 							 });
 
-							}
+							}else{
+							 if(bindRemind!=null){
+								 bindRemind.canelNext();
+							 }
+						 }
 
 						} catch (Exception e) {
 							LOG.w(TAG, "login error", e);
@@ -398,4 +421,9 @@ public class Ema {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 	}
+
+	interface  BindRemind{
+		void canelNext();
+	}
+
 }
