@@ -64,7 +64,7 @@ public class EmaBinderAlertDialog extends Dialog {
 			public void onClick(View arg0) {
 				Intent intent = new Intent(Ema.getInstance().getContext(), WebViewActivity.class);
 				intent.putExtra(WebViewActivity.INTENT_TITLE, "绑定账号");
-				intent.putExtra(WebViewActivity.INTENT_URL, "http://www.163.com/");
+				intent.putExtra(WebViewActivity.INTENT_URL,Url.getWebUrlBinder());
 				intent.putExtra(WebViewActivity.INTENT_TYPE, WebViewActivity.TYPE_BIND);
 				mContext.startActivity(intent);
 				EmaBinderAlertDialog.this.dismiss();
