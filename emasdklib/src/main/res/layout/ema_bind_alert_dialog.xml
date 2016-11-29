@@ -49,20 +49,6 @@
        >
 
 
-
-        <TextView
-            android:layout_alignParentRight="true"
-            android:id="@+id/ema_tv_sure"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/ema_shape_corner_btn0"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="现在就去"
-            android:layout_marginRight="10dp"
-            android:textColor="@android:color/white"
-            android:textSize="14sp" />
         <TextView
             android:layout_alignParentLeft="true"
             android:id="@+id/ema_tv_cancel"
@@ -73,6 +59,20 @@
             android:text="下次再说"
             android:textColor="#ff7111"
             android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/ema_tv_sure"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ema_shape_corner_btn0"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="现在就去"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
 </LinearLayout>
