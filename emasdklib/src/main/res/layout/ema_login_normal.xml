@@ -230,4 +230,22 @@
             android:textColor="@android:color/white" />
     </LinearLayout>
 
+<!--    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:id="@+id/ema_wachate_login"
+            android:src="@drawable/ema_wachate_login"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/ema_qq_login"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:src="@drawable/ema_qq_login"
+            android:layout_height="40dp" />
+    </LinearLayout>-->
 </LinearLayout>

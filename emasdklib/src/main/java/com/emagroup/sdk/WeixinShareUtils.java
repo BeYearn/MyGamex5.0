@@ -1,9 +1,14 @@
 package com.emagroup.sdk;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXImageObject;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
@@ -36,8 +41,11 @@ public class WeixinShareUtils {
 
     private WeixinShareUtils(Activity activity){
         this.mActivity=activity;
-        mWeixinapi = WXAPIFactory.createWXAPI(activity, "wx3b310a6bcccbd788", true);
+      mWeixinapi = WXAPIFactory.createWXAPI(activity, "wx3b310a6bcccbd788", true);
         mWeixinapi.registerApp("wx3b310a6bcccbd788");
+
+       /* mWeixinapi = WXAPIFactory.createWXAPI(activity, "wx9c31edc5e693ec1d");
+        mWeixinapi.registerApp("wx9c31edc5e693ec1d");*/
     }
 
 
@@ -167,4 +175,39 @@ public class WeixinShareUtils {
 
         return result;
     }
+
+
+ /*   public void login()
+    {
+        boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
+                && mWeixinapi.isWXAppSupportAPI();
+        if (!sIsWXAppInstalledAndSupported)
+        {
+            Toast.makeText(mActivity,"未安装或版本过低, 请下载更新的版本",Toast.LENGTH_LONG).show();
+            return;
+
+        }
+         AsyncTask<Void, Void, String> asyncTask = new AsyncTask<Void, Void, String>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+             }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                return "";
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                //发送请求
+                SendAuth.Req req = new SendAuth.Req();
+                req.scope = "snsapi_userinfo";
+                req.state = "weixin_login";
+                mWeixinapi.sendReq(req);
+            }
+        };
+        asyncTask.execute();
+    }*/
 }

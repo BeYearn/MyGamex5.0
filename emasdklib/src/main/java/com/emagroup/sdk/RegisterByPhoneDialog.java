@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -56,6 +59,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     //标记
     private boolean mFlagHasGetAuthCode;//标记当前状态是获取验证码之前(false)，还是获取了验证码之后(true)
     private String firstLoginResult;
+    private ImageView mWechatLogin,mQQLogin;
 
     // 进度条
     private EmaProgressDialog mProgress;
@@ -301,12 +305,13 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     private void doResultSuccFromServer(String token) {
 
         // 显示登录成功后的对话框
-        mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
-        mLoginSuccDialog.start();
+
         //ToastHelper.toast(mActivity, "登录成功");
         USharedPerUtil.setParam(mActivity, "token", token);
         USharedPerUtil.setParam(mActivity,"nickname",nickname);
         USharedPerUtil.setParam(mActivity,"uid",userid);
+        mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
+        mLoginSuccDialog.start();
         EmaUser.getInstance().setIsLogin(true);
     }
 
@@ -363,6 +368,12 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         mEdtContentView = (EditText) findViewById(getId("ema_phone_info_inputText"));
         mBtnGetAuthCode.setVisibility(View.GONE);
 
+        mWechatLogin= (ImageView) findViewById(getId("ema_wachate_login"));
+        mQQLogin= (ImageView) findViewById(getId("ema_qq_login"));
+
+        mWechatLogin.setOnClickListener(this);
+        mQQLogin.setOnClickListener(this);
+
         mBtnStartWork.setOnClickListener(this);
         mBtnReturnLogin.setOnClickListener(this);
         mBtnReturnRegister.setOnClickListener(this);
@@ -387,7 +398,61 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
             }else if("2"==accountType){
                 doSendEmail(mEmaUser.getEmail());
             }
+        }else if(id==getId("ema_wachate_login")){
+           // WeixinShareUtils.getInstance(mActivity).login();
+            WXLogin();
         }
+    }
+
+    private void WXLogin() {
+      //
+        ThirdLoginUtils.getInstance(mActivity).login(new ThirdLoginUtils.WXLoginAfter() {
+            @Override
+            public void loginAfter(String result) {
+                mProgress.showProgress("登录中...");
+                Map<String,String> params=new HashMap();
+                params.put("accountType","3");
+                params.put("appId",mConfigManager.getAppId());
+                params.put("channelTag",mConfigManager.getChannelTag());
+                params.put("allianceId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
+                params.put("weixinCode",result);
+
+                String sign="3"+ ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()
+                            +mConfigManager.getAppId()+mConfigManager.getChannelTag()+result+ EmaUser.getInstance().getAppKey();
+                //LOG.e("rawSign",sign);
+                sign = UCommUtil.MD5(sign);
+                params.put("sign", sign);
+                new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
+                @Override
+                public void OnResponse(String result) {
+                Log.i("ThirdLogin loginAfter ","-----"+result);
+                try {
+                    if(new JSONObject(result).optString("status").equals("0")){
+                        JSONObject dataJson = new JSONObject(result).optJSONObject("data");
+                        firstLoginResult=dataJson.toString();
+                        USharedPerUtil.setParam(mActivity, "accountType", 3);  //记录账户类型
+                         userid = dataJson.getString("allianceUid");
+                        LOG.e("allianceUid", userid);
+                        mEmaUser.setmUid(userid);
+                        allianceId = dataJson.getString("allianceId");
+                        LOG.e("allianceId", allianceId);
+                        authCode = dataJson.getString("authCode");
+                        LOG.e("authCode", authCode);
+                        callbackUrl = dataJson.getString("callbackUrl");
+                        LOG.e("callbackUrl", callbackUrl);
+                        nickname = dataJson.getString("nickname");
+                        LOG.e("nickname", nickname);
+                        mEmaUser.setNickName(nickname);
+                        mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+            }
+        });
     }
 
 
