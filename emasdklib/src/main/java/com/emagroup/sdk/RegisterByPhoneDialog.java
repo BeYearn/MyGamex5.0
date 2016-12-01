@@ -23,7 +23,9 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickListener {
+import static com.emagroup.sdk.ThirdLoginUtils.*;
+
+class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickListener  ,ThirdLoginAfter {
 
     private static final String TAG = "RegisterByPhoneDialog";
 
@@ -399,16 +401,19 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                 doSendEmail(mEmaUser.getEmail());
             }
         }else if(id==getId("ema_wachate_login")){
-           // WeixinShareUtils.getInstance(mActivity).login();
-            WXLogin();
+           // WeixinShareUtils.getInstance(mActivity).wachateLogin();
+            wachateLogin();
+        }else if(id==getId("ema_qq_login")){
+
         }
     }
 
-    private void WXLogin() {
+    private void wachateLogin() {
       //
-        ThirdLoginUtils.getInstance(mActivity).login(new ThirdLoginUtils.WXLoginAfter() {
+        ThirdLoginUtils.getInstance(mActivity).wachateLogin(this);
+        /*ThirdLoginUtils.getInstance(mActivity).wachateLogin(new ThirdLoginUtils.ThirdLoginAfter() {
             @Override
-            public void loginAfter(String result) {
+            public void wachateLoginAfter(String result) {
                 mProgress.showProgress("登录中...");
                 Map<String,String> params=new HashMap();
                 params.put("accountType","3");
@@ -425,7 +430,6 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                 new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
                 @Override
                 public void OnResponse(String result) {
-                Log.i("ThirdLogin loginAfter ","-----"+result);
                 try {
                     if(new JSONObject(result).optString("status").equals("0")){
                         JSONObject dataJson = new JSONObject(result).optJSONObject("data");
@@ -452,7 +456,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
             }
         });
             }
-        });
+        });*/
     }
 
 
@@ -645,4 +649,53 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         return mIDmap.get(key);
     }
 
+  @Override
+    public void wachateLoginAfter(String result) {
+        mProgress.showProgress("登录中...");
+        Map<String,String> params=new HashMap();
+        params.put("accountType","3");
+        params.put("appId",mConfigManager.getAppId());
+        params.put("channelTag",mConfigManager.getChannelTag());
+        params.put("allianceId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
+        params.put("weixinCode",result);
+
+        String sign="3"+ ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()
+                +mConfigManager.getAppId()+mConfigManager.getChannelTag()+result+ EmaUser.getInstance().getAppKey();
+        //LOG.e("rawSign",sign);
+        sign = UCommUtil.MD5(sign);
+        params.put("sign", sign);
+        new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
+            @Override
+            public void OnResponse(String result) {
+                try {
+                    if(new JSONObject(result).optString("status").equals("0")){
+                        JSONObject dataJson = new JSONObject(result).optJSONObject("data");
+                        firstLoginResult=dataJson.toString();
+                        USharedPerUtil.setParam(mActivity, "accountType", 3);  //记录账户类型
+                        userid = dataJson.getString("allianceUid");
+                        LOG.e("allianceUid", userid);
+                        mEmaUser.setmUid(userid);
+                        allianceId = dataJson.getString("allianceId");
+                        LOG.e("allianceId", allianceId);
+                        authCode = dataJson.getString("authCode");
+                        LOG.e("authCode", authCode);
+                        callbackUrl = dataJson.getString("callbackUrl");
+                        LOG.e("callbackUrl", callbackUrl);
+                        nickname = dataJson.getString("nickname");
+                        LOG.e("nickname", nickname);
+                        mEmaUser.setNickName(nickname);
+                        mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void qqLoginAfter(Map<String, String> param) {
+
+    }
 }

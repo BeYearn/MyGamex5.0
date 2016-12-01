@@ -8,24 +8,32 @@ import android.widget.Toast;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
+
+import java.util.Map;
 
 
 /**
  * Created by Administrator on 2016/11/30.
  */
 
-public class ThirdLoginUtils  {
-    public static final String appId = "wx9c31edc5e693ec1d";
+public class ThirdLoginUtils implements IUiListener {
+    public static final String WECHAT_APP_ID = "wx9c31edc5e693ec1d";
+    public static  final String QQ_APP_ID="";
   //  public static final String secret = "2b32e87f92911f41f369f0130a0ce8ca";
     private static ThirdLoginUtils instance=null;
     private Context mContext;
     private  IWXAPI mWeixinapi;
-    private WXLoginAfter mWXLoginAfter;
+    private ThirdLoginAfter mWXLoginAfter;
+    private Tencent mTencent;
 
     private ThirdLoginUtils(Context mContext) {
         this.mContext = mContext;
-        mWeixinapi = WXAPIFactory.createWXAPI(mContext, appId);
-        mWeixinapi.registerApp(appId);
+        mWeixinapi = WXAPIFactory.createWXAPI(mContext, WECHAT_APP_ID);
+        mWeixinapi.registerApp(WECHAT_APP_ID);
+     //   mTencent=Tencent.createInstance(QQ_APP_ID,mContext);
         //this.mWXLoginAfter=wxLoginAfter;
     }
     public static  ThirdLoginUtils getInstance(Context mContext){
@@ -35,7 +43,7 @@ public class ThirdLoginUtils  {
         return  instance;
     }
 
-    public void login(WXLoginAfter wxLoginAfter)
+    public void wachateLogin(ThirdLoginAfter wxLoginAfter)
     {
         this.mWXLoginAfter=wxLoginAfter;
         boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
@@ -60,7 +68,7 @@ public class ThirdLoginUtils  {
         Log.e("wechatLogin", "resp.result =" + result.errCode + "  result.state =" + result.state);
         if(result.errCode == 0)
         {
-           mWXLoginAfter.loginAfter(result.code);
+           mWXLoginAfter.wachateLoginAfter(result.code);
 
         }
         else if(result.errCode == -2)
@@ -75,7 +83,32 @@ public class ThirdLoginUtils  {
         }
     }
 
-    interface  WXLoginAfter{
-        void loginAfter(String result);
+    public void qqLogin(ThirdLoginAfter thirdLoginAfter){
+
     }
+
+    @Override
+    public void onComplete(Object o) {
+
+    }
+
+    @Override
+    public void onError(UiError uiError) {
+
+    }
+
+    @Override
+    public void onCancel() {
+
+    }
+
+     interface   ThirdLoginAfter {
+        void wachateLoginAfter(String result);
+         void qqLoginAfter(Map<String,String> param);
+    }
+    /*interface   ThirdLoginAfter {
+        void wachateLoginAfter(String result);
+
+    }*/
+
 }

@@ -177,7 +177,7 @@ public class WeixinShareUtils {
     }
 
 
- /*   public void login()
+ /*   public void wachateLogin()
     {
         boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
                 && mWeixinapi.isWXAppSupportAPI();

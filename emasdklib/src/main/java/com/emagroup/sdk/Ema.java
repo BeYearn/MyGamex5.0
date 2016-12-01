@@ -346,7 +346,7 @@ public class Ema {
 						 }
 
 						} catch (Exception e) {
-							LOG.w(TAG, "login error", e);
+							e.printStackTrace();
 						}
 					}
 				});

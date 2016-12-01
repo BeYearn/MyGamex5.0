@@ -47,6 +47,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 				break;
 			case BaseResp.ErrCode.ERR_USER_CANCEL:
 				//ToastHelper.toast(this,"weixin share cancle");
+				//与微信登录冲突，等完整分享做完一起解决
 				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_USER_CANCEL,"weixin share cancle");
 				//分享取消
 				break;
