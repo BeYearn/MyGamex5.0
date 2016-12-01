@@ -162,7 +162,14 @@ public class Url {
 		serverUrl=url;
 	}
 
+	/**
+	 * 获取QQ登录接口
+	 * @return
+	 */
+	public static String getQqLoginUrl(){
 
+		return serverUrl+"/ema-platform/member/pfLogin";
+	}
 
 	/**
 	 * 获取第一步登录请求接口

@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -404,7 +405,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
            // WeixinShareUtils.getInstance(mActivity).wachateLogin();
             wachateLogin();
         }else if(id==getId("ema_qq_login")){
-
+         //   ThirdLoginUtils.getInstance(mActivity).qqLogin(this);
         }
     }
 
@@ -665,10 +666,14 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
+
+            private JSONObject resultJson;
+
             @Override
             public void OnResponse(String result) {
                 try {
-                    if(new JSONObject(result).optString("status").equals("0")){
+                    resultJson = new JSONObject(result);
+                    if(resultJson.optString("status").equals("0")){
                         JSONObject dataJson = new JSONObject(result).optJSONObject("data");
                         firstLoginResult=dataJson.toString();
                         USharedPerUtil.setParam(mActivity, "accountType", 3);  //记录账户类型
@@ -686,6 +691,14 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                         mEmaUser.setNickName(nickname);
                         mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
 
+                    }else{
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(mActivity,resultJson.optString("message"),Toast.LENGTH_SHORT).show();
+                                mProgress.closeProgress();
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -696,6 +709,22 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
 
     @Override
     public void qqLoginAfter(Map<String, String> param) {
+        mProgress.showProgress("登录中...");
+        param.put("pfAppId",mConfigManager.getAppId());
+        param.put("channelTag",mConfigManager.getChannelTag());
+        param.put("allianceId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
+        param.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
+        param.put("deviceType", "android");
+        String sign= ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()+
+                mConfigManager.getChannelTag()+DeviceInfoManager.getInstance(mActivity).getDEVICE_ID()
+                +param.get("deviceType")+param.get("openId")+param.get("pfAppId")
+                +param.get("qqAppId")+ EmaUser.getInstance().getAppKey();
+        new HttpInvoker().postAsync(Url.getQqLoginUrl(), param, new HttpInvoker.OnResponsetListener() {
+            @Override
+            public void OnResponse(String result) {
+
+            }
+        });
 
     }
 }

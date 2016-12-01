@@ -1,10 +1,12 @@
 package com.emagroup.sdk;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tencent.connect.common.Constants;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -12,6 +14,10 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -26,7 +32,7 @@ public class ThirdLoginUtils implements IUiListener {
     private static ThirdLoginUtils instance=null;
     private Context mContext;
     private  IWXAPI mWeixinapi;
-    private ThirdLoginAfter mWXLoginAfter;
+    private ThirdLoginAfter mThirdLoginAfter;
     private Tencent mTencent;
 
     private ThirdLoginUtils(Context mContext) {
@@ -34,7 +40,7 @@ public class ThirdLoginUtils implements IUiListener {
         mWeixinapi = WXAPIFactory.createWXAPI(mContext, WECHAT_APP_ID);
         mWeixinapi.registerApp(WECHAT_APP_ID);
      //   mTencent=Tencent.createInstance(QQ_APP_ID,mContext);
-        //this.mWXLoginAfter=wxLoginAfter;
+        //this.mThirdLoginAfter=wxLoginAfter;
     }
     public static  ThirdLoginUtils getInstance(Context mContext){
         if(instance==null){
@@ -45,7 +51,7 @@ public class ThirdLoginUtils implements IUiListener {
 
     public void wachateLogin(ThirdLoginAfter wxLoginAfter)
     {
-        this.mWXLoginAfter=wxLoginAfter;
+        this.mThirdLoginAfter =wxLoginAfter;
         boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
                 && mWeixinapi.isWXAppSupportAPI();
         if (!sIsWXAppInstalledAndSupported)
@@ -68,7 +74,7 @@ public class ThirdLoginUtils implements IUiListener {
         Log.e("wechatLogin", "resp.result =" + result.errCode + "  result.state =" + result.state);
         if(result.errCode == 0)
         {
-           mWXLoginAfter.wachateLoginAfter(result.code);
+           mThirdLoginAfter.wachateLoginAfter(result.code);
 
         }
         else if(result.errCode == -2)
@@ -84,22 +90,36 @@ public class ThirdLoginUtils implements IUiListener {
     }
 
     public void qqLogin(ThirdLoginAfter thirdLoginAfter){
-
+        mThirdLoginAfter =thirdLoginAfter;
+        mTencent.login((Activity) mContext,"get_simple_userinfo",this);//QQ回调接口下一行
     }
 
     @Override
     public void onComplete(Object o) {
-
+            if(o==null){
+                Log.i(this.getClass().getName(),"ThirdLoginUtils  qqLogin onComplete---"+o.toString());
+                Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT);
+            }else{
+                try {
+                    JSONObject resultJson= (JSONObject) o;
+                    Map<String,String> param=new HashMap();
+                    param.put("qqAppId",QQ_APP_ID);
+                    param.put("openId",resultJson.getString(Constants.PARAM_OPEN_ID));
+                    mThirdLoginAfter.qqLoginAfter(param);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
     }
 
     @Override
     public void onError(UiError uiError) {
-
+        Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT);
     }
 
     @Override
     public void onCancel() {
-
+        Toast.makeText(mContext,"取消登录",Toast.LENGTH_SHORT);
     }
 
      interface   ThirdLoginAfter {

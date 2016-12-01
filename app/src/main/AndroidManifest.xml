@@ -91,9 +91,12 @@
         <meta-data
             android:name="EMA_APP_ID"
             android:value="n10000" />
-        <meta-data
+       <meta-data
             android:name="EMA_CHANNEL_ID"
             android:value="n26" />
+     <!--   <meta-data
+            android:name="EMA_CHANNEL_ID"
+            android:value="n777" />--><!--无权限账号测试渠道-->
         <meta-data
             android:name="EMA_CHANNEL_TAG"
             android:value="n0" />
@@ -213,6 +216,18 @@
             android:exported="true">
         </activity>
         <!--微信组件 end-->
+        <!--qq组件-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:noHistory="true"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent你的AppId" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
