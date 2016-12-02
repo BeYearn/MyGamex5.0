@@ -42,6 +42,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			case BaseResp.ErrCode.ERR_OK:
 				//ToastHelper.toast(this,"weixin share successful");
 			//	WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"weixin share successful");
+				//与微信登录冲突，等完整分享做完一起解决
 				ThirdLoginUtils.getInstance(this).wechatLogin((SendAuth.Resp)resp);
 				//分享成功
 				break;

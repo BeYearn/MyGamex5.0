@@ -30,15 +30,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+             signingConfig signingConfigs.release
+            }
         debug {
-        /*    minifyEnabled  true
-            zipAlignEnabled false*/
-            signingConfig signingConfigs.debug
-           /* manifestPlaceholders = [AMAP_APIKEY: amap_ak_debug]
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt', '../commons-pay/proguard-rules.txt'*/
+             signingConfig signingConfigs.debug
 
         }
     }

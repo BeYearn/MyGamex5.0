@@ -207,6 +207,7 @@ public class HttpInvoker {
 			setOnresponse(listener, result);
 		} catch (Exception e) {
 			setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"请求失败,检查网络\",\"status\":\"9\"}");
+			e.printStackTrace();
 			LOG.w(TAG, "doHttpsPost error", e);
 		} finally{
 			if(client != null){

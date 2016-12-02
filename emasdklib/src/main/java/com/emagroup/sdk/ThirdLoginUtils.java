@@ -26,8 +26,8 @@ import java.util.Map;
  */
 
 public class ThirdLoginUtils implements IUiListener {
-    public static final String WECHAT_APP_ID = "wx9c31edc5e693ec1d";
-    public static  final String QQ_APP_ID="";
+   /* public static  String WECHAT_APP_ID = "wx9c31edc5e693ec1d";
+    public static   String QQ_APP_ID=""; */
   //  public static final String secret = "2b32e87f92911f41f369f0130a0ce8ca";
     private static ThirdLoginUtils instance=null;
     private Context mContext;
@@ -37,9 +37,9 @@ public class ThirdLoginUtils implements IUiListener {
 
     private ThirdLoginUtils(Context mContext) {
         this.mContext = mContext;
-        mWeixinapi = WXAPIFactory.createWXAPI(mContext, WECHAT_APP_ID);
-        mWeixinapi.registerApp(WECHAT_APP_ID);
-     //   mTencent=Tencent.createInstance(QQ_APP_ID,mContext);
+         mWeixinapi = WXAPIFactory.createWXAPI(mContext,ConfigManager.getInstance(mContext).getWachatAppId()/*WECHAT_APP_ID*/);
+        mWeixinapi.registerApp(ConfigManager.getInstance(mContext).getWachatAppId());
+     //   mTencent=Tencent.createInstance(ConfigManager.getInstance(mContext).getQQAppId(),mContext);
         //this.mThirdLoginAfter=wxLoginAfter;
     }
     public static  ThirdLoginUtils getInstance(Context mContext){
@@ -103,7 +103,7 @@ public class ThirdLoginUtils implements IUiListener {
                 try {
                     JSONObject resultJson= (JSONObject) o;
                     Map<String,String> param=new HashMap();
-                    param.put("qqAppId",QQ_APP_ID);
+                    param.put("qqAppId",ConfigManager.getInstance(mContext).getQQAppId());
                     param.put("openId",resultJson.getString(Constants.PARAM_OPEN_ID));
                     mThirdLoginAfter.qqLoginAfter(param);
                 } catch (JSONException e) {

@@ -23,6 +23,7 @@ public class ConfigManager {
 	private String mAppid;
 	private String mAppKey;
 	private String mChannel;
+
 	private String mRedirectUri;
 	private String mMerchant;
 	private List<String> mPayTrdList;
@@ -30,6 +31,8 @@ public class ConfigManager {
 	
 	private static final Object synchron = new Object();
 	private String channelTag;
+	private String qqAppId;
+	private String wechatAppId;
 
 	public static ConfigManager getInstance(Context context){
 		if(mInstance == null){
@@ -353,4 +356,25 @@ public class ConfigManager {
 		return versionCode;
 	}
 
+	/**
+	 * 获取微信appId
+	 *
+	 */
+	public String getWachatAppId() {
+		if(wechatAppId == null){
+			wechatAppId=getStringFromMetaData(mContext,"WECHAT_APP_ID");
+		}
+		return wechatAppId;
+	}
+
+	/**
+	 * 获取渠道号
+	 *
+	 */
+	public String getQQAppId() {
+		if(qqAppId == null){
+			qqAppId =getStringFromMetaData(mContext,"QQ_APP_ID");
+		}
+		return qqAppId;
+	}
 }
