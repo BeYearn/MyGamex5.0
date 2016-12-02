@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.emagroup.sdk.ConfigManager;
 import com.emagroup.sdk.ThirdLoginUtils;
 import com.emagroup.sdk.WeixinShareUtils;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -18,7 +19,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	private IWXAPI api;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		api = WXAPIFactory.createWXAPI(this, "wx3b310a6bcccbd788", false);
+		api = WXAPIFactory.createWXAPI(this, ConfigManager.getInstance(this).getWachatAppId()/*"wx3b310a6bcccbd788"*/, false);
 		api.handleIntent(getIntent(), this);
 		super.onCreate(savedInstanceState);
 	}
