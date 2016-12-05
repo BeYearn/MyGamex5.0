@@ -295,6 +295,8 @@ public class Ema {
 	public void getUserInfo(final BindRemind bindRemind/*final View.OnClickListener onClickListener,*//* ,final int showFrom*/){
 		Map<String, String> params = new HashMap<>();
 		params.put("token",EmaUser.getInstance().getToken());
+		params.put("uid",EmaUser.getInstance().getAllianceUid());
+		params.put("appId",ConfigManager.getInstance(mContext).getAppId());
 		new HttpInvoker().postAsync(Url.getUserInfoUrl(), params,
 				new HttpInvoker.OnResponsetListener() {
 					@Override
@@ -318,6 +320,7 @@ public class Ema {
 							EmaUser.getInstance().setNickName(nickname);
 							EmaUser.getInstance().setBalance(pfCoin);
 							EmaUser.getInstance().setmUid(uid);
+							EmaUser.getInstance().setAllianceUid(uid);
 
 							LOG.e("getUserInfo",message+ifSetChargePwd+nickname+pfCoin+uid);
 						 if(/*true */TextUtils.isEmpty(email)&&TextUtils.isEmpty(mobile)){

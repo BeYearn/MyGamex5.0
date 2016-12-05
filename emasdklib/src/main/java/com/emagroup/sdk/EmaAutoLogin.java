@@ -16,7 +16,8 @@ public class EmaAutoLogin {
 
     private static EmaAutoLogin mInstance;
     private Context context;
-    private static String token;
+    private String token;
+    private String uid;
     private final ConfigManager mConfigManager;
     private final EmaProgressDialog mProgress;
 
@@ -46,6 +47,7 @@ public class EmaAutoLogin {
             // 当前登录用户信息
             EmaUser mEmaUser = EmaUser.getInstance();
             mEmaUser.setmUid(uid);
+            mEmaUser.setAllianceUid(uid);
             mEmaUser.setNickName(nickname);
             mEmaUser.setmToken(token);
             mEmaUser.setAccountType(accountType);
@@ -84,7 +86,7 @@ public class EmaAutoLogin {
      */
     public  boolean isAutoLogin() {
         token = (String) USharedPerUtil.getParam(context, "token", "");
-
+        uid = (String) USharedPerUtil.getParam(context, "uid", "");
         if (!UCommUtil.isStrEmpty(token)) {
             return true;
         }
@@ -116,6 +118,8 @@ public class EmaAutoLogin {
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
         params.put("appKey", mConfigManager.getAppKEY());
+        params.put("uid",uid);
+        params.put("appId",ConfigManager.getInstance(context).getAppId());
         new HttpInvoker().postAsync(Url.getCheckLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {

@@ -142,6 +142,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                                     mEmaUser.setmUid(userid);
                                     allianceId = data.getString("allianceId");
                                     LOG.e("allianceId", allianceId);
+                                    mEmaUser.setAllianceUid(allianceId);
                                     authCode = data.getString("authCode");
                                     LOG.e("authCode", authCode);
                                     callbackUrl = data.getString("callbackUrl");
@@ -218,6 +219,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                             mEmaUser.setmUid(userid);
                             allianceId = data.getString("allianceId");
                             LOG.e("allianceId", allianceId);
+                            mEmaUser.setAllianceUid(allianceId);
                             authCode = data.getString("authCode");
                             LOG.e("authCode", authCode);
                             callbackUrl = data.getString("callbackUrl");

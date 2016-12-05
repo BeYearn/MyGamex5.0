@@ -126,6 +126,7 @@ public class EmaPay {
         params.put("token", EmaUser.getInstance().getToken());
         params.put("quantity", mPayInfo.getProductNum());
         params.put("appId", ConfigManager.getInstance(mContext).getAppId());
+        params.put("uid",EmaUser.getInstance().getAllianceUid());
         if(!TextUtils.isEmpty(mPayInfo.getGameTransCode())){
             params.put("gameTransCode", mPayInfo.getGameTransCode());
         }
@@ -225,7 +226,8 @@ public class EmaPay {
         Map<String, String> params = new HashMap<>();
         params.put("orderId", mPayInfo.getOrderId());
         params.put("token",EmaUser.getInstance().getToken());
-
+        params.put("appId", ConfigManager.getInstance(mContext).getAppId());
+        params.put("uid",EmaUser.getInstance().getAllianceUid());
         new HttpInvoker().postAsync(Url.getRejectOrderUrl(), params,
                 new HttpInvoker.OnResponsetListener() {
                     @Override

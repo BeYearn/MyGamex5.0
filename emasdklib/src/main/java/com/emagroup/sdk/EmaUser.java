@@ -20,6 +20,7 @@ public class EmaUser {
 
     private static String mNickName;//昵称
     private static String mUid;
+    private static String mAlienceUid; //官网渠道AllianceUid和UId相同
     private static String mToken;
     private static int accountType;  //0 弱帐号 1 手机 2邮箱 3渠道
     private static String mBalance;//余额
@@ -56,11 +57,17 @@ public class EmaUser {
         EmaUser.accountType = accountType;
     }
 
-    //官网渠道AllianceUid和UId相同
+
     public String getAllianceUid() {
-        return mUid;
+        return mAlienceUid;
+    }
+    public void setAllianceUid(String aUid){
+        this.mAlienceUid=aUid;
     }
 
+    public String getmUid(){
+        return mUid;
+    }
     public void setmUid(String mUid) {
         this.mUid = mUid;
     }

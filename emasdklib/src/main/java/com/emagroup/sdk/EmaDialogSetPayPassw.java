@@ -116,6 +116,7 @@ public class EmaDialogSetPayPassw extends Dialog implements android.view.View.On
 		
 		Map<String, String> params = new HashMap<>();
 		params.put("uid", mEmaUser.getAllianceUid());
+		params.put("appId",ConfigManager.getInstance(mActivity).getAppId());
 		params.put("chargePwd", passw);
 		params.put("token",mEmaUser.getToken());
 		new HttpInvoker().postAsync(Url.getSetWalletPwdUrl(), params, new HttpInvoker.OnResponsetListener() {

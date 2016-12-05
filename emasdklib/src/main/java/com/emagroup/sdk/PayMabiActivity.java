@@ -334,6 +334,8 @@ public class PayMabiActivity extends Activity implements OnClickListener {
         params.put("orderId", mPayInfo.getOrderId());
         params.put("chargePwd", passw);
         params.put("token", mEmaUser.getToken());
+        params.put("uid",mEmaUser.getAllianceUid());
+        params.put("appId",ConfigManager.getInstance(this).getAppId());
         new HttpInvoker().postAsync(Url.getWalletPayUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
@@ -371,11 +373,13 @@ public class PayMabiActivity extends Activity implements OnClickListener {
     /**
      * 钱包支付：用户不可感知的，充值完后进行的钱包支付（无需密码！！）
      */
-    public static void doPayNoKeyWord(EmaPayInfo payInfo){
+    public void doPayNoKeyWord(EmaPayInfo payInfo){
         LOG.e(TAG, "充值成功后，继续支付中...");
         Map<String, String> params = new HashMap<>();
         params.put("orderId", payInfo.getOrderId());
         params.put("token", EmaUser.getInstance().getToken());
+        params.put("appId", ConfigManager.getInstance(this).getAppId());
+        params.put("uid",EmaUser.getInstance().getAllianceUid());
         new HttpInvoker().postAsync(Url.getWalletPayNoPswUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
