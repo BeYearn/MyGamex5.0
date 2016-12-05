@@ -243,7 +243,8 @@ public class PayTrdActivity extends Activity implements OnClickListener {
 //			mPayInfo.setReChargePay(true);
 //			EmaPay.getInstance(Ema.getInstance().getContext()).pay(mPayInfo,EmaPay.getInstance(Ema.getInstance().getContext()).mPayListener);
 
-			PayMabiActivity.doPayNoKeyWord(mPayInfo);
+			//PayMabiActivity.doPayNoKeyWord(mPayInfo);  现在这个操作放在服务端做了
+			UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
 			PayTrdActivity.this.finish();
 		
 		}else if(data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_ON_PAYING)){//正在处理中

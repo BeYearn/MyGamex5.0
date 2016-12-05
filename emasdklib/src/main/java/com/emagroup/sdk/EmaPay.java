@@ -1,6 +1,5 @@
 package com.emagroup.sdk;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 
 import org.json.JSONObject;
 
@@ -198,7 +196,7 @@ public class EmaPay {
                 intent = new Intent(mContext, PayMabiActivity.class);
 
             }else {  // 如果是充值来的，就静默走这个
-                PayMabiActivity.doPayNoKeyWord(payInfo);
+                //PayMabiActivity.doPayNoKeyWord(payInfo);
                 return;
             }
         } else {
