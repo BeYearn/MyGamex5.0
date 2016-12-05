@@ -2,6 +2,7 @@ package com.emagroup.sdk;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Message;
 
 import java.util.Map;
@@ -100,12 +101,12 @@ public class EmaSDK {
         return Ema.getInstance().getChannelId();
     }
 
-    public void doWeiboShare(Activity activity){
-        WeiboShareUtils.getInstance(activity).doWeiboShare();
+    public void doWeiboShare(Activity activity,String description ,int icon){
+        WeiboShareUtils.getInstance(activity).doWeiboShare(description,icon);
     }
 
-    public void doWeixinShare(Activity activity,EmaSDKListener listener) {
-        WeixinShareUtils.getInstance(activity).doWeixinShare(listener);
+    public void doWeixinShare(Activity activity,EmaSDKListener listener,String url,String title,String description,Bitmap bitmap) {
+        WeixinShareUtils.getInstance(activity).doWeixinShare(listener,url,title,description,bitmap);
     }
 
     public void onNewIntent(Activity activity,Intent intent) {

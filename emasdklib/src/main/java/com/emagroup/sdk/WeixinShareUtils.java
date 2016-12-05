@@ -19,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 
 import cn.emagroup.sdk.R;
 
@@ -43,18 +44,22 @@ public class WeixinShareUtils {
 
     private WeixinShareUtils(Activity activity){
         this.mActivity=activity;
-        mWeixinapi = WXAPIFactory.createWXAPI(activity, "wx3b310a6bcccbd788", true);
-        mWeixinapi.registerApp("wx3b310a6bcccbd788");
+       /* mWeixinapi = WXAPIFactory.createWXAPI(activity, "wx3b310a6bcccbd788", true);
+        mWeixinapi.registerApp("wx3b310a6bcccbd788");*/
+        mWeixinapi = WXAPIFactory.createWXAPI(activity, "wx9c31edc5e693ec1d", true);
+        mWeixinapi.registerApp("wx9c31edc5e693ec1d");
+
     }
 
 
-    public void doWeixinShare(EmaSDKListener listener) {
+    public void doWeixinShare(EmaSDKListener listener,String url,String title,String description,Bitmap bitmap) {
         this.mListener=listener;
-        // doWxShareText();
+        //   doWxShareText();
         // doWxShareMusic(MMAlertSelect2);
         //   doWxShareVideo(MMAlertSelect2);
-        //   doWxShareImg1(MMAlertSelect3);
-         doWxShareImg3();
+        //   doWxShareImg1(/*MMAlertSelect3*/);
+   //     doWxShareImg3();
+          doWxShareWebpage(url,title,description,bitmap);
     }
 
 
@@ -76,8 +81,8 @@ public class WeixinShareUtils {
         mWeixinapi.sendReq(req);
 
     }
-    private void doWxShareImg1( int type ){
-        /*WXMediaMessage msg=null;
+    private void doWxShareImg1( /*int type */){
+      /*   WXMediaMessage msg=null;
         switch (type){
             case MMAlertSelect1:
                 Bitmap bmp = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ema_floating_icon);
@@ -176,40 +181,9 @@ public class WeixinShareUtils {
     private void doWxShareImg3(){
         final String url = "http://pic14.nipic.com/20110524/1365113_101909990000_2.jpg";
 
-        try{
-            WXImageObject imgObj = new WXImageObject();
-            imgObj.imageUrl=url;
+        final WXMediaMessage msg=new WXMediaMessage();
 
-            final WXMediaMessage msg = new WXMediaMessage();
-            msg.mediaObject = imgObj;
-
-           /* new AsyncTask<String, Void, Bitmap>() {
-                @Override
-                protected Bitmap doInBackground(String... strings) {
-                    Bitmap bmp = null;
-                    try {
-                        bmp  = BitmapFactory.decodeStream(new URL(strings[0]).openStream());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return  bmp;
-                }
-
-                @Override
-                protected void onPostExecute(Bitmap bitmap) {
-                    Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
-                    bitmap.recycle();
-                    msg.thumbData = bmpToByteArray(thumbBmp, true);
-
-                    SendMessageToWX.Req req = new SendMessageToWX.Req();
-                    req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
-                    req.message = msg;
-                    req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
-                    mWeixinapi.sendReq(req);
-                }
-            }.execute(url);*/
-
-            new Thread() {
+          new Thread() {
                 public void run() {
                     Bitmap bmp = null;
                     try {
@@ -218,7 +192,8 @@ public class WeixinShareUtils {
                         e.printStackTrace();
                     }
                     Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-                    bmp.recycle();
+                //    bmp.recycle();
+
                     msg.thumbData = bmpToByteArray(thumbBmp, true);
 
                     SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -239,20 +214,34 @@ public class WeixinShareUtils {
             req.message = msg;
             req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
             mWeixinapi.sendReq(req);*/
-        } catch(Exception e) {
+    /*    } catch(Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     // 分享网页 注意这里的那个图一定要小于30k
-    private  void doWxShareWebpage(){
-        WXWebpageObject webpage = new WXWebpageObject();
+    private  void doWxShareWebpage(String url,String title,String description,Bitmap bitmap/*,int scene*/){
+       /* WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = "http://www.baidu.com";
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = "WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title WebPage Title Very Long Very Long V";
         msg.description = "WebPage Description WebPage Description WebPage Description WebPage Description WebPage Description WebPage Description WebPage Descr";
         Bitmap thumb = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ic_launcher);
         msg.thumbData = bmpToByteArray(thumb, true);
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction =  String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
+        req.message = msg;
+        req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
+        mWeixinapi.sendReq(req);*/
+
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = url;
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title =title;
+        msg.description = description;
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        msg.thumbData = bmpToByteArray(thumbBmp, true);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction =  String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求

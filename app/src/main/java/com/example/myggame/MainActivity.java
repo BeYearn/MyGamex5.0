@@ -2,6 +2,8 @@ package com.example.myggame;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -139,9 +141,10 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                     break;
                 case EmaCallBackConst.WEIBO_CANCLE:
                     ToastHelper.toast(MainActivity.this, "share cancel");
+
                     break;
                 case EmaCallBackConst.WEIBO_FAIL:
-                    ToastHelper.toast(MainActivity.this, "share fail");
+                    ToastHelper.toast(MainActivity.this, baseResponse.errMsg/*"share fail"*/);
                     break;
             }
         }
@@ -212,9 +215,13 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                 EmaSDK.getInstance().doSwichAccount();
                 break;
             case R.id.bt_wbshare:
-                EmaSDK.getInstance().doWeiboShare(this);
+                EmaSDK.getInstance().doWeiboShare(this,"text：XXX",R.drawable.ema_floating_icon);
                 break;
             case R.id.bt_wxshare:
+                String url="www.baidu.com";
+                String title="WebPage Title WebPage Title";
+                String description="WebPage Description";
+                Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.ema_floating_icon);
                 EmaSDK.getInstance().doWeixinShare(this, new EmaSDKListener() {
                     @Override
                     public void onCallBack(int resultCode, String decr) {
@@ -233,7 +240,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                                 break;
                         }
                     }
-                });
+                },url,title,description,bitmap);
                 break;
         }
     }

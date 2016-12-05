@@ -7,12 +7,14 @@ import android.graphics.BitmapFactory;
 
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
+import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
+import com.sina.weibo.sdk.utils.Utility;
 
 import cn.emagroup.sdk.R;
 
@@ -33,16 +35,15 @@ public class WeiboShareUtils {
 
     private WeiboShareUtils(Activity activity){
         this.mActivity=activity;
-        mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(activity, "721964606");
+        mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(activity, /*"721964606"*/ "1008659864" );
         mWeiboShareAPI.registerApp();
     }
 
-    public void doWeiboShare() {
+    public void doWeiboShare(String text ,int icon) {
             // 1. 初始化微博的分享消息
             WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-            weiboMessage.textObject = getTextObj();
-            weiboMessage.imageObject = getImageObj();
-
+            weiboMessage.textObject = getTextObj(text);
+          weiboMessage.imageObject =getImageObj(icon);
             // 2. 初始化从第三方到微博的消息请求
             SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
             // 用transaction唯一标识一个请求
@@ -53,11 +54,11 @@ public class WeiboShareUtils {
             mWeiboShareAPI.sendRequest(mActivity, request);
     }
 
-    private ImageObject getImageObj() {
+    private ImageObject getImageObj(int icon) {
         ImageObject imageObject = new ImageObject();
         //BitmapDrawable bitmapDrawable = (BitmapDrawable) mImageView.getDrawable();
         //设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
-        Bitmap bitmap = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ema_floating_icon);
+        Bitmap bitmap = BitmapFactory.decodeResource(mActivity.getResources(),icon);
         imageObject.setImageObject(bitmap);
         return imageObject;
     }
@@ -67,9 +68,9 @@ public class WeiboShareUtils {
      *
      * @return 文本消息对象。
      */
-    private TextObject getTextObj() {
+    private TextObject getTextObj(String text) {
         TextObject textObject = new TextObject();
-        textObject.text = "我是微信分享模板";
+        textObject.text = text;
         return textObject;
     }
 
@@ -82,4 +83,6 @@ public class WeiboShareUtils {
     public interface Response extends IWeiboHandler.Response{
         void onResponse(BaseResponse var1);
     }
+
+
 }
