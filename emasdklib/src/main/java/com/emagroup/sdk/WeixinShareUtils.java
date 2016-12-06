@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
@@ -60,6 +61,10 @@ public class WeixinShareUtils {
         //   doWxShareVideo(MMAlertSelect2);
         //   doWxShareImg1(/*MMAlertSelect3*/);
    //     doWxShareImg3();
+        if(listener==null|| TextUtils.isEmpty(url)|| TextUtils.isEmpty(title)||TextUtils.isEmpty(description)||bitmap==null){
+            Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
+            return;
+        }
 
         boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
                 && mWeixinapi.isWXAppSupportAPI();

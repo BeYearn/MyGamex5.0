@@ -3,6 +3,7 @@ package com.emagroup.sdk;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.sina.weibo.sdk.api.ImageObject;
@@ -37,6 +38,12 @@ public class WeiboShareUtils {
     }
 
     public void doWeiboShare(String text ,Bitmap  bitmap) {
+
+        if(TextUtils.isEmpty(text)||bitmap==null){
+            Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if(!mWeiboShareAPI.isWeiboAppInstalled()){
             Toast.makeText(mActivity,"未安装或版本过低, 请下载更新的版本",Toast.LENGTH_LONG).show();
             return;
