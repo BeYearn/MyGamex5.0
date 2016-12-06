@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXImageObject;
@@ -59,6 +60,16 @@ public class WeixinShareUtils {
         //   doWxShareVideo(MMAlertSelect2);
         //   doWxShareImg1(/*MMAlertSelect3*/);
    //     doWxShareImg3();
+
+        boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
+                && mWeixinapi.isWXAppSupportAPI();
+        if (!sIsWXAppInstalledAndSupported)
+        {
+            Toast.makeText(mActivity,"未安装或版本过低, 请下载更新的版本",Toast.LENGTH_LONG).show();
+            return;
+
+        }
+
           doWxShareWebpage(url,title,description,bitmap,scene);
     }
 

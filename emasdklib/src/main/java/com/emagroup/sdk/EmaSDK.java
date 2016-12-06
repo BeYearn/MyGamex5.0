@@ -101,8 +101,8 @@ public class EmaSDK {
         return Ema.getInstance().getChannelId();
     }
 
-    public void doWeiboShare(Activity activity,String description ,int icon){
-        WeiboShareUtils.getInstance(activity).doWeiboShare(description,icon);
+    public void doWeiboShare(Activity activity,String description ,Bitmap  bitmap){
+        WeiboShareUtils.getInstance(activity).doWeiboShare(description,bitmap);
     }
 
     public void doWeixinShare(Activity activity,EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene) {

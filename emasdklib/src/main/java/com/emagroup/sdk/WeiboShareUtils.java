@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.widget.Toast;
 
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
@@ -39,11 +40,17 @@ public class WeiboShareUtils {
         mWeiboShareAPI.registerApp();
     }
 
-    public void doWeiboShare(String text ,int icon) {
+    public void doWeiboShare(String text ,Bitmap  bitmap) {
+        if(!mWeiboShareAPI.isWeiboAppInstalled()){
+            Toast.makeText(mActivity,"未安装或版本过低, 请下载更新的版本",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+
             // 1. 初始化微博的分享消息
             WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
             weiboMessage.textObject = getTextObj(text);
-          weiboMessage.imageObject =getImageObj(icon);
+          weiboMessage.imageObject =getImageObj(bitmap);
             // 2. 初始化从第三方到微博的消息请求
             SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
             // 用transaction唯一标识一个请求
@@ -54,11 +61,12 @@ public class WeiboShareUtils {
             mWeiboShareAPI.sendRequest(mActivity, request);
     }
 
-    private ImageObject getImageObj(int icon) {
+    private ImageObject getImageObj(Bitmap  bitmap) {
         ImageObject imageObject = new ImageObject();
         //BitmapDrawable bitmapDrawable = (BitmapDrawable) mImageView.getDrawable();
         //设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
-        Bitmap bitmap = BitmapFactory.decodeResource(mActivity.getResources(),icon);
+       // Bitmap bitmap = BitmapFactory.decodeResource(mActivity.getResources(),icon);
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
         imageObject.setImageObject(bitmap);
         return imageObject;
     }

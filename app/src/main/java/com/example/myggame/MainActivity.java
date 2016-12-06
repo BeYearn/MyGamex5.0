@@ -216,7 +216,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                 EmaSDK.getInstance().doSwichAccount();
                 break;
             case R.id.bt_wbshare:
-                EmaSDK.getInstance().doWeiboShare(this,"text：XXX",R.drawable.ema_floating_icon);
+                EmaSDK.getInstance().doWeiboShare(this,"text：XXX",BitmapFactory.decodeResource(getResources(),R.drawable.ema_floating_icon));
                 break;
             case R.id.bt_wxshare:
                 String url="www.baidu.com";
