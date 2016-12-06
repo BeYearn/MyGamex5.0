@@ -3,6 +3,7 @@ package com.example.myggame.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.emagroup.sdk.ConfigManager;
 import com.emagroup.sdk.ThirdLoginUtils;
@@ -50,7 +51,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			case BaseResp.ErrCode.ERR_USER_CANCEL:
 				//ToastHelper.toast(this,"weixin share cancle");
 				//与微信登录冲突，等完整分享做完一起解决
+				WXEntryActivity.this.finish();
 				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_USER_CANCEL,"weixin share cancle");
+
 				//分享取消
 				break;
 			case BaseResp.ErrCode.ERR_AUTH_DENIED:
@@ -63,5 +66,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 		finish();
 	}
 
-
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.i(this.getClass().getName(),this.getClass().getName()+"-----onDestroy");
+	}
 }
