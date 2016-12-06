@@ -115,7 +115,7 @@
         <meta-data
 
             android:name="QQ_APP_ID"
-            android:value="" />
+            android:value="n1105564847" />
 
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->

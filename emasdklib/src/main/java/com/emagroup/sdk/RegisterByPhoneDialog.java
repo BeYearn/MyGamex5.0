@@ -405,7 +405,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
            // WeixinShareUtils.getInstance(mActivity).wachateLogin();
             wachateLogin();
         }else if(id==getId("ema_qq_login")){
-         //   ThirdLoginUtils.getInstance(mActivity).qqLogin(this);
+          ThirdLoginUtils.getInstance(mActivity).qqLogin(this);
         }
     }
 

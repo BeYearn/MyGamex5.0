@@ -373,7 +373,7 @@ public class ConfigManager {
 	 */
 	public String getQQAppId() {
 		if(qqAppId == null){
-			qqAppId =getStringFromMetaData(mContext,"QQ_APP_ID");
+			qqAppId =getStringFromMetaData(mContext,"QQ_APP_ID").substring(1);
 		}
 		return qqAppId;
 	}
