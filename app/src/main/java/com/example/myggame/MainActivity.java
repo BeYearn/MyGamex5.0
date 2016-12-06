@@ -23,6 +23,7 @@ import com.emagroup.sdk.ToastHelper;
 import com.emagroup.sdk.WeiboShareUtils;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 
 import java.util.HashMap;
@@ -222,6 +223,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                 String title="WebPage Title WebPage Title";
                 String description="WebPage Description";
                 Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.ema_floating_icon);
+                int scene= SendMessageToWX.Req.WXSceneSession;  //SendMessageToWX.Req.WXSceneTimeline
                 EmaSDK.getInstance().doWeixinShare(this, new EmaSDKListener() {
                     @Override
                     public void onCallBack(int resultCode, String decr) {
@@ -240,7 +242,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                                 break;
                         }
                     }
-                },url,title,description,bitmap);
+                },url,title,description,bitmap,scene);
                 break;
         }
     }

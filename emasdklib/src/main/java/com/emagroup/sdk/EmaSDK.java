@@ -105,8 +105,8 @@ public class EmaSDK {
         WeiboShareUtils.getInstance(activity).doWeiboShare(description,icon);
     }
 
-    public void doWeixinShare(Activity activity,EmaSDKListener listener,String url,String title,String description,Bitmap bitmap) {
-        WeixinShareUtils.getInstance(activity).doWeixinShare(listener,url,title,description,bitmap);
+    public void doWeixinShare(Activity activity,EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene) {
+        WeixinShareUtils.getInstance(activity).doWeixinShare(listener,url,title,description,bitmap,scene);
     }
 
     public void onNewIntent(Activity activity,Intent intent) {

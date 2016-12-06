@@ -52,14 +52,14 @@ public class WeixinShareUtils {
     }
 
 
-    public void doWeixinShare(EmaSDKListener listener,String url,String title,String description,Bitmap bitmap) {
+    public void doWeixinShare(EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene) {
         this.mListener=listener;
         //   doWxShareText();
         // doWxShareMusic(MMAlertSelect2);
         //   doWxShareVideo(MMAlertSelect2);
         //   doWxShareImg1(/*MMAlertSelect3*/);
    //     doWxShareImg3();
-          doWxShareWebpage(url,title,description,bitmap);
+          doWxShareWebpage(url,title,description,bitmap,scene);
     }
 
 
@@ -220,7 +220,7 @@ public class WeixinShareUtils {
     }
 
     // 分享网页 注意这里的那个图一定要小于30k
-    private  void doWxShareWebpage(String url,String title,String description,Bitmap bitmap/*,int scene*/){
+    private  void doWxShareWebpage(String url,String title,String description,Bitmap bitmap,int scene){
        /* WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = "http://www.baidu.com";
         WXMediaMessage msg = new WXMediaMessage(webpage);
@@ -246,7 +246,7 @@ public class WeixinShareUtils {
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction =  String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
         req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
+        req.scene = scene;// 或者SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
         mWeixinapi.sendReq(req);
     }
 
