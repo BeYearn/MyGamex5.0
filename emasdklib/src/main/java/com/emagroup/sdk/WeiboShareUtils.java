@@ -3,21 +3,16 @@ package com.emagroup.sdk;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.widget.Toast;
 
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
-import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
-import com.sina.weibo.sdk.utils.Utility;
-
-import cn.emagroup.sdk.R;
 
 /**
  * Created by Administrator on 2016/11/14.
@@ -36,7 +31,8 @@ public class WeiboShareUtils {
 
     private WeiboShareUtils(Activity activity){
         this.mActivity=activity;
-        mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(activity, /*"721964606"*/ "1008659864" );
+        mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(activity,
+                /*"721964606"*/  /*"1008659864"*/  ConfigManager.getInstance(mActivity).getWeiBoAppId());
         mWeiboShareAPI.registerApp();
     }
 

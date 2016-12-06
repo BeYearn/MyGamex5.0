@@ -47,8 +47,8 @@ public class WeixinShareUtils {
         this.mActivity=activity;
        /* mWeixinapi = WXAPIFactory.createWXAPI(activity, "wx3b310a6bcccbd788", true);
         mWeixinapi.registerApp("wx3b310a6bcccbd788");*/
-        mWeixinapi = WXAPIFactory.createWXAPI(activity, "wx9c31edc5e693ec1d", true);
-        mWeixinapi.registerApp("wx9c31edc5e693ec1d");
+        mWeixinapi = WXAPIFactory.createWXAPI(activity, ConfigManager.getInstance(mActivity).getWachatAppId()/*"wx9c31edc5e693ec1d"*/, true);
+        mWeixinapi.registerApp(ConfigManager.getInstance(mActivity).getWachatAppId()/*"wx9c31edc5e693ec1d"*/);
 
     }
 

@@ -102,6 +102,14 @@
             android:value="testing" />
 
 
+        <meta-data
+
+            android:name="WECHAT_APP_ID"
+            android:value="wx9c31edc5e693ec1d" />
+        <meta-data
+
+            android:name="WEI_BO_APP_ID"
+            android:value="n1008659864" />
 
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->
