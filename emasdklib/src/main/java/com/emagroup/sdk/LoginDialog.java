@@ -160,11 +160,10 @@ public class LoginDialog extends Dialog implements
                                     userid = data.getString("allianceUid");
                                     LOG.e("allianceUid", userid);
                                     mEmaUser.setmUid(userid);
+                                    mEmaUser.setAllianceUid(userid);
                                     allianceId = data.getString("allianceId");
                                     LOG.e("allianceId", allianceId);
-                                    mEmaUser.setAllianceUid(allianceId);
                                     authCode = data.getString("authCode");
-                                    LOG.e("authCode", authCode);
                                     callbackUrl = data.getString("callbackUrl");
                                     LOG.e("callbackUrl", callbackUrl);
                                     nickname = data.getString("nickname");
@@ -254,7 +253,6 @@ public class LoginDialog extends Dialog implements
                             allianceId = data.getString("allianceId");
                             LOG.e("allianceId", allianceId);
                             authCode = data.getString("authCode");
-                            LOG.e("authCode", authCode);
                             callbackUrl = data.getString("callbackUrl");
                             LOG.e("callbackUrl", callbackUrl);
                             nickname = data.getString("nickname");
