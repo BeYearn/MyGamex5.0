@@ -101,12 +101,31 @@ public class EmaSDK {
         return Ema.getInstance().getChannelId();
     }
 
-    public void doWeiboShare(Activity activity,String description ,Bitmap  bitmap){
+   /* public void doWeiboShare(Activity activity,String description ,Bitmap  bitmap){
         WeiboShareUtils.getInstance(activity).doWeiboShare(description,bitmap);
+    }*/
+    public  void doWeiBoShareImage(Activity activity,Bitmap bitmap){
+        WeiboShareUtils.getInstance(activity).doWeiboShareImage(bitmap);
     }
 
-    public void doWeixinShare(Activity activity,EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene) {
-        WeixinShareUtils.getInstance(activity).doWeixinShare(listener,url,title,description,bitmap,scene);
+    public  void doWeiBoShareWebpage(Activity activity,String title,String description,Bitmap bitmap,String url){
+        WeiboShareUtils.getInstance(activity).doWeiBoShareWebpage(title,description,bitmap,url);
+    }
+
+    public  void doWeiBoShareText(Activity activity,String text){
+        WeiboShareUtils.getInstance(activity).doWeiboShareText(text);
+    }
+
+    public void doWeixinShareWebpage(Activity activity,EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene) {
+        WeixinShareUtils.getInstance(activity).doWxShareWebpage(listener,url,title,description,bitmap,scene);
+    }
+
+    public void doWxShareImg(Activity activity, EmaSDKListener listener,Bitmap bitmap,int scene){
+        WeixinShareUtils.getInstance(activity).doWxShareImg(listener,bitmap,scene);
+    }
+
+    public void doWxShareText(Activity activity,EmaSDKListener listener,String text,String description,int scene){
+        WeixinShareUtils.getInstance(activity).doWxShareText(listener,text,description,scene);
     }
 
     public void onNewIntent(Activity activity,Intent intent) {

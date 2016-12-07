@@ -51,21 +51,39 @@ public class WeixinShareUtils {
         mWeixinapi = WXAPIFactory.createWXAPI(activity, ConfigManager.getInstance(mActivity).getWachatAppId()/*"wx9c31edc5e693ec1d"*/, true);
         mWeixinapi.registerApp(ConfigManager.getInstance(mActivity).getWachatAppId()/*"wx9c31edc5e693ec1d"*/);
 
+        boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
+                && mWeixinapi.isWXAppSupportAPI();
+
     }
 
 
-    public void doWeixinShare(EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene) {
-        this.mListener=listener;
+  //  public void doWeixinShare(EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene) {
+       // this.mListener=listener;
         //   doWxShareText();
         // doWxShareMusic(MMAlertSelect2);
         //   doWxShareVideo(MMAlertSelect2);
         //   doWxShareImg1(/*MMAlertSelect3*/);
    //     doWxShareImg3();
-        if(listener==null|| TextUtils.isEmpty(url)|| TextUtils.isEmpty(title)||TextUtils.isEmpty(description)||bitmap==null){
+       /* if(listener==null|| TextUtils.isEmpty(url)|| TextUtils.isEmpty(title)||TextUtils.isEmpty(description)||bitmap==null){
             Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
             return;
-        }
+        }*/
 
+   /*     boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
+                && mWeixinapi.isWXAppSupportAPI();
+        if (!sIsWXAppInstalledAndSupported)
+        {
+            Toast.makeText(mActivity,"未安装或版本过低, 请下载更新的版本",Toast.LENGTH_LONG).show();
+            return;
+
+        }*/
+
+         // doWxShareWebpage(url,title,description,bitmap,scene);
+   // }
+
+
+    public void doWxShareText(EmaSDKListener listener,String text,String description,int scene) {
+        this.mListener=listener;
         boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
                 && mWeixinapi.isWXAppSupportAPI();
         if (!sIsWXAppInstalledAndSupported)
@@ -75,29 +93,43 @@ public class WeixinShareUtils {
 
         }
 
-          doWxShareWebpage(url,title,description,bitmap,scene);
-    }
-
-
-    private void doWxShareText() {
+        if(listener==null|| TextUtils.isEmpty(text)||TextUtils.isEmpty(description)){
+            Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
+            return;
+        }
         WXTextObject textObject = new WXTextObject();
-        textObject.text="我是微信模板";
+        textObject.text=text;
 
         WXMediaMessage wxMediaMessage = new WXMediaMessage();
         wxMediaMessage.mediaObject=textObject;
-        wxMediaMessage.description="我是微信模板description";
+        wxMediaMessage.description=description;
 
         // 构造一个Req
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
         req.message = wxMediaMessage;
-        req.scene =SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
+        req.scene =scene;// 或者SendMessageToWX.Req.WXSceneTimeline   SendMessageToWX.Req.WXSceneSession
 
         // 调用api接口发送数据到微信
         mWeixinapi.sendReq(req);
 
     }
-    private void doWxShareImg1( /*int type */){
+    public void doWxShareImg( EmaSDKListener listener,Bitmap bitmap,int scene){
+        this.mListener=listener;
+        boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
+                && mWeixinapi.isWXAppSupportAPI();
+        if (!sIsWXAppInstalledAndSupported)
+        {
+            Toast.makeText(mActivity,"未安装或版本过低, 请下载更新的版本",Toast.LENGTH_LONG).show();
+            return;
+
+        }
+
+        if(listener==null|| bitmap==null){
+            Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
+            return;
+        }
+
       /*   WXMediaMessage msg=null;
         switch (type){
             case MMAlertSelect1:
@@ -151,20 +183,20 @@ public class WeixinShareUtils {
                 break;
         }
       sendReq(msg);*/
-        Bitmap bmp = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ema_floating_icon);
-        WXImageObject imgObj = new WXImageObject(bmp);
+      //  Bitmap bmp = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ema_floating_icon);
+        WXImageObject imgObj = new WXImageObject(bitmap);
 
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = imgObj;
 
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-        bmp.recycle();
-        msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置缩略图
+       // Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+       // bitmap.recycle();
+        msg.thumbData = bmpToByteArray(bitmap, true);  // 设置缩略图
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
         req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
+        req.scene = scene;// 或者SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
         mWeixinapi.sendReq(req);
     }
      private void doWxShareImg2(){
@@ -236,7 +268,8 @@ public class WeixinShareUtils {
     }
 
     // 分享网页 注意这里的那个图一定要小于30k
-    private  void doWxShareWebpage(String url,String title,String description,Bitmap bitmap,int scene){
+    public   void doWxShareWebpage(EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene){
+        this.mListener=listener;
        /* WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = "http://www.baidu.com";
         WXMediaMessage msg = new WXMediaMessage(webpage);
@@ -251,13 +284,27 @@ public class WeixinShareUtils {
         req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
         mWeixinapi.sendReq(req);*/
 
+        boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
+                && mWeixinapi.isWXAppSupportAPI();
+        if (!sIsWXAppInstalledAndSupported)
+        {
+            Toast.makeText(mActivity,"未安装或版本过低, 请下载更新的版本",Toast.LENGTH_LONG).show();
+            return;
+
+        }
+
+        if(listener==null|| TextUtils.isEmpty(url)|| TextUtils.isEmpty(title)||TextUtils.isEmpty(description)||bitmap==null){
+            Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
+            return;
+        }
+
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = url;
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title =title;
         msg.description = description;
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
-        msg.thumbData = bmpToByteArray(thumbBmp, true);
+        //Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        msg.thumbData = bmpToByteArray(bitmap, true);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction =  String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
