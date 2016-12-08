@@ -30,6 +30,8 @@ public class ConfigManager {
 	
 	private static final Object synchron = new Object();
 	private String channelTag;
+	private String wechatAppId;
+	private String weiBoAppId;
 
 	public static ConfigManager getInstance(Context context){
 		if(mInstance == null){
@@ -351,6 +353,28 @@ public class ConfigManager {
 			e.printStackTrace();
 		}
 		return versionCode;
+	}
+
+	/**
+	 * 获取微信appId
+	 *
+	 */
+	public String getWachatAppId() {
+		if(wechatAppId == null){
+			wechatAppId=getStringFromMetaData(mContext,"WECHAT_APP_ID");
+		}
+		return wechatAppId;
+	}
+
+	/**
+	 * 获取微博AppId
+	 *
+	 */
+	public String getWeiBoAppId() {
+		if(weiBoAppId == null){
+			weiBoAppId =getStringFromMetaData(mContext,"WEI_BO_APP_ID").substring(1);
+		}
+		return weiBoAppId;
 	}
 
 }

@@ -2,6 +2,8 @@ package com.example.myggame;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,10 +19,12 @@ import com.emagroup.sdk.EmaConst;
 import com.emagroup.sdk.EmaSDK;
 import com.emagroup.sdk.EmaSDKListener;
 import com.emagroup.sdk.EmaUser;
+import com.emagroup.sdk.ShareDialog;
 import com.emagroup.sdk.ToastHelper;
 import com.emagroup.sdk.WeiboShareUtils;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 
 import java.util.HashMap;
@@ -40,6 +44,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
     private Button btWbShare;
     private IWXAPI mWeixinapi;
     private Button btWxShare;
+    private Button btEmShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         btSwichAccount = (Button) findViewById(R.id.bt_swichaccount);
         btWbShare = (Button) findViewById(R.id.bt_wbshare);
         btWxShare= (Button) findViewById(R.id.bt_wxshare);
-
+        btEmShare= (Button) findViewById(R.id.bt_emshare);
 
         EmaSDK.getInstance().init("6cdd60ea0045eb7a6ec44c54d29ed402", this, new EmaSDKListener() {
             //EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b",this, new EmaSDKListener() {
@@ -115,6 +120,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         btSwichAccount.setOnClickListener(this);
         btWbShare.setOnClickListener(this);
         btWxShare.setOnClickListener(this);
+        btEmShare.setOnClickListener(this);
         Log.e("++++++++++", Thread.currentThread().getName());
     }
 
@@ -140,9 +146,10 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                     break;
                 case EmaCallBackConst.WEIBO_CANCLE:
                     ToastHelper.toast(MainActivity.this, "share cancel");
+
                     break;
                 case EmaCallBackConst.WEIBO_FAIL:
-                    ToastHelper.toast(MainActivity.this, "share fail");
+                    ToastHelper.toast(MainActivity.this, baseResponse.errMsg/*"share fail"*/);
                     break;
             }
         }
@@ -213,31 +220,78 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                 EmaSDK.getInstance().doSwichAccount();
                 break;
             case R.id.bt_wbshare:
-                EmaSDK.getInstance().doWeiboShare(this);
-                break;
+                weiBoShare();
+                 break;
             case R.id.bt_wxshare:
-                EmaSDK.getInstance().doWeixinShare(this, new EmaSDKListener() {
+                //SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
+               wxShare( SendMessageToWX.Req.WXSceneSession);
+
+                break;
+            case R.id.bt_emshare:
+                ShareDialog shareDialog=ShareDialog.create(this);
+                shareDialog.setOnBtnListener(new ShareDialog.OnBtnListener() {
                     @Override
-                    public void onCallBack(int resultCode, String decr) {
-                        switch (resultCode) {
-                            case EmaCallBackConst.WEIXIN_OK:
-                                ToastHelper.toast(MainActivity.this,"main weixin share successful");
-                                //分享成功
-                                break;
-                            case EmaCallBackConst.WEIXIN_CANCLE:
-                                ToastHelper.toast(MainActivity.this,"main weixin share cancle");
-                                //分享取消
-                                break;
-                            case EmaCallBackConst.WEIBO_FAIL:
-                                //分享拒绝
-                                ToastHelper.toast(MainActivity.this,"main weixin share denied");
-                                break;
-                        }
+                    public void onWeiBoClick() {
+                        weiBoShare();
+                    }
+
+                    @Override
+                    public void onWechatFriendsClick() {
+                                wxShare( SendMessageToWX.Req.WXSceneSession);
+                    }
+
+                    @Override
+                    public void OnWechatQuanClick() {
+                                wxShare(SendMessageToWX.Req.WXSceneTimeline);
                     }
                 });
+                shareDialog.showDialog();
                 break;
         }
     }
+
+    private void weiBoShare() {
+        String url="http://www.baidu.com"/*null*/;
+        String title="WebPage Title WebPage Title"/*null*/;
+        String description="WebPage Description";
+        Bitmap bitmap=/*null*/  BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher/*R.drawable.ema_floating_icon*/) ;
+        //  EmaSDK.getInstance().doWeiBoShareText(this,title);//分享文字
+        //   EmaSDK.getInstance().doWeiBoShareImage(this,bitmap);//分享图片  注意：最终压缩过的缩略图大小不得超过 32kb。
+        EmaSDK.getInstance().doWeiBoShareWebpage(this,title,description,bitmap,url); //分享地址
+    }
+
+    private void wxShare(int scene) {
+        String url="www.baidu.com"/*null*/;
+        String title="WebPage Title WebPage Title"/*null*/;
+        String description="WebPage Description";
+        Bitmap bitmap=/*null*/  BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher) ;//注意这里的那个图一定要小于30k
+     //   int scene= scene;  //SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
+        //  EmaSDK.getInstance().doWxShareImg(this, new SimpleEmaSDKListener(),bitmap,scene);//图片分享
+          EmaSDK.getInstance().doWeixinShareWebpage(this, new SimpleEmaSDKListener(),url,title,description,bitmap,scene);//网页分享
+          //      EmaSDK.getInstance().doWxShareText(this,new SimpleEmaSDKListener(),title,description,scene);//文字分享
+
+    }
+
+class  SimpleEmaSDKListener implements EmaSDKListener{
+
+    @Override
+    public void onCallBack(int resultCode, String decr) {
+        switch (resultCode) {
+            case EmaCallBackConst.WEIXIN_OK:
+                ToastHelper.toast(MainActivity.this,"main weixin share successful");
+                //分享成功
+                break;
+            case EmaCallBackConst.WEIXIN_CANCLE:
+                ToastHelper.toast(MainActivity.this,"main weixin share cancle");
+                //分享取消
+                break;
+            case EmaCallBackConst.WEIBO_FAIL:
+                //分享拒绝
+                ToastHelper.toast(MainActivity.this,"main weixin share denied");
+                break;
+        }
+    }
+}
 
 
 
