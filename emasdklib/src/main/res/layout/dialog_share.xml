@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/btn_close"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/ema_shape_share_choose_bg"
+        android:layout_marginBottom="10dp"
+        android:textColor="#007afd"
+        android:gravity="center"
+        android:text="取消"
+        android:textStyle="bold"
+        android:textSize="21sp"/>
+
+
+    <RelativeLayout
+        android:id="@+id/relative_bg"
+        android:layout_above="@+id/btn_close"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ema_shape_share_choose_bg"
+        android:layout_margin="8dp">
+
+        <LinearLayout
+            android:id="@+id/linear_weixin_friend"
+            android:layout_marginTop="22.5dp"
+            android:layout_marginBottom="22.5dp"
+            android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="49dp"
+                android:layout_height="49dp"
+                android:background="@drawable/ema_share_weixin"
+                android:scaleType="fitXY"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信好友"
+                android:layout_marginTop="11dp"
+                android:textSize="14sp"
+                android:textColor="#6a6a6a"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_weixin_quan"
+            android:layout_alignParentRight="true"
+           android:layout_marginTop="22.5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="46dp"
+
+            android:gravity="center">
+            <ImageView
+                android:layout_width="49dp"
+                android:layout_height="49dp"
+                android:background="@drawable/ema_share_friend_quan"
+                android:scaleType="fitXY"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微信朋友圈"
+                android:layout_marginTop="11dp"
+                android:textSize="14sp"
+                android:textColor="#6a6a6a"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_sina_weibo"
+             android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="22.5dp"
+            android:layout_marginLeft="41dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="49dp"
+                android:layout_height="49dp"
+                android:background="@drawable/ema_share_weibo"
+                android:scaleType="fitXY"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="微博"
+                android:layout_marginTop="11dp"
+                android:textSize="14sp"
+                android:textColor="#6a6a6a"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>
