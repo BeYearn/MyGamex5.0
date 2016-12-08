@@ -425,6 +425,14 @@ public class Ema {
 
 	}
 
+	public void saveWachatLoginFlag(boolean isWachatLogin){
+		USharedPerUtil.setParam(getContext(),"isWachatLogin",isWachatLogin);
+	}
+
+	public boolean isWachatLoginFlag(){
+		return (Boolean)USharedPerUtil.getParam(getContext(),"isWachatLogin",false);
+	}
+
 	interface  BindRemind{
 		void canelNext();
 	}

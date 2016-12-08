@@ -63,7 +63,8 @@ public class ThirdLoginUtils implements IUiListener {
         SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "weixin_login";
-        mWeixinapi.sendReq(req);
+       Ema.getInstance().saveWachatLoginFlag(mWeixinapi.sendReq(req));
+
     }
 
 

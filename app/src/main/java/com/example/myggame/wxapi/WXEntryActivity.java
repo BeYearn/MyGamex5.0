@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.emagroup.sdk.ConfigManager;
 import com.emagroup.sdk.ConfigManager;
+import com.emagroup.sdk.Ema;
 import com.emagroup.sdk.ThirdLoginUtils;
 import com.emagroup.sdk.WeixinShareUtils;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -43,35 +44,28 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 	public void onResp(BaseResp resp) {
 		switch (resp.errCode) {
 			case BaseResp.ErrCode.ERR_OK:
-				//ToastHelper.toast(this,"weixin share successful");
-			//	WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"weixin share successful");
-				//与微信登录冲突，等完整分享做完一起解决
-			//	ThirdLoginUtils.getInstance(this).wechatLogin((SendAuth.Resp)resp);
-			//	WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"weixin share successful");
-				//与微信登录冲突，等完整分享做完一起解决
-				ThirdLoginUtils.getInstance(this).wechatLogin((SendAuth.Resp)resp);
-				//分享成功
-				break;
+			 	if(Ema.getInstance().isWachatLoginFlag()){
+					ThirdLoginUtils.getInstance(this).wechatLogin((SendAuth.Resp)resp);
+				}else{
+					WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"weixin share successful");
+
+				}
+			 	break;
 			case BaseResp.ErrCode.ERR_USER_CANCEL:
-				//ToastHelper.toast(this,"weixin share cancle");
-				//与微信登录冲突，等完整分享做完一起解决
-				//与微信登录冲突，等完整分享做完一起解决
 				WXEntryActivity.this.finish();
-				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_USER_CANCEL,"weixin share cancle");
+				if(!Ema.getInstance().isWachatLoginFlag()){
+				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_USER_CANCEL,"weixin share cancle");}
 				//分享取消
 				break;
 			case BaseResp.ErrCode.ERR_AUTH_DENIED:
 				//分享拒绝
 				//ToastHelper.toast(this,"weixin share denied");
-				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_AUTH_DENIED,"weixin share failed");
+				if(!Ema.getInstance().isWachatLoginFlag()){
+				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_AUTH_DENIED,"weixin share failed");};
 				break;
 		}
 		finish();
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		Log.i(this.getClass().getName(),this.getClass().getName()+"-----onDestroy");
-	}
+
 }

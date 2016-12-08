@@ -53,8 +53,7 @@ public class WeixinShareUtils {
         mWeixinapi = WXAPIFactory.createWXAPI(activity, ConfigManager.getInstance(mActivity).getWachatAppId()/*"wx9c31edc5e693ec1d"*/, true);
         mWeixinapi.registerApp(ConfigManager.getInstance(mActivity).getWachatAppId()/*"wx9c31edc5e693ec1d"*/);
 
-        boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
-                && mWeixinapi.isWXAppSupportAPI();
+
 
     }
 
@@ -114,108 +113,44 @@ public class WeixinShareUtils {
 
         // 调用api接口发送数据到微信
         boolean statu=   mWeixinapi.sendReq(req);
+        Ema.getInstance().saveWachatLoginFlag(false);
         Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
 
     }
-    public void doWxShareImg( EmaSDKListener listener,Bitmap bitmap,int scene){
-        this.mListener=listener;
+    public void doWxShareImg( EmaSDKListener listener,Bitmap bitmap,int scene) {
+        this.mListener = listener;
         boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
                 && mWeixinapi.isWXAppSupportAPI();
-        if (!sIsWXAppInstalledAndSupported)
-        {
-            Toast.makeText(mActivity,"未安装或版本过低, 请下载更新的版本",Toast.LENGTH_LONG).show();
+        if (!sIsWXAppInstalledAndSupported) {
+            Toast.makeText(mActivity, "未安装或版本过低, 请下载更新的版本", Toast.LENGTH_LONG).show();
             return;
 
         }
 
-        if(listener==null|| bitmap==null){
-            Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
+        if (listener == null || bitmap == null) {
+            Toast.makeText(mActivity, "请输入完整参数", Toast.LENGTH_LONG).show();
             return;
         }
 
-      /*   WXMediaMessage msg=null;
-        switch (type){
-            case MMAlertSelect1:
-                Bitmap bmp = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ema_floating_icon);
-                WXImageObject imgObj = new WXImageObject(bmp);
+        WXImageObject imgObj = new WXImageObject(bitmap);
 
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = imgObj;
 
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-        bmp.recycle();
-        msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置缩略图
+        // Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        // bitmap.recycle();
+        msg.thumbData = bmpToByteArray(bitmap, true);  // 设置缩略图
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
         req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
-        mWeixinapi.sendReq(req);
-    }
-    private void doWxShareImg2(){
-        //String path = SDCARD_ROOT + "/test.png";
-        String path = "storage/emulated/0/DCIM/Camera"+ "/cup.jpg";
-        File file = new File(path);
-        if (!file.exists()) {
-            ToastHelper.toast(mActivity,"请检查路径");
-            return;
-        }
+        req.scene = scene;// 或者SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
+        boolean statu=   mWeixinapi.sendReq(req);
+        Ema.getInstance().saveWachatLoginFlag(false);
+        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
 
-        WXImageObject imgObj = new WXImageObject();
-        imgObj.setImagePath(path);
-
-        WXMediaMessage msg = new WXMediaMessage();
-        msg.mediaObject = imgObj;
-
-        Bitmap bmp = BitmapFactory.decodeFile(path);
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-        bmp.recycle();
-        msg.thumbData = bmpToByteArray(thumbBmp, true);
-
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
-        req.message = msg;
-        req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
-        mWeixinapi.sendReq(req);
     }
 
-    private void doWxShareImg3(){
-        String url = "http://weixin.qq.com/zh_CN/htmledition/images/weixin/weixin_logo0d1938.png";
-
-        try{
-            WXImageObject imgObj = new WXImageObject();
-            //imgObj.imageUrl=url;
-
-            WXMediaMessage msg = new WXMediaMessage();
-            msg.mediaObject = imgObj;
-
-            Bitmap bmp = BitmapFactory.decodeStream(new URL(url).openStream());
-            Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-            bmp.recycle();
-            msg.thumbData = bmpToByteArray(thumbBmp, true);
-
-                    SendMessageToWX.Req req = new SendMessageToWX.Req();
-                    req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
-                    req.message = msg;
-                    req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
-                    mWeixinapi.sendReq(req);
-                }
-            }.start();
-
-           // Bitmap bmp = BitmapFactory.decodeStream(new URL(url).openStream());
-          /*  Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-            bmp.recycle();
-            msg.thumbData = bmpToByteArray(thumbBmp, true);
-
-            SendMessageToWX.Req req = new SendMessageToWX.Req();
-            req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
-            req.message = msg;
-            req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
-            mWeixinapi.sendReq(req);*/
-    /*    } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     // 分享网页 注意这里的那个图一定要小于30k
     public   void doWxShareWebpage(EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene){
@@ -261,10 +196,12 @@ public class WeixinShareUtils {
         req.message = msg;
         req.scene = scene;// 或者SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
         boolean statu=   mWeixinapi.sendReq(req);
+        Ema.getInstance().saveWachatLoginFlag(false);
         Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
+
     }
 
-    private void doWxShareMusic(int type){
+  /*  private void doWxShareMusic(int type){
         WXMediaMessage msg = null;
 
         switch (type){
@@ -294,43 +231,17 @@ public class WeixinShareUtils {
                 break;
         }
         sendReq(msg);
-    }
+    }*/
 
-    private void doWxShareVideo(int type){
-        WXMediaMessage msg = null;
 
-        switch (type){
-            case MMAlertSelect1:
-                WXVideoObject video = new WXVideoObject();
-                video.videoUrl = "http://www.baidu.com";
 
-                msg = new WXMediaMessage(video);
-                msg.title = "Video Title Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long";
-                msg.description = "Video Description Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long Very Long";
-                Bitmap thumb = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ic_launcher);
-                msg.thumbData = bmpToByteArray(thumb, true);
-
-                break;
-            case MMAlertSelect2:
-                video = new WXVideoObject();
-                video.videoLowBandUrl = "http://www.qq.com";
-
-                msg = new WXMediaMessage(video);
-                msg.title = "Video Title";
-                msg.description = "Video Description";
-                break;
-
-        }
-        sendReq(msg);
-    }
-
-    private void sendReq(WXMediaMessage msg) {
+   /* private void sendReq(WXMediaMessage msg) {
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
         req.message = msg;
         req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
         mWeixinapi.sendReq(req);
-    }
+    }*/
 
 
     public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
