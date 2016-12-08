@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
@@ -111,7 +112,8 @@ public class WeixinShareUtils {
         req.scene =scene;// 或者SendMessageToWX.Req.WXSceneTimeline   SendMessageToWX.Req.WXSceneSession
 
         // 调用api接口发送数据到微信
-        mWeixinapi.sendReq(req);
+        boolean statu=   mWeixinapi.sendReq(req);
+        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
 
     }
     public void doWxShareImg( EmaSDKListener listener,Bitmap bitmap,int scene){
@@ -197,7 +199,8 @@ public class WeixinShareUtils {
         req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
         req.message = msg;
         req.scene = scene;// 或者SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
-        mWeixinapi.sendReq(req);
+        boolean statu=   mWeixinapi.sendReq(req);
+        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
     }
      private void doWxShareImg2(){
         //String path = SDCARD_ROOT + "/test.png";
@@ -310,7 +313,8 @@ public class WeixinShareUtils {
         req.transaction =  String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
         req.message = msg;
         req.scene = scene;// 或者SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
-        mWeixinapi.sendReq(req);
+        boolean statu=   mWeixinapi.sendReq(req);
+        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
     }
 
     private void doWxShareMusic(int type){

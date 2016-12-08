@@ -216,13 +216,13 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                 EmaSDK.getInstance().doSwichAccount();
                 break;
             case R.id.bt_wbshare:
-                String url="www.baidu.com"/*null*/;
+                String url="http://www.baidu.com"/*null*/;
                 String title="WebPage Title WebPage Title"/*null*/;
                 String description="WebPage Description";
                 Bitmap bitmap=/*null*/  BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher/*R.drawable.ema_floating_icon*/) ;
-                // EmaSDK.getInstance().doWeiBoShareText(this,title);//分享文字
+              //  EmaSDK.getInstance().doWeiBoShareText(this,title);//分享文字
                 //   EmaSDK.getInstance().doWeiBoShareImage(this,bitmap);//分享图片  注意：最终压缩过的缩略图大小不得超过 32kb。
-               EmaSDK.getInstance().doWeiBoShareWebpage(this,title,description,bitmap,url); //分享地址
+                        EmaSDK.getInstance().doWeiBoShareWebpage(this,title,description,bitmap,url); //分享地址
                  break;
             case R.id.bt_wxshare:
                 wxShare();
@@ -236,8 +236,8 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         String description="WebPage Description";
         Bitmap bitmap=/*null*/  BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher) ;//注意这里的那个图一定要小于30k
         int scene= SendMessageToWX.Req.WXSceneSession;  //SendMessageToWX.Req.WXSceneTimeline
-          EmaSDK.getInstance().doWxShareImg(this, new SimpleEmaSDKListener(),bitmap,scene);//图片分享
-        //  EmaSDK.getInstance().doWeixinShareWebpage(this, new SimpleEmaSDKListener(),url,title,description,bitmap,scene);//网页分享
+        //  EmaSDK.getInstance().doWxShareImg(this, new SimpleEmaSDKListener(),bitmap,scene);//图片分享
+          EmaSDK.getInstance().doWeixinShareWebpage(this, new SimpleEmaSDKListener(),url,title,description,bitmap,scene);//网页分享
           //      EmaSDK.getInstance().doWxShareText(this,new SimpleEmaSDKListener(),title,description,scene);//文字分享
 
     }

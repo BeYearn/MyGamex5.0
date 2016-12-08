@@ -98,7 +98,9 @@ public class WeiboShareUtils {
         request.multiMessage = weiboMessage;
 
         // 3. 发送请求消息到微博，唤起微博分享界面
-        mWeiboShareAPI.sendRequest(mActivity, request);
+        boolean statu=  mWeiboShareAPI.sendRequest(mActivity, request);
+        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
+
       //  return imageObject;
     }
 
@@ -124,6 +126,8 @@ public class WeiboShareUtils {
 
         // 3. 发送请求消息到微博，唤起微博分享界面
         mWeiboShareAPI.sendRequest(mActivity, request);
+        boolean statu=  mWeiboShareAPI.sendRequest(mActivity, request);
+        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
     }
 
     public void doWeiBoShareWebpage(String title,String description,Bitmap bitmap,String url){
