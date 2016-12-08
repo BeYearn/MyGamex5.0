@@ -27,7 +27,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener
     private LinearLayout linear_weixin_friend;
     private LinearLayout linear_weixin_quan;
     private LinearLayout linear_sina_weibo;
-    private RelativeLayout relative_bg;
+   // private LinearLayout linear_bg;
     private TextView btn_close;
     private Context mContext;
 
@@ -63,7 +63,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener
 
     public void showDialog()
     {
-        relative_bg = (RelativeLayout)findViewById(mResourceManager.getIdentifier("relative_bg", "id"));
+      //  linear_bg = (LinearLayout) findViewById(mResourceManager.getIdentifier("relative_bg", "id"));
         linear_weixin_friend = (LinearLayout)findViewById(mResourceManager.getIdentifier("linear_weixin_friend", "id"));
         linear_weixin_quan = (LinearLayout)findViewById(mResourceManager.getIdentifier("linear_weixin_quan", "id"));
         linear_sina_weibo = (LinearLayout)findViewById(mResourceManager.getIdentifier("linear_sina_weibo", "id"));
