@@ -82,6 +82,8 @@ public class LoginDialog extends Dialog implements
 
     private Map<String, Integer> mIDmap;
 
+   // private ImageView mWechatLogin,mQQLogin;
+
     // 进度条
     private EmaProgressDialog mProgress;
     private Handler mHandler = new Handler() {
@@ -421,7 +423,11 @@ public class LoginDialog extends Dialog implements
         mBtnFindPasswView = (Button) findViewById(getId("ema_normal_find_passwd"));
         mLayoutSelectView = findViewById(getId("ema_account_go_list"));
         mLayoutPoupParentView = findViewById(getId("ema_login_normal_RelativeLayout1"));
+       /* mWechatLogin= (ImageView) findViewById(getId("ema_wachate_login"));
+        mQQLogin= (ImageView) findViewById(getId("ema_qq_login"));
 
+        mWechatLogin.setOnClickListener(this);
+        mQQLogin.setOnClickListener(this);*/
         mBtnLogin.setOnClickListener(this);
         mBtnRegistByPhone.setOnClickListener(this);
         mBtnRegistByOneKey.setOnClickListener(this);
@@ -508,7 +514,9 @@ public class LoginDialog extends Dialog implements
             doChangeLoginSource(true);
         } else if (id == getId("ema_normallogin_change_emalogin")) {//柠檬水账号登陆
             doChangeLoginSource(false);
-        }
+        }/*else if(id==getId("ema_wachate_login")){
+                WeixinShareUtils.getInstance(mActivity).login();
+        }*/
     }
 
     /**

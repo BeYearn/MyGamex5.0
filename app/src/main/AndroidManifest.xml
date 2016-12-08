@@ -97,9 +97,20 @@
         <meta-data
             android:name="EMA_CHANNEL_TAG"
             android:value="n0" />
-        <meta-data
+     <meta-data
             android:name="EMA_WHICH_ENVI"
-            android:value="testing"/>
+            android:value="staging" />
+       <!-- <meta-data
+
+            android:name="EMA_WHICH_ENVI"
+            android:value="testing" /> --> <!--测试环境-->
+
+        <meta-data
+
+            android:name="WEI_BO_APP_ID"
+            android:value="n1008659864" />
+            android:name="EMA_WHICH_ENVI"
+            android:value="testing" />   <!--测试环境-->
 
         <meta-data
 
@@ -107,8 +118,8 @@
             android:value="wx9c31edc5e693ec1d" />
         <meta-data
 
-            android:name="WEI_BO_APP_ID"
-            android:value="n1008659864" />
+            android:name="QQ_APP_ID"
+            android:value="n1105564847" />
 
         <!-- 个推SDK配置开始 -->
         <!-- 配置的第三方参数属性 -->
@@ -217,6 +228,18 @@
             android:exported="true">
         </activity>
         <!--微信组件 end-->
+        <!--qq组件-->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:noHistory="true"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent你的AppId" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

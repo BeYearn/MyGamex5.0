@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="320dp"
-    android:layout_height="255dp"
+    android:layout_height="290dp"
     android:background="@drawable/ema_shape_webview_dialog"
     android:gravity="left|right"
     android:orientation="vertical"
@@ -145,4 +145,25 @@
         android:text="首次登陆，帐号密码会下发到手机，请妥善保管"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+       android:layout_gravity="center_horizontal"
+        >
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+           android:id="@+id/ema_wachate_login"
+            android:src="@drawable/ema_wachate_login"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/ema_qq_login"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:src="@drawable/ema_qq_login"
+            android:layout_height="40dp" />
+    </LinearLayout>
 </LinearLayout>

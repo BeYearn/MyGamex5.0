@@ -3,8 +3,11 @@ package com.example.myggame.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.emagroup.sdk.ConfigManager;
+import com.emagroup.sdk.ConfigManager;
+import com.emagroup.sdk.ThirdLoginUtils;
 import com.emagroup.sdk.WeixinShareUtils;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -44,11 +47,16 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			//	WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"weixin share successful");
 				//与微信登录冲突，等完整分享做完一起解决
 			//	ThirdLoginUtils.getInstance(this).wechatLogin((SendAuth.Resp)resp);
+			//	WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"weixin share successful");
+				//与微信登录冲突，等完整分享做完一起解决
+				ThirdLoginUtils.getInstance(this).wechatLogin((SendAuth.Resp)resp);
 				//分享成功
 				break;
 			case BaseResp.ErrCode.ERR_USER_CANCEL:
 				//ToastHelper.toast(this,"weixin share cancle");
 				//与微信登录冲突，等完整分享做完一起解决
+				//与微信登录冲突，等完整分享做完一起解决
+				WXEntryActivity.this.finish();
 				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_USER_CANCEL,"weixin share cancle");
 				//分享取消
 				break;
@@ -57,10 +65,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 				//ToastHelper.toast(this,"weixin share denied");
 				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_AUTH_DENIED,"weixin share failed");
 				break;
-
 		}
 		finish();
 	}
 
-
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.i(this.getClass().getName(),this.getClass().getName()+"-----onDestroy");
+	}
 }

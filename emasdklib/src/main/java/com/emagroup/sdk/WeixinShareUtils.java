@@ -7,7 +7,11 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXImageObject;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
@@ -34,9 +38,6 @@ public class WeixinShareUtils {
     private final Activity mActivity;
     private final IWXAPI mWeixinapi;
     public static EmaSDKListener mListener;
-    private static final int MMAlertSelect1  =  0;
-    private static final int MMAlertSelect2  =  1;
-    private static final int MMAlertSelect3  =  2;
 
     public static WeixinShareUtils getInstance(Activity activity) {
         if (mInstance == null) {
@@ -138,71 +139,20 @@ public class WeixinShareUtils {
                 Bitmap bmp = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ema_floating_icon);
                 WXImageObject imgObj = new WXImageObject(bmp);
 
-               msg = new WXMediaMessage();
-                msg.mediaObject = imgObj;
-
-                Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-                bmp.recycle();
-                msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置缩略图
-                break;
-            case MMAlertSelect2:
-                String path = "storage/emulated/0/DCIM/Camera"+ "/cup.jpg";
-                File file = new File(path);
-                if (!file.exists()) {
-                    ToastHelper.toast(mActivity,"请检查路径");
-                    return;
-                }
-
-                 imgObj = new WXImageObject();
-                imgObj.setImagePath(path);
-
-                  msg = new WXMediaMessage();
-                msg.mediaObject = imgObj;
-
-                 bmp = BitmapFactory.decodeFile(path);
-                  thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-                bmp.recycle();
-                msg.thumbData = bmpToByteArray(thumbBmp, true);
-
-                break;
-            case MMAlertSelect3:
-                String url = "http://pic14.nipic.com/20110524/1365113_101909990000_2.jpg";
-
-
-                imgObj = new WXImageObject();
-                //imgObj.imageUrl=url;
-
-                msg = new WXMediaMessage();
-                msg.mediaObject = imgObj;
-
-                try {bmp = BitmapFactory.decodeStream(new URL(url).openStream());
-                thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-                bmp.recycle();
-                msg.thumbData = bmpToByteArray(thumbBmp, true);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-        }
-      sendReq(msg);*/
-      //  Bitmap bmp = BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ema_floating_icon);
-        WXImageObject imgObj = new WXImageObject(bitmap);
-
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = imgObj;
 
-       // Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
-       // bitmap.recycle();
-        msg.thumbData = bmpToByteArray(bitmap, true);  // 设置缩略图
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
+        bmp.recycle();
+        msg.thumbData = bmpToByteArray(thumbBmp, true);  // 设置缩略图
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
         req.message = msg;
-        req.scene = scene;// 或者SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
-        boolean statu=   mWeixinapi.sendReq(req);
-        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
+        req.scene = SendMessageToWX.Req.WXSceneSession;// 或者SendMessageToWX.Req.WXSceneTimeline
+        mWeixinapi.sendReq(req);
     }
-     private void doWxShareImg2(){
+    private void doWxShareImg2(){
         //String path = SDCARD_ROOT + "/test.png";
         String path = "storage/emulated/0/DCIM/Camera"+ "/cup.jpg";
         File file = new File(path);
@@ -230,22 +180,19 @@ public class WeixinShareUtils {
     }
 
     private void doWxShareImg3(){
-        final String url = "http://pic14.nipic.com/20110524/1365113_101909990000_2.jpg";
+        String url = "http://weixin.qq.com/zh_CN/htmledition/images/weixin/weixin_logo0d1938.png";
 
-        final WXMediaMessage msg=new WXMediaMessage();
+        try{
+            WXImageObject imgObj = new WXImageObject();
+            //imgObj.imageUrl=url;
 
-          new Thread() {
-                public void run() {
-                    Bitmap bmp = null;
-                    try {
-                        bmp = BitmapFactory.decodeStream(new URL(url).openStream());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
-                //    bmp.recycle();
+            WXMediaMessage msg = new WXMediaMessage();
+            msg.mediaObject = imgObj;
 
-                    msg.thumbData = bmpToByteArray(thumbBmp, true);
+            Bitmap bmp = BitmapFactory.decodeStream(new URL(url).openStream());
+            Bitmap thumbBmp = Bitmap.createScaledBitmap(bmp, 150, 150, true);
+            bmp.recycle();
+            msg.thumbData = bmpToByteArray(thumbBmp, true);
 
                     SendMessageToWX.Req req = new SendMessageToWX.Req();
                     req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
@@ -267,7 +214,7 @@ public class WeixinShareUtils {
             mWeixinapi.sendReq(req);*/
     /*    } catch(Exception e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     // 分享网页 注意这里的那个图一定要小于30k

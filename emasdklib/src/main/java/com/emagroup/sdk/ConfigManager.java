@@ -32,6 +32,8 @@ public class ConfigManager {
 	private String channelTag;
 	private String wechatAppId;
 	private String weiBoAppId;
+	private String qqAppId;
+
 
 	public static ConfigManager getInstance(Context context){
 		if(mInstance == null){
@@ -375,6 +377,13 @@ public class ConfigManager {
 			weiBoAppId =getStringFromMetaData(mContext,"WEI_BO_APP_ID").substring(1);
 		}
 		return weiBoAppId;
+	}
+
+	public String getQQAppId() {
+		if(qqAppId == null){
+			qqAppId =getStringFromMetaData(mContext,"QQ_APP_ID").substring(1);
+		}
+		return qqAppId;
 	}
 
 }

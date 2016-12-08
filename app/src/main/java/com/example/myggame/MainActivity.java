@@ -161,6 +161,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bt_login:
+
                 MainActivity.this.runOnUiThread(  //有的接入会发生不在主线程调用该方法，所以最外面加上这个
                         new Runnable() {
                             @Override
