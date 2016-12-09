@@ -266,8 +266,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         String title="WebPage Title WebPage Title"/*null*/;
         String description="WebPage Description";
         Bitmap bitmap=/*null*/  BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher) ;//注意这里的那个图一定要小于30k
-     //   int scene= scene;  //SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
-        //  EmaSDK.getInstance().doWxShareImg(this, new SimpleEmaSDKListener(),bitmap,scene);//图片分享
+     //  EmaSDK.getInstance().doWxShareImg(this, new SimpleEmaSDKListener(),bitmap,scene);//图片分享
           EmaSDK.getInstance().doWeixinShareWebpage(this, new SimpleEmaSDKListener(),url,title,description,bitmap,scene);//网页分享
           //      EmaSDK.getInstance().doWxShareText(this,new SimpleEmaSDKListener(),title,description,scene);//文字分享
 
