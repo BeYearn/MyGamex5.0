@@ -681,6 +681,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                         userid = dataJson.getString("allianceUid");
                         LOG.e("allianceUid", userid);
                         mEmaUser.setmUid(userid);
+                        mEmaUser.setAllianceUid(userid);
                         allianceId = dataJson.getString("allianceId");
                         LOG.e("allianceId", allianceId);
                         authCode = dataJson.getString("authCode");
