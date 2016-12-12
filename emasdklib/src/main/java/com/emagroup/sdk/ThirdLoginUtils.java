@@ -39,7 +39,7 @@ public class ThirdLoginUtils implements IUiListener {
         this.mContext = mContext;
          mWeixinapi = WXAPIFactory.createWXAPI(mContext,ConfigManager.getInstance(mContext).getWachatAppId()/*WECHAT_APP_ID*/);
         mWeixinapi.registerApp(ConfigManager.getInstance(mContext).getWachatAppId());
-     //   mTencent=Tencent.createInstance(ConfigManager.getInstance(mContext).getQQAppId(),mContext);
+       mTencent=Tencent.createInstance(ConfigManager.getInstance(mContext).getQQAppId(),mContext);
         //this.mThirdLoginAfter=wxLoginAfter;
     }
     public static  ThirdLoginUtils getInstance(Context mContext){
