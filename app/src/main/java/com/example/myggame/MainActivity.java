@@ -337,10 +337,7 @@ class  SimpleEmaSDKListener implements EmaSDKListener{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         EmaSDK.getInstance().onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_LOGIN ||
-                requestCode == Constants.REQUEST_APPBAR) {
-           Tencent.onActivityResultData(requestCode, resultCode, data,ThirdLoginUtils.getInstance(MainActivity.this).emIUiListener);
-        }
+
     }
 
 

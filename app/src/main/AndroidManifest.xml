@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.emagroup.mbzw2.emagroup"
+    package="com.example.myggame"
     android:installLocation="auto"
     android:versionCode="4"
     android:versionName="1.0">
-    <!-- package="com.example.myggame"-->
+    <!-- package="com.emagroup.mbzw2.emagroup"-->
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 

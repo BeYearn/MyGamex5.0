@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.igexin.sdk.PushManager;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.Tencent;
 
 import org.json.JSONObject;
 
@@ -422,7 +424,10 @@ public class Ema {
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+		if (requestCode == Constants.REQUEST_LOGIN ||
+				requestCode == Constants.REQUEST_APPBAR) {
+			Tencent.onActivityResultData(requestCode, resultCode, data,ThirdLoginUtils.getInstance(mContext).emIUiListener);
+		}
 	}
 
 	public void saveWachatLoginFlag(boolean isWachatLogin){
