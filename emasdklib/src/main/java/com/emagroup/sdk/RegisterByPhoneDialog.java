@@ -720,17 +720,19 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         mProgress.showProgress("登录中...");
         param.put("pfAppId",mConfigManager.getAppId());
         param.put("channelTag",mConfigManager.getChannelTag());
-        param.put("allianceId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
+        param.put(/*"allianceId"*/"channelId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
         param.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
         param.put("deviceType", "android");
-        String sign= ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()+
+        String sign= param.get("accessToken")+ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()+
                 mConfigManager.getChannelTag()+DeviceInfoManager.getInstance(mActivity).getDEVICE_ID()
                 +param.get("deviceType")+param.get("openId")+param.get("pfAppId")
                 +param.get("qqAppId")+ EmaUser.getInstance().getAppKey();
+        sign = UCommUtil.MD5(sign);
+        param.put("sign", sign);
         new HttpInvoker().postAsync(Url.getQqLoginUrl(), param, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
-                    firstLoginResult(result,4);
+                    firstLoginResult(result,5);//QQ账号类型5
             }
         });
 

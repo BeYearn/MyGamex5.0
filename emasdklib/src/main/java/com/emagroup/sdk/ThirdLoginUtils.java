@@ -106,6 +106,7 @@ public IUiListener emIUiListener=new IUiListener() {
                 Map<String,String> param=new HashMap();
                 param.put("qqAppId",ConfigManager.getInstance(mContext).getQQAppId());
                 param.put("openId",resultJson.getString(Constants.PARAM_OPEN_ID));
+                param.put("accessToken",resultJson.getString(Constants.PARAM_ACCESS_TOKEN));
                 mThirdLoginAfter.qqLoginAfter(param);
             } catch (JSONException e) {
                 e.printStackTrace();

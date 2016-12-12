@@ -168,7 +168,7 @@ public class Url {
 	 */
 	public static String getQqLoginUrl(){
 
-		return serverUrl+"/ema-platform/member/pfLogin";
+		return serverUrl+"/ema-platform/member/qqLogin";
 	}
 
 	/**
