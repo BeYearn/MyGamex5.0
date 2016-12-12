@@ -25,7 +25,7 @@ import java.util.Map;
  * Created by Administrator on 2016/11/30.
  */
 
-public class ThirdLoginUtils implements IUiListener {
+public class ThirdLoginUtils /*implements IUiListener */{
    /* public static  String WECHAT_APP_ID = "wx9c31edc5e693ec1d";
     public static   String QQ_APP_ID=""; */
   //  public static final String secret = "2b32e87f92911f41f369f0130a0ce8ca";
@@ -92,13 +92,42 @@ public class ThirdLoginUtils implements IUiListener {
 
     public void qqLogin(ThirdLoginAfter thirdLoginAfter){
         mThirdLoginAfter =thirdLoginAfter;
-        mTencent.login((Activity) mContext,"get_simple_userinfo",this);//QQ回调接口下一行
+      //  mTencent.login((Activity) mContext,"get_simple_userinfo",this);//QQ回调接口下一行
+        mTencent.login((Activity) mContext,"get_simple_userinfo",emIUiListener);
+    }
+public IUiListener emIUiListener=new IUiListener() {
+    public void onComplete(Object o) {
+        Log.i(this.getClass().getName(),"ThirdLoginUtils  qqLogin onComplete---"+o.toString());
+        if(o==null){
+            Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT);
+        }else{
+            try {
+                JSONObject resultJson= (JSONObject) o;
+                Map<String,String> param=new HashMap();
+                param.put("qqAppId",ConfigManager.getInstance(mContext).getQQAppId());
+                param.put("openId",resultJson.getString(Constants.PARAM_OPEN_ID));
+                mThirdLoginAfter.qqLoginAfter(param);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
+    public void onError(UiError uiError) {
+        Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onCancel() {
+        Toast.makeText(mContext,"取消登录",Toast.LENGTH_SHORT).show();
+    }
+};
+
+   /* @Override
     public void onComplete(Object o) {
-            if(o==null){
-                Log.i(this.getClass().getName(),"ThirdLoginUtils  qqLogin onComplete---"+o.toString());
+        Log.i(this.getClass().getName(),"ThirdLoginUtils  qqLogin onComplete---"+o.toString());
+        if(o==null){
                 Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT);
             }else{
                 try {
@@ -115,13 +144,13 @@ public class ThirdLoginUtils implements IUiListener {
 
     @Override
     public void onError(UiError uiError) {
-        Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT);
+        Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCancel() {
-        Toast.makeText(mContext,"取消登录",Toast.LENGTH_SHORT);
-    }
+        Toast.makeText(mContext,"取消登录",Toast.LENGTH_SHORT).show();
+    }*/
 
      interface   ThirdLoginAfter {
         void wachateLoginAfter(String result);

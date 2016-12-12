@@ -134,46 +134,50 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                 new HttpInvoker.OnResponsetListener() {
                     @Override
                     public void OnResponse(String result) {
-                        try {
-                            JSONObject json = new JSONObject(result);
-                            firstLoginResult=json.getString("data");
-                            int resultCode = json.getInt("status");
-                            switch (resultCode) {
-                                case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
-
-                                    USharedPerUtil.setParam(mActivity, "accountType", 0);  //记录账户类型
-
-                                    JSONObject data = json.getJSONObject("data");
-                                    userid = data.getString("allianceUid");
-                                    LOG.e("allianceUid", userid);
-                                    mEmaUser.setmUid(userid);
-                                    mEmaUser.setAllianceUid(userid);
-                                    allianceId = data.getString("allianceId");
-                                    LOG.e("allianceId", allianceId);
-                                    authCode = data.getString("authCode");
-                                    callbackUrl = data.getString("callbackUrl");
-                                    LOG.e("callbackUrl", callbackUrl);
-                                    nickname = data.getString("nickname");
-                                    LOG.e("nickname", nickname);
-                                    mEmaUser.setNickName(nickname);
-                                    mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
-                                    LOG.d(TAG, "第一步登录成功");
-                                    break;
-                                case HttpInvokerConst.SDK_RESULT_FAILED:
-                                    ToastHelper.toast(mActivity, json.getString("message"));
-                                    mProgress.closeProgress();
-                                    break;
-                                default:
-                                    ToastHelper.toast(mActivity, json.getString("message"));
-                                    mProgress.closeProgress();
-                                    break;
-                            }
-                        } catch (Exception e) {
-                            LOG.w(TAG, "login error", e);
-                            mHandler.sendEmptyMessage(CODE_FAILED);
-                        }
+                        firstLoginResult(result,0);
                     }
                 });
+    }
+
+    private void firstLoginResult(String result,int type) {
+        try {
+            JSONObject json = new JSONObject(result);
+            firstLoginResult=json.getString("data");
+            int resultCode = json.getInt("status");
+            switch (resultCode) {
+                case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
+
+                    USharedPerUtil.setParam(mActivity, "accountType", type);  //记录账户类型
+
+                    JSONObject data = json.getJSONObject("data");
+                    userid = data.getString("allianceUid");
+                    LOG.e("allianceUid", userid);
+                    mEmaUser.setmUid(userid);
+                    mEmaUser.setAllianceUid(userid);
+                    allianceId = data.getString("allianceId");
+                    LOG.e("allianceId", allianceId);
+                    authCode = data.getString("authCode");
+                    callbackUrl = data.getString("callbackUrl");
+                    LOG.e("callbackUrl", callbackUrl);
+                    nickname = data.getString("nickname");
+                    LOG.e("nickname", nickname);
+                    mEmaUser.setNickName(nickname);
+                    mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
+                    LOG.d(TAG, "第一步登录成功");
+                    break;
+                case HttpInvokerConst.SDK_RESULT_FAILED:
+                    ToastHelper.toast(mActivity, json.getString("message"));
+                    mProgress.closeProgress();
+                    break;
+                default:
+                    ToastHelper.toast(mActivity, json.getString("message"));
+                    mProgress.closeProgress();
+                    break;
+            }
+        } catch (Exception e) {
+            LOG.w(TAG, "login error", e);
+            mHandler.sendEmptyMessage(CODE_FAILED);
+        }
     }
 
     /**
@@ -210,7 +214,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
-                try {
+                firstLoginResult(result,Integer.parseInt(accountType));
+               /* try {
                     JSONObject json = new JSONObject(result);
                     firstLoginResult=json.getString("data");
                     int resultCode = json.getInt("status");
@@ -248,7 +253,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                     ToastHelper.toast(mActivity, "登录失败");
                     mProgress.closeProgress();
                     LOG.w(TAG, "accountLoginFirst error:"+e);
-                }
+                }*/
             }
         });
 
@@ -672,7 +677,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
 
             @Override
             public void OnResponse(String result) {
-                try {
+                firstLoginResult(result,3);
+              /*  try {
                     resultJson = new JSONObject(result);
                     if(resultJson.optString("status").equals("0")){
                         JSONObject dataJson = new JSONObject(result).optJSONObject("data");
@@ -704,7 +710,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         });
     }
@@ -724,7 +730,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         new HttpInvoker().postAsync(Url.getQqLoginUrl(), param, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
-
+                    firstLoginResult(result,4);
             }
         });
 
