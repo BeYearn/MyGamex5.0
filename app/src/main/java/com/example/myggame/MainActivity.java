@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
-import com.emagroup.mbzw2.emagroup.R;
+
 import com.emagroup.sdk.EmaBackPressedAction;
 import com.emagroup.sdk.EmaCallBackConst;
 import com.emagroup.sdk.EmaConst;
