@@ -135,6 +135,7 @@ public class EmaSDK {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         Ema.getInstance().onActivityResult(requestCode, resultCode, data);
+
     }
 
     public void onResume() {

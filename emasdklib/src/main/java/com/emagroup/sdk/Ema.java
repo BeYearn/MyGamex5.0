@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.view.View;
@@ -427,6 +428,20 @@ public class Ema {
 		if (requestCode == Constants.REQUEST_LOGIN ||
 				requestCode == Constants.REQUEST_APPBAR) {
 			Tencent.onActivityResultData(requestCode, resultCode, data,ThirdLoginUtils.getInstance(mContext).emIUiListener);
+		}else if (requestCode == Constants.REQUEST_QZONE_SHARE) {
+			Tencent.onActivityResultData(requestCode,resultCode,data,QQShareUtils.getIntance(mContext).emIUiListener);
+		}else if (requestCode == Constants.REQUEST_QQ_SHARE) {
+			Tencent.onActivityResultData(requestCode,resultCode,data,QQShareUtils.getIntance(mContext).emIUiListener);
+		}else if (requestCode == 0) {//QQ分享本地图片
+			String path = null;
+			if (resultCode == Activity.RESULT_OK) {
+				if (data != null && data.getData() != null) {
+					// 根据返回的URI获取对应的SQLite信息
+					Uri uri = data.getData();
+					path = QQShareUtils.getIntance(mContext).getPath(uri);
+					QQShareUtils.getIntance(mContext).setImageUrl(path);
+				}
+			}
 		}
 	}
 

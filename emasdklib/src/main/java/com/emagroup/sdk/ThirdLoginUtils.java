@@ -40,6 +40,7 @@ public class ThirdLoginUtils /*implements IUiListener */{
          mWeixinapi = WXAPIFactory.createWXAPI(mContext,ConfigManager.getInstance(mContext).getWachatAppId()/*WECHAT_APP_ID*/);
         mWeixinapi.registerApp(ConfigManager.getInstance(mContext).getWachatAppId());
        mTencent=Tencent.createInstance(ConfigManager.getInstance(mContext).getQQAppId(),mContext);
+
         //this.mThirdLoginAfter=wxLoginAfter;
     }
     public static  ThirdLoginUtils getInstance(Context mContext){
@@ -99,7 +100,7 @@ public IUiListener emIUiListener=new IUiListener() {
     public void onComplete(Object o) {
         Log.i(this.getClass().getName(),"ThirdLoginUtils  qqLogin onComplete---"+o.toString());
         if(o==null){
-            Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT);
+            Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT).show();
         }else{
             try {
                 JSONObject resultJson= (JSONObject) o;
@@ -116,7 +117,7 @@ public IUiListener emIUiListener=new IUiListener() {
 
     @Override
     public void onError(UiError uiError) {
-        Toast.makeText(mContext,"登录失败",Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext,uiError.errorMessage,Toast.LENGTH_SHORT).show();
     }
 
     @Override

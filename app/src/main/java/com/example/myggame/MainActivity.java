@@ -13,26 +13,23 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-
-
 import com.emagroup.sdk.EmaBackPressedAction;
 import com.emagroup.sdk.EmaCallBackConst;
 import com.emagroup.sdk.EmaConst;
 import com.emagroup.sdk.EmaSDK;
 import com.emagroup.sdk.EmaSDKListener;
 import com.emagroup.sdk.EmaUser;
+import com.emagroup.sdk.QQShareUtils;
 import com.emagroup.sdk.ShareDialog;
-import com.emagroup.sdk.ThirdLoginUtils;
 import com.emagroup.sdk.ToastHelper;
 import com.emagroup.sdk.WeiboShareUtils;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
-import com.tencent.connect.common.Constants;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.tauth.Tencent;
 
 import java.util.HashMap;
+
 
 public class MainActivity extends Activity implements OnClickListener, WeiboShareUtils.Response {
 
@@ -248,8 +245,15 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
 
                     @Override
                     public void OnWechatQuanClick() {
-                                wxShare(SendMessageToWX.Req.WXSceneTimeline);
+                       // wxShare(SendMessageToWX.Req.WXSceneTimeline);
+
+                       QQShareUtils.getIntance(MainActivity.this).shareQzoneTextImage();
+                        //   QQShareUtils.getIntance(MainActivity.this).shareQzoneWebPage();
+                        //  QQShareUtils.getIntance(MainActivity.this).shareQQFriendsWebPage();
+                        //  QQShareUtils.getIntance(MainActivity.this).shareQQFriendImage();
                     }
+
+
                 });
                 shareDialog.showDialog();
                 break;
