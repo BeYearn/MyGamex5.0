@@ -67,7 +67,7 @@
             android:cursorVisible="true"
             android:digits="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_.@"
             android:ems="10"
-            android:hint="请输入手机号码"
+            android:hint="请输入手机号码/邮箱"
             android:inputType="textEmailAddress"
             android:maxLength="50"
             android:paddingBottom="0dp"
@@ -226,7 +226,7 @@
             android:layout_marginLeft="5dp"
             android:background="@drawable/ema_button_blue"
             android:minHeight="45dp"
-            android:text="一键登录"
+            android:text="游客登录"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

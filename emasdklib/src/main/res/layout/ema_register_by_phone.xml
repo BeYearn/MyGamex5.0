@@ -55,7 +55,7 @@
             android:background="#ffffff"
             android:cursorVisible="true"
             android:fadingEdge="horizontal"
-            android:hint="请输入手机号码"
+            android:hint="请输入手机号码/邮箱"
             android:paddingLeft="15dp"
             android:paddingRight="10sp"
             android:singleLine="true"
@@ -133,7 +133,7 @@
             android:layout_gravity="center"
             android:background="@drawable/ema_button_blue"
             android:minHeight="45dp"
-            android:text="一键登录"
+            android:text="游客登录"
             android:textColor="@android:color/white" />
     </LinearLayout>
 
