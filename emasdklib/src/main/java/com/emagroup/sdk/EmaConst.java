@@ -20,6 +20,7 @@ public class EmaConst {
 	public static final int PAY_RESULT_FAILED = 201;//支付或者充值失败
 	public static final int PAY_RESULT_CANCEL = 202;//用户退出 支付或者充值
 	public static final int PAY_RESULT_OTHERS = 203;//其他情况，统一视为支付失败
+	public static final int PAY_RESULT_DELAYED = 204;   //发货有延迟
 	
 	public static String EMA_WEIXIN_APPID = "";//微信appid
 
@@ -28,7 +29,5 @@ public class EmaConst {
 	public static final String EMA_PAYINFO_PRODUCT_ID = "product_id";  //商品id
 	public static final String EMA_PAYINFO_PRODUCT_COUNT = "product_count"; //商品数量
 	public static final String EMA_GAMETRANS_CODE="gameTransCode"; //游戏数据透传字段
-
-
 
 }

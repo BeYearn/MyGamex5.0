@@ -37,8 +37,7 @@ public class EmaDialogPayPromptResult extends Dialog {
 	}
 	
 	private void initView() {
-		setContentView(mResourceManager.getIdentifier("ema_prompt_pay_result",
-				"layout"));
+		setContentView(mResourceManager.getIdentifier("ema_prompt_pay_result", "layout"));
 		
 		mTxtPromptView = (TextView) findViewById(mResourceManager.getIdentifier("ema_txt_pay_result", "id"));
 		mImgPromptView = (ImageView) findViewById(mResourceManager.getIdentifier("ema_img_pay_result", "id"));
@@ -75,6 +74,9 @@ public class EmaDialogPayPromptResult extends Dialog {
 			break;
 		case EmaConst.PAY_RESULT_OTHERS://其他情况，统一视为支付失败
 			prompt = "支付失败";
+			break;
+		case EmaConst.PAY_RESULT_DELAYED:
+			prompt = "商品发放可能会略有延迟";
 			break;
 		}
 		if(!UCommUtil.isStrEmpty(mPromptInfo)){

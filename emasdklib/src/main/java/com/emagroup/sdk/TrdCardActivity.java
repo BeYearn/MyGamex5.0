@@ -539,7 +539,7 @@ public class TrdCardActivity extends Activity implements OnClickListener {
 			}
 			
 			PayTrdItemBean bean = (PayTrdItemBean) getItem(position);
-			txtView.setText(bean.getChannelCode());
+			txtView.setText(bean.get3rdPayName());
 			if(bean.isSelect()){
 				txtView.setTextColor(Color.WHITE);
 				txtView.setBackground(mResourceManager.getDrawable("ema_pay_gcard_list_itme_btn"));

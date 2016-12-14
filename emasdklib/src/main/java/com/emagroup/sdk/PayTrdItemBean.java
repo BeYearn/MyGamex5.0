@@ -2,9 +2,9 @@ package com.emagroup.sdk;
 
 public class PayTrdItemBean {
 
-	private String channel_code;//第三方支付渠道的名称
+	private String thirdPayName;//第三方支付渠道的名称
 	private int drawableId;//渠道图标资源ID
-	private int channelId;//代表了第三方支付渠道id
+	private int channelId;//代表了第三方支付渠道编号
 	private EmaPriceBean amount;//代表充值金额
 	private boolean select;//是否选中
 	private int discount;//折扣
@@ -12,16 +12,16 @@ public class PayTrdItemBean {
 	public PayTrdItemBean(){
 	}
 	
-	public PayTrdItemBean(String channel_code, int id) {
+	public PayTrdItemBean(String thirdPayName, int id) {
 		super();
-		this.channel_code = channel_code;
+		this.thirdPayName = thirdPayName;
 		this.drawableId = id;
 		this.discount = 100;
 	}
 	
-	public PayTrdItemBean(String channel_code, int channelId, int discount){
+	public PayTrdItemBean(String thirdPayName, int channelId, int discount){
 		super();
-		this.channel_code = channel_code;
+		this.thirdPayName = thirdPayName;
 		this.channelId = channelId;
 		this.discount = discount;
 	}
@@ -51,12 +51,12 @@ public class PayTrdItemBean {
 		this.discount = discount;
 	}
 
-	public String getChannelCode() {
-		return channel_code;
+	public String get3rdPayName() {
+		return thirdPayName;
 	}
 
-	public void setChannelCode(String channelCode) {
-		this.channel_code = channelCode;
+	public void set3rdPayName(String channelCode) {
+		this.thirdPayName = channelCode;
 	}
 
 	public int getDrawableId() {

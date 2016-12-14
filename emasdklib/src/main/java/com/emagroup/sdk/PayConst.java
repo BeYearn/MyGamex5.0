@@ -38,11 +38,11 @@ public class PayConst {
 	public static final int CODE_SET_PASSW_FAILED = 1003;//失败
 	
 	public static final String PAY_TRD_QIANBAO = "wallet";//代表钱包
-	public static final String PAY_TRD_TENPAY = "tenpay_wap_bank";//代表财付通
+	public static final String PAY_TRD_QQWALLET = "qqWallet";//代表qq钱包
 	public static final String PAY_TRD_GAMECARD = "sdopay_card";//代表游戏卡
 	public static final String PAY_TRD_PHONE_CARD = "mobile";//代表手机卡
-	public static final String PAY_TRD_ALIPAY = "alipay_mobile";//支付宝支付
-	public static final String PAY_TRD_WEIXIN = "weixin";//微信支付
+	public static final String PAY_TRD_ALIPAY = "aliPay";//支付宝支付
+	public static final String PAY_TRD_WEIXIN = "weixinPay";//微信支付
 	public static final String PAY_TRD_0YUANFU = "lingyuanfu";//0元付
 	
 	//跳转WebView的类别

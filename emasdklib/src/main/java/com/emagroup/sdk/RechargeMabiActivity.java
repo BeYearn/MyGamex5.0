@@ -218,11 +218,11 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 				emaPayInfo.setPrice(Integer.valueOf(rechargeMoney));
 
 				PayTrdItemBean bean = (PayTrdItemBean) mAdapter.getItem(position);
-				String key = bean.getChannelCode();
-				if(key.equals(PayConst.PAY_TRD_TENPAY)){//财付通充值
+				String key = bean.get3rdPayName();
+				if(key.equals(PayConst.PAY_TRD_QQWALLET)){//财付通充值
 					
 					//mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
-					//PayUtil.GoRechargeByTenpay(RechargeMabiActivity.this, money);
+					//PayUtil.GoRechargeByQQwallet(RechargeMabiActivity.this, money);
 					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 				}else if(key.equals(PayConst.PAY_TRD_GAMECARD)){//游戏卡充值
 					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");

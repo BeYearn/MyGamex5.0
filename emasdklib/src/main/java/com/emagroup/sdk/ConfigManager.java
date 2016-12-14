@@ -129,9 +129,9 @@ public class ConfigManager {
 						continue;
 						mPayTrdList.add(content);
 				}*/
-				mPayTrdList.add("alipay_mobile");
-				mPayTrdList.add("weixin");
-				mPayTrdList.add("tenpay_wap_bank");
+				mPayTrdList.add("aliPay");
+				mPayTrdList.add("weixinPay");
+				mPayTrdList.add("qqWallet");
 				mPayTrdList.add("wallet");
 				mPayTrdList.add("sdopay_card");
 				mPayTrdList.add("mobile");

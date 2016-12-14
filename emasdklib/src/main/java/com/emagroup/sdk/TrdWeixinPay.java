@@ -33,15 +33,15 @@ public class TrdWeixinPay {
 	/**
 	 * 调用微信开始充值
 	 */
-	public static void startRecharge(Activity activity, EmaPriceBean money){
-		getRechargeOrderId(activity, money);
+	public static void startRecharge(Activity activity, EmaPayInfo payInfo){
+		getRechargeOrderId(activity, payInfo);
 	}
 	
 	/**
 	 * 获取微信充值订单号
 	 * @param money
 	 */
-	private static void getRechargeOrderId(final Context context, final EmaPriceBean money){
+	private static void getRechargeOrderId(final Context context, final EmaPayInfo money){
 		EmaUser emaUser = EmaUser.getInstance();
 		ConfigManager configManager = ConfigManager.getInstance(context);
 		DeviceInfoManager deviceInfoManager = DeviceInfoManager.getInstance(context);
@@ -53,8 +53,8 @@ public class TrdWeixinPay {
 		params.put("app_id", configManager.getAppId());
 		params.put("partition_id", String.valueOf(0));//分区ID
 		params.put("server_id", String.valueOf(0));//服务器ID
-		params.put("order_amount", money.getPriceFen() + "");// 订单金额
-		params.put("amount", money.getPriceFen() + "");// 总额
+		//params.put("order_amount", money.getPriceFen() + "");// 订单金额
+		//params.put("amount", money.getPriceFen() + "");// 总额
 		params.put("point", String.valueOf(0));// 积分
 		params.put("charge_channel", PayConst.PAY_CHARGE_CHANNEL_WEIXINPAY + "");// 充值方式ID
 		params.put("bank_id", "0");// bank_id:银行ID

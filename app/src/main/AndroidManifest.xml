@@ -31,7 +31,7 @@
 
     <permission
         android:name="getui.permission.GetuiService.com.example.myggame"
-        android:protectionLevel="normal"/>
+        android:protectionLevel="normal" />
     <!-- 个推SDK权限配置结束 -->
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -42,7 +42,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
- <!--   <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"></uses-permission>-->
+    <!--   <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"></uses-permission>-->
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -64,7 +64,18 @@
 
         <activity
             android:name="com.emagroup.sdk.PayTrdActivity"
-            android:launchMode="singleTask" />
+            android:exported="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="qwallet1105564847"/>
+            </intent-filter>
+        </activity>
+
         <activity android:name="com.emagroup.sdk.PayMabiActivity" />
         <activity android:name="com.emagroup.sdk.RechargeMabiActivity" />
 
@@ -80,12 +91,12 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"/>
+            android:screenOrientation="behind" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind"/>
+            android:screenOrientation="behind" />
 
 
         <meta-data
@@ -97,10 +108,10 @@
         <meta-data
             android:name="EMA_CHANNEL_TAG"
             android:value="n0" />
-       <!-- <meta-data
-            android:name="EMA_WHICH_ENVI"
-            android:value="staging" />-->
-         <meta-data
+        <!-- <meta-data
+             android:name="EMA_WHICH_ENVI"
+             android:value="staging" />-->
+        <meta-data
             android:name="EMA_WHICH_ENVI"
             android:value="testing" />  <!--测试环境-->
 
@@ -128,12 +139,12 @@
 
         <!-- 配置第三方Receiver -->
         <receiver
-        android:name="com.emagroup.sdk.PushDemoReceiver"
-        android:exported="false">
-        <intent-filter>
-            <action android:name="com.igexin.sdk.action.augb87iFQ1AcrdvCWfN9L4" />
-        </intent-filter>
-    </receiver>
+            android:name="com.emagroup.sdk.PushDemoReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.augb87iFQ1AcrdvCWfN9L4" />
+            </intent-filter>
+        </receiver>
 
 
         <!-- 配置SDK核心服务 -->
@@ -203,33 +214,34 @@
             android:name="com.igexin.download.DownloadProvider"
             android:authorities="downloads.com.example.myggame"
             android:exported="true"
-            android:process=":pushservice"/><!--"authorities' downloads后配为你的包名-->
+            android:process=":pushservice" /><!--"authorities' downloads后配为你的包名-->
         <!-- 个推SDK配置结束 -->
 
         <!--微博组件start-->
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" >
-        </activity>
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"></activity>
         <!--微博组件 end-->
 
         <!--微信组件 start-->
-        <activity android:name=".wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent"
-            android:exported="true">
-        </activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent"></activity>
         <!--微信组件 end-->
         <!--qq登录组件 start-->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
-            android:noHistory="true"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1105564847" />
             </intent-filter>
         </activity>
