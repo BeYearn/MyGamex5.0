@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.IBinder;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.igexin.sdk.PushManager;
@@ -326,7 +325,7 @@ public class Ema {
 							EmaUser.getInstance().setAllianceUid(uid);
 
 							LOG.e("getUserInfo",message+ifSetChargePwd+nickname+pfCoin+uid);
-						 if(/*true */TextUtils.isEmpty(email)&&TextUtils.isEmpty(mobile)){
+						 if(/*true */productData.getInt("accountType")==0){
 							 ((Activity)mContext).runOnUiThread(new Runnable() {
 								 @Override
 								 public void run() {
@@ -451,6 +450,41 @@ public class Ema {
 
 	public boolean isWachatLoginFlag(){
 		return (Boolean)USharedPerUtil.getParam(getContext(),"isWachatLogin",false);
+	}
+
+	public void saveWeboLoginVisibility(int weiBoVisibility){
+		if(weiBoVisibility==0){
+			USharedPerUtil.setParam(getContext(),"weiBoVisibility",false);
+		}else{
+			USharedPerUtil.setParam(getContext(),"weiBoVisibility",true);
+		}
+
+	}
+
+	public boolean  getWeiBoLoginVisibility(){
+		return (boolean) USharedPerUtil.getParam(getContext(),"weiBoVisibility",false);
+	}
+	public void saveWachatLoginVisibility(int wachatVisibility){
+		if(/*true*/wachatVisibility==0){
+			USharedPerUtil.setParam(getContext(),"wachatVisibility",false);
+		}else{
+			USharedPerUtil.setParam(getContext(),"wachatVisibility",true);
+		}
+	}
+
+	public boolean  getWachatLoginVisibility(){
+		return (boolean) USharedPerUtil.getParam(getContext(),"wachatVisibility",false);
+	}
+	public void saveQQLoginVisibility(int QQVisibility){
+		if(/*true */QQVisibility==0){
+			USharedPerUtil.setParam(getContext(),"QQVisibility",false);
+		}else{
+			USharedPerUtil.setParam(getContext(),"QQVisibility",true);
+		}
+	}
+
+	public boolean  getQQLoginVisibility(){
+		return (boolean) USharedPerUtil.getParam(getContext(),"QQVisibility",false);
 	}
 
 	interface  BindRemind{

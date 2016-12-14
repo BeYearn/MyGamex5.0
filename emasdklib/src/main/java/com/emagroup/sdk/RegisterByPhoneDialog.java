@@ -7,16 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -24,7 +21,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.emagroup.sdk.ThirdLoginUtils.*;
+import static com.emagroup.sdk.ThirdLoginUtils.ThirdLoginAfter;
 
 class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickListener  ,ThirdLoginAfter {
 
@@ -378,10 +375,20 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
 
         mWechatLogin= (ImageView) findViewById(getId("ema_wachate_login"));
         mQQLogin= (ImageView) findViewById(getId("ema_qq_login"));
+       if(Ema.getInstance().getWachatLoginVisibility()){
+            mWechatLogin.setOnClickListener(this);
 
-        mWechatLogin.setOnClickListener(this);
-        mQQLogin.setOnClickListener(this);
+        }else{
+            mWechatLogin.setVisibility(View.GONE);
+        }
+        if(Ema.getInstance().getQQLoginVisibility()){
+            mQQLogin.setOnClickListener(this);
+        }else {
+            mQQLogin.setVisibility(View.GONE);
+        }
 
+      /*  mQQLogin.setOnClickListener(this);
+        mWechatLogin.setOnClickListener(this);*/
         mBtnStartWork.setOnClickListener(this);
         mBtnReturnLogin.setOnClickListener(this);
         mBtnReturnRegister.setOnClickListener(this);

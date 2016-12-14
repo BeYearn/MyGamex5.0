@@ -27,6 +27,7 @@ import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -47,6 +48,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
     private Button btWxShare;
     private Button btEmShare;
     private Button btQqShare;
+    private Button bt_snap_shot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         btWxShare= (Button) findViewById(R.id.bt_wxshare);
         btEmShare= (Button) findViewById(R.id.bt_emshare);
         btQqShare= (Button) findViewById(R.id.bt_qqshare);
+        bt_snap_shot= (Button) findViewById(R.id.bt_snap_shot);
 
         EmaSDK.getInstance().init("6cdd60ea0045eb7a6ec44c54d29ed402", this, new EmaSDKListener() {
             //EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b",this, new EmaSDKListener() {
@@ -111,6 +114,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                 if (resultCode == EmaCallBackConst.RECIVEMSG_MSG) {
                     // TODO:  data为拿到的推送数据,自行处理
                     Toast.makeText(MainActivity.this, data, Toast.LENGTH_LONG).show();
+
                 }
             }
         });
@@ -124,6 +128,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         btWbShare.setOnClickListener(this);
         btWxShare.setOnClickListener(this);
         btEmShare.setOnClickListener(this);
+        bt_snap_shot.setOnClickListener(this);
         Log.e("++++++++++", Thread.currentThread().getName());
     }
 
@@ -163,6 +168,13 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case  R.id.bt_snap_shot:
+                 try {
+                    Snapshot.saveBitmap(view,MainActivity.this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
             case R.id.bt_login:
 
                 MainActivity.this.runOnUiThread(  //有的接入会发生不在主线程调用该方法，所以最外面加上这个
