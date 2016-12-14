@@ -20,20 +20,19 @@
 
     <LinearLayout
         android:id="@+id/relative_bg"
-        android:layout_above="@+id/btn_close"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginBottom="11dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/ema_shape_share_choose_bg"
-         >
+        android:layout_above="@+id/btn_close"
+        android:layout_alignLeft="@+id/btn_close"
+        android:layout_alignStart="@+id/btn_close">
 
         <LinearLayout
             android:id="@+id/linear_sina_weibo"
             android:layout_marginTop="22.5dp"
-            android:layout_marginLeft="22.5dp"
+            android:layout_marginLeft="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -56,7 +55,7 @@
             android:layout_marginTop="22.5dp"
             android:layout_marginBottom="22.5dp"
              android:layout_width="wrap_content"
-            android:layout_marginLeft="22.5dp"
+            android:layout_marginLeft="5dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center">
@@ -82,8 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginRight="46dp"
-            android:layout_marginLeft="14dp"
+             android:layout_marginLeft="3dp"
             android:gravity="center">
             <ImageView
                 android:layout_width="49dp"
@@ -99,7 +97,54 @@
                 android:textColor="#6a6a6a"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/linear_qq_share"
+             android:layout_marginTop="22.5dp"
+            android:layout_marginBottom="22.5dp"
+            android:layout_width="wrap_content"
+           android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
 
+            <ImageView
+                android:layout_width="49dp"
+                android:layout_height="49dp"
+                android:background="@drawable/ema_share_qq"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QQ好友"
+                android:layout_marginTop="11dp"
+                android:textSize="14sp"
+                android:textColor="#6a6a6a"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linear_qq_qzone"
+            android:layout_marginTop="22.5dp"
+            android:layout_marginBottom="22.5dp"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="49dp"
+                android:layout_height="49dp"
+                android:background="@drawable/ema_share_qq_qzone"
+                android:scaleType="fitXY"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QQ空间"
+                android:layout_marginTop="11dp"
+                android:textSize="14sp"
+                android:textColor="#6a6a6a"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>

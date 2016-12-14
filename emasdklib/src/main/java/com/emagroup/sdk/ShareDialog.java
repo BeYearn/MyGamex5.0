@@ -4,17 +4,10 @@ package com.emagroup.sdk;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Rect;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
-import static com.igexin.push.core.g.R;
-import static com.igexin.push.core.g.c;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +20,8 @@ public class ShareDialog extends Dialog implements View.OnClickListener
     private LinearLayout linear_weixin_friend;
     private LinearLayout linear_weixin_quan;
     private LinearLayout linear_sina_weibo;
+    private LinearLayout linearLayout_qq;
+    private LinearLayout linearLayout_qzone;
    // private LinearLayout linear_bg;
     private TextView btn_close;
     private Context mContext;
@@ -67,8 +62,12 @@ public class ShareDialog extends Dialog implements View.OnClickListener
         linear_weixin_friend = (LinearLayout)findViewById(mResourceManager.getIdentifier("linear_weixin_friend", "id"));
         linear_weixin_quan = (LinearLayout)findViewById(mResourceManager.getIdentifier("linear_weixin_quan", "id"));
         linear_sina_weibo = (LinearLayout)findViewById(mResourceManager.getIdentifier("linear_sina_weibo", "id"));
+        linearLayout_qq = (LinearLayout)findViewById(mResourceManager.getIdentifier("linear_qq_share", "id"));
+        linearLayout_qzone = (LinearLayout)findViewById(mResourceManager.getIdentifier("linear_qq_qzone", "id"));
         btn_close = (TextView) findViewById(mResourceManager.getIdentifier("btn_close", "id"));
 
+        linearLayout_qq.setOnClickListener(this);
+        linearLayout_qzone.setOnClickListener(this);
         linear_weixin_friend.setOnClickListener(this);
         linear_weixin_quan.setOnClickListener(this);
         linear_sina_weibo.setOnClickListener(this);
@@ -105,6 +104,10 @@ public class ShareDialog extends Dialog implements View.OnClickListener
         {
             onBtnListener.onWeiBoClick();
            // index = 2;
+        }else if(v==linearLayout_qq){
+            onBtnListener.OnQQClick();
+        }else if(v==linearLayout_qzone){
+            onBtnListener.OnQZoneClick();
         }
       /*  if(onBtnListener != null)
         {
@@ -137,5 +140,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener
         void onWeiBoClick();
         void onWechatFriendsClick();
         void OnWechatQuanClick();
+        void OnQQClick();
+        void OnQZoneClick();
     }
 }

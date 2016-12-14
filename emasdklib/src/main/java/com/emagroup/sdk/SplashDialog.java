@@ -160,6 +160,7 @@ public class SplashDialog extends Dialog {
 							Ema.getInstance().makeCallBack(EmaCallBackConst.INITSUCCESS, "初始化完成"); //一连串走完了到这里
 
 							JSONObject dataObj = json.getJSONObject("data");
+
 							try{
 								JSONObject appVersionInfo = dataObj.getJSONObject("appVersionInfo");
 								necessary = appVersionInfo.getInt("necessary");
@@ -181,6 +182,9 @@ public class SplashDialog extends Dialog {
 							try {
 								//将得到的menubar信息存sp，在toolbar那边取
 								String menuBarInfo = dataObj.getString("menuBarInfo");
+								Ema.getInstance().saveQQLoginVisibility(new JSONObject(menuBarInfo).getInt("support_qq_login"));
+								Ema.getInstance().saveWeboLoginVisibility(new JSONObject(menuBarInfo).getInt("support_weibo_login"));
+								Ema.getInstance().saveWachatLoginVisibility(new JSONObject(menuBarInfo).getInt("support_weixin_login"));
 								USharedPerUtil.setParam(mActivity, "menuBarInfo", menuBarInfo);
 							}catch (Exception e) {
 								USharedPerUtil.setParam(mActivity, "menuBarInfo", "");
