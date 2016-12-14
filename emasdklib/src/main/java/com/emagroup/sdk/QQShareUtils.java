@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.provider.DocumentsContract.getDocumentId;
+import static com.igexin.push.core.g.S;
 
 /**
  * Created by Administrator on 2016/12/13.
@@ -39,11 +41,6 @@ public class QQShareUtils {
     public static int Build_VERSION_KITKAT = 19;
     public static String ACTION_OPEN_DOCUMENT = "android.intent.action.OPEN_DOCUMENT";
     private static final String PATH_DOCUMENT = "document";
-    private String title="分享音乐,来自下豆瓣FM：The Chordettes";
-    private  String summary="分享生活留住感动分享生活留住感动分享生活留住感动分享生活留住感动分享生活留住感动分享生活留住感动";
-    private String url="http://www.baidu.com";
-    private  String appName="EmaTest";
-
     private String ImageUrl="http://img7.doubanio.com/lpic/s3635685.jpg";
 
     public static QQShareUtils getIntance(Context context){
@@ -82,13 +79,16 @@ public class QQShareUtils {
 
     }
 
-    public void shareQQFriendsWebPage(){
+    public void shareQQFriendsWebPage(String title,String url,String summary,String imageUrl){
+        if(TextUtils.isEmpty(title)||TextUtils.isEmpty(summary)||TextUtils.isEmpty(imageUrl)||TextUtils.isEmpty(url)){
+            Toast.makeText(mContext,"请传入完整参数",Toast.LENGTH_SHORT).show();
+            return ;
+        }
         final Bundle params = new Bundle();
-
         params.putString(QQShare.SHARE_TO_QQ_TITLE, title);
         params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, url);
         params.putString(QQShare.SHARE_TO_QQ_SUMMARY, summary);
-        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, ImageUrl);
+        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl);
        // params.putString(QQShare.SHARE_TO_QQ_APP_NAME,appName);
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
       //  params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, 0);
@@ -103,15 +103,21 @@ public class QQShareUtils {
         });
     }
 
-    public void shareQzoneWebPage(){
-        ArrayList<String> imageUrls = new ArrayList<String>();
+    public void shareQzoneWebPage(String title,String url,String summary,String imageUrl/*ArrayList<String> imageUrls*/){
+        if(TextUtils.isEmpty(title)||TextUtils.isEmpty(summary)||TextUtils.isEmpty(imageUrl)||TextUtils.isEmpty(url)){
+            Toast.makeText(mContext,"请传入完整参数",Toast.LENGTH_SHORT).show();
+            return ;
+        }
+
+       ArrayList<String> imageUrls = new ArrayList<String>();
         final Bundle params = new Bundle();
         params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
         params.putString(QzoneShare.SHARE_TO_QQ_TITLE, title);
         params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, url);
         params.putString(QQShare.SHARE_TO_QQ_SUMMARY, summary);
-        imageUrls.add(ImageUrl);
-        params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
+      //  params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl);
+        imageUrls.add(imageUrl);
+       params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
         // QZone分享要在主线程做
         ThreadManager.getMainHandler().post(new Runnable() {
 
@@ -124,14 +130,18 @@ public class QQShareUtils {
         });
     }
 
-    public void shareQzoneTextImage()
+    public void shareQzoneText(String summary)
     {
+        if(TextUtils.isEmpty(summary)){
+            Toast.makeText(mContext,"请传入完整参数",Toast.LENGTH_SHORT).show();
+            return ;
+        }
         final Bundle params = new Bundle();
         params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, QzonePublish.PUBLISH_TO_QZONE_TYPE_PUBLISHMOOD);
         params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, summary);
-    /*    ArrayList<String> imageUrls = new ArrayList<String>();
+      ArrayList<String> imageUrls = new ArrayList<String>();
         imageUrls.add(ImageUrl);
-        params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);*/
+        params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
         // QQ分享要在主线程做
         ThreadManager.getMainHandler().post(new Runnable() {
 

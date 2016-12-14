@@ -19,7 +19,6 @@ import com.emagroup.sdk.EmaConst;
 import com.emagroup.sdk.EmaSDK;
 import com.emagroup.sdk.EmaSDKListener;
 import com.emagroup.sdk.EmaUser;
-import com.emagroup.sdk.QQShareUtils;
 import com.emagroup.sdk.ShareDialog;
 import com.emagroup.sdk.ToastHelper;
 import com.emagroup.sdk.WeiboShareUtils;
@@ -47,6 +46,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
     private IWXAPI mWeixinapi;
     private Button btWxShare;
     private Button btEmShare;
+    private Button btQqShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         btWbShare = (Button) findViewById(R.id.bt_wbshare);
         btWxShare= (Button) findViewById(R.id.bt_wxshare);
         btEmShare= (Button) findViewById(R.id.bt_emshare);
+        btQqShare= (Button) findViewById(R.id.bt_qqshare);
 
         EmaSDK.getInstance().init("6cdd60ea0045eb7a6ec44c54d29ed402", this, new EmaSDKListener() {
             //EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b",this, new EmaSDKListener() {
@@ -113,7 +114,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                 }
             }
         });
-
+        btQqShare.setOnClickListener(this);
         btLogin.setOnClickListener(this);
         btPay.setOnClickListener(this);
         btLogout.setOnClickListener(this);
@@ -231,8 +232,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
 
                 break;
             case R.id.bt_emshare:
-                ShareDialog shareDialog=ShareDialog.create(this);
-                shareDialog.setOnBtnListener(new ShareDialog.OnBtnListener() {
+                EmaSDK.getInstance().doShare(MainActivity.this, new ShareDialog.OnBtnListener() {
                     @Override
                     public void onWeiBoClick() {
                         weiBoShare();
@@ -240,24 +240,50 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
 
                     @Override
                     public void onWechatFriendsClick() {
-                                wxShare( SendMessageToWX.Req.WXSceneSession);
+                        wxShare( SendMessageToWX.Req.WXSceneSession);
                     }
 
                     @Override
                     public void OnWechatQuanClick() {
-                       // wxShare(SendMessageToWX.Req.WXSceneTimeline);
-
-                       QQShareUtils.getIntance(MainActivity.this).shareQzoneTextImage();
-                        //   QQShareUtils.getIntance(MainActivity.this).shareQzoneWebPage();
-                        //  QQShareUtils.getIntance(MainActivity.this).shareQQFriendsWebPage();
-                        //  QQShareUtils.getIntance(MainActivity.this).shareQQFriendImage();
+                        wxShare(SendMessageToWX.Req.WXSceneTimeline);
                     }
 
+                    @Override
+                    public void OnQQClick() {
+                            qqShare();
+                    }
 
+                    @Override
+                    public void OnQZoneClick() {
+                                QzoneShare();
+                    }
                 });
-                shareDialog.showDialog();
+
+                break;
+            case R.id.bt_qqshare:
+                qqShare();
+
                 break;
         }
+    }
+
+    private  void QzoneShare(){
+        String title="分享音乐,来自下豆瓣FM：The Chordettes";
+        String summary="分享生活留住感动分享生活留住感动分享生活留住感动分享生活留住感动分享生活留住感动分享生活留住感动";
+        String url="http://www.baidu.com";
+        String imageUrl="http://img7.doubanio.com/lpic/s3635685.jpg" ;//   /storage/sdcard0/Screenshot_2016-11-17-11-16-37.png
+        EmaSDK.getInstance().doQzoneShareWebPage(MainActivity.this,title,url,summary,imageUrl);//分享QQ空间网页
+        //  EmaSDK.getInstance().doQzoneShareText(MainActivity.this,summary);//分享QQ空间文字
+    }
+
+    private void qqShare() {
+        String title="分享音乐,来自下豆瓣FM：The Chordettes";
+        String summary="分享生活留住感动分享生活留住感动分享生活留住感动分享生活留住感动分享生活留住感动分享生活留住感动";
+        String url="http://www.baidu.com";
+        String imageUrl="http://img7.doubanio.com/lpic/s3635685.jpg" ;//   /storage/sdcard0/Screenshot_2016-11-17-11-16-37.png
+        //EmaSDK.getInstance().doQQFriendShareImage(MainActivity.this);//分享QQ好友图片
+        EmaSDK.getInstance().doQQFriendShareWebPage(MainActivity.this,title,url,summary,imageUrl);//分享QQ好友网页
+
     }
 
     private void weiBoShare() {

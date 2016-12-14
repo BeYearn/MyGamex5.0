@@ -101,9 +101,11 @@ public class EmaSDK {
         return Ema.getInstance().getChannelId();
     }
 
-   /* public void doWeiboShare(Activity activity,String description ,Bitmap  bitmap){
-        WeiboShareUtils.getInstance(activity).doWeiboShare(description,bitmap);
-    }*/
+   public void doShare(Activity activity,ShareDialog.OnBtnListener onBtnListener){
+       ShareDialog shareDialog=ShareDialog.create(activity);
+       shareDialog.setOnBtnListener(onBtnListener);
+       shareDialog.showDialog();
+    }
     public  void doWeiBoShareImage(Activity activity,Bitmap bitmap){
         WeiboShareUtils.getInstance(activity).doWeiboShareImage(bitmap);
     }
@@ -126,6 +128,22 @@ public class EmaSDK {
 
     public void doWxShareText(Activity activity,EmaSDKListener listener,String text,String description,int scene){
         WeixinShareUtils.getInstance(activity).doWxShareText(listener,text,description,scene);
+    }
+
+    public void  doQQFriendShareImage(Activity activity){
+        QQShareUtils.getIntance(activity).shareQQFriendImage();
+    }
+
+    public void doQQFriendShareWebPage(Activity activity,String title,String url,String summary,String imageUrl){
+        QQShareUtils.getIntance(activity).shareQQFriendsWebPage(title,url,summary,imageUrl);
+    }
+
+    public void doQzoneShareText(Activity activity, String summary){
+      QQShareUtils.getIntance(activity).shareQzoneText(summary);
+    }
+
+    public void doQzoneShareWebPage(Activity activity,String title,String url,String summary,String imageUrl/*ArrayList<String> imageUrls*/){
+        QQShareUtils.getIntance(activity).shareQzoneWebPage(title,url,summary,imageUrl/*imageUrls*/);
     }
 
     public void onNewIntent(Intent intent) {
