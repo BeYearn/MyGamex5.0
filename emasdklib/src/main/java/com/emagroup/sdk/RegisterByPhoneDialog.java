@@ -98,6 +98,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         }
 
     };
+    private String curAccountNum;    // 当前这次用户输入的号码
+    private static long firstGetTime;
 
     /**
      * 一键登录的开始
@@ -408,9 +410,9 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
             doRegistByOneKey();
         } else if (id == getId("ema_btn_get_auth_code")) {//重新获取验证码
             startTimeTask();
-            if("1"==accountType){
+            if("1".equals(accountType)){
                 doGetAuthCode(mEmaUser.getMobile());
-            }else if("2"==accountType){
+            }else if("2".equals(accountType)){
                 doSendEmail(mEmaUser.getEmail());
             }
         }else if(id==getId("ema_wachate_login")){
@@ -481,18 +483,18 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         if (mFlagHasGetAuthCode) {//获取验证码之后，进行的是登录操作
             accountLoginFirst();
         } else {//还没有获取验证码，进行获取验证码操作
-            String accountNum = mEdtContentView.getText().toString();
+            curAccountNum = mEdtContentView.getText().toString();
 
-            if(TextUtils.isEmpty(accountNum)){
+            if(TextUtils.isEmpty(curAccountNum)){
                 ToastHelper.toast(mActivity, "帐号不能为空");
                 return;
             }
-            if(UCommUtil.isPhone(accountNum)){
+            if(UCommUtil.isPhone(curAccountNum)){
                 accountType="1";
-                doGetAuthCode(accountNum);
-            }else if(UCommUtil.isEmail(accountNum)){
+                doGetAuthCode(curAccountNum);
+            }else if(UCommUtil.isEmail(curAccountNum)){
                 accountType="2";
-                doSendEmail(accountNum);
+                doSendEmail(curAccountNum);
             }else {
                 ToastHelper.toast(mActivity,"请输入正确的帐号");
             }
@@ -544,6 +546,14 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
      * 获取验证码
      */
     private void doGetAuthCode(String phoneNum) {
+
+        boolean isTimeAll = (System.currentTimeMillis() - firstGetTime) > 60000;
+
+        if(curAccountNum.equals(mEmaUser.getMobile())&&!isTimeAll){  //如果等于上次的号码并且没经过60s后
+            ToastHelper.toast(mActivity,"操作太频繁，请稍候再试...");
+            return;
+        }
+
         mProgress.showProgress("获取验证码...");
         //设置用户的电话号码信息
         mEmaUser.setMobile(phoneNum);
@@ -561,6 +571,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                             switch (resultCode) {
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS:// 成功
                                     mHandler.sendEmptyMessage(CODE_GET_AUTH_CODE_SUCCESS);
+
+                                    firstGetTime= System.currentTimeMillis();
                                     break;
                                 case HttpInvokerConst.SDK_RESULT_FAILED:// 失败
                                     ToastHelper.toast(mActivity, json.getString("message"));
