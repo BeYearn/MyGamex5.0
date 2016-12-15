@@ -86,7 +86,7 @@ public class ShareDialog extends Dialog implements View.OnClickListener
             Toast.makeText(mContext,"请传入正确参数",Toast.LENGTH_SHORT).show();
             return;
         }
-        this.onBtnListener = onBtnListener;
+       this.onBtnListener = onBtnListener;
     }
 
     @Override
@@ -97,27 +97,27 @@ public class ShareDialog extends Dialog implements View.OnClickListener
     //   int index = -1;
         if(v == linear_weixin_friend)
         {
-            EmaSDK.getInstance().setPfType(SHARE_WEIXIN_FRIENDS);
-            onBtnListener.onWechatFriendsClick();
+          //  EmaSDK.getInstance().setPfType(SHARE_WEIXIN_FRIENDS);
+          onBtnListener.onWechatFriendsClick();
             //index = 0;
         }
         else if(v == linear_weixin_quan)
         {
            // index = 1;
-            EmaSDK.getInstance().setPfType(SHARE_WEIXIN_QUAN);
-            onBtnListener.OnWechatQuanClick();
+         //   EmaSDK.getInstance().setPfType(SHARE_WEIXIN_QUAN);
+           onBtnListener.OnWechatQuanClick();
         }
         else if(v==linear_sina_weibo)
         {
-            EmaSDK.getInstance().setPfType(SHARE_WEIBO);
-            onBtnListener.onWeiBoClick();
+         //   EmaSDK.getInstance().setPfType(SHARE_WEIBO);
+           onBtnListener.onWeiBoClick();
            // index = 2;
         }else if(v==linearLayout_qq){
-            EmaSDK.getInstance().setPfType(SHARE_QQ_FRIENDS);
-            onBtnListener.OnQQClick();
+          //  EmaSDK.getInstance().setPfType(SHARE_QQ_FRIENDS);
+          onBtnListener.OnQQClick();
         }else if(v==linearLayout_qzone){
-            EmaSDK.getInstance().setPfType(SHARE_QQ_QZONE);
-            onBtnListener.OnQZoneClick();
+         //   EmaSDK.getInstance().setPfType(SHARE_QQ_QZONE);
+          onBtnListener.OnQZoneClick();
         }
       /*  if(onBtnListener != null)
         {

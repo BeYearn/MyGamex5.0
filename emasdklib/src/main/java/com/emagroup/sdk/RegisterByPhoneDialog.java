@@ -672,9 +672,11 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         params.put("channelTag",mConfigManager.getChannelTag());
         params.put("allianceId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
         params.put("weixinCode",result);
-
+        params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
+        params.put("deviceType", "android");
         String sign="3"+ ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()
-                +mConfigManager.getAppId()+mConfigManager.getChannelTag()+result+ EmaUser.getInstance().getAppKey();
+                +mConfigManager.getAppId()+mConfigManager.getChannelTag() +DeviceInfoManager.getInstance(mActivity).getDEVICE_ID()
+                +params.get("deviceType")+ result+ EmaUser.getInstance().getAppKey();
         //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);

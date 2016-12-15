@@ -110,6 +110,33 @@ public class QQShareUtils {
 
     }
 
+    public void shareQzoneImage(EmaSDKListener listener,Bitmap bitmap){
+        this.mListener = listener;
+        // startPickLocaleImage();
+
+        try {
+            saveBitmap(bitmap,mContext);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final Bundle params = new Bundle();
+            params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, 3);
+            ArrayList<String> imageUrls = new ArrayList<String>();
+            imageUrls.add(ImageUrl);
+            params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
+
+            ThreadManager.getMainHandler().post(new Runnable() {
+                @Override
+                public void run() {
+                    if (null != mTencent) {
+                        mTencent.publishToQzone((Activity) mContext, params, emIUiListener);
+                    }
+                }
+            });
+        //  params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, 0);
+
+    }
+
     public void shareQQFriendsWebPage(EmaSDKListener listener, String title, String url, String summary,Bitmap bitmap /*String imageUrl*/){
         this.mListener=listener;
         if(TextUtils.isEmpty(title)||TextUtils.isEmpty(summary)||bitmap==null||/*TextUtils.isEmpty(imageUrl)||*/TextUtils.isEmpty(url)){

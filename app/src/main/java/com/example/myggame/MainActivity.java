@@ -19,7 +19,6 @@ import com.emagroup.sdk.EmaConst;
 import com.emagroup.sdk.EmaSDK;
 import com.emagroup.sdk.EmaSDKListener;
 import com.emagroup.sdk.EmaUser;
-import com.emagroup.sdk.ShareDialog;
 import com.emagroup.sdk.ToastHelper;
 import com.emagroup.sdk.WeiboShareUtils;
 import com.sina.weibo.sdk.api.share.BaseResponse;
@@ -248,7 +247,10 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
 
                 break;*/
             case R.id.bt_emshare:
-                EmaSDK.getInstance().doShare(MainActivity.this, new ShareDialog.OnBtnListener() {
+               shareImage();
+               // shareText();
+                //   shareWebPage();
+              /*  EmaSDK.getInstance().doShare(MainActivity.this, new ShareDialog.OnBtnListener() {
                     @Override
                     public void onWeiBoClick() {
                        // weiBoShare();
@@ -291,7 +293,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                         shareWebPage();
                     }
                 });
-
+*/
                 break;
            /* case R.id.bt_qqshare:
                 qqShare();

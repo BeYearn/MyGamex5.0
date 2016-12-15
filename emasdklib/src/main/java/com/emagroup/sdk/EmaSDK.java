@@ -13,15 +13,15 @@ import java.util.Map;
 /**
  * Created by Administrator on 2016/8/22.
  */
-public class EmaSDK {
+public class EmaSDK /*implements ShareDialog.OnBtnListener*/{
     private static EmaSDK mInstance;
     private EmaSDKListener reciveMsgListener;
 
-    public void setPfType(int pfType) {
+   /* public void setPfType(int pfType) {
         this.pfType = pfType;
     }
 
-    private int pfType;
+    private int pfType;*/
 
     private EmaSDK() {
     }
@@ -113,9 +113,9 @@ public class EmaSDK {
         return Ema.getInstance().getChannelTag();
     }
 
-   public void doShare(Activity activity,ShareDialog.OnBtnListener onBtnListener){
+   public void doShare(Activity activity, ShareDialog.OnBtnListener listener){
        ShareDialog shareDialog=ShareDialog.create(activity);
-       shareDialog.setOnBtnListener(onBtnListener);
+       shareDialog.setOnBtnListener(listener);
        shareDialog.showDialog();
     }
     public  void doWeiBoShareImage(Activity activity, EmaSDKListener listener,Bitmap bitmap){
@@ -130,8 +130,35 @@ public class EmaSDK {
         QQShareUtils.getIntance(activity).shareQQFriendImage(listener,bitmap);
     }
 
-    public void doShareImage(Activity activity,EmaSDKListener listener,Bitmap bitmap){
-        switch (pfType){
+    public void doShareImage(final Activity activity,final EmaSDKListener listener,final Bitmap bitmap){
+    doShare(activity, new ShareDialog.OnBtnListener() {
+        @Override
+        public void onWeiBoClick() {
+            WeiboShareUtils.getInstance(activity).doWeiboShareImage(listener,bitmap);
+        }
+
+        @Override
+        public void onWechatFriendsClick() {
+            WeixinShareUtils.getInstance(activity).doWxShareImg(listener,bitmap, SendMessageToWX.Req.WXSceneSession);
+        }
+
+        @Override
+        public void OnWechatQuanClick() {
+            WeixinShareUtils.getInstance(activity).doWxShareImg(listener,bitmap, SendMessageToWX.Req.WXSceneTimeline);
+        }
+
+        @Override
+        public void OnQQClick() {
+            QQShareUtils.getIntance(activity).shareQQFriendImage(listener,bitmap);
+        }
+
+        @Override
+        public void OnQZoneClick() {
+           // Toast.makeText(activity,"QQ空间无图片分享",Toast.LENGTH_SHORT).show();
+        QQShareUtils.getIntance(activity).shareQzoneImage(listener,bitmap);
+        }
+    });
+        /*  switch (pfType){
             case 1://微博
                 WeiboShareUtils.getInstance(activity).doWeiboShareImage(listener,bitmap);
                 break;
@@ -147,7 +174,7 @@ public class EmaSDK {
             case 5://QQ空间
                 Toast.makeText(activity,"QQ空间无图片分享",Toast.LENGTH_SHORT).show();
                 break;
-        }
+        }*/
      }
 
     public void doWxShareText(Activity activity,EmaSDKListener listener,String text,/*String description,*/int scene){
@@ -162,8 +189,34 @@ public class EmaSDK {
         QQShareUtils.getIntance(activity).shareQzoneText(summary,listener);
     }
 
-    public void doShareText(Activity activity,EmaSDKListener listener,String text){
-        switch (pfType){
+    public void doShareText(final Activity activity,final EmaSDKListener listener,final String text){
+        doShare(activity, new ShareDialog.OnBtnListener() {
+            @Override
+            public void onWeiBoClick() {
+                WeiboShareUtils.getInstance(activity).doWeiboShareText(text,listener);
+            }
+
+            @Override
+            public void onWechatFriendsClick() {
+                WeixinShareUtils.getInstance(activity).doWxShareText(listener,text,SendMessageToWX.Req.WXSceneSession);
+            }
+
+            @Override
+            public void OnWechatQuanClick() {
+                WeixinShareUtils.getInstance(activity).doWxShareText(listener,text,SendMessageToWX.Req.WXSceneTimeline);
+            }
+
+            @Override
+            public void OnQQClick() {
+                Toast.makeText(activity,"QQ好友无文字分享",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void OnQZoneClick() {
+                QQShareUtils.getIntance(activity).shareQzoneText(text,listener);
+            }
+        });
+        /* switch (pfType){
             case 1://微博
                 WeiboShareUtils.getInstance(activity).doWeiboShareText(text,listener);
                 break;
@@ -180,7 +233,7 @@ public class EmaSDK {
             case 5://QQ空间
                 QQShareUtils.getIntance(activity).shareQzoneText(text,listener);
                 break;
-        }
+        }*/
     }
 
 
@@ -199,8 +252,35 @@ public class EmaSDK {
         QQShareUtils.getIntance(activity).shareQzoneWebPage(listener,title,url,summary,bitmap/*imageUrl*//*imageUrls*/);
     }
 
-    public void doShareWebPage(Activity activity,EmaSDKListener listener,String url,String title,String description,Bitmap bitmap){
-        switch (pfType){
+    public void doShareWebPage(final Activity activity,final EmaSDKListener listener,final String url,
+                               final String title,final String description,final Bitmap bitmap){
+        doShare(activity, new ShareDialog.OnBtnListener() {
+            @Override
+            public void onWeiBoClick() {
+                WeiboShareUtils.getInstance(activity).doWeiBoShareWebpage(title,description,bitmap,url,listener);
+            }
+
+            @Override
+            public void onWechatFriendsClick() {
+                WeixinShareUtils.getInstance(activity).doWxShareWebpage(listener,url,title,description,bitmap,SendMessageToWX.Req.WXSceneSession);
+            }
+
+            @Override
+            public void OnWechatQuanClick() {
+                WeixinShareUtils.getInstance(activity).doWxShareWebpage(listener,url,title,description,bitmap,SendMessageToWX.Req.WXSceneTimeline);
+            }
+
+            @Override
+            public void OnQQClick() {
+                QQShareUtils.getIntance(activity).shareQQFriendsWebPage(listener,title,url,description,bitmap);
+            }
+
+            @Override
+            public void OnQZoneClick() {
+                QQShareUtils.getIntance(activity).shareQzoneWebPage(listener,title,url,description,bitmap);
+            }
+        });
+      /*  switch (pfType){
             case 1://微博
                 WeiboShareUtils.getInstance(activity).doWeiBoShareWebpage(title,description,bitmap,url,listener);
                 break;
@@ -216,7 +296,7 @@ public class EmaSDK {
             case 5://QQ空间
                 QQShareUtils.getIntance(activity).shareQzoneWebPage(listener,title,url,description,bitmap);
                 break;
-        }
+        }*/
     }
 
 
@@ -255,4 +335,28 @@ public class EmaSDK {
         Ema.getInstance().onBackPressed(action);
     }
 
+   /* @Override
+    public void onWeiBoClick() {
+
+    }
+
+    @Override
+    public void onWechatFriendsClick() {
+
+    }
+
+    @Override
+    public void OnWechatQuanClick() {
+
+    }
+
+    @Override
+    public void OnQQClick() {
+
+    }
+
+    @Override
+    public void OnQZoneClick() {
+
+    }*/
 }

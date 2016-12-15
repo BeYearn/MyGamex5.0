@@ -27,12 +27,13 @@
         android:background="@drawable/ema_shape_share_choose_bg"
         android:layout_above="@+id/btn_close"
         android:layout_alignLeft="@+id/btn_close"
-        android:layout_alignStart="@+id/btn_close">
+        android:layout_alignStart="@+id/btn_close"
+        android:layout_marginRight="8dp">
 
         <LinearLayout
             android:id="@+id/linear_sina_weibo"
             android:layout_marginTop="22.5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -55,7 +56,7 @@
             android:layout_marginTop="22.5dp"
             android:layout_marginBottom="22.5dp"
              android:layout_width="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="15dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center">
@@ -80,6 +81,7 @@
             android:id="@+id/linear_weixin_quan"
             android:layout_alignParentRight="true"
            android:layout_marginTop="22.5dp"
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -105,6 +107,7 @@
             android:layout_width="wrap_content"
              android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginLeft="10dp"
             android:gravity="center">
 
             <ImageView
@@ -127,7 +130,7 @@
             android:layout_marginTop="22.5dp"
             android:layout_marginBottom="22.5dp"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="15dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center">
