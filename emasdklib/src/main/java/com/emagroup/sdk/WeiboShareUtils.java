@@ -3,7 +3,6 @@ package com.emagroup.sdk;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,6 +25,7 @@ public class WeiboShareUtils {
     private static WeiboShareUtils mInstance;
     private final IWeiboShareAPI mWeiboShareAPI;
     private final Activity mActivity;
+    public EmaSDKListener mListener;
 
     public static WeiboShareUtils getInstance(Activity activity) {
         if (mInstance == null) {
@@ -68,7 +68,8 @@ public class WeiboShareUtils {
             mWeiboShareAPI.sendRequest(mActivity, request);*/
     }
 
-    public void doWeiboShareImage/*Text*/(/*String text ,*/Bitmap  bitmap) {
+    public void doWeiboShareImage/*Text*/(/*String text ,*/EmaSDKListener listener,Bitmap  bitmap) {
+        this.mListener = listener;
         if(/*TextUtils.isEmpty(text)||*/bitmap==null){
             Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
             return;
@@ -104,7 +105,8 @@ public class WeiboShareUtils {
       //  return imageObject;
     }
 
-    public   void doWeiboShareText (String text){
+    public   void doWeiboShareText (String text,EmaSDKListener listener){
+        this.mListener = listener;
         if(TextUtils.isEmpty(text)/*||bitmap==null*/){
             Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
             return;
@@ -130,7 +132,8 @@ public class WeiboShareUtils {
         Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
     }
 
-    public void doWeiBoShareWebpage(String title,String description,Bitmap bitmap,String url){
+    public void doWeiBoShareWebpage(String title, String description, Bitmap bitmap, String url, EmaSDKListener listener){
+        this.mListener=listener;
         if(TextUtils.isEmpty(title) ||TextUtils.isEmpty(description)||TextUtils.isEmpty(url)||bitmap==null ){
             Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
             return;

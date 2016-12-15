@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginRight="8dp"
         android:background="@drawable/ema_shape_share_choose_bg"
         android:layout_above="@+id/btn_close"
         android:layout_alignLeft="@+id/btn_close"
@@ -59,11 +60,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center">
+
             <ImageView
                 android:layout_width="49dp"
                 android:layout_height="49dp"
                 android:background="@drawable/ema_share_weixin"
                 android:scaleType="fitXY"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-             android:layout_marginLeft="3dp"
+             android:layout_marginLeft="1dp"
             android:gravity="center">
             <ImageView
                 android:layout_width="49dp"
@@ -127,7 +130,7 @@
             android:layout_marginTop="22.5dp"
             android:layout_marginBottom="22.5dp"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="5dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center">
@@ -136,6 +139,7 @@
                 android:layout_height="49dp"
                 android:background="@drawable/ema_share_qq_qzone"
                 android:scaleType="fitXY"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

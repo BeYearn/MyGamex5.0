@@ -22,6 +22,11 @@ public class ShareDialog extends Dialog implements View.OnClickListener
     private LinearLayout linear_sina_weibo;
     private LinearLayout linearLayout_qq;
     private LinearLayout linearLayout_qzone;
+    public static  int SHARE_WEIBO=1;
+    public static  int SHARE_WEIXIN_FRIENDS=2;
+    public static  int SHARE_WEIXIN_QUAN=3;
+    public static  int SHARE_QQ_FRIENDS=4;
+    public static  int SHARE_QQ_QZONE=5;
    // private LinearLayout linear_bg;
     private TextView btn_close;
     private Context mContext;
@@ -92,21 +97,26 @@ public class ShareDialog extends Dialog implements View.OnClickListener
     //   int index = -1;
         if(v == linear_weixin_friend)
         {
+            EmaSDK.getInstance().setPfType(SHARE_WEIXIN_FRIENDS);
             onBtnListener.onWechatFriendsClick();
             //index = 0;
         }
         else if(v == linear_weixin_quan)
         {
            // index = 1;
+            EmaSDK.getInstance().setPfType(SHARE_WEIXIN_QUAN);
             onBtnListener.OnWechatQuanClick();
         }
         else if(v==linear_sina_weibo)
         {
+            EmaSDK.getInstance().setPfType(SHARE_WEIBO);
             onBtnListener.onWeiBoClick();
            // index = 2;
         }else if(v==linearLayout_qq){
+            EmaSDK.getInstance().setPfType(SHARE_QQ_FRIENDS);
             onBtnListener.OnQQClick();
         }else if(v==linearLayout_qzone){
+            EmaSDK.getInstance().setPfType(SHARE_QQ_QZONE);
             onBtnListener.OnQZoneClick();
         }
       /*  if(onBtnListener != null)

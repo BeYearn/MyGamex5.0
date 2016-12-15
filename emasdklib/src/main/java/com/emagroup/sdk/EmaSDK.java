@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Message;
+import android.widget.Toast;
+
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 
 import java.util.Map;
 
@@ -13,6 +16,16 @@ import java.util.Map;
 public class EmaSDK {
     private static EmaSDK mInstance;
     private EmaSDKListener reciveMsgListener;
+    public static  int SHARE_IMAGE=1;
+    public static  int SHARE_TEXT=2;
+    public static  int SHARE_WEBPAGE=3
+            ;
+
+    public void setPfType(int pfType) {
+        this.pfType = pfType;
+    }
+
+    private int pfType;
 
     private EmaSDK() {
     }
@@ -106,45 +119,108 @@ public class EmaSDK {
        shareDialog.setOnBtnListener(onBtnListener);
        shareDialog.showDialog();
     }
-    public  void doWeiBoShareImage(Activity activity,Bitmap bitmap){
-        WeiboShareUtils.getInstance(activity).doWeiboShareImage(bitmap);
-    }
-
-    public  void doWeiBoShareWebpage(Activity activity,String title,String description,Bitmap bitmap,String url){
-        WeiboShareUtils.getInstance(activity).doWeiBoShareWebpage(title,description,bitmap,url);
-    }
-
-    public  void doWeiBoShareText(Activity activity,String text){
-        WeiboShareUtils.getInstance(activity).doWeiboShareText(text);
-    }
-
-    public void doWeixinShareWebpage(Activity activity,EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene) {
-        WeixinShareUtils.getInstance(activity).doWxShareWebpage(listener,url,title,description,bitmap,scene);
+    public  void doWeiBoShareImage(Activity activity, EmaSDKListener listener,Bitmap bitmap){
+        WeiboShareUtils.getInstance(activity).doWeiboShareImage(listener,bitmap);
     }
 
     public void doWxShareImg(Activity activity, EmaSDKListener listener,Bitmap bitmap,int scene){
         WeixinShareUtils.getInstance(activity).doWxShareImg(listener,bitmap,scene);
     }
 
-    public void doWxShareText(Activity activity,EmaSDKListener listener,String text,String description,int scene){
-        WeixinShareUtils.getInstance(activity).doWxShareText(listener,text,description,scene);
+    public void  doQQFriendShareImage(EmaSDKListener listener,Activity activity,Bitmap bitmap){
+        QQShareUtils.getIntance(activity).shareQQFriendImage(listener,bitmap);
     }
 
-    public void  doQQFriendShareImage(Activity activity){
-        QQShareUtils.getIntance(activity).shareQQFriendImage();
+    public void doShareImage(Activity activity,EmaSDKListener listener,Bitmap bitmap){
+        switch (pfType){
+            case 1://微博
+                WeiboShareUtils.getInstance(activity).doWeiboShareImage(listener,bitmap);
+                break;
+            case 2://微信好友
+                WeixinShareUtils.getInstance(activity).doWxShareImg(listener,bitmap, SendMessageToWX.Req.WXSceneSession);
+                break;
+            case 3://微信朋友圈
+                WeixinShareUtils.getInstance(activity).doWxShareImg(listener,bitmap, SendMessageToWX.Req.WXSceneTimeline);
+                break;
+            case 4://QQ好友
+                QQShareUtils.getIntance(activity).shareQQFriendImage(listener,bitmap);
+                break;
+            case 5://QQ空间
+                Toast.makeText(activity,"QQ空间无图片分享",Toast.LENGTH_SHORT).show();
+                break;
+        }
+     }
+
+    public void doWxShareText(Activity activity,EmaSDKListener listener,String text,/*String description,*/int scene){
+        WeixinShareUtils.getInstance(activity).doWxShareText(listener,text,/*description,*/scene);
     }
 
-    public void doQQFriendShareWebPage(Activity activity,String title,String url,String summary,String imageUrl){
-        QQShareUtils.getIntance(activity).shareQQFriendsWebPage(title,url,summary,imageUrl);
+    public  void doWeiBoShareText(Activity activity,EmaSDKListener listener,String text){
+        WeiboShareUtils.getInstance(activity).doWeiboShareText(text,listener);
     }
 
-    public void doQzoneShareText(Activity activity, String summary){
-      QQShareUtils.getIntance(activity).shareQzoneText(summary);
+    public void doQzoneShareText(Activity activity,EmaSDKListener listener, String summary){
+        QQShareUtils.getIntance(activity).shareQzoneText(summary,listener);
     }
 
-    public void doQzoneShareWebPage(Activity activity,String title,String url,String summary,String imageUrl/*ArrayList<String> imageUrls*/){
-        QQShareUtils.getIntance(activity).shareQzoneWebPage(title,url,summary,imageUrl/*imageUrls*/);
+    public void doShareText(Activity activity,EmaSDKListener listener,String text){
+        switch (pfType){
+            case 1://微博
+                WeiboShareUtils.getInstance(activity).doWeiboShareText(text,listener);
+                break;
+            case 2://微信好友
+                WeixinShareUtils.getInstance(activity).doWxShareText(listener,text,SendMessageToWX.Req.WXSceneSession);
+                break;
+            case 3://微信朋友圈
+                WeixinShareUtils.getInstance(activity).doWxShareText(listener,text,SendMessageToWX.Req.WXSceneTimeline);
+                break;
+           case 4://QQ好友
+               Toast.makeText(activity,"QQ好友无文字分享",Toast.LENGTH_SHORT).show();
+             //   QQShareUtils.getIntance(activity).shareQQFriendImage(listener,bitmap);
+                break;
+            case 5://QQ空间
+                QQShareUtils.getIntance(activity).shareQzoneText(text,listener);
+                break;
+        }
     }
+
+
+    public  void doWeiBoShareWebpage(Activity activity,EmaSDKListener listener,String title,String description,Bitmap bitmap,String url){
+        WeiboShareUtils.getInstance(activity).doWeiBoShareWebpage(title,description,bitmap,url,listener);
+    }
+
+    public void doWeixinShareWebpage(Activity activity,EmaSDKListener listener,String url,String title,String description,Bitmap bitmap,int scene) {
+        WeixinShareUtils.getInstance(activity).doWxShareWebpage(listener,url,title,description,bitmap,scene);
+    }
+
+    public void doQQFriendShareWebPage(Activity activity,EmaSDKListener listener,String title,String url,String summary,Bitmap bitmap/*String imageUrl*/){
+        QQShareUtils.getIntance(activity).shareQQFriendsWebPage(listener,title,url,summary,bitmap);
+    }
+    public void doQzoneShareWebPage(Activity activity,EmaSDKListener listener,String title,String url,String summary,Bitmap bitmap/*String imageUrl*//*ArrayList<String> imageUrls*/){
+        QQShareUtils.getIntance(activity).shareQzoneWebPage(listener,title,url,summary,bitmap/*imageUrl*//*imageUrls*/);
+    }
+
+    public void doShareWebPage(Activity activity,EmaSDKListener listener,String url,String title,String description,Bitmap bitmap){
+        switch (pfType){
+            case 1://微博
+                WeiboShareUtils.getInstance(activity).doWeiBoShareWebpage(title,description,bitmap,url,listener);
+                break;
+            case 2://微信好友
+                WeixinShareUtils.getInstance(activity).doWxShareWebpage(listener,url,title,description,bitmap,SendMessageToWX.Req.WXSceneSession);
+                break;
+            case 3://微信朋友圈
+                WeixinShareUtils.getInstance(activity).doWxShareWebpage(listener,url,title,description,bitmap,SendMessageToWX.Req.WXSceneTimeline);
+                break;
+            case 4://QQ好友
+               QQShareUtils.getIntance(activity).shareQQFriendsWebPage(listener,title,url,description,bitmap);
+                break;
+            case 5://QQ空间
+                QQShareUtils.getIntance(activity).shareQzoneWebPage(listener,title,url,description,bitmap);
+                break;
+        }
+    }
+
+
 
     public void onNewIntent(Intent intent) {
         //WeiboShareUtils.getInstance(activity).onNewIntent(intent);
