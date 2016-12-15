@@ -24,7 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginRight="8dp"
         android:background="@drawable/ema_shape_share_choose_bg"
         android:layout_above="@+id/btn_close"
         android:layout_alignLeft="@+id/btn_close"
@@ -48,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="新浪微博"
                 android:layout_marginTop="11dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="#6a6a6a"/>
         </LinearLayout>
         <LinearLayout
@@ -72,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:text="微信好友"
                 android:layout_marginTop="11dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="#6a6a6a"/>
 
         </LinearLayout>
@@ -84,8 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-             android:layout_marginLeft="1dp"
-            android:gravity="center">
+              android:gravity="center">
             <ImageView
                 android:layout_width="49dp"
                 android:layout_height="49dp"
@@ -96,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:text="微信朋友圈"
                 android:layout_marginTop="11dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="#6a6a6a"/>
         </LinearLayout>
 
@@ -105,8 +103,7 @@
              android:layout_marginTop="22.5dp"
             android:layout_marginBottom="22.5dp"
             android:layout_width="wrap_content"
-           android:layout_marginLeft="5dp"
-            android:layout_height="wrap_content"
+             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center">
 
@@ -121,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:text="QQ好友"
                 android:layout_marginTop="11dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="#6a6a6a"/>
 
         </LinearLayout>
@@ -145,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:text="QQ空间"
                 android:layout_marginTop="11dp"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textColor="#6a6a6a"/>
 
         </LinearLayout>

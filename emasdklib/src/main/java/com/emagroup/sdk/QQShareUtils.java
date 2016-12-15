@@ -219,12 +219,12 @@ public class QQShareUtils {
         public void onComplete(Object o) {
             Log.i(this.getClass().getName(),"QQShareUtils ---"+o.toString());
             if(o==null){
-                Toast.makeText(mContext,"分享失败",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(mContext,"分享失败",Toast.LENGTH_SHORT).show();
                 mListener.onCallBack(BaseResp.ErrCode.ERR_AUTH_DENIED,"QQ share failed");
             }else{
             JSONObject resultJson= (JSONObject)o;
             if(resultJson.optInt("ret")==0){
-                Toast.makeText(mContext,"分享成功",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(mContext,"分享成功",Toast.LENGTH_SHORT).show();
                 mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"QQ share successful");
 
             }
@@ -234,14 +234,14 @@ public class QQShareUtils {
 
         @Override
         public void onError(UiError uiError) {
-            Toast.makeText(mContext,uiError.errorMessage,Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(mContext,uiError.errorMessage,Toast.LENGTH_SHORT).show();
             mListener.onCallBack(BaseResp.ErrCode.ERR_AUTH_DENIED,"QQ share failed");
         }
 
         @Override
         public void onCancel() {
 
-            Toast.makeText(mContext,"取消分享",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(mContext,"取消分享",Toast.LENGTH_SHORT).show();
             mListener.onCallBack(BaseResp.ErrCode.ERR_USER_CANCEL,"QQ share cancle");
         }
     };
@@ -254,15 +254,15 @@ public class QQShareUtils {
             folder.mkdir();
         }
         File file = new File("/mnt/sdcard/dcim/Camera/" + fileName + ".jpg");
-        Toast.makeText(context, "保存图片中", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(context, "保存图片中", Toast.LENGTH_SHORT).show();
         FileOutputStream out;
         if (!file.exists()) {
 
             try {
                 out = new FileOutputStream(file);
                 if (bitmap.compress(Bitmap.CompressFormat.PNG, 70, out)) {
-                    Toast.makeText(context, "成功存入相册",
-                            Toast.LENGTH_SHORT).show();
+                   /* Toast.makeText(context, "成功存入相册",
+                            Toast.LENGTH_SHORT).show();*/
                     ImageUrl=file.getAbsolutePath();
                     out.flush();
                     out.close();

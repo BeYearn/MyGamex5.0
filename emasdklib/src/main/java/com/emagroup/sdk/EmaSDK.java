@@ -16,10 +16,6 @@ import java.util.Map;
 public class EmaSDK {
     private static EmaSDK mInstance;
     private EmaSDKListener reciveMsgListener;
-    public static  int SHARE_IMAGE=1;
-    public static  int SHARE_TEXT=2;
-    public static  int SHARE_WEBPAGE=3
-            ;
 
     public void setPfType(int pfType) {
         this.pfType = pfType;
