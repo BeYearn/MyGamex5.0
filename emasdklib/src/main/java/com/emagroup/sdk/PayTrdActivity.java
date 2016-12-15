@@ -29,6 +29,10 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
 
     private static final String TAG = "PayTrdActivity";
 
+    public static final int PAY_ACTIVITY_CLOSE=11;   //本页面关闭
+    public static final int PAY_ACTIVITY_DIALOG_CANLE=12;   //本页面弹窗 支付取消
+    public static final int PAY_ACTIVITY_DIALOG_FAIL=13;   //本页面弹窗  支付失败
+
     private EmaUser mEmaUser;
     private ResourceManager mResourceManager;
 
@@ -75,6 +79,15 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
                     break;
                 case EmaConst.PAY_RESULT_DELAYED:  // 延迟发货的提醒
                     new EmaDialogPayPromptResult(PayTrdActivity.this, 0,EmaConst.PAY_RESULT_DELAYED,"发货有延迟").show();
+                    break;
+                case PayTrdActivity.PAY_ACTIVITY_CLOSE:  //关闭支付订单页面（本页面）
+                    PayTrdActivity.this.finish();
+                    break;
+                case PayTrdActivity.PAY_ACTIVITY_DIALOG_CANLE:
+                    showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_CANCEL, "");
+                    break;
+                case PayTrdActivity.PAY_ACTIVITY_DIALOG_FAIL:
+                    showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_FAILED, "");
                     break;
             }
         }
@@ -243,7 +256,6 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
             //PayMabiActivity.doPayNoKeyWord(mPayInfo);  现在这个操作放在服务端做了 12/10
             //UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");  现在需要查询订单状态  12/14
             PayUtil.doCheckOrderStatus(mHandler);
-            PayTrdActivity.this.finish();
 
         } else if (data.getResultStatus().equals(TrdAliPay.RESULT_STATUS_ON_PAYING)) {//正在处理中
 
@@ -266,7 +278,7 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
     /**
      * 显示支付结束后的对话框
      */
-    private void showPayResultDialog(int actionType, int resultType, String promptInfo) {
+    public void showPayResultDialog(int actionType, int resultType, String promptInfo) {
         new EmaDialogPayPromptResult(this, actionType, resultType, promptInfo).show();
     }
 
@@ -282,7 +294,7 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
      * 监听返回按钮
      */
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() {      // 所有成功的就直接finish了，有各种情况的会走这里，里面会取消订单
         showCancelPromptDialog();
     }
 
@@ -318,8 +330,7 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
     @Override
     public void onOpenResponse(BaseResponse baseResponse) {
         if (baseResponse == null) {
-            // 不能识别的intent
-            return;
+            return;// 不能识别的intent
         } else {
             if (baseResponse instanceof PayResponse) {
                 // 支付回调响应
@@ -328,12 +339,14 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
                 if (payResponse.isSuccess()) { // 支付成功，这个支付结果不能作为发货的依据
 
                     PayUtil.doCheckOrderStatus(mHandler);
-                    PayTrdActivity.this.finish();
-                }else {
+                }else {                        // 失败
                     UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
+                    showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_FAILED, "");
                 }
             } else {
                 // 不能识别的响应
+                UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
+                showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_FAILED, "");
             }
         }
     }

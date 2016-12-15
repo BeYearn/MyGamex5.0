@@ -145,8 +145,8 @@ public class PayUtil {
      */
     public static void GoRechargeByWeixin(Activity activity, EmaPayInfo payInfo, Handler handler) {
         //EmaPayProcessManager.getInstance().setWeixinActionType(EmaConst.PAY_ACTION_TYPE_RECHARGE);
-        LOG.d(TAG, "使用支付宝进行充值");
-        TrdWeixinPay.startRecharge(activity, payInfo);
+        LOG.d(TAG, "使用微信进行充值");
+        TrdWeixinPay.startRecharge(activity, payInfo,handler);
     }
 
     /**
@@ -222,8 +222,8 @@ public class PayUtil {
      */
     public static void GoPayByWeixin(Activity activity, Handler handler) {
         LOG.d(TAG, "进入微信支付");
-        EmaPayProcessManager.getInstance().setWeixinActionType(EmaConst.PAY_ACTION_TYPE_PAY);
-        TrdWeixinPay.startPay(activity);
+        //EmaPayProcessManager.getInstance().setWeixinActionType(EmaConst.PAY_ACTION_TYPE_PAY);
+        //TrdWeixinPay.startPay(activity);
     }
 
     /**
@@ -396,6 +396,7 @@ public class PayUtil {
 
                                     if(resultCode==0){ //或者是几？
                                         UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
+                                        mHandler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_CLOSE);
                                     }else {
                                         //此处已表征为成功，所以不能说是支付失败，而弹窗说可能略有延迟
                                         mHandler.sendEmptyMessage(EmaConst.PAY_RESULT_DELAYED);

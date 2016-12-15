@@ -60,6 +60,7 @@ public class TrdQQwalletPay {
         params.put("appId", configManager.getAppId());
         params.put("outTradeNo", payInfo.getOrderId());
         params.put("tradeType", "APP");
+        params.put("uid",EmaUser.getInstance().getmUid());
 
         new HttpInvoker().postAsync(Url.getQQwalletPreOrder(), params,
                 new HttpInvoker.OnResponsetListener() {
@@ -99,8 +100,9 @@ public class TrdQQwalletPay {
         api.sigType = "HMAC-SHA1"; // 签名时，使用的加密方式，默认为"HMAC-SHA1"*/
 
         if (api.checkParams()) {
-            mOpenApi.execApi(api);
-            //回调在PayThrdActivity中
+            mOpenApi.execApi(api);    //回调在PayThrdActivity中
+        }else {
+            Log.e(TAG,"doNextQQPay,参数不全");
         }
     }
 }
