@@ -2,33 +2,19 @@ package com.emagroup.sdk;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXImageObject;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXMusicObject;
 import com.tencent.mm.sdk.modelmsg.WXTextObject;
-import com.tencent.mm.sdk.modelmsg.WXVideoObject;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
-
-import cn.emagroup.sdk.R;
 
 /**
  * Created by Administrator on 2016/11/14.
@@ -83,7 +69,7 @@ public class WeixinShareUtils {
    // }
 
 
-    public void doWxShareText(EmaSDKListener listener,String text,String description,int scene) {
+    public void doWxShareText(EmaSDKListener listener,String text,/*String description,*/int scene) {
         this.mListener=listener;
         boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
                 && mWeixinapi.isWXAppSupportAPI();
@@ -94,7 +80,7 @@ public class WeixinShareUtils {
 
         }
 
-        if(listener==null|| TextUtils.isEmpty(text)||TextUtils.isEmpty(description)){
+        if(listener==null|| TextUtils.isEmpty(text)/*||TextUtils.isEmpty(description)*/){
             Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
             return;
         }
@@ -103,7 +89,7 @@ public class WeixinShareUtils {
 
         WXMediaMessage wxMediaMessage = new WXMediaMessage();
         wxMediaMessage.mediaObject=textObject;
-        wxMediaMessage.description=description;
+        wxMediaMessage.description="description";
 
         // 构造一个Req
         SendMessageToWX.Req req = new SendMessageToWX.Req();

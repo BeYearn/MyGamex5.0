@@ -54,7 +54,7 @@
         android:layout_toRightOf="@id/ll_1"
         android:orientation="vertical">
 
-        <Button
+     <!--   <Button
             android:id="@+id/bt_wbshare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,12 +64,13 @@
             android:id="@+id/bt_wxshare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="微信分享" />
+            android:text="微信分享"
+            />
         <Button
             android:id="@+id/bt_qqshare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="qq分享" />
+            android:text="qq分享" />-->
         <Button
             android:id="@+id/bt_emshare"
             android:layout_width="wrap_content"
