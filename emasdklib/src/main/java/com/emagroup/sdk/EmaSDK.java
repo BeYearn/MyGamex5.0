@@ -113,6 +113,9 @@ public class EmaSDK {
     public String getChannelId(){
         return Ema.getInstance().getChannelId();
     }
+    public String getChannelTag(){
+        return Ema.getInstance().getChannelTag();
+    }
 
    public void doShare(Activity activity,ShareDialog.OnBtnListener onBtnListener){
        ShareDialog shareDialog=ShareDialog.create(activity);

@@ -89,6 +89,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                         Log.e("Mainactivity", EmaUser.getInstance().getAllianceUid());
                         Log.e("Mainactivity", EmaUser.getInstance().getmUid());
                         Log.e("Mainactivity", EmaSDK.getInstance().getChannelId());
+                        Log.e("Mainactivity", EmaSDK.getInstance().getChannelTag());
                         break;
                     case EmaCallBackConst.LOGINCANELL://登陆取消回调
                         break;

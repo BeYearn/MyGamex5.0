@@ -286,6 +286,9 @@ public class Ema {
 		return ConfigManager.getInstance(mContext).getChannel();
 	}
 
+	public String getChannelTag(){
+		return ConfigManager.getInstance(mContext).getChannelTag();
+	}
 
 	public Context getContext(){
 		return mContext;
