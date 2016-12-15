@@ -100,6 +100,9 @@ public class EmaSDK {
     public String getChannelId(){
         return Ema.getInstance().getChannelId();
     }
+    public String getChannelTag(){
+        return Ema.getInstance().getChannelTag();
+    }
 
    /* public void doWeiboShare(Activity activity,String description ,Bitmap  bitmap){
         WeiboShareUtils.getInstance(activity).doWeiboShare(description,bitmap);

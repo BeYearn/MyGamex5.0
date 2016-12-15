@@ -214,7 +214,7 @@
             android:layout_marginRight="5dp"
             android:background="@drawable/ema_button_orange"
             android:minHeight="45dp"
-            android:text="帐号登录"
+            android:text="手机登录"
             android:textColor="@android:color/white" />
 
         <Button
