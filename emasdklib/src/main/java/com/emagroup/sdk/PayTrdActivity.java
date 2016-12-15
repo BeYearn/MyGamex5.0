@@ -336,13 +336,20 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
                 // 支付回调响应
                 PayResponse payResponse = (PayResponse) baseResponse;
 
-                if (payResponse.isSuccess()) { // 支付成功，这个支付结果不能作为发货的依据
-
-                    PayUtil.doCheckOrderStatus(mHandler);
-                }else {                        // 失败
-                    UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
-                    showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_FAILED, "");
+                switch (payResponse.retCode) {
+                    case 0:     //成功
+                        PayUtil.doCheckOrderStatus(mHandler);
+                        break;
+                    case -1:     //用户取消
+                        mHandler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_DIALOG_CANLE);
+                        UCommUtil.makePayCallBack(EmaCallBackConst.PAYCANELI, "订单取消");
+                        break;
+                    default:    //失败
+                        mHandler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_DIALOG_FAIL);
+                        UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
+                        break;
                 }
+
             } else {
                 // 不能识别的响应
                 UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");

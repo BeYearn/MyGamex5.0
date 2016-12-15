@@ -121,7 +121,6 @@ public class TrdWeixinPay {
             case -1:    //失败
                 mHandler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_DIALOG_FAIL);
                 UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
-
                 break;
         }
     }
