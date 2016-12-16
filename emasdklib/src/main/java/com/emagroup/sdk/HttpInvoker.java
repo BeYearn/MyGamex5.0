@@ -253,11 +253,11 @@ public class HttpInvoker {
 			LOG.d(TAG, "return message:" + result);
 			if(resultCode != HttpStatus.SC_OK){
 				LOG.e(TAG, "服务器返回错误 !!!!!!");
-				setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"请求超时\",\"status\":\"9\"}");
+				setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"网络连接超时\",\"status\":\"9\"}");
 			}
 			setOnresponse(listener, result);
 		} catch (Exception e) {
-			setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"请求失败,检查网络\",\"status\":\"9\"}");
+			setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"网络连接失败,请检查网络\",\"status\":\"9\"}");
 			LOG.w(TAG, "doHttpsPost error", e);
 		}
 	}
