@@ -17,7 +17,7 @@ import java.util.Date;
  */
 
 public class Snapshot {
-    public static void saveBitmap(View view,  Context context) throws IOException {
+    public static Bitmap saveBitmap(View view,  Context context) throws IOException {
         // 得到当前view所在view结构中的根view
         View vv = view.getRootView();
         // 设置属性
@@ -49,6 +49,7 @@ public class Snapshot {
                 e.printStackTrace();
             }
         }
+        return   Bitmap.createScaledBitmap(bitmap, 150, 150, true);
     }
 
 }

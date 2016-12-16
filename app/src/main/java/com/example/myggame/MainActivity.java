@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 
+
+
 public class MainActivity extends Activity implements OnClickListener, WeiboShareUtils.Response {
 
     private Button btLogin;
@@ -173,7 +175,8 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         switch (view.getId()) {
             case  R.id.bt_snap_shot:
                  try {
-                    Snapshot.saveBitmap(view,MainActivity.this);
+                     EmaSDK.getInstance().doShareImage(MainActivity.this,new SimpleEmaSDKListener(),Snapshot.saveBitmap(view,MainActivity.this));
+                   // shareImage();;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -316,7 +319,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
     }
 
     private void shareImage() {
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher/*R.drawable.ema_floating_icon*/) ;
+        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),   R.drawable.ic_launcher  /* R.drawable.emaa*/) ;
         EmaSDK.getInstance().doShareImage(MainActivity.this,new SimpleEmaSDKListener(),bitmap);
     }
 

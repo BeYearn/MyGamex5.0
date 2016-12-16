@@ -5,8 +5,8 @@ android {
     buildToolsVersion '21.1.2'
 
     defaultConfig {
-           applicationId "com.example.myggame"
-        //   applicationId "com.emagroup.mbzw2.emagroup"
+         applicationId "com.example.myggame"
+        //     applicationId "com.emagroup.mbzw2.emagroup"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 4

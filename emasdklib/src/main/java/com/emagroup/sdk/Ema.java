@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
 import android.os.IBinder;
 import android.view.View;
 
@@ -434,7 +433,7 @@ public class Ema {
 			Tencent.onActivityResultData(requestCode,resultCode,data,QQShareUtils.getIntance(mContext).emIUiListener);
 		}else if (requestCode == Constants.REQUEST_QQ_SHARE) {
 			Tencent.onActivityResultData(requestCode,resultCode,data,QQShareUtils.getIntance(mContext).emIUiListener);
-		}else if (requestCode == 0) {//QQ分享本地图片
+		}/*else if (requestCode == 0) {//QQ分享本地图片
 			String path = null;
 			if (resultCode == Activity.RESULT_OK) {
 				if (data != null && data.getData() != null) {
@@ -444,7 +443,7 @@ public class Ema {
 					QQShareUtils.getIntance(mContext).setImageUrl(path);
 				}
 			}
-		}
+		}*/
 	}
 
 	public void saveWachatLoginFlag(boolean isWachatLogin){
