@@ -24,13 +24,14 @@ public class Snapshot {
         vv.setDrawingCacheEnabled(true);
         // 取得位图
         Bitmap bitmap= vv.getDrawingCache();
+      // bitmap = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
         SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
         String fileName=simpleDateFormat.format(new Date());
         File folder = new File("/mnt/sdcard/dcim/Camera/");
         if (!folder.exists()) {
             folder.mkdir();
         }
-        File file = new File("/mnt/sdcard/dcim/Camera/" + fileName + ".jpg");
+        File file = new File("/mnt/sdcard/dcim/Camera/" + fileName + ".png");
         Toast.makeText(context, "保存图片中", Toast.LENGTH_SHORT).show();
         FileOutputStream out;
         if (!file.exists()) {
@@ -49,7 +50,7 @@ public class Snapshot {
                 e.printStackTrace();
             }
         }
-        return   Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        return  bitmap   /* Bitmap.createScaledBitmap(bitmap, 150, 150, true)*/ ;
     }
 
 }

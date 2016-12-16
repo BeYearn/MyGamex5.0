@@ -23,12 +23,10 @@ import com.emagroup.sdk.ToastHelper;
 import com.emagroup.sdk.WeiboShareUtils;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
-import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 
 import java.io.IOException;
 import java.util.HashMap;
-
 
 
 
@@ -152,7 +150,19 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         if (baseResponse != null) {
             Log.e("weibofenxiang", baseResponse.toString());
             switch (baseResponse.errCode) {
-                case EmaCallBackConst.WEIBO_OK:
+              case EmaCallBackConst.EMA_SHARE_OK:
+                    WeiboShareUtils.getInstance(MainActivity.this).mListener.onCallBack(EmaCallBackConst.EMA_SHARE_OK,"分享成功");
+                  //  ToastHelper.toast(MainActivity.this, "share successful");
+                    break;
+                case EmaCallBackConst.EMA_SHARE_CANCLE:
+                    WeiboShareUtils.getInstance(MainActivity.this).mListener.onCallBack(EmaCallBackConst.EMA_SHARE_CANCLE,"分享取消");
+                 //   ToastHelper.toast(MainActivity.this, "share cancel");
+                    break;
+                case EmaCallBackConst.EMA_SHARE_FAIL:
+                    WeiboShareUtils.getInstance(MainActivity.this).mListener.onCallBack(EmaCallBackConst.EMA_SHARE_FAIL,"分享失败");
+                  //  ToastHelper.toast(MainActivity.this, baseResponse.errMsg*//*"share fail"*//*);
+                    break;
+               /* case EmaCallBackConst.WEIBO_OK:
                     WeiboShareUtils.getInstance(MainActivity.this).mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"Weibo share successful");
                     ToastHelper.toast(MainActivity.this, "share successful");
                     break;
@@ -162,8 +172,8 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
                     break;
                 case EmaCallBackConst.WEIBO_FAIL:
                     WeiboShareUtils.getInstance(MainActivity.this).mListener.onCallBack(BaseResp.ErrCode.ERR_AUTH_DENIED,"Weibo share failed");
-                    ToastHelper.toast(MainActivity.this, baseResponse.errMsg/*"share fail"*/);
-                    break;
+                    ToastHelper.toast(MainActivity.this, baseResponse.errMsg*//*"share fail"*//*);
+                    break;*/
             }
         }
     }
@@ -250,9 +260,9 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
 
                 break;*/
             case R.id.bt_emshare:
-               shareImage();
+                //   shareImage();
                // shareText();
-                //   shareWebPage();
+                  shareWebPage();
               /*  EmaSDK.getInstance().doShare(MainActivity.this, new ShareDialog.OnBtnListener() {
                     @Override
                     public void onWeiBoClick() {
@@ -309,7 +319,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
         String url="http://www.baidu.com"/*null*/;
         String title="WebPage Title WebPage Title"/*null*/;
         String description="WebPage Description";
-        Bitmap bitmap=/*null*/  BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher/*R.drawable.ema_floating_icon*/) ;
+        Bitmap bitmap=/*null*/  BitmapFactory.decodeResource(getResources(),/* R.drawable.ic_launcher*/ R.drawable.ematest) ;
         EmaSDK.getInstance().doShareWebPage(MainActivity.this,new SimpleEmaSDKListener(),url,title,description,bitmap);
     }
 
@@ -319,7 +329,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
     }
 
     private void shareImage() {
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),   R.drawable.ic_launcher  /* R.drawable.emaa*/) ;
+        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),   R.drawable.ic_launcher  /*R.drawable.ematest*/) ;
         EmaSDK.getInstance().doShareImage(MainActivity.this,new SimpleEmaSDKListener(),bitmap);
     }
 
@@ -369,17 +379,17 @@ class  SimpleEmaSDKListener implements EmaSDKListener{
     @Override
     public void onCallBack(int resultCode, String decr) {
         switch (resultCode) {
-            case EmaCallBackConst.WEIXIN_OK:
-                ToastHelper.toast(MainActivity.this,"main share successful");
+            case EmaCallBackConst.EMA_SHARE_OK:
+                ToastHelper.toast(MainActivity.this,decr);
                 //分享成功
                 break;
-            case EmaCallBackConst.WEIXIN_CANCLE:
-                ToastHelper.toast(MainActivity.this,"main share cancle");
+            case EmaCallBackConst.EMA_SHARE_CANCLE:
+                ToastHelper.toast(MainActivity.this,decr);
                 //分享取消
                 break;
-            case EmaCallBackConst.WEIBO_FAIL:
+            case EmaCallBackConst.EMA_SHARE_FAIL:
                 //分享拒绝
-                ToastHelper.toast(MainActivity.this,"main  share denied");
+                ToastHelper.toast(MainActivity.this,decr);
                 break;
         }
     }

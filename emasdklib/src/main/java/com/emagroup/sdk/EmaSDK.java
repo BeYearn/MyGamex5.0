@@ -302,7 +302,7 @@ public class EmaSDK /*implements ShareDialog.OnBtnListener*/{
 
 
     public void onNewIntent(Intent intent) {
-        //WeiboShareUtils.getInstance(activity).onNewIntent(intent);
+         WeiboShareUtils.getInstance((Activity) Ema.getInstance().getContext()).onNewIntent(intent);
         Ema.getInstance().onNewIntent(intent);
     }
 

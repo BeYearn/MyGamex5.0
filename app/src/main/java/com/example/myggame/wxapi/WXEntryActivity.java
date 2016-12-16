@@ -3,11 +3,10 @@ package com.example.myggame.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.emagroup.sdk.ConfigManager;
-import com.emagroup.sdk.ConfigManager;
 import com.emagroup.sdk.Ema;
+import com.emagroup.sdk.EmaCallBackConst;
 import com.emagroup.sdk.ThirdLoginUtils;
 import com.emagroup.sdk.WeixinShareUtils;
 import com.tencent.mm.sdk.modelbase.BaseReq;
@@ -47,21 +46,21 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 			 	if(Ema.getInstance().isWachatLoginFlag()){
 					ThirdLoginUtils.getInstance(this).wechatLogin((SendAuth.Resp)resp);
 				}else{
-					WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"weixin share successful");
+					WeixinShareUtils.mListener.onCallBack(EmaCallBackConst.EMA_SHARE_OK,"分享成功");
 
 				}
 			 	break;
 			case BaseResp.ErrCode.ERR_USER_CANCEL:
 				WXEntryActivity.this.finish();
 				if(!Ema.getInstance().isWachatLoginFlag()){
-				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_USER_CANCEL,"weixin share cancle");}
+				WeixinShareUtils.mListener.onCallBack(EmaCallBackConst.EMA_SHARE_CANCLE,"分享取消");}
 				//分享取消
 				break;
 			case BaseResp.ErrCode.ERR_AUTH_DENIED:
 				//分享拒绝
 				//ToastHelper.toast(this,"weixin share denied");
 				if(!Ema.getInstance().isWachatLoginFlag()){
-				WeixinShareUtils.mListener.onCallBack(BaseResp.ErrCode.ERR_AUTH_DENIED,"weixin share failed");};
+				WeixinShareUtils.mListener.onCallBack(EmaCallBackConst.EMA_SHARE_FAIL,"分享失败");};
 				break;
 		}
 		finish();

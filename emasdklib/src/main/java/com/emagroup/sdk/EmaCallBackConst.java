@@ -50,6 +50,11 @@ public class EmaCallBackConst {
 	public final static int WEIXIN_CANCLE = -2;
 	public final static int WEIXIN_FAIL = -4;
 
+	//Ema分享回调状态
+	public final static int EMA_SHARE_OK = 0;
+	public final static int EMA_SHARE_CANCLE = 1;
+	public final static int EMA_SHARE_FAIL = 2;
+
 
 	//接收推送消息
 	public final static int RECIVEMSG_MSG = 123;//接收到

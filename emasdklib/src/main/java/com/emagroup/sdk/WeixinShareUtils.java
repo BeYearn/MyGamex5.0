@@ -2,6 +2,7 @@ package com.emagroup.sdk;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,7 +15,14 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+
 
 /**
  * Created by Administrator on 2016/11/14.
@@ -123,9 +131,14 @@ public class WeixinShareUtils {
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = imgObj;
 
-        // Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
-        // bitmap.recycle();
-        msg.thumbData = bmpToByteArray(bitmap, true);  // 设置缩略图
+       Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        // msg.thumbData = bitmap2Bytes(bitmap, 32);
+        msg.thumbData=bmpToByteArray(thumbBmp, true);
+        thumbBmp.recycle();
+
+     //   msg.thumbData = bitmap2Bytes(bitmap, 10);
+       // msg.thumbData = bmpToByteArray(bitmap, true);  // 设置缩略图
+        //     msg.thumbData = bmpToByteArray(BitmapFactory.decodeResource(mActivity.getResources(), R.drawable.ic_launcher), true);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
@@ -133,7 +146,7 @@ public class WeixinShareUtils {
         req.scene = scene;// 或者SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
         boolean statu=   mWeixinapi.sendReq(req);
         Ema.getInstance().saveWachatLoginFlag(false);
-        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
+        Log.i("doWxShareImg","doWxShareImg statu "+statu);
 
     }
 
@@ -174,8 +187,13 @@ public class WeixinShareUtils {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title =title;
         msg.description = description;
-        //Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
-        msg.thumbData = bmpToByteArray(bitmap, true);
+
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        // msg.thumbData = bitmap2Bytes(bitmap, 32);
+        msg.thumbData=bmpToByteArray(thumbBmp, true);
+        thumbBmp.recycle();
+      //   Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        //msg.thumbData = bmpToByteArray(bitmap, true);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction =  String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
@@ -183,7 +201,7 @@ public class WeixinShareUtils {
         req.scene = scene;// 或者SendMessageToWX.Req.WXSceneTimeline  SendMessageToWX.Req.WXSceneSession
         boolean statu=   mWeixinapi.sendReq(req);
         Ema.getInstance().saveWachatLoginFlag(false);
-        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
+        Log.i("doWxShareWebpage","doWxShareWebpage statu "+statu);
 
     }
 
@@ -230,7 +248,7 @@ public class WeixinShareUtils {
     }*/
 
 
-    public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
+   public   byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
         if (needRecycle) {
@@ -245,5 +263,39 @@ public class WeixinShareUtils {
         }
 
         return result;
+    }
+
+    /**
+     * 把网络资源图片转化成bitmap
+     * @param url  网络资源图片
+     * @return  Bitmap
+     */
+    public static Bitmap GetLocalOrNetBitmap(String url) {
+        Bitmap bitmap = null;
+        InputStream in = null;
+        BufferedOutputStream out = null;
+        try {
+            in = new BufferedInputStream(new URL(url).openStream(), 1024);
+            final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+            out = new BufferedOutputStream(dataStream, 1024);
+            copy(in, out);
+            out.flush();
+            byte[] data = dataStream.toByteArray();
+            bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+            data = null;
+            return bitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static void copy(InputStream in, OutputStream out)
+            throws IOException {
+        byte[] b = new byte[1024];
+        int read;
+        while ((read = in.read(b)) != -1) {
+            out.write(b, 0, read);
+        }
     }
 }

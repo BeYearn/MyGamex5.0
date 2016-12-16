@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.tencent.connect.share.QQShare;
 import com.tencent.connect.share.QzonePublish;
 import com.tencent.connect.share.QzoneShare;
-import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.open.utils.ThreadManager;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -322,12 +321,12 @@ public class QQShareUtils {
             Log.i(this.getClass().getName(),"QQShareUtils ---"+o.toString());
             if(o==null){
               //  Toast.makeText(mContext,"分享失败",Toast.LENGTH_SHORT).show();
-                mListener.onCallBack(BaseResp.ErrCode.ERR_AUTH_DENIED,"QQ share failed");
+                mListener.onCallBack(EmaCallBackConst.EMA_SHARE_FAIL,"QQ分享失败");
             }else{
             JSONObject resultJson= (JSONObject)o;
             if(resultJson.optInt("ret")==0){
               //  Toast.makeText(mContext,"分享成功",Toast.LENGTH_SHORT).show();
-                mListener.onCallBack(BaseResp.ErrCode.ERR_OK,"QQ share successful");
+                mListener.onCallBack(EmaCallBackConst.EMA_SHARE_OK,"分享成功");
 
             }
             }
@@ -337,14 +336,14 @@ public class QQShareUtils {
         @Override
         public void onError(UiError uiError) {
           //  Toast.makeText(mContext,uiError.errorMessage,Toast.LENGTH_SHORT).show();
-            mListener.onCallBack(BaseResp.ErrCode.ERR_AUTH_DENIED,"QQ share failed");
+            mListener.onCallBack(EmaCallBackConst.EMA_SHARE_FAIL,"分享失败");
         }
 
         @Override
         public void onCancel() {
 
            // Toast.makeText(mContext,"取消分享",Toast.LENGTH_SHORT).show();
-            mListener.onCallBack(BaseResp.ErrCode.ERR_USER_CANCEL,"QQ share cancle");
+            mListener.onCallBack(EmaCallBackConst.EMA_SHARE_CANCLE,"分享取消");
         }
     };
 
