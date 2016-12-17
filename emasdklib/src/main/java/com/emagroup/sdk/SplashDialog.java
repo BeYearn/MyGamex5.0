@@ -67,6 +67,7 @@ public class SplashDialog extends Dialog {
 	private String maintainBg;
 	private String maintainContent;
 	private String showStatus;
+	private LayoutParams params;
 
 
 	public SplashDialog(Context context) {
@@ -311,17 +312,24 @@ public class SplashDialog extends Dialog {
 	private void initView() {
 		int type = mActivity.getResources().getConfiguration().orientation;
 		View view = mResourceManager.getLayout("ema_splash");
-		view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		//view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		int drawableId = 0;
+		ImageView imageView = (ImageView) view.findViewById(mResourceManager.getIdentifier("ema_splash_imageview", "id"));
+
 		if(type == Configuration.ORIENTATION_LANDSCAPE){
 			LOG.d(TAG, "landscape");
-			drawableId = mResourceManager.getIdentifier("ema_init_bg", "drawable");
+			//drawableId = mResourceManager.getIdentifier("ema_init_bg", "drawable");
+			drawableId = mResourceManager.getIdentifier("ema_splash_logo", "drawable");
+			view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		}else if(type == Configuration.ORIENTATION_PORTRAIT){
 			LOG.d(TAG, "portrait");
-			drawableId = mResourceManager.getIdentifier("ema_init_bg_vertical", "drawable");
+			//drawableId = mResourceManager.getIdentifier("ema_init_bg_vertical", "drawable");
+			params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			view.setLayoutParams(params);
+			drawableId = mResourceManager.getIdentifier("ema_splash_logo", "drawable");
+			imageView.setPadding(0,0,0,500);
 		}
-		ImageView imageView = (ImageView) view.findViewById(mResourceManager.getIdentifier("ema_splash_imageview", "id"));
-		
+
 		imageView.setImageResource(drawableId);
 		this.setContentView(view);
 	}
