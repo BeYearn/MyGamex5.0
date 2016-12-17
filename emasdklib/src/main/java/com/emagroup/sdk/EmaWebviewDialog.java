@@ -60,6 +60,11 @@ public class EmaWebviewDialog extends Dialog {
 		mWebView = (WebView) findViewById(mResourceManager.getIdentifier("webView_dialog", "id"));//dialog显示的webview
 
 		mBtnSure= (TextView) findViewById(mResourceManager.getIdentifier("ema_tv_sure", "id"));
+		if(1==clickType){
+			mBtnSure.setText("退出游戏");
+		}else if(2==clickType){
+			mBtnSure.setText("进入游戏");
+		}
 		mBtnCancle= (TextView) findViewById(mResourceManager.getIdentifier("ema_tv_cancel", "id"));
 
 		mBtnSure.setOnClickListener(new View.OnClickListener() {
