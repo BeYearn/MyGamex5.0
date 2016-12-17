@@ -20,8 +20,7 @@ public class EmaDialogPayPromptCancel extends Dialog {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(mResourceManager.getIdentifier("ema_prompt_pay_cancel",
-				"layout"));
+		setContentView(mResourceManager.getIdentifier("ema_prompt_pay_cancel","layout"));
 		//继续支付
 		findViewById(mResourceManager.getIdentifier("ema_btn_pay_continue", "id")).setOnClickListener(new View.OnClickListener() {
 			@Override
