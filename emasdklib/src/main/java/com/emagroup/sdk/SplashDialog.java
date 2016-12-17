@@ -165,6 +165,7 @@ public class SplashDialog extends Dialog {
 							try{
 								JSONObject appVersionInfo = dataObj.getJSONObject("appVersionInfo");
 								necessary = appVersionInfo.getInt("necessary");
+								Log.e("necessary",necessary+"");
 								updateUrl = appVersionInfo.getString("updateUrl");
 								version = appVersionInfo.getInt("version");
 							}catch (Exception e) {

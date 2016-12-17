@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -94,11 +95,11 @@ public class EmaAlertDialog extends Dialog {
 			}
 		});
 
-
+		Log.e("showType",showType+"");
 		if(1==showType){    // 将取消按钮隐藏
 			mBtnSure.setVisibility(View.VISIBLE);
 			mBtnCancle.setVisibility(View.GONE);
-		}else if(2==showType){  //两个都显示
+		}else if(2==showType){  //
 			mBtnSure.setVisibility(View.VISIBLE);
 			mBtnCancle.setVisibility(View.VISIBLE);
 		}
