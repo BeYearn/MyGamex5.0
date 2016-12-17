@@ -70,7 +70,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                     ToastHelper.toast(mActivity, "请查收验证码！");
                     mProgress.closeProgress();
                     setViewChange();
-                    startTimeTask();
+                    startTimeTask(60);
                     break;
                 case CODE_TIMER://发送定时器消息，刷新定时器
                     updateTimeTask();
@@ -99,7 +99,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
 
     };
     private String curAccountNum;    // 当前这次用户输入的号码
-    private static long firstGetTime;
+    private static long firstGetTime=0;
 
     /**
      * 一键登录的开始
@@ -373,7 +373,9 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         Button mBtnReturnRegister = (Button) findViewById(getId("ema_btn_return_register"));
         mBtnGetAuthCode = (Button) findViewById(getId("ema_btn_get_auth_code"));
         mEdtContentView = (EditText) findViewById(getId("ema_phone_info_inputText"));
+
         mBtnGetAuthCode.setVisibility(View.GONE);
+        mBtnGetAuthCode.setEnabled(false);
 
         mWechatLogin= (ImageView) findViewById(getId("ema_wachate_login"));
         mQQLogin= (ImageView) findViewById(getId("ema_qq_login"));
@@ -409,7 +411,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         } else if (id == getId("ema_btn_return_register")) {//快速注册
             doRegistByOneKey();
         } else if (id == getId("ema_btn_get_auth_code")) {//重新获取验证码
-            startTimeTask();
+            startTimeTask(60);
             if("1".equals(accountType)){
                 doGetAuthCode(mEmaUser.getMobile());
             }else if("2".equals(accountType)){
@@ -547,10 +549,14 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
      */
     private void doGetAuthCode(String phoneNum) {
 
-        boolean isTimeAll = (System.currentTimeMillis() - firstGetTime) > 60000;
+        Long hasTime=System.currentTimeMillis() - firstGetTime;
+        boolean isTimeAll = hasTime > 60000;
 
-        if(curAccountNum.equals(mEmaUser.getMobile())&&!isTimeAll){  //如果等于上次的号码并且没经过60s后
-            ToastHelper.toast(mActivity,"操作太频繁，请稍候再试...");
+        if(curAccountNum.equals(mEmaUser.getMobile())&&!isTimeAll){  //如果等于上次的号码并且没经过60s后  给他回到之前的页面，否则就是下面的流程
+
+            setViewChange();
+            startTimeTask((int)(60000-hasTime)/1000);
+
             return;
         }
 
@@ -609,9 +615,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     /**
      * 开启定时器
      */
-    private void startTimeTask() {
-        mCountNum = 60;
-        mBtnGetAuthCode.setEnabled(false);
+    private void startTimeTask(int delayTime) {
+        mCountNum = delayTime;
         if (mTimer == null) {
             mTimer = new Timer();
         }
