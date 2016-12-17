@@ -7,21 +7,20 @@
     android:orientation="vertical"
     android:padding="3dp" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#e0e0e0"
-        android:paddingBottom="10dp" >
+        >
 
         <ImageView
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
-            android:paddingLeft="5sp"
-            android:paddingTop="15sp"
             android:src="@drawable/ema_title" />
 
-        <View
+       <!-- <View
             android:layout_width="1dp"
             android:layout_height="20dp"
             android:layout_marginLeft="5dp"
@@ -35,8 +34,8 @@
             android:layout_marginRight="10dp"
             android:paddingTop="15dp"
             android:text="手机一键登录"
-            android:textColor="#1B6AAE" />
-    </LinearLayout>
+            android:textColor="#1B6AAE" />-->
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

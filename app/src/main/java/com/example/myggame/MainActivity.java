@@ -260,9 +260,9 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
 
                 break;*/
             case R.id.bt_emshare:
-                //   shareImage();
+                  shareImage();
                // shareText();
-                  shareWebPage();
+                //    shareWebPage();
               /*  EmaSDK.getInstance().doShare(MainActivity.this, new ShareDialog.OnBtnListener() {
                     @Override
                     public void onWeiBoClick() {
@@ -329,7 +329,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
     }
 
     private void shareImage() {
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),   R.drawable.ic_launcher  /*R.drawable.ematest*/) ;
+        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),  R.drawable.ic_launcher  /* R.drawable.ematest */) ;
         EmaSDK.getInstance().doShareImage(MainActivity.this,new SimpleEmaSDKListener(),bitmap);
     }
 

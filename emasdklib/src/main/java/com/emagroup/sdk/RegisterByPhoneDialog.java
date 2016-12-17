@@ -358,7 +358,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.setCanceledOnTouchOutside(false);
-
+        this.getWindow().getAttributes().alpha=0.8F;
 
         initView();
     }

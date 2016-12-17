@@ -7,26 +7,27 @@
     android:orientation="vertical"
     android:padding="3dp" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="#e0e0e0"
-		android:gravity="center_vertical">
+         >
 
         <ImageView
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
             android:id="@+id/ema_login_image_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 			android:layout_marginLeft="10dp"
             android:src="@drawable/ema_title" />
 
-        <View
+        <!--<View
             android:layout_width="1dp"
             android:layout_height="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="#1B6AAE" />
+            android:background="#1B6AAE"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="0dp"
@@ -34,9 +35,10 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:text="帐号登录"
-            android:textColor="#1B6AAE" />
+            android:textColor="#1B6AAE"
+            android:visibility="gone"/>-->
 
-        <TextView
+      <!--  <TextView
             android:id="@+id/ema_login_btn_login_by_anlaiye"
             android:layout_width="120dp"
             android:layout_height="36dp"
@@ -46,8 +48,8 @@
             android:gravity="left|center_vertical"
             android:visibility="invisible"
             android:paddingLeft="15dp"
-            android:background="@drawable/ema_logo_anlaiye_bg" />
-    </LinearLayout>
+            android:background="@drawable/ema_logo_anlaiye_bg" />-->
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/ema_login_normal_RelativeLayout1"

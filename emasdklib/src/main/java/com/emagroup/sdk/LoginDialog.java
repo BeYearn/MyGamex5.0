@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -64,7 +63,7 @@ public class LoginDialog extends Dialog implements
     private ImageView mImageLogoView;
     private Button mBtnRegistByPhone;
     private Button mBtnRegistByOneKey;
-    private TextView mBtnLoginByAnlaiye;//俺来也账号登陆
+    //private TextView mBtnLoginByAnlaiye;//俺来也账号登陆
     private Button mBtnLoginByEma;//柠檬水账号登陆
     private EditText mEdtPasswView;
     private EditText mEdtNameView;
@@ -378,7 +377,7 @@ public class LoginDialog extends Dialog implements
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);// 去掉信息栏
-
+        this.getWindow().getAttributes().alpha=0.8F;
         this.setCanceledOnTouchOutside(false);
 
         initView();
@@ -392,7 +391,7 @@ public class LoginDialog extends Dialog implements
     private void initData() {
         //如果是俺来也账号，需要显示俺来也的图标，用来切换登陆
         if (UserUtil.isAnlaiye()) {
-            mBtnLoginByAnlaiye.setVisibility(View.VISIBLE);
+          //  mBtnLoginByAnlaiye.setVisibility(View.VISIBLE);
         }
         //进入登陆界面默认显示Ema账号列表
         mUserInfoList = USharedPerUtil.getUserLoginInfoList(mActivity);
@@ -414,7 +413,7 @@ public class LoginDialog extends Dialog implements
 
         mBtnLogin = (Button) findViewById(getId("ema_normalLogin_enterGame"));
         mImageLogoView = (ImageView) findViewById(getId("ema_login_image_logo"));
-        mBtnLoginByAnlaiye = (TextView) findViewById(getId("ema_login_btn_login_by_anlaiye"));
+      //  mBtnLoginByAnlaiye = (TextView) findViewById(getId("ema_login_btn_login_by_anlaiye"));
         mBtnLoginByEma = (Button) findViewById(getId("ema_normallogin_change_emalogin"));
         mBtnRegistByPhone = (Button) findViewById(getId("ema_normalLogin_phoneLogin"));
         mBtnRegistByOneKey = (Button) findViewById(getId("ema_normalLogin_oneKeyReg"));
@@ -433,7 +432,7 @@ public class LoginDialog extends Dialog implements
         mBtnRegistByOneKey.setOnClickListener(this);
         mLayoutSelectView.setOnClickListener(this);
         mBtnFindPasswView.setOnClickListener(this);
-        mBtnLoginByAnlaiye.setOnClickListener(this);
+        //mBtnLoginByAnlaiye.setOnClickListener(this);
         mBtnLoginByEma.setOnClickListener(this);
 
         mEdtNameView.addTextChangedListener(new TextWatcher() {
@@ -526,7 +525,7 @@ public class LoginDialog extends Dialog implements
      */
     private void doChangeLoginSource(boolean isAnlaiye) {
         mFlagIsLoginByAnlaiye = isAnlaiye;
-        mBtnLoginByAnlaiye.setVisibility(isAnlaiye ? View.INVISIBLE : View.VISIBLE);
+      //  mBtnLoginByAnlaiye.setVisibility(isAnlaiye ? View.INVISIBLE : View.VISIBLE);
         mBtnRegistByOneKey.setVisibility(isAnlaiye ? View.GONE : View.VISIBLE);
         mBtnRegistByPhone.setVisibility(isAnlaiye ? View.GONE : View.VISIBLE);
         mBtnLoginByEma.setVisibility(isAnlaiye ? View.VISIBLE : View.GONE);
