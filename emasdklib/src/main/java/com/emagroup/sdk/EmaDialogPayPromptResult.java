@@ -37,8 +37,7 @@ public class EmaDialogPayPromptResult extends Dialog {
 	}
 	
 	private void initView() {
-		setContentView(mResourceManager.getIdentifier("ema_prompt_pay_result",
-				"layout"));
+		setContentView(mResourceManager.getIdentifier("ema_prompt_pay_result","layout"));
 		
 		mTxtPromptView = (TextView) findViewById(mResourceManager.getIdentifier("ema_txt_pay_result", "id"));
 		mImgPromptView = (ImageView) findViewById(mResourceManager.getIdentifier("ema_img_pay_result", "id"));
@@ -61,10 +60,8 @@ public class EmaDialogPayPromptResult extends Dialog {
 
 	private void initData(){
 		String prompt = "";
-		int drawableId = mResourceManager.getIdentifier("ema_prompt_paywarn", "drawable");
 		switch(mResultType){
 		case EmaConst.PAY_RESULT_SUCC://支付成功
-			drawableId = mResourceManager.getIdentifier("ema_prompt_paysucc", "drawable");
 			prompt = "支付成功";
 			break;
 		case EmaConst.PAY_RESULT_FAILED://支付失败
@@ -80,7 +77,6 @@ public class EmaDialogPayPromptResult extends Dialog {
 		if(!UCommUtil.isStrEmpty(mPromptInfo)){
 			prompt = mPromptInfo;
 		}
-		mImgPromptView.setImageResource(drawableId);
 		mTxtPromptView.setText(prompt);
 	}
 }
