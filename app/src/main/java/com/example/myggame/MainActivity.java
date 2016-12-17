@@ -247,7 +247,7 @@ public class MainActivity extends Activity implements OnClickListener, WeiboShar
     }
 
     private void shareImage() {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ema111  /*R.drawable.ematest*/);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),/* R.drawable.ema111 */ R.drawable.ematest);
         EmaSDK.getInstance().doShareImage(MainActivity.this, new ShareEmaSDKListener(), bitmap);
     }
 

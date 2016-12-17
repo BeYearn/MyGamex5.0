@@ -78,6 +78,7 @@ public class EmaAlertDialog extends Dialog {
 					intent.setData(upadateUrl);
 					mContext.startActivity(intent);
 				}
+
 			}
 		});
 
@@ -112,9 +113,9 @@ public class EmaAlertDialog extends Dialog {
 
 		if(!UCommUtil.isStrEmpty(contentStr)){
 			mTxtPromptView.setText(contentStr);
-		}
+		}检测到新版本，
 		mImgPromptView.setImageResource(drawableId);*/
-		mTxtPromptView.setText("又有新的版本啦！\n赶紧去更新吧");
+		mTxtPromptView.setText("检测到新版本， \n请赶紧更新");
 	/*	if(isUpdateVersion){
 			mTxtPromptView.setText("又有新的版本啦！\n赶紧去更新吧");
 		}else{

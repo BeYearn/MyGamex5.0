@@ -44,6 +44,8 @@ public class Ema {
 	
 	private static Ema mInstance;
 	private static final Object synchron = new Object();
+	private int accountType;
+
 	private Ema(){
 		mFlagToolbarShowing = false;
 	}
@@ -306,6 +308,7 @@ public class Ema {
 					@Override
 					public void OnResponse(String result) {
 						try {
+							boolean isNeedBindRemmind=false;
 							JSONObject jsonObject = new JSONObject(result);
 							String message= jsonObject.getString("message");
 							String status= jsonObject.getString("status");
@@ -327,7 +330,18 @@ public class Ema {
 							EmaUser.getInstance().setAllianceUid(uid);
 
 							LOG.e("getUserInfo",message+ifSetChargePwd+nickname+pfCoin+uid);
-						 if(/*true */productData.getInt("accountType")==0){
+							if(productData.has("accountType")){
+								accountType = productData.getInt("accountType");
+								if(accountType==0){
+									isNeedBindRemmind=true;
+								}else{
+									isNeedBindRemmind=false;
+								}
+							}else{
+								isNeedBindRemmind=false;
+							}
+
+							if(isNeedBindRemmind){
 							 ((Activity)mContext).runOnUiThread(new Runnable() {
 								 @Override
 								 public void run() {
