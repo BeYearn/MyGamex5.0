@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="xxxxxxx"
             android:lineSpacingExtra="8dp"
-            android:textSize="16sp"
+            android:textSize="13sp"
             android:textColor="#000000" />
     </LinearLayout>
 
@@ -38,7 +38,7 @@
 
         <TextView
             android:id="@+id/ema_tv_cancel"
-             android:layout_width="100dp"
+             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="15sp"
              android:gravity="center"
@@ -49,7 +49,7 @@
 
         <TextView
             android:id="@+id/ema_tv_sure"
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
            android:gravity="center"
             android:background="@drawable/ema_shape_corner_btn0"

@@ -115,7 +115,7 @@ public class EmaAlertDialog extends Dialog {
 			mTxtPromptView.setText(contentStr);
 		}检测到新版本，
 		mImgPromptView.setImageResource(drawableId);*/
-		mTxtPromptView.setText("检测到新版本， \n请赶紧更新");
+		mTxtPromptView.setText("检测到新版本，请赶紧更新");
 	/*	if(isUpdateVersion){
 			mTxtPromptView.setText("又有新的版本啦！\n赶紧去更新吧");
 		}else{

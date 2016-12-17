@@ -3,14 +3,10 @@ package com.emagroup.sdk;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.Map;
 
 public class EmaBinderAlertDialog extends Dialog {
 
@@ -89,7 +85,7 @@ public class EmaBinderAlertDialog extends Dialog {
 
 	private void initData(){
 
-		mTxtPromptView.setText("您登录了游客账户，为了您的账户安全，避免数据丢失，请尽快绑定手机");
+		mTxtPromptView.setText("您登录了游客账户，为了您的账户安全，避免数据丢失，请尽快绑定手机。");
 	}
 
 
