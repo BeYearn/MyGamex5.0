@@ -144,6 +144,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
         if (mRechargeSuccReceiver != null) {
             unregisterReceiver(mRechargeSuccReceiver);
         }
+        //ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();  toolbar的管理都放在emasdk的生命周期里吧
     }
 
     /**
@@ -436,10 +437,4 @@ public class PayMabiActivity extends Activity implements OnClickListener {
         return mIDmap.get(key);
     }
 
-
-    @Override
-    protected void onStop() {
-        ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
-        super.onStop();
-    }
 }
