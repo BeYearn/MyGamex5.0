@@ -448,4 +448,13 @@ public class UCommUtil {
                 break;
         }
     }
+
+    /**
+     * 分享弹窗，进一步选择哪个渠道分享
+     */
+    public static void doShare(Activity activity, ShareDialog.OnBtnListener listener) {
+        ShareDialog shareDialog = ShareDialog.create(activity);
+        shareDialog.setOnBtnListener(listener);
+        shareDialog.showDialog();
+    }
 }
