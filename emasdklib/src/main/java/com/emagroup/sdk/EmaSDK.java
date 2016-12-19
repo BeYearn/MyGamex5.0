@@ -101,6 +101,9 @@ public class EmaSDK {
         reciveMsgListener.onCallBack(msgCode, msgObj);
     }
 
+    public boolean isEma(){
+        return Ema.getInstance().getChannelId().length()==6;
+    }
 
     public String getChannelId() {
         return Ema.getInstance().getChannelId();
