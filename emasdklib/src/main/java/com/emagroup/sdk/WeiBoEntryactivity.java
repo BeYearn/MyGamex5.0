@@ -23,13 +23,13 @@ import static com.emagroup.sdk.WeiboShareUtils.SHARE_WEBPAGE;
  * Created by Administrator on 2016/12/20.
  */
 
-public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Response {
+public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Response {
     private IWeiboShareAPI mWeiboShareAPI;
     private boolean canShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+       super.onCreate(savedInstanceState);
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this,
                 /*"721964606"*/  /*"1008659864"*/  ConfigManager.getInstance(this).getWeiBoAppId());
         mWeiboShareAPI.registerApp();
@@ -38,7 +38,7 @@ public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Respon
 
         Intent intent = getIntent();
 
-        Log.e("WeiBoEntryactivity", "onCreate");
+        Log.e("WeiBoEntryActivity", "onCreate");
         if (canShare) {
             switch (intent.getIntExtra("sharType", 0)) {
                 case WeiboShareUtils.SHARE_IMAGE:
@@ -75,7 +75,7 @@ public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Respon
 
     private void shareImage() {
 
-        Log.e("WeiBoEntryactivity", "shareImage"+this.hashCode());
+        Log.e("WeiBoEntryActivity", "shareImage"+this.hashCode());
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         ImageObject imageObject = new ImageObject();
 
@@ -131,12 +131,12 @@ public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Respon
     @Override
     public void onResponse(BaseResponse baseResponse) {
         if (baseResponse != null) {
-            Log.e("WeiBoEntryactivity", baseResponse.toString());
+            Log.e("WeiBoEntryActivity", baseResponse.toString());
             UCommUtil.shareCallback(this, baseResponse);
 
             USharedPerUtil.setParam(this,"canWbShare",true);
         }
-        finish();
+       finish();
     }
 
     /**

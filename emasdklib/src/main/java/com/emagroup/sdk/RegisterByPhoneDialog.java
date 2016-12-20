@@ -312,7 +312,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     private void doResultSuccFromServer(String token) {
 
         // 显示登录成功后的对话框
-
+        Ema.getInstance().setWechatCanLogin(mActivity,true);
         //ToastHelper.toast(mActivity, "登录成功");
         USharedPerUtil.setParam(mActivity, "token", token);
         USharedPerUtil.setParam(mActivity,"nickname",nickname);
@@ -397,6 +397,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         mBtnReturnLogin.setOnClickListener(this);
         mBtnReturnRegister.setOnClickListener(this);
         mBtnGetAuthCode.setOnClickListener(this);
+        Ema.getInstance().setWechatCanLogin(mActivity,true);
     }
 
     @Override
@@ -428,6 +429,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
 
     private void wachateLogin() {
       //
+        Ema.getInstance().setWechatCanLogin(mActivity,false);
         ThirdLoginUtils.getInstance(mActivity).wachateLogin(this);
         /*ThirdLoginUtils.getInstance(mActivity).wachateLogin(new ThirdLoginUtils.ThirdLoginAfter() {
             @Override

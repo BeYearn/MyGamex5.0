@@ -86,7 +86,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                         Log.e("Mainactivity", EmaUser.getInstance().getmUid());
                         Log.e("Mainactivity", EmaSDK.getInstance().getChannelId());
                         Log.e("Mainactivity", EmaSDK.getInstance().getChannelTag());
-                        ToastHelper.toast(MainActivity.this,EmaSDK.getInstance().isEma()+"");
+                       // ToastHelper.toast(MainActivity.this,EmaSDK.getInstance().isEma()+"");
                         break;
                     case EmaCallBackConst.LOGINCANELL://登陆取消回调
                         break;

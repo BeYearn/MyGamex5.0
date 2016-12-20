@@ -214,8 +214,8 @@
             android:exported="false" >
         </activity>
 
-        <activity android:name="com.emagroup.sdk.WeiBoEntryactivity"
-            android:theme="@android:style/Theme.Translucent"
+        <activity android:name="com.emagroup.sdk.WeiBoEntryActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />

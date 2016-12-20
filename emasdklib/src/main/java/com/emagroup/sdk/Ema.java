@@ -17,6 +17,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.emagroup.sdk.USharedPerUtil.getParam;
+import static com.emagroup.sdk.USharedPerUtil.setParam;
+
 public class Ema {
 
 	private static final String TAG = "Ema";
@@ -190,10 +193,10 @@ public class Ema {
 	public void Logout(){
 		LOG.d(TAG, "Logout");
 		EmaUser.getInstance().clearUserInfo();
-		USharedPerUtil.setParam(getContext(),"token","");
-		USharedPerUtil.setParam(getContext(),"nickname","");
-		USharedPerUtil.setParam(getContext(),"uid","");
-		USharedPerUtil.setParam(getContext(),"accountType",-1);
+		setParam(getContext(),"token","");
+		setParam(getContext(),"nickname","");
+		setParam(getContext(),"uid","");
+		setParam(getContext(),"accountType",-1);
 		makeCallBack(EmaCallBackConst.LOGOUTSUCCESS, "登出成功");
 		ToolBar.getInstance(mContext).hideToolBar();
 	}
@@ -201,10 +204,10 @@ public class Ema {
 	public void swichAccount() {
 		LOG.d(TAG, "swichAccount");
 		EmaUser.getInstance().clearUserInfo();
-		USharedPerUtil.setParam(getContext(),"token","");
-		USharedPerUtil.setParam(getContext(),"nickname","");
-		USharedPerUtil.setParam(getContext(),"uid","");
-		USharedPerUtil.setParam(getContext(),"accountType",-1);
+		setParam(getContext(),"token","");
+		setParam(getContext(),"nickname","");
+		setParam(getContext(),"uid","");
+		setParam(getContext(),"accountType",-1);
 		makeCallBack(EmaCallBackConst.ACCOUNTSWITCHSUCCESS, "切换帐号成功");
 	}
 
@@ -461,46 +464,55 @@ public class Ema {
 	}
 
 	public void saveWachatLoginFlag(boolean isWachatLogin){
-		USharedPerUtil.setParam(getContext(),"isWachatLogin",isWachatLogin);
+		setParam(getContext(),"isWachatLogin",isWachatLogin);
 	}
 
 	public boolean isWachatLoginFlag(){
-		return (Boolean)USharedPerUtil.getParam(getContext(),"isWachatLogin",false);
+		return (Boolean) getParam(getContext(),"isWachatLogin",false);
 	}
 
 	public void saveWeboLoginVisibility(int weiBoVisibility){
 		if(weiBoVisibility==0){
-			USharedPerUtil.setParam(getContext(),"weiBoVisibility",false);
+			setParam(getContext(),"weiBoVisibility",false);
 		}else{
-			USharedPerUtil.setParam(getContext(),"weiBoVisibility",true);
+			setParam(getContext(),"weiBoVisibility",true);
 		}
 
 	}
 
 	public boolean  getWeiBoLoginVisibility(){
-		return (boolean) USharedPerUtil.getParam(getContext(),"weiBoVisibility",false);
+		return (boolean) getParam(getContext(),"weiBoVisibility",false);
 	}
 	public void saveWachatLoginVisibility(int wachatVisibility){
 		if(/*true*/wachatVisibility==0){
-			USharedPerUtil.setParam(getContext(),"wachatVisibility",false);
+			setParam(getContext(),"wachatVisibility",false);
 		}else{
-			USharedPerUtil.setParam(getContext(),"wachatVisibility",true);
+			setParam(getContext(),"wachatVisibility",true);
 		}
 	}
 
 	public boolean  getWachatLoginVisibility(){
-		return (boolean) USharedPerUtil.getParam(getContext(),"wachatVisibility",false);
+		return (boolean) getParam(getContext(),"wachatVisibility",false);
 	}
 	public void saveQQLoginVisibility(int QQVisibility){
 		if(/*true */QQVisibility==0){
-			USharedPerUtil.setParam(getContext(),"QQVisibility",false);
+			setParam(getContext(),"QQVisibility",false);
 		}else{
-			USharedPerUtil.setParam(getContext(),"QQVisibility",true);
+			setParam(getContext(),"QQVisibility",true);
 		}
 	}
 
 	public boolean  getQQLoginVisibility(){
-		return (boolean) USharedPerUtil.getParam(getContext(),"QQVisibility",false);
+		return (boolean) getParam(getContext(),"QQVisibility",false);
+	}
+
+
+	//微信登录后登录对话框被杀死，标识是否已经登陆过
+	public  void setWechatCanLogin(Context context,boolean wechatCanLogin){
+		setParam(context,"wechatCanLogin",wechatCanLogin);
+	}
+	public  Boolean getWechatCanLogin(Context context){
+		return (Boolean) getParam(context,"wechatCanLogin",true);
 	}
 
 	interface  BindRemind{
