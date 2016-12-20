@@ -292,9 +292,10 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
 
     /**
      * 监听返回按钮
+     * 所有成功的就直接finish了，有各种情况的会走这里，里面会取消订单
      */
     @Override
-    public void onBackPressed() {      // 所有成功的就直接finish了，有各种情况的会走这里，里面会取消订单
+    public void onBackPressed() {
         showCancelPromptDialog();
     }
 
