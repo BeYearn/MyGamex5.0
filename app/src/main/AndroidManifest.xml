@@ -52,10 +52,10 @@
             android:name="com.example.myggame.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
+         <!--   <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -213,10 +213,22 @@
             android:windowSoftInputMode="adjustResize"
             android:exported="false" >
         </activity>
+
+        <activity android:name="com.emagroup.sdk.WeiBoEntryactivity"
+            android:theme="@android:style/Theme.Translucent"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+
         <!--微博组件 end-->
 
         <!--微信组件 start-->
-        <activity android:name=".wxapi.WXEntryActivity"
+        <activity android:name="com.example.myggame.wxapi.WXEntryActivity"
             android:theme="@android:style/Theme.Translucent"
             android:exported="true">
         </activity>
