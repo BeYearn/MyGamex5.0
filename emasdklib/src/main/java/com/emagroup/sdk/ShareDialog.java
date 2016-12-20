@@ -79,6 +79,8 @@ public class ShareDialog extends Dialog implements View.OnClickListener
         btn_close.setOnClickListener(this);
 
         show();
+
+        USharedPerUtil.setParam(mContext,"canWbShare",true);  //  避免微博分享如果有一次没回调，不置为true的话永远调不起微博分享
     }
 
     public void setOnBtnListener(OnBtnListener onBtnListener) {
