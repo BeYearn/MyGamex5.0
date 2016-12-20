@@ -23,8 +23,9 @@ import static com.emagroup.sdk.WeiboShareUtils.SHARE_WEBPAGE;
  * Created by Administrator on 2016/12/20.
  */
 
-public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Response{
+public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Response {
     private IWeiboShareAPI mWeiboShareAPI;
+    private boolean canShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,28 +34,29 @@ public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Respon
                 /*"721964606"*/  /*"1008659864"*/  ConfigManager.getInstance(this).getWeiBoAppId());
         mWeiboShareAPI.registerApp();
 
+        canShare= (boolean) USharedPerUtil.getParam(this,"canWbShare",true);
 
-    }
+        Intent intent = getIntent();
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Intent intent=getIntent();
-        switch (intent.getIntExtra("sharType",0)){
-            case WeiboShareUtils.SHARE_IMAGE:
-                shareImage();
-                break;
-            case SHARE_WEBPAGE:
-                doWeiBoShareWebpage(intent.getStringExtra("title"),intent.getStringExtra("description"),intent.getStringExtra("url"));
-                break;
-            case SHARE_TEXT:
-                doWeiboShareText(intent.getStringExtra("text"));
-                break;
+        Log.e("WeiBoEntryactivity", "onCreate");
+        if (canShare) {
+            switch (intent.getIntExtra("sharType", 0)) {
+                case WeiboShareUtils.SHARE_IMAGE:
+                    shareImage();
+                    break;
+                case SHARE_WEBPAGE:
+                    doWeiBoShareWebpage(intent.getStringExtra("title"), intent.getStringExtra("description"), intent.getStringExtra("url"));
+                    break;
+                case SHARE_TEXT:
+                    doWeiboShareText(intent.getStringExtra("text"));
+                    break;
+            }
+            USharedPerUtil.setParam(this,"canWbShare",false);
         }
-
     }
 
-    public   void doWeiboShareText (String text){
+
+    public void doWeiboShareText(String text) {
 
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         weiboMessage.textObject = getTextObj(text);
@@ -67,16 +69,18 @@ public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Respon
 
         // 3. 发送请求消息到微博，唤起微博分享界面
 
-        boolean statu=  mWeiboShareAPI.sendRequest(this, request);
-        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
+        boolean statu = mWeiboShareAPI.sendRequest(this, request);
+        Log.i("doWeiBoShareWebpage", "doWeiBoShareWebpage statu " + statu);
     }
 
     private void shareImage() {
+
+        Log.e("WeiBoEntryactivity", "shareImage"+this.hashCode());
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         ImageObject imageObject = new ImageObject();
 
         imageObject.setImageObject(WeiboShareUtils.getInstance(this).bitmap);
-        weiboMessage.imageObject =imageObject;
+        weiboMessage.imageObject = imageObject;
 
         // 2. 初始化从第三方到微博的消息请求
         SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
@@ -85,14 +89,14 @@ public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Respon
         request.multiMessage = weiboMessage;
 
         // 3. 发送请求消息到微博，唤起微博分享界面
-        boolean statu=  mWeiboShareAPI.sendRequest(this, request);
-        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
+        boolean statu = mWeiboShareAPI.sendRequest(this, request);
+        Log.i("doWeiBoShareWebpage", "doWeiBoShareWebpage statu " + statu);
     }
 
-    public void doWeiBoShareWebpage(String title, String description, String url){
+    public void doWeiBoShareWebpage(String title, String description, String url) {
 
 
-    WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
 
         WebpageObject mediaObject = new WebpageObject();
         mediaObject.identify = Utility.generateGUID();
@@ -100,9 +104,9 @@ public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Respon
         mediaObject.description = description;
         mediaObject.actionUrl = url;
         mediaObject.defaultText = "Webpage 默认文案";
-     //   Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        //   Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
         mediaObject.setThumbImage(WeiboShareUtils.getInstance(this).bitmap);
-        weiboMessage.mediaObject=mediaObject;
+        weiboMessage.mediaObject = mediaObject;
 
 
         // 2. 初始化从第三方到微博的消息请求
@@ -112,14 +116,14 @@ public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Respon
         request.multiMessage = weiboMessage;
 
         // 3. 发送请求消息到微博，唤起微博分享界面
-      boolean statu=  mWeiboShareAPI.sendRequest(this, request);
-        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);
+        boolean statu = mWeiboShareAPI.sendRequest(this, request);
+        Log.i("doWeiBoShareWebpage", "doWeiBoShareWebpage statu " + statu);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if(mWeiboShareAPI!=null){
+        if (mWeiboShareAPI != null) {
             mWeiboShareAPI.handleWeiboResponse(intent, (IWeiboHandler.Response) this);
         }
     }
@@ -127,10 +131,12 @@ public class WeiBoEntryactivity extends Activity implements IWeiboHandler.Respon
     @Override
     public void onResponse(BaseResponse baseResponse) {
         if (baseResponse != null) {
-            Log.e("weibofenxiang", baseResponse.toString());
+            Log.e("WeiBoEntryactivity", baseResponse.toString());
             UCommUtil.shareCallback(this, baseResponse);
+
+            USharedPerUtil.setParam(this,"canWbShare",true);
         }
-       finish();
+        finish();
     }
 
     /**

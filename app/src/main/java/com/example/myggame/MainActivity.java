@@ -225,9 +225,9 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                 EmaSDK.getInstance().doSwichAccount();
                 break;
             case R.id.bt_emshare:
-            //    shareImage();
-               // shareWebPage();
-                shareText();
+                shareImage();
+               //shareWebPage();
+                //shareText();
                 break;
 
         }
