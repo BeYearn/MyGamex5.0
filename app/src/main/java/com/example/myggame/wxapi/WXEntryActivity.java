@@ -3,7 +3,6 @@ package com.example.myggame.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.emagroup.sdk.ConfigManager;
 import com.emagroup.sdk.UCommUtil;
 import com.tencent.mm.sdk.modelbase.BaseReq;
