@@ -89,7 +89,7 @@ public class TrdWeixinPay {
 
         PayReq request = new PayReq();
         request.appId = wachatAppId;
-       /* request.partnerId = data.getString("mch_id");
+       /*request.partnerId = data.getString("mch_id");
         request.prepayId = data.getString("prepay_id");
         request.packageValue = data.getString("package");
         request.nonceStr = data.getString("nonce_str");

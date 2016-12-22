@@ -220,7 +220,8 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 				String payName = bean.get3rdPayName();
 				if (payName.equals(PayConst.PAY_TRD_QQWALLET)) {//qq钱包
 
-					PayUtil.GoRechargeByQQwallet(RechargeMabiActivity.this, rechargePayInfo, mHandler);
+					//PayUtil.GoRechargeByQQwallet(RechargeMabiActivity.this, rechargePayInfo, mHandler);  参数下来后开放
+					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 
 				}else if(payName.equals(PayConst.PAY_TRD_GAMECARD)){//游戏卡充值
 					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");

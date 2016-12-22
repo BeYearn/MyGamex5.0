@@ -16,6 +16,8 @@ import java.util.Map;
 public class PayUtil {
 
     private static final String TAG = "PayUtil";
+    private static String mAppId;
+    private static EmaPayInfo mPayInfo;
 
 
     /**
@@ -40,17 +42,19 @@ public class PayUtil {
      */
     public static void getPayTrdList(final Context context, final Handler handler) {
         List<String> payTrdList = ConfigManager.getInstance(context).getPayTrdListInfo();
+        mAppId = ConfigManager.getInstance(context).getAppId();
         getPayOrRechargeList(context, handler, payTrdList);
     }
 
     /**
-     * 获取充值钱包的第三方支付列表
+     * 获取充值钱包的第三方支付列表(1.充值时  2.钱包钱不够时出现这个)
      *
      * @param context
      * @return
      */
     public static void getRechargeList(final Context context, final Handler handler) {
         List<String> payTrdList = ConfigManager.getInstance(context).getPayTrdListInfo();
+        mAppId = ConfigManager.getInstance(context).getAppId();
         //给钱包充值不能自己给自己充值。。。需要排除掉钱包
         String wallet = "wallet";
         if (payTrdList.contains(wallet)) {
@@ -91,13 +95,14 @@ public class PayUtil {
     }
 
     /**
-     * 使用财付通进行[充值]
+     * 使用qq钱包
      *
      * @param activity
      */
     public static void GoRechargeByQQwallet(Activity activity, EmaPayInfo payInfo, Handler handler) {
         LOG.d(TAG, "使用qq钱包进行充值");
         ToastHelper.toast(activity, "跳转中，请稍等...");
+        mPayInfo=payInfo;
         TrdQQwalletPay.startRecharge(activity, payInfo, handler);
     }
 
@@ -127,17 +132,18 @@ public class PayUtil {
     }
 
     /**
-     * 使用支付宝进行 [充值]
+     * 使用支付宝进行
      *
      * @param activity
      */
     public static void GoRecharegeByAlipay(Activity activity, EmaPayInfo payInfo, Handler handler) {
         LOG.d(TAG, "使用支付宝进行充值");
+        mPayInfo=payInfo;
         TrdAliPay.startRecharge(activity, payInfo, handler);
     }
 
     /**
-     * 使用微信进行  [充值]
+     * 使用微信进行
      *
      * @param activity
      * @param payInfo
@@ -146,6 +152,7 @@ public class PayUtil {
     public static void GoRechargeByWeixin(Activity activity, EmaPayInfo payInfo, Handler handler) {
         //EmaPayProcessManager.getInstance().setWeixinActionType(EmaConst.PAY_ACTION_TYPE_RECHARGE);
         LOG.d(TAG, "使用微信进行充值");
+        mPayInfo=payInfo;
         TrdWeixinPay.startRecharge(activity, payInfo,handler);
     }
 
@@ -369,6 +376,7 @@ public class PayUtil {
 
     /**
      * 进行订单查询操作，菊花四秒后查询，ok了就支付成功，否则说会略有延迟
+     *  //如果是单纯的充值，orderId是八个×，
      *
      * @param mHandler
      */
@@ -381,6 +389,10 @@ public class PayUtil {
             public void run() {
 
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("uid",EmaUser.getInstance().getmUid());
+                params.put("appId",mAppId);
+                params.put("token",EmaUser.getInstance().getToken());
+                params.put("orderId",mPayInfo.getOrderId());
 
                 new HttpInvoker().postAsync(Url.checkOrderStatus(), params,
                         new HttpInvoker.OnResponsetListener() {

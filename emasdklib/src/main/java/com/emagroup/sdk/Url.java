@@ -294,12 +294,18 @@ public class Url {
 	public static String getQQwalletPreOrder(){
 		return serverUrl+"/ema-platform/order/createQQOrder";
 	}
+	/**
+	 * weixinpay:创建预订单
+	 */
+	public static String getWeixinPayPreOrder(){
+		return serverUrl+"/ema-platform/order/createQQOrder";
+	}
 
 	/**
 	 * 查询订单状态
 	 */
 	public static String checkOrderStatus(){
-		return serverUrl+"/ema-platform/admin/channelKeyInfo";
+		return serverUrl+"/ema-platform/order/queryOrderStatusByOrderId";
 	}
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
