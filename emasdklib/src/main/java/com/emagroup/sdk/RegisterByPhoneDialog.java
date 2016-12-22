@@ -7,16 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -24,7 +21,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.emagroup.sdk.ThirdLoginUtils.*;
+import static com.emagroup.sdk.ThirdLoginUtils.ThirdLoginAfter;
 
 class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickListener  ,ThirdLoginAfter {
 
@@ -373,7 +370,14 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         Button mBtnReturnLogin = (Button) findViewById(getId("ema_btn_return_login"));
         Button mBtnReturnRegister = (Button) findViewById(getId("ema_btn_return_register"));
         mBtnGetAuthCode = (Button) findViewById(getId("ema_btn_get_auth_code"));
+
+        String acNum = (String) USharedPerUtil.getParam(mActivity, "accountNum", "");
         mEdtContentView = (EditText) findViewById(getId("ema_phone_info_inputText"));
+        if(!TextUtils.isEmpty(acNum)){
+            mEdtContentView.setText(acNum);
+            mEdtContentView.setSelection(acNum.length());
+        }
+
         mBtnGetAuthCode.setVisibility(View.GONE);
 
         mWechatLogin= (ImageView) findViewById(getId("ema_wachate_login"));
@@ -475,6 +479,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
             accountLoginFirst();
         } else {//还没有获取验证码，进行获取验证码操作
             String accountNum = mEdtContentView.getText().toString();
+            //记录最后一次帐号，以便下次登录填入
+            USharedPerUtil.setParam(mActivity,"accountNum",accountNum);
 
             if(TextUtils.isEmpty(accountNum)){
                 ToastHelper.toast(mActivity, "帐号不能为空");
