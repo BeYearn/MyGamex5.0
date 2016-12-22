@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.igexin.sdk.PushManager;
@@ -14,6 +15,8 @@ import com.tencent.tauth.Tencent;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -336,13 +339,22 @@ public class Ema {
 							if(productData.has("accountType")){
 								accountType = productData.getInt("accountType");
 								if(accountType==0){
-									isNeedBindRemmind=true;
+								isNeedBindRemmind=true;
+									if(bindRemind==null){//登录一天弹一次绑定提示
+										if(isNeedShowBinder(mContext)){
+											isNeedBindRemmind=true;
+										}else{
+											isNeedBindRemmind=false;
+										}
+									}
 								}else{
 									isNeedBindRemmind=false;
 								}
 							}else{
 								isNeedBindRemmind=false;
 							}
+
+
 
 							if(isNeedBindRemmind){
 							 ((Activity)mContext).runOnUiThread(new Runnable() {
@@ -513,6 +525,33 @@ public class Ema {
 	}
 	public  Boolean getWechatCanLogin(Context context){
 		return (Boolean) getParam(context,"wechatCanLogin",true);
+	}
+
+	public void saveShowBinderTime(Context context){
+		Date date=new Date();
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		setParam(mContext,"ShowBinderTime",simpleDateFormat.format(date));
+	}
+
+	public boolean isNeedShowBinder(Context context){
+		boolean isNeedShow;
+		Date date=new Date();
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		String oldShowTime= (String) getParam(mContext,"ShowBinderTime","");
+		if(TextUtils.isEmpty(oldShowTime)){
+			isNeedShow=true;
+			saveShowBinderTime(context);
+		}else{
+			String newShowTime=simpleDateFormat.format(date);
+			if(oldShowTime.equals(newShowTime)){
+				isNeedShow=false;
+			}else{
+				isNeedShow=true;
+				saveShowBinderTime(context);
+			}
+		}
+
+		return isNeedShow;
 	}
 
 	interface  BindRemind{
