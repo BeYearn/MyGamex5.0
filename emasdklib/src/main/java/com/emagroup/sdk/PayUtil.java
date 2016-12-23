@@ -88,10 +88,10 @@ public class PayUtil {
         idMap.put("aliPay", "ema_3rd_btn_alipay");
         idMap.put("weixinPay", "ema_3rd_btn_weixin");
         idMap.put("qqWallet", "ema_3rd_btn_qq");
-        idMap.put("sdopay_card", "ema_3rd_btn_gamecardpay");
-        idMap.put("mobile", "ema_3rd_btn_phonecardpay");
-        idMap.put("wallet", "ema_qianbao");
-        idMap.put("lingyuanfu", "ema_3rd_btn_0yuanfu");
+        //idMap.put("sdopay_card", "ema_3rd_btn_gamecardpay");
+        //idMap.put("mobile", "ema_3rd_btn_phonecardpay");
+        //idMap.put("wallet", "ema_qianbao");
+        //idMap.put("lingyuanfu", "ema_3rd_btn_0yuanfu");
         return idMap;
     }
 
@@ -101,8 +101,12 @@ public class PayUtil {
      * @param activity
      */
     public static void GoRechargeByQQwallet(Activity activity, EmaPayInfo payInfo, Handler handler) {
+        boolean isSupportQQpay = (int)USharedPerUtil.getParam(activity, EmaConst.SUPPORT_QQ_PAY, 0) == 1;
+        if(!isSupportQQpay){
+            ToastHelper.toast(activity,"暂不支持");
+            return;
+        }
         LOG.d(TAG, "使用qq钱包进行充值");
-        ToastHelper.toast(activity, "跳转中，请稍等...");
         mPayInfo=payInfo;
         TrdQQwalletPay.startRecharge(activity, payInfo, handler);
     }
@@ -151,6 +155,11 @@ public class PayUtil {
      * @param handler
      */
     public static void GoRechargeByWeixin(Activity activity, EmaPayInfo payInfo, Handler handler) {
+        boolean isSupportWXpay = (int)USharedPerUtil.getParam(activity, EmaConst.SUPPORT_WX_PAY, 0) == 1;
+        if(!isSupportWXpay){
+            ToastHelper.toast(activity,"暂不支持");
+            return;
+        }
         LOG.d(TAG, "使用微信进行充值");
         mPayInfo=payInfo;
         TrdWeixinPay.startRecharge(activity, payInfo,handler);

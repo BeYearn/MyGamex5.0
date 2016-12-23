@@ -166,8 +166,8 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
 
                 } else if (payName.equals(PayConst.PAY_TRD_QQWALLET)) {//qq钱包
 
-                    //PayUtil.GoRechargeByQQwallet(PayTrdActivity.this, rechargePayInfo, mHandler);   参数下来后开放
-                    ToastHelper.toast(PayTrdActivity.this,"暂不支持");
+                    PayUtil.GoRechargeByQQwallet(PayTrdActivity.this, rechargePayInfo, mHandler);
+
                 } else if (payName.equals(PayConst.PAY_TRD_GAMECARD)) {//游戏卡支付
 
                     //PayUtil.GoPayByGameCardpay(PayTrdActivity.this, REQUEST_CODE_PAY_GAMECARD);

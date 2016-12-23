@@ -184,10 +184,14 @@ public class SplashDialog extends Dialog {
 							try {
 								//将得到的menubar信息存sp，在toolbar那边取
 								String menuBarInfo = dataObj.getString("menuBarInfo");
+								USharedPerUtil.setParam(mActivity, "menuBarInfo", menuBarInfo);
+								//三个三方登录是否显示
 								Ema.getInstance().saveQQLoginVisibility(new JSONObject(menuBarInfo).getInt("support_qq_login"));
 								Ema.getInstance().saveWeboLoginVisibility(new JSONObject(menuBarInfo).getInt("support_weibo_login"));
 								Ema.getInstance().saveWachatLoginVisibility(new JSONObject(menuBarInfo).getInt("support_weixin_login"));
-								USharedPerUtil.setParam(mActivity, "menuBarInfo", menuBarInfo);
+								//记录微信qq支付是否支持
+								USharedPerUtil.setParam(mActivity, EmaConst.SUPPORT_QQ_PAY, new JSONObject(menuBarInfo).getInt("support_qq_pay"));
+								USharedPerUtil.setParam(mActivity, EmaConst.SUPPORT_WX_PAY, new JSONObject(menuBarInfo).getInt("support_weixin_pay"));
 							}catch (Exception e) {
 								USharedPerUtil.setParam(mActivity, "menuBarInfo", "");
 								LOG.w(TAG, "jiexi menuBarInfo error", e);

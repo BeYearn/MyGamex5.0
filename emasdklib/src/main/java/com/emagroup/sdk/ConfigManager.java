@@ -132,10 +132,10 @@ public class ConfigManager {
 				mPayTrdList.add("aliPay");
 				mPayTrdList.add("weixinPay");
 				mPayTrdList.add("qqWallet");
-				mPayTrdList.add("wallet");
-				mPayTrdList.add("sdopay_card");
-				mPayTrdList.add("mobile");
-				mPayTrdList.add("lingyuanfu");
+				//mPayTrdList.add("wallet");
+				//mPayTrdList.add("sdopay_card");
+				//mPayTrdList.add("mobile");
+				//mPayTrdList.add("lingyuanfu");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
