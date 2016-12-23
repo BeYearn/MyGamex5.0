@@ -197,6 +197,9 @@ public class LoginDialog extends Dialog implements
      */
     private void AccountLoginFirst() {
         String account = mEdtNameView.getText().toString();
+        //记录最后一次帐号，以便下次登录填入
+        USharedPerUtil.setParam(mActivity,"accountNum",account);
+
         String passw = mEdtPasswView.getText().toString();
         String accountType="";
         if(TextUtils.isEmpty(account)){
@@ -417,7 +420,14 @@ public class LoginDialog extends Dialog implements
         mBtnLoginByEma = (Button) findViewById(getId("ema_normallogin_change_emalogin"));
         mBtnRegistByPhone = (Button) findViewById(getId("ema_normalLogin_phoneLogin"));
         mBtnRegistByOneKey = (Button) findViewById(getId("ema_normalLogin_oneKeyReg"));
+
+        String acNum = (String) USharedPerUtil.getParam(mActivity, "accountNum", "");
         mEdtNameView = (EditText) findViewById(getId("ema_normal_name_editText"));
+        if(!TextUtils.isEmpty(acNum)){
+            mEdtNameView.setText(acNum);
+            mEdtNameView.setSelection(acNum.length());
+        }
+
         mEdtPasswView = (EditText) findViewById(getId("ema_normal_pass_editText"));
         mBtnFindPasswView = (Button) findViewById(getId("ema_normal_find_passwd"));
         mLayoutSelectView = findViewById(getId("ema_account_go_list"));

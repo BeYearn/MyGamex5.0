@@ -200,8 +200,7 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 		mBtnRecharge1000.setOnClickListener(this);
 		mGridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View view, int position,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
 				String rechargeMoney = mEdtRecharge.getText().toString();
 				if(UCommUtil.isStrEmpty(rechargeMoney)){
 					LOG.d(TAG, "输入金额为空");
@@ -211,36 +210,36 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 
 				EmaPriceBean money = new EmaPriceBean(Float.valueOf(rechargeMoney), EmaPriceBean.TYPE_YUAN);  //TODO 这个玩意先放在这里，避免把它干掉到处爆红，应该用下面这个
 
-				EmaPayInfo emaPayInfo = new EmaPayInfo();
-				emaPayInfo.setProductName("充值");
-				emaPayInfo.setDescription("钱包充值");
-				emaPayInfo.setOrderId("xxxxxxxx");  //服务器加签后会补上
-				emaPayInfo.setPrice(Integer.valueOf(rechargeMoney));
+				EmaPayInfo rechargePayInfo = new EmaPayInfo();
+				rechargePayInfo.setProductName("充值");
+				rechargePayInfo.setDescription("钱包充值");
+				rechargePayInfo.setOrderId("xxxxxxxx");  //服务器加签后会补上
+				rechargePayInfo.setPrice(Integer.valueOf(rechargeMoney));
 
 				PayTrdItemBean bean = (PayTrdItemBean) mAdapter.getItem(position);
-				String key = bean.getChannelCode();
-				if(key.equals(PayConst.PAY_TRD_TENPAY)){//财付通充值
-					
-					//mHandler.sendEmptyMessage(EmaProgressDialog.CODE_LOADING_START);
-					//PayUtil.GoRechargeByTenpay(RechargeMabiActivity.this, money);
+				String payName = bean.get3rdPayName();
+				if (payName.equals(PayConst.PAY_TRD_QQWALLET)) {//qq钱包
+
+					//PayUtil.GoRechargeByQQwallet(RechargeMabiActivity.this, rechargePayInfo, mHandler);  参数下来后开放
 					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
-				}else if(key.equals(PayConst.PAY_TRD_GAMECARD)){//游戏卡充值
+
+				}else if(payName.equals(PayConst.PAY_TRD_GAMECARD)){//游戏卡充值
 					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 					//PayUtil.GoRechargeByGamecard(RechargeMabiActivity.this, money);
 					
-				}else if(key.equals(PayConst.PAY_TRD_PHONE_CARD)){//手机充值
+				}else if(payName.equals(PayConst.PAY_TRD_PHONE_CARD)){//手机充值
 					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 					//PayUtil.GoRechargeByPhonecard(RechargeMabiActivity.this, money);
 					
-				}else if(key.equals(PayConst.PAY_TRD_ALIPAY)){//支付宝充值
+				}else if(payName.equals(PayConst.PAY_TRD_ALIPAY)){//支付宝充值
 					
-					PayUtil.GoRecharegeByAlipay(RechargeMabiActivity.this, emaPayInfo, mHandler);
+					PayUtil.GoRecharegeByAlipay(RechargeMabiActivity.this, rechargePayInfo, mHandler);
 					
-				}else if(key.equals(PayConst.PAY_TRD_WEIXIN)){//微信充值
-					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
-					//PayUtil.GoRechargeByWeixin(RechargeMabiActivity.this, money, mHandler);
-					
-				}else if(key.equals(PayConst.PAY_TRD_0YUANFU)){//0元付充值
+				}else if(payName.equals(PayConst.PAY_TRD_WEIXIN)){//微信充值
+
+					PayUtil.GoRechargeByWeixin(RechargeMabiActivity.this, rechargePayInfo, mHandler);
+
+				}else if(payName.equals(PayConst.PAY_TRD_0YUANFU)){//0元付充值
 					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 					//PayUtil.GoRechargeBy0YuanFu(RechargeMabiActivity.this, money, mHandler);
 					

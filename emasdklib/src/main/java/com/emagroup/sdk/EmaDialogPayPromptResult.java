@@ -8,7 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class EmaDialogPayPromptResult extends Dialog {
-	
+
+	private final PayTrdActivity mActivity;
 	private ResourceManager mResourceManager;// 资源管理
 	
 	private int mActionType;
@@ -27,6 +28,7 @@ public class EmaDialogPayPromptResult extends Dialog {
 		this.mActionType = actionType;
 		this.mResultType = resultType;
 		this.mPromptInfo = promptInfo;
+		this.mActivity=(PayTrdActivity)context;
 	}
 
 	@Override
@@ -37,7 +39,7 @@ public class EmaDialogPayPromptResult extends Dialog {
 	}
 	
 	private void initView() {
-		setContentView(mResourceManager.getIdentifier("ema_prompt_pay_result","layout"));
+		setContentView(mResourceManager.getIdentifier("ema_prompt_pay_result", "layout"));
 		
 		mTxtPromptView = (TextView) findViewById(mResourceManager.getIdentifier("ema_txt_pay_result", "id"));
 		mImgPromptView = (ImageView) findViewById(mResourceManager.getIdentifier("ema_img_pay_result", "id"));
@@ -47,6 +49,7 @@ public class EmaDialogPayPromptResult extends Dialog {
 			@Override
 			public void onClick(View arg0) {
 				EmaDialogPayPromptResult.this.dismiss();
+				mActivity.finish();
 				/*if(mActionType == EmaConst.PAY_ACTION_TYPE_PAY){
 					// TODO: 2016/9/23 支付系列页面管理
 					EmaPayProcessManager.getInstance().closePay();
@@ -72,6 +75,9 @@ public class EmaDialogPayPromptResult extends Dialog {
 			break;
 		case EmaConst.PAY_RESULT_OTHERS://其他情况，统一视为支付失败
 			prompt = "支付失败";
+			break;
+		case EmaConst.PAY_RESULT_DELAYED:
+			prompt = "商品发放可能会略有延迟";
 			break;
 		}
 		if(!UCommUtil.isStrEmpty(mPromptInfo)){

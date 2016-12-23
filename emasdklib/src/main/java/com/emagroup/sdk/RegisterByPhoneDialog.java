@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -372,7 +373,14 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         Button mBtnReturnLogin = (Button) findViewById(getId("ema_btn_return_login"));
         Button mBtnReturnRegister = (Button) findViewById(getId("ema_btn_return_register"));
         mBtnGetAuthCode = (Button) findViewById(getId("ema_btn_get_auth_code"));
+
+        String acNum = (String) USharedPerUtil.getParam(mActivity, "accountNum", "");
         mEdtContentView = (EditText) findViewById(getId("ema_phone_info_inputText"));
+
+        if(!TextUtils.isEmpty(acNum)){
+            mEdtContentView.setText(acNum);
+            mEdtContentView.setSelection(acNum.length());
+        }
 
         mBtnGetAuthCode.setVisibility(View.GONE);
         mBtnGetAuthCode.setEnabled(false);
@@ -487,18 +495,20 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         if (mFlagHasGetAuthCode) {//获取验证码之后，进行的是登录操作
             accountLoginFirst();
         } else {//还没有获取验证码，进行获取验证码操作
-            curAccountNum = mEdtContentView.getText().toString();
+            accountNum = mEdtContentView.getText().toString();
+            //记录最后一次帐号，以便下次登录填入
+            USharedPerUtil.setParam(mActivity,"accountNum",accountNum);
 
-            if(TextUtils.isEmpty(curAccountNum)){
+            if(TextUtils.isEmpty(accountNum)){
                 ToastHelper.toast(mActivity, "帐号不能为空");
                 return;
             }
-            if(UCommUtil.isPhone(curAccountNum)){
+            if(UCommUtil.isPhone(accountNum)){
                 accountType="1";
-                doGetAuthCode(curAccountNum);
-            }else if(UCommUtil.isEmail(curAccountNum)){
+                doGetAuthCode(accountNum);
+            }else if(UCommUtil.isEmail(accountNum)){
                 accountType="2";
-                doSendEmail(curAccountNum);
+                doSendEmail(accountNum);
             }else {
                 ToastHelper.toast(mActivity,"请输入正确的帐号");
             }

@@ -255,7 +255,6 @@ public class Url {
 	 * alipay:对支付信息进行签名
 	 */
 	public static String getSignedPayInfoUrl(){
-		//return serverUrl+"/ema-platform/sign/add";  //"http://192.168.10.95:8081/ema-platform/sign/add";
 		return serverUrl+"/ema-platform/sign/add";
 	}
 	/**
@@ -287,6 +286,27 @@ public class Url {
      */
 	public static String getChannelKayInfo(){
 		return serverUrl+"/ema-platform/admin/channelKeyInfo";
+	}
+
+	/**
+	 * qqwallet:创建预订单
+	 */
+	public static String getQQwalletPreOrder(){
+		return serverUrl+"/ema-platform/order/createQQOrder";
+	}
+	/**
+	 * weixinpay:创建预订单
+	 */
+	public static String getWeixinPayPreOrder(){
+		//return serverUrl+"/ema-platform/order/createWXOrder";
+		return "http://192.168.10.155:8080/ema-platform/order/createWXOrder";
+	}
+
+	/**
+	 * 查询订单状态
+	 */
+	public static String checkOrderStatus(){
+		return serverUrl+"/ema-platform/order/queryOrderStatusByOrderId";
 	}
 //-------------------------------------------------------------------------------------------------------------------------------------------
 
