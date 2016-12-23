@@ -1,4 +1,4 @@
-package com.example.myggame.wxapi;
+package com.emagroup.mbzw2.emagroup.wxapi;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -41,9 +41,11 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 
 	@Override
 	public void onResp(BaseResp resp) {
-		Log.e("WXPayEntryActivity",resp.toString());
+		Log.e("WXPayEntryActivity","errcode:"+resp.errCode+"..."+resp.errStr+"");
+
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			TrdWeixinPay.doResultWxPay(resp);
+			this.finish();
 		}
 	}
 }

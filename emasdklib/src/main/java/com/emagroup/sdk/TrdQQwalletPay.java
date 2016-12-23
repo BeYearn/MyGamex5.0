@@ -44,8 +44,11 @@ public class TrdQQwalletPay {
         }
     };
     private static EmaPayInfo mPayInfo;
+    private static Handler normalHandler;
 
     public static void startRecharge(Activity activity, EmaPayInfo payInfo, Handler handler) {
+
+        normalHandler=handler;
 
         qqAppId = ConfigManager.getInstance(activity).getQQAppId();
         mOpenApi = OpenApiFactory.getInstance(activity, qqAppId);
@@ -112,7 +115,7 @@ public class TrdQQwalletPay {
         api.pubAcc = ""; // 手Q公众帐号id.参与支付签名，签名关键字key为pubAcc
         api.pubAccHint = ""; // 支付完成页面，展示给用户的提示语：提醒关注公众帐号
         api.nonce = params.get("nonce_str"); // 随机字段串，每次支付时都要不一样.参与支付签名，签名关键字key为nonce
-        api.timeStamp = System.currentTimeMillis(); // 时间戳，为1970年1月1日00:00到请求发起时间的秒数
+        api.timeStamp = System.currentTimeMillis()/1000; // 时间戳，为1970年1月1日00:00到请求发起时间的秒数
         api.bargainorId = params.get("mch_id"); // 商户号.参与支付签名，签名关键字key为bargainorId
         api.sigType = "HMAC-SHA1"; // 签名时，使用的加密方式，默认为"HMAC-SHA1"
 

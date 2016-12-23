@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -150,7 +151,6 @@ public class PayUtil {
      * @param handler
      */
     public static void GoRechargeByWeixin(Activity activity, EmaPayInfo payInfo, Handler handler) {
-        //EmaPayProcessManager.getInstance().setWeixinActionType(EmaConst.PAY_ACTION_TYPE_RECHARGE);
         LOG.d(TAG, "使用微信进行充值");
         mPayInfo=payInfo;
         TrdWeixinPay.startRecharge(activity, payInfo,handler);
@@ -378,16 +378,16 @@ public class PayUtil {
      * 进行订单查询操作，菊花四秒后查询，ok了就支付成功，否则说会略有延迟
      *  //如果是单纯的充值，orderId是八个×，
      *
-     * @param mHandler
+     * @param handler
      */
-    public static void doCheckOrderStatus(final Handler mHandler) {
+    public static void doCheckOrderStatus(final Handler handler) {
         Message message1 = Message.obtain();
         message1.what = EmaProgressDialog.CODE_LOADING_START;
-        mHandler.sendMessage(message1);
-        mHandler.postDelayed(new Runnable() {
+        handler.sendMessage(message1);
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
+                Log.e("OrderStatus","开始查询");
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("uid",EmaUser.getInstance().getmUid());
                 params.put("appId",mAppId);
@@ -401,17 +401,18 @@ public class PayUtil {
                                 try {
                                     Message message2 = Message.obtain();
                                     message2.what = EmaProgressDialog.CODE_LOADING_END;
-                                    mHandler.sendMessage(message2);
+                                    handler.sendMessage(message2);
 
                                     JSONObject json = new JSONObject(result);
-                                    int resultCode = json.getInt(HttpInvokerConst.RESULT_CODE);
+                                    Log.e("doCheckOrderStatus",result);
+                                    int isSuccessed = json.getInt("data");
 
-                                    if(resultCode==0){ //或者是几？
+                                    if(isSuccessed==1){   //0初始状态  1成功  2失败
                                         UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
-                                        mHandler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_CLOSE);
+                                        handler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_CLOSE);
                                     }else {
                                         //此处已表征为成功，所以不能说是支付失败，而弹窗说可能略有延迟
-                                        mHandler.sendEmptyMessage(EmaConst.PAY_RESULT_DELAYED);
+                                        handler.sendEmptyMessage(EmaConst.PAY_RESULT_DELAYED);
                                     }
                                 } catch (Exception e) {
                                     LOG.w(TAG, "loginAutoLogin error", e);
@@ -419,7 +420,7 @@ public class PayUtil {
                             }
                         });
             }
-        }, 4000);
+        }, 5000);
     }
 
 }

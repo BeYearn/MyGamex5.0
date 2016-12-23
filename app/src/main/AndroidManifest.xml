@@ -65,14 +65,19 @@
         <activity
             android:name="com.emagroup.sdk.PayTrdActivity"
             android:exported="true"
-            android:launchMode="singleTask">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="qwallet1105564847"/>
+                <data android:scheme="qwallet1105564847"/>  <!--qwallet+QQ的appid-->
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wxad312759ba0cb817"/>    <!--微信appid-->
             </intent-filter>
         </activity>
 
@@ -101,13 +106,13 @@
 
         <meta-data
             android:name="EMA_APP_ID"
-            android:value="n10000" />
+            android:value="n20015" />
         <meta-data
             android:name="EMA_CHANNEL_ID"
             android:value="n26" />
         <meta-data
             android:name="EMA_CHANNEL_TAG"
-            android:value="n0" />
+            android:value="n1001" />
         <!-- <meta-data
              android:name="EMA_WHICH_ENVI"
              android:value="staging" />-->
@@ -120,7 +125,7 @@
             android:value="n1008659864" />
         <meta-data
             android:name="WECHAT_APP_ID"
-            android:value="wx9c31edc5e693ec1d" />
+            android:value="wxad312759ba0cb817" />
         <meta-data
             android:name="QQ_APP_ID"
             android:value="n1105564847" />
@@ -222,14 +227,19 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize"/>
         <!--微博组件 end-->
 
         <!--微信组件 start-->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent"></activity>
+            android:theme="@android:style/Theme.Translucent"/>
+        <activity
+            android:name="com.emagroup.mbzw2.emagroup.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent"
+            android:launchMode="singleTop"/>
         <!--微信组件 end-->
         <!--qq登录组件 start-->
         <activity
