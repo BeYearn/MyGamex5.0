@@ -52,10 +52,10 @@
             android:name="com.example.myggame.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize">
-            <intent-filter>
+         <!--   <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -122,7 +122,7 @@
 
         <meta-data
             android:name="WEI_BO_APP_ID"
-            android:value="n1008659864" />
+            android:value="n4285757031" />
         <meta-data
             android:name="WECHAT_APP_ID"
             android:value="wxad312759ba0cb817" />
@@ -242,7 +242,7 @@
 
         <!--微信组件 start-->
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.emagroup.mbzw2.emagroup.wxapi.WXEntryActivity"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent"/>
         <activity
