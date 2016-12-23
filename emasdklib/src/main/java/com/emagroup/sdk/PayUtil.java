@@ -416,7 +416,7 @@ public class PayUtil {
                                     Log.e("doCheckOrderStatus",result);
                                     int isSuccessed = json.getInt("data");
 
-                                    if(isSuccessed==1){   //0初始状态  1成功  2失败
+                                    if(isSuccessed==5){   //0初始状态   3cancle  4回传游戏服务器失败  5最终成功
                                         UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
                                         handler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_CLOSE);
                                     }else {
