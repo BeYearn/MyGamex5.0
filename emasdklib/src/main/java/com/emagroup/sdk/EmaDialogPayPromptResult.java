@@ -1,5 +1,6 @@
 package com.emagroup.sdk;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 
 public class EmaDialogPayPromptResult extends Dialog {
 
-	private final PayTrdActivity mActivity;
+	private final Activity mActivity;
 	private ResourceManager mResourceManager;// 资源管理
 	
 	private int mActionType;
@@ -28,7 +29,7 @@ public class EmaDialogPayPromptResult extends Dialog {
 		this.mActionType = actionType;
 		this.mResultType = resultType;
 		this.mPromptInfo = promptInfo;
-		this.mActivity=(PayTrdActivity)context;
+		this.mActivity=(Activity)context;
 	}
 
 	@Override
@@ -50,6 +51,7 @@ public class EmaDialogPayPromptResult extends Dialog {
 			public void onClick(View arg0) {
 				EmaDialogPayPromptResult.this.dismiss();
 				mActivity.finish();
+				ToolBar.getInstance(mActivity).showToolBar();
 				/*if(mActionType == EmaConst.PAY_ACTION_TYPE_PAY){
 					// TODO: 2016/9/23 支付系列页面管理
 					EmaPayProcessManager.getInstance().closePay();
