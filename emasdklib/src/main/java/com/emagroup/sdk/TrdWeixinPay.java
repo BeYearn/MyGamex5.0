@@ -101,7 +101,7 @@ public class TrdWeixinPay {
             request.partnerId = obj.getString("mch_id");
             request.prepayId = obj.getString("prepay_id");
             request.packageValue = "Sign=WXPay";
-            request.nonceStr = obj.getString("nonce_str");
+            request.nonceStr = obj.getString("noncestr");
             request.timeStamp = obj.getString("timestamp");
             request.sign = obj.getString("sign");
 
@@ -212,6 +212,8 @@ public class TrdWeixinPay {
         }
         sb.append("key=" + "0c1cbcabb7b3a5610093cf7328078730");
         String appSign = getMessageDigest(sb.toString().getBytes()).toUpperCase();
+        Log.e("rawSign",sb.toString());
+        Log.e("sign",appSign);
         return appSign;
     }
 

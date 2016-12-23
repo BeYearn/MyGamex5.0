@@ -298,8 +298,8 @@ public class Url {
 	 * weixinpay:创建预订单
 	 */
 	public static String getWeixinPayPreOrder(){
-		//return serverUrl+"/ema-platform/order/createWXOrder";
-		return "http://192.168.10.155:8080/ema-platform/order/createWXOrder";
+		return serverUrl+"/ema-platform/order/createWXOrder";
+		//return "http://192.168.10.155:8080/ema-platform/order/createWXOrder";
 	}
 
 	/**
