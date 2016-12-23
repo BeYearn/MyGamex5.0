@@ -82,7 +82,15 @@
         </activity>
 
         <activity android:name="com.emagroup.sdk.PayMabiActivity" />
-        <activity android:name="com.emagroup.sdk.RechargeMabiActivity" />
+        <activity android:name="com.emagroup.sdk.RechargeMabiActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wxad312759ba0cb817"/>    <!--微信appid-->
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.emagroup.sdk.TrdCardActivity"
@@ -106,7 +114,7 @@
 
         <meta-data
             android:name="EMA_APP_ID"
-            android:value="n20015" />
+            android:value="n10000" />
         <meta-data
             android:name="EMA_CHANNEL_ID"
             android:value="n26" />
