@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -99,7 +98,6 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         }
 
     };
-    private String curAccountNum;    // 当前这次用户输入的号码
     private static long firstGetTime=0;
 
     /**
@@ -495,20 +493,22 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         if (mFlagHasGetAuthCode) {//获取验证码之后，进行的是登录操作
             accountLoginFirst();
         } else {//还没有获取验证码，进行获取验证码操作
-            accountNum = mEdtContentView.getText().toString();
-            //记录最后一次帐号，以便下次登录填入
-            USharedPerUtil.setParam(mActivity,"accountNum",accountNum);
 
-            if(TextUtils.isEmpty(accountNum)){
+            String curAccountNum = mEdtContentView.getText().toString();//当前填入的帐号
+
+            //记录最后一次帐号，以便下次登录填入
+            USharedPerUtil.setParam(mActivity,"accountNum", curAccountNum);
+
+            if(TextUtils.isEmpty(curAccountNum)){
                 ToastHelper.toast(mActivity, "帐号不能为空");
                 return;
             }
-            if(UCommUtil.isPhone(accountNum)){
+            if(UCommUtil.isPhone(curAccountNum)){
                 accountType="1";
-                doGetAuthCode(accountNum);
-            }else if(UCommUtil.isEmail(accountNum)){
+                doGetAuthCode(curAccountNum);
+            }else if(UCommUtil.isEmail(curAccountNum)){
                 accountType="2";
-                doSendEmail(accountNum);
+                doSendEmail(curAccountNum);
             }else {
                 ToastHelper.toast(mActivity,"请输入正确的帐号");
             }
@@ -564,7 +564,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         Long hasTime=System.currentTimeMillis() - firstGetTime;
         boolean isTimeAll = hasTime > 60000;
 
-        if(curAccountNum.equals(mEmaUser.getMobile())&&!isTimeAll){  //如果等于上次的号码并且没经过60s后  给他回到之前的页面，否则就是下面的流程
+        if(phoneNum.equals(mEmaUser.getMobile())&&!isTimeAll){  //如果等于上次的号码并且没经过60s后  给他回到之前的页面，否则就是下面的流程
 
             setViewChange();
             startTimeTask((int)(60000-hasTime)/1000);
