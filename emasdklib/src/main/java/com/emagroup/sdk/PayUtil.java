@@ -421,10 +421,14 @@ public class PayUtil {
                                         handler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_CLOSE);
                                     }else {
                                         //此处已表征为成功，所以不能说是支付失败，而弹窗说可能略有延迟
+                                        UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
                                         handler.sendEmptyMessage(EmaConst.PAY_RESULT_DELAYED);
                                     }
                                 } catch (Exception e) {
-                                    LOG.w(TAG, "loginAutoLogin error", e);
+                                    LOG.e("doCheckOrderStatus", "CheckOrder error", e);
+                                    //此处已表征为成功，所以不能说是支付失败，而弹窗说可能略有延迟
+                                    UCommUtil.makePayCallBack(EmaCallBackConst.PAYSUCCESS, "支付成功");
+                                    handler.sendEmptyMessage(EmaConst.PAY_RESULT_DELAYED);
                                 }
                             }
                         });
