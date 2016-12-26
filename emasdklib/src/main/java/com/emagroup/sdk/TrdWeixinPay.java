@@ -66,6 +66,7 @@ public class TrdWeixinPay {
         params.put("orderId", payInfo.getOrderId());
         params.put("uid", EmaUser.getInstance().getmUid());
         params.put("token", EmaUser.getInstance().getToken());
+        params.put("amount",payInfo.getPrice()+"");
 
         new HttpInvoker().postAsync(Url.getWeixinPayPreOrder(), params,
                 new HttpInvoker.OnResponsetListener() {
