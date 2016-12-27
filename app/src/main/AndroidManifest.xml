@@ -114,7 +114,7 @@
 
         <meta-data
             android:name="EMA_APP_ID"
-            android:value="n10000" />
+            android:value="n20015" />
         <meta-data
             android:name="EMA_CHANNEL_ID"
             android:value="n26" />
@@ -124,9 +124,12 @@
         <!-- <meta-data
              android:name="EMA_WHICH_ENVI"
              android:value="staging" />-->
+       <!-- <meta-data
+            android:name="EMA_WHICH_ENVI"
+            android:value="testing" /> --> <!--测试环境-->
         <meta-data
             android:name="EMA_WHICH_ENVI"
-            android:value="testing" />  <!--测试环境-->
+            android:value="production" />
 
         <meta-data
             android:name="WEI_BO_APP_ID"

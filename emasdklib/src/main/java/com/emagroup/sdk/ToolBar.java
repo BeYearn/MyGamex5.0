@@ -35,6 +35,7 @@ public class ToolBar implements OnClickListener {
 
     private boolean isCanShow;  // 1可以显示  0的话toobar失效
     private ArrayList<BarInfo> barInfoList;
+    private String toolBarInfoStr;
 
     public enum ToolbarState {
         mini,//小图标
@@ -116,6 +117,9 @@ public class ToolBar implements OnClickListener {
      * 显示悬浮窗
      */
     public void showToolBar() {
+        if(TextUtils.isEmpty(toolBarInfoStr)){
+            initToolbarView();
+        }
 
         if(!isCanShow){
             return;
@@ -188,7 +192,7 @@ public class ToolBar implements OnClickListener {
      */
     private void initToolbar() {
         mWindowManager = (WindowManager) mContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-        initToolbarView();
+       // initToolbarView();
         createWindowParams();
     }
 
@@ -198,7 +202,10 @@ public class ToolBar implements OnClickListener {
     private void initToolbarView() {
 
         //获取bar的显示信息
-        String toolBarInfoStr = (String) USharedPerUtil.getParam(mContext, "menuBarInfo", "");
+
+        toolBarInfoStr = (String) USharedPerUtil.getParam(mContext, "menuBarInfo", "");
+        LOG.d(TAG, "initToolbarView()  toolBarInfoStr ----"+toolBarInfoStr);
+
         barInfoList = new ArrayList<>();
         try {
             if(TextUtils.isEmpty(toolBarInfoStr)){

@@ -173,18 +173,23 @@ public class SplashDialog extends Dialog {
 							}
 
 							try {
-								JSONObject maintainInfo = dataObj.getJSONObject("maintainInfo");
-								maintainBg = maintainInfo.getString("maintainBg");
-								maintainContent = maintainInfo.getString("maintainContent");
-								showStatus = maintainInfo.getString("status");// 0-维护/1-公告
+							 	if(dataObj.has("maintainInfo")){
+									JSONObject maintainInfo = dataObj.getJSONObject("maintainInfo");
+									maintainBg = maintainInfo.getString("maintainBg");
+									maintainContent = maintainInfo.getString("maintainContent");
+									showStatus = maintainInfo.getString("status");// 0-维护/1-公告
+							 	}
+
 							}catch (Exception e) {
 								LOG.w(TAG, "jiexi maintainInfo error", e);
 							}
 
 							try {
 								//将得到的menubar信息存sp，在toolbar那边取
-								String menuBarInfo = dataObj.getString("menuBarInfo");
+								//String menuBarInfo = dataObj.getString("menuBarInfo");
+								String menuBarInfo = dataObj.getJSONObject("menuBarInfo").toString();
 								USharedPerUtil.setParam(mActivity, "menuBarInfo", menuBarInfo);
+								LOG.w(TAG, "menuBarInfo");
 								//三个三方登录是否显示
 								Ema.getInstance().saveQQLoginVisibility(new JSONObject(menuBarInfo).getInt("support_qq_login"));
 								Ema.getInstance().saveWeboLoginVisibility(new JSONObject(menuBarInfo).getInt("support_weibo_login"));
