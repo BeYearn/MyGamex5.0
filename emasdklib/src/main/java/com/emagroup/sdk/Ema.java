@@ -73,6 +73,7 @@ public class Ema {
 	 */
 	public void init(String appKey,Context context, EmaSDKListener listener){
 		if(!mFlagIsInitSuccess){
+			LOG.e(TAG, "初始化开始......");
 
 			EmaUser.getInstance().setAppKey(appKey);
 			mContext = context;
@@ -93,28 +94,27 @@ public class Ema {
 			//从配置配置文件设定是否要将日志写入sdcard
 			LOGToSdcardHelper.setWriteFlag(ConfigManager.getInstance(getContext()).isNeedLogToSdcard());
 			
-			LOG.d(TAG, "初始化开始");
-			
 			//记录崩溃
 			CrashHandler crashHandler = CrashHandler.getInstance();
 			crashHandler.init(mContext);
 
 			//个推初始化
 			PushManager.getInstance().initialize(context.getApplicationContext());
+
 			//初始化第三方sdk
 			initThirdSDK();
 			
 			//埋点，发送初始化信息
 			//EmaSendInfo.sendInitDeviceInfo();
 
-			//检查基本的配置是否正确,仿佛并无卵用（因为不会得到null的）
+			/*//检查基本的配置是否正确,仿佛并无卵用（因为不会得到null的）
 			if(checkInitIsOK()){
 				mFlagIsInitSuccess = true;
 				//初始化成功调整到闪屏关闭后回调
 			}else{
 				mFlagIsInitSuccess = false;
 				makeCallBack(EmaCallBackConst.INITFALIED, "初始化失败！");
-			}
+			}*/    //  已改为在下面成功回调时mFlagIsInitSuccess置为true！！！！！！！
 
 		}
 	}
@@ -268,8 +268,7 @@ public class Ema {
 		}
 		mEmaListener.onCallBack(msgCode,msgObj);
 
-		//在登录成功时
-		if(EmaCallBackConst.LOGINSUCCESS==msgCode){
+		if(EmaCallBackConst.LOGINSUCCESS==msgCode){ //在登录成功时
 			//显示悬浮窗
 			showToolBar();
 
@@ -285,6 +284,9 @@ public class Ema {
 			//绑定服务,发送心跳
 			Intent serviceIntent = new Intent(mContext, EmaService.class);
 			mContext.bindService(serviceIntent, mServiceCon, Context.BIND_AUTO_CREATE);
+
+		}else if(EmaCallBackConst.INITSUCCESS==msgCode){  // 在初始化成功时
+			mFlagIsInitSuccess=true;
 		}
 	}
 

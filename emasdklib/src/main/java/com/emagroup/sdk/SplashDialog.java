@@ -158,8 +158,6 @@ public class SplashDialog extends Dialog {
 						case HttpInvokerConst.SDK_RESULT_SUCCESS:// 请求状态成功
 							LOG.d(TAG, "请求状态成功！！");
 
-							Ema.getInstance().makeCallBack(EmaCallBackConst.INITSUCCESS, "初始化完成"); //一连串走完了到这里
-
 							JSONObject dataObj = json.getJSONObject("data");
 
 							try{
@@ -256,18 +254,18 @@ public class SplashDialog extends Dialog {
 								message.obj=contentMap; //内容
 								mHandler.sendMessage(message);
 							}
-							break;
-						case HttpInvokerConst.SDK_RESULT_FAILED://
-							LOG.e(TAG, "请求状态失败！！");
-							ToastHelper.toast(mActivity,json.getString("message"));
+
+							Ema.getInstance().makeCallBack(EmaCallBackConst.INITSUCCESS, "初始化完成"); //一连串走完了到这里
 							break;
 						default:
-							LOG.d(TAG, json.getString("message"));
-							ToastHelper.toast(mActivity,json.getString("message"));
+							LOG.e(TAG, "请求状态失败！！"+json.getString("message"));
+							//ToastHelper.toast(mActivity,json.getString("message"));
+							Ema.getInstance().makeCallBack(EmaCallBackConst.INITFALIED, "初始化失败!!");
 							break;
 					}
 				} catch (Exception e) {
 					LOG.w(TAG, "sdk status error", e);
+					Ema.getInstance().makeCallBack(EmaCallBackConst.INITFALIED, "初始化失败!!"); //一连串走完了到这里
 				}
 			}
 		});

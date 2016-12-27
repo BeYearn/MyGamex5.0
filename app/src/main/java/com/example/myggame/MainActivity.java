@@ -65,8 +65,8 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
        /*  btQqShare= (Button) findViewById(R.id.bt_qqshare);*/
         bt_snap_shot = (Button) findViewById(R.id.bt_snap_shot);
 
-        EmaSDK.getInstance().init("6cdd60ea0045eb7a6ec44c54d29ed402", this, new EmaSDKListener() {
-        //    EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b",this, new EmaSDKListener() {
+        //EmaSDK.getInstance().init("6cdd60ea0045eb7a6ec44c54d29ed402", this, new EmaSDKListener() {
+            EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b",this, new EmaSDKListener() {
             //EmaSDK.getInstance().init("800a924c499772bac7b76432803ea47a",this, new EmaSDKListener() {  //10001
             @Override
             public void onCallBack(int arg0, String arg1) {
@@ -74,10 +74,10 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                 switch (arg0) {
                     case EmaCallBackConst.INITSUCCESS://初始化SDK成功回调
                         isSuccess = true;
-                        Log.e("Mainactivity", "sdk初始化成功");
+                        ToastHelper.toast(MainActivity.this,"sdk初始化成功");
                         break;
                     case EmaCallBackConst.INITFALIED://初始化SDK失败回调
-                        Log.e("Mainactivity", "sdk初始化失败");
+                        ToastHelper.toast(MainActivity.this,"sdk初始化失败");
                         break;
                     case EmaCallBackConst.LOGINSUCCESS://登陆成功回调
                         ToastHelper.toast(MainActivity.this, "登陆成功");
