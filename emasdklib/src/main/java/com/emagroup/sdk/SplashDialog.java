@@ -171,21 +171,17 @@ public class SplashDialog extends Dialog {
 							}
 
 							try {
-							 	if(dataObj.has("maintainInfo")){
-									JSONObject maintainInfo = dataObj.getJSONObject("maintainInfo");
-									maintainBg = maintainInfo.getString("maintainBg");
-									maintainContent = maintainInfo.getString("maintainContent");
-									showStatus = maintainInfo.getString("status");// 0-维护/1-公告
-							 	}
-
+								JSONObject maintainInfo = dataObj.getJSONObject("maintainInfo");
+								maintainBg = maintainInfo.getString("maintainBg");
+								maintainContent = maintainInfo.getString("maintainContent");
+								showStatus = maintainInfo.getString("status");// 0-维护/1-公告
 							}catch (Exception e) {
 								LOG.w(TAG, "jiexi maintainInfo error", e);
 							}
 
 							try {
 								//将得到的menubar信息存sp，在toolbar那边取
-								//String menuBarInfo = dataObj.getString("menuBarInfo");
-								String menuBarInfo = dataObj.getJSONObject("menuBarInfo").toString();
+								String menuBarInfo = dataObj.getString("menuBarInfo");
 								USharedPerUtil.setParam(mActivity, "menuBarInfo", menuBarInfo);
 								LOG.w(TAG, "menuBarInfo");
 								//三个三方登录是否显示
