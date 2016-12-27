@@ -390,6 +390,12 @@ public class PayUtil {
      * @param handler
      */
     public static void doCheckOrderStatus(final Handler handler) {
+
+        if("xxxxxxxx".equals(mPayInfo.getOrderId())){   // 这是充值的订单
+            ToastHelper.toast(Ema.getInstance().getContext(),"充值成功！");
+            return;
+        }
+
         Message message1 = Message.obtain();
         message1.what = EmaProgressDialog.CODE_LOADING_START;
         handler.sendMessage(message1);
