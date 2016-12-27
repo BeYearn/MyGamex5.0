@@ -210,13 +210,13 @@ public class SplashDialog extends Dialog {
 									if(ConfigManager.getInstance(mActivity).getVersionCode(mActivity)<version){ // 需要更新
 										Log.e("gengxin",ConfigManager.getInstance(mActivity).getVersionCode(mActivity)+"..."+version);
 										if(1==necessary){  //necessary 1强更
+											message.arg1=1;  //arg1是显示类型，1的话就是只显示确定按钮
 											message.arg2=2;
 										}else {
+											message.arg1=2;
 											message.arg2=1;
 										}
-
 										message.what=ALERT_SHOW;
-										message.arg1=2;               //显示形式 1只有确定按钮
 										message.obj=updateMap; 		//内容
 										mHandler.sendMessage(message);
 									}

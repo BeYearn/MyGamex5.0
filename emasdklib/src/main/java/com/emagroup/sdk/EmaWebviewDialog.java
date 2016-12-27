@@ -80,7 +80,7 @@ public class EmaWebviewDialog extends Dialog {
 						Message message = Message.obtain();
 						if("hard".equals(whichUpdate)){
 							message.what=ALERT_SHOW;
-							message.arg1=2;  // 两个按钮
+							message.arg1=1;  // 强更的话只有一个确定按钮
 							message.arg2=2;  // 确定开始更新 取消退出
 							message.obj=mContentMap;
 						}else {
