@@ -65,12 +65,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="微信分享"
-            />
+            />-->
         <Button
-            android:id="@+id/bt_qqshare"
+            android:id="@+id/again_init"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="qq分享" />-->
+            android:text="连续初始化测试" />
         <Button
             android:id="@+id/bt_emshare"
             android:layout_width="wrap_content"

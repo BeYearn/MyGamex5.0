@@ -7,14 +7,12 @@ import android.util.Log;
 
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
-import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
-import com.sina.weibo.sdk.utils.Utility;
 
 import static com.emagroup.sdk.WeiboShareUtils.SHARE_TEXT;
 import static com.emagroup.sdk.WeiboShareUtils.SHARE_WEBPAGE;
@@ -95,8 +93,19 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
 
     public void doWeiBoShareWebpage(String title, String description, String url) {
 
-
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+        weiboMessage.textObject = getTextObj(title+"\n"+description+" "+url);
+
+
+        ImageObject imageObject = new ImageObject();
+
+        imageObject.setImageObject(WeiboShareUtils.getInstance(this).bitmap);
+        weiboMessage.imageObject = imageObject;
+
+
+
+
+       /* WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
 
         WebpageObject mediaObject = new WebpageObject();
         mediaObject.identify = Utility.generateGUID();
@@ -106,7 +115,7 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
         mediaObject.defaultText = "Webpage 默认文案";
         //   Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
         mediaObject.setThumbImage(WeiboShareUtils.getInstance(this).bitmap);
-        weiboMessage.mediaObject = mediaObject;
+        weiboMessage.mediaObject = mediaObject;*/
 
 
         // 2. 初始化从第三方到微博的消息请求
