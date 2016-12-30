@@ -556,6 +556,13 @@ public class Ema {
 		return isNeedShow;
 	}
 
+	public void saveGameInfoJson(String gameInfoJson){
+		setParam(mContext,"gameInfoJson",gameInfoJson);
+	}
+	public String getGameInfoJson (){
+		return (String) getParam(mContext,"gameInfoJson","");
+	}
+
 	interface  BindRemind{
 		void canelNext();
 	}

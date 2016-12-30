@@ -162,6 +162,10 @@ public class Url {
 		serverUrl=url;
 	}
 
+	public static String getUploadGameInfoUrl(){
+		return serverUrl+"/ema-platform/member/uploadGameInfo";
+	}
+
 	/**
 	 * 获取QQ登录接口
 	 * @return

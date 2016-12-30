@@ -24,8 +24,7 @@ import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 
 import java.util.HashMap;
-
-
+import java.util.Map;
 
 
 public class MainActivity extends Activity implements OnClickListener/*, Response */{
@@ -42,8 +41,8 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
     private IWeiboShareAPI mWeiboShareAPI;
 
     private IWXAPI mWeixinapi;
-    /*    private Button btWxShare;
-        private Button btWbShare;*/
+    /*    private Button btWxShare;*/
+        private Button btUpGameInfo;
         private Button btAgain_init;
     private Button bt_snap_shot;
     private Button btEmShare;
@@ -61,7 +60,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
         btHideBar = (Button) findViewById(R.id.bt_hidebar);
         btSwichAccount = (Button) findViewById(R.id.bt_swichaccount);
         // btWbShare = (Button) findViewById(R.id.bt_wbshare);
-        // btWxShare= (Button) findViewById(R.id.bt_wxshare);
+        btUpGameInfo= (Button) findViewById(R.id.up_game_info);
         btEmShare = (Button) findViewById(R.id.bt_emshare);
          btAgain_init= (Button) findViewById(R.id.again_init);
         bt_snap_shot = (Button) findViewById(R.id.bt_snap_shot);
@@ -85,7 +84,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
         btShowBar.setOnClickListener(this);
         btHideBar.setOnClickListener(this);
         btSwichAccount.setOnClickListener(this);
-        //  btWbShare.setOnClickListener(this);
+        btUpGameInfo.setOnClickListener(this);
       /*  btWxShare.setOnClickListener(this);*/
         btEmShare.setOnClickListener(this);
         bt_snap_shot.setOnClickListener(this);
@@ -131,6 +130,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                     break;
                 case EmaCallBackConst.ACCOUNTSWITCHFAIL:
                     break;
+
             }
         }
     });
@@ -236,6 +236,17 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                 break;
             case R.id.again_init:
                 init();
+                break;
+            case R.id.up_game_info:
+                Map<String,String > param=new HashMap<String, String>();
+                param.put("roleId","roleId");
+                param.put("roleName","roleName");
+                param.put("roleLevel","roleLevel");
+                param.put("zoneId","zoneId");
+                param.put("zoneNeme","zoneNeme");
+                param.put("dataType","dataType");
+                param.put("ext","ext");
+                EmaUser.getInstance().submitLoginGameRole(param);
                 break;
 
 
