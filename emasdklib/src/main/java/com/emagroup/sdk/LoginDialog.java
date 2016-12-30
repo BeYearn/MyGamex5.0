@@ -380,7 +380,7 @@ public class LoginDialog extends Dialog implements
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);// 去掉信息栏
-        //this.getWindow().getAttributes().alpha=0.8F;
+        this.getWindow().getAttributes().alpha=0.8F;
         this.setCanceledOnTouchOutside(false);
 
         initView();
