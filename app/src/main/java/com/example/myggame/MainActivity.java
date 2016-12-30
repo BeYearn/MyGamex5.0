@@ -27,6 +27,7 @@ import java.util.HashMap;
 
 
 
+
 public class MainActivity extends Activity implements OnClickListener/*, Response */{
 
     private Button btLogin;
@@ -42,8 +43,8 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
 
     private IWXAPI mWeixinapi;
     /*    private Button btWxShare;
-        private Button btWbShare;
-        private Button btQqShare;*/
+        private Button btWbShare;*/
+        private Button btAgain_init;
     private Button bt_snap_shot;
     private Button btEmShare;
 
@@ -62,50 +63,10 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
         // btWbShare = (Button) findViewById(R.id.bt_wbshare);
         // btWxShare= (Button) findViewById(R.id.bt_wxshare);
         btEmShare = (Button) findViewById(R.id.bt_emshare);
-       /*  btQqShare= (Button) findViewById(R.id.bt_qqshare);*/
+         btAgain_init= (Button) findViewById(R.id.again_init);
         bt_snap_shot = (Button) findViewById(R.id.bt_snap_shot);
+        init();
 
-        //EmaSDK.getInstance().init("6cdd60ea0045eb7a6ec44c54d29ed402", this, new EmaSDKListener() {
-            EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b",this, new EmaSDKListener() {
-            //EmaSDK.getInstance().init("800a924c499772bac7b76432803ea47a",this, new EmaSDKListener() {  //10001
-            @Override
-            public void onCallBack(int arg0, String arg1) {
-                Log.e("mainactivity", arg0 + "++++++++++++++++ " + arg1);
-                switch (arg0) {
-                    case EmaCallBackConst.INITSUCCESS://初始化SDK成功回调
-                        isSuccess = true;
-                        ToastHelper.toast(MainActivity.this,"sdk初始化成功");
-                        break;
-                    case EmaCallBackConst.INITFALIED://初始化SDK失败回调
-                        ToastHelper.toast(MainActivity.this,"sdk初始化失败");
-                        break;
-                    case EmaCallBackConst.LOGINSUCCESS://登陆成功回调
-                        ToastHelper.toast(MainActivity.this, "登陆成功");
-                        Log.e("Mainactivity", EmaUser.getInstance().getNickName());
-                        Log.e("Mainactivity", EmaUser.getInstance().getAllianceUid());
-                        Log.e("Mainactivity", EmaUser.getInstance().getmUid());
-                        Log.e("Mainactivity", EmaSDK.getInstance().getChannelId());
-                        Log.e("Mainactivity", EmaSDK.getInstance().getChannelTag());
-                       // ToastHelper.toast(MainActivity.this,EmaSDK.getInstance().isEma()+"");
-                        break;
-                    case EmaCallBackConst.LOGINCANELL://登陆取消回调
-                        break;
-                    case EmaCallBackConst.LOGINFALIED://登陆失败回调
-                        Log.e("++++++++++", Thread.currentThread().getName());
-                        ToastHelper.toast(MainActivity.this, "登陆失败");
-                        break;
-                    case EmaCallBackConst.LOGOUTSUCCESS://登出成功回调
-                        break;
-                    case EmaCallBackConst.LOGOUTFALIED://登出失败回调
-                        break;
-                    case EmaCallBackConst.ACCOUNTSWITCHSUCCESS:
-                        Log.e("EMASDK", "ACCOUNTSWITCHSUCCESS");//切换帐号成功回调
-                        break;
-                    case EmaCallBackConst.ACCOUNTSWITCHFAIL:
-                        break;
-                }
-            }
-        });
 
         EmaSDK.getInstance().doSetRecivePushListner(new EmaSDKListener() {
             @Override
@@ -117,7 +78,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                 }
             }
         });
-        //  btQqShare.setOnClickListener(this);
+        btAgain_init.setOnClickListener(this);
         btLogin.setOnClickListener(this);
         btPay.setOnClickListener(this);
         btLogout.setOnClickListener(this);
@@ -129,6 +90,50 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
         btEmShare.setOnClickListener(this);
         bt_snap_shot.setOnClickListener(this);
         Log.e("++++++++++", Thread.currentThread().getName());
+    }
+
+    private void init() {
+        //EmaSDK.getInstance().init("6cdd60ea0045eb7a6ec44c54d29ed402", this, new EmaSDKListener() {
+        EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b",this, new EmaSDKListener() {
+        //EmaSDK.getInstance().init("800a924c499772bac7b76432803ea47a",this, new EmaSDKListener() {  //10001
+        @Override
+        public void onCallBack(int arg0, String arg1) {
+            Log.e("mainactivity", arg0 + "++++++++++++++++ " + arg1);
+            switch (arg0) {
+                case EmaCallBackConst.INITSUCCESS://初始化SDK成功回调
+                    isSuccess = true;
+                    ToastHelper.toast(MainActivity.this,"sdk初始化成功");
+                    break;
+                case EmaCallBackConst.INITFALIED://初始化SDK失败回调
+                    ToastHelper.toast(MainActivity.this,"sdk初始化失败");
+                    break;
+                case EmaCallBackConst.LOGINSUCCESS://登陆成功回调
+                    ToastHelper.toast(MainActivity.this, "登陆成功");
+                    Log.e("Mainactivity", EmaUser.getInstance().getNickName());
+                    Log.e("Mainactivity", EmaUser.getInstance().getAllianceUid());
+                    Log.e("Mainactivity", EmaUser.getInstance().getmUid());
+                    Log.e("Mainactivity", EmaSDK.getInstance().getChannelId());
+                    Log.e("Mainactivity", EmaSDK.getInstance().getChannelTag());
+                   // ToastHelper.toast(MainActivity.this,EmaSDK.getInstance().isEma()+"");
+                    break;
+                case EmaCallBackConst.LOGINCANELL://登陆取消回调
+                    break;
+                case EmaCallBackConst.LOGINFALIED://登陆失败回调
+                    Log.e("++++++++++", Thread.currentThread().getName());
+                    ToastHelper.toast(MainActivity.this, "登陆失败");
+                    break;
+                case EmaCallBackConst.LOGOUTSUCCESS://登出成功回调
+                    break;
+                case EmaCallBackConst.LOGOUTFALIED://登出失败回调
+                    break;
+                case EmaCallBackConst.ACCOUNTSWITCHSUCCESS:
+                    Log.e("EMASDK", "ACCOUNTSWITCHSUCCESS");//切换帐号成功回调
+                    break;
+                case EmaCallBackConst.ACCOUNTSWITCHFAIL:
+                    break;
+            }
+        }
+    });
     }
 
 
@@ -225,16 +230,20 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                 EmaSDK.getInstance().doSwichAccount();
                 break;
             case R.id.bt_emshare:
-                shareImage();
-               //shareWebPage();
-                //shareText();
+                 shareImage();
+                //  shareWebPage();
+                //   shareText();
                 break;
+            case R.id.again_init:
+                init();
+                break;
+
 
         }
     }
 
    private void shareWebPage() {
-        String url = "http://www.baidu.com";
+        String url = "http://www.baidu.com";//
         String title = "WebPage Title WebPage Title" ;
         String description = "WebPage Description";
         Bitmap bitmap =BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);

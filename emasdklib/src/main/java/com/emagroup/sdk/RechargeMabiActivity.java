@@ -459,4 +459,9 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 		reFreshUserInfo();
 		super.onResume();
 	}
+
+	@Override
+	public void onBackPressed() {
+		new EmaDialogPayPromptCancel(this).show();
+	}
 }

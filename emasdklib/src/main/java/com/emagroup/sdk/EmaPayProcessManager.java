@@ -1,11 +1,11 @@
 package com.emagroup.sdk;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.app.Activity;
 
 import org.json.JSONObject;
 
-import android.app.Activity;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmaPayProcessManager {
 
@@ -103,7 +103,6 @@ public class EmaPayProcessManager {
 	public void closePay() {
 		LOG.d(TAG, "close Pay");
 		close(mPayAcList);
-		ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
 	}
 
 	/**
@@ -140,6 +139,7 @@ public class EmaPayProcessManager {
 		LOG.d(TAG, "close all");
 		closeRecharge();
 		closePay();
+		ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
 	}
 
 	
