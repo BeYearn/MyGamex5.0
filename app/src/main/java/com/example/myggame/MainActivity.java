@@ -105,6 +105,13 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                     break;
                 case EmaCallBackConst.INITFALIED://初始化SDK失败回调
                     ToastHelper.toast(MainActivity.this,"sdk初始化失败");
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            init();
+                        }
+                    });
                     break;
                 case EmaCallBackConst.LOGINSUCCESS://登陆成功回调
                     ToastHelper.toast(MainActivity.this, "登陆成功");

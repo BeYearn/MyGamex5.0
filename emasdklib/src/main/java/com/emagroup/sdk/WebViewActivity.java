@@ -2,6 +2,8 @@ package com.emagroup.sdk;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -118,25 +120,43 @@ public class WebViewActivity extends Activity implements OnClickListener {
 	}
 
 
+	/**
+	 * 与js交互时用到的方法对象，在js里直接调用
+	 */
 	public class JavaScriptinterface {
 		Context context;
 		public JavaScriptinterface(Context c) {
 			context= c;
 		}
+
 		/**
-		 * 与js交互时用到的方法，在js里直接调用的
-		 */
+		 * wap上修改密码完成后关闭那个页面
+		 * @param num
+         */
 		@JavascriptInterface
 		public void close(String num) {
 			WebViewActivity.this.finish();
 			ToolBar.getInstance(WebViewActivity.this).showToolBar();
 			ToastHelper.toast(context,"密码修改成功");
 		}
+
+		/**
+		 * wap页面上登出
+		 */
 		@JavascriptInterface
 		public void logout() {
 			WebViewActivity.this.finish();
 			ToolBar.getInstance(WebViewActivity.this).hideToolBar();
 			EmaSDK.getInstance().doLogout();
+		}
+		/**
+		 * 复制wap页面上的string
+		 */
+		@JavascriptInterface
+		public void copyString(String str){
+			ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+			ClipData mClipData = ClipData.newPlainText("Label", str);
+			cm.setPrimaryClip(mClipData);
 		}
 	}
 
