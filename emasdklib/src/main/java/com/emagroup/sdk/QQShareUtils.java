@@ -41,6 +41,7 @@ public class QQShareUtils {
     private static final String PATH_DOCUMENT = "document";
     private String ImageUrl = "http://img7.doubanio.com/lpic/s3635685.jpg";
     private EmaSDKListener mListener;
+    //public static  final
 
     public static QQShareUtils getIntance(Context context) {
         if (mIntance == null) {

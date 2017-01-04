@@ -105,6 +105,7 @@ public class WeiboShareUtils {
     }
 
     private void startWeiBoEntryActivity(int type,Intent intent) {
+        intent.putExtra("sharePf","webo");
         intent.setClass(mActivity,WeiBoEntryActivity.class);
         intent.putExtra("sharType",type);
         mActivity.startActivity(intent);

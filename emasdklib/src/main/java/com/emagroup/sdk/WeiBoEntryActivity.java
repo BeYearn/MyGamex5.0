@@ -25,6 +25,10 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
     private IWeiboShareAPI mWeiboShareAPI;
     private boolean canShare;
 
+    private String qqTitle,QQUrl,qqSummary;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
@@ -38,16 +42,30 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
 
         Log.e("WeiBoEntryActivity", "onCreate");
         if (canShare) {
-            switch (intent.getIntExtra("sharType", 0)) {
-                case WeiboShareUtils.SHARE_IMAGE:
-                    shareImage();
-                    break;
-                case SHARE_WEBPAGE:
-                    doWeiBoShareWebpage(intent.getStringExtra("title"), intent.getStringExtra("description"), intent.getStringExtra("url"));
-                    break;
-                case SHARE_TEXT:
-                    doWeiboShareText(intent.getStringExtra("text"));
-                    break;
+            if(intent.getStringExtra("sharePf").equals("webo")){//微博分享
+                switch (intent.getIntExtra("sharType", 0)) {
+                    case WeiboShareUtils.SHARE_IMAGE:
+                        shareImage();
+                        break;
+                    case SHARE_WEBPAGE:
+                        doWeiBoShareWebpage(intent.getStringExtra("title"), intent.getStringExtra("description"), intent.getStringExtra("url"));
+                        break;
+                    case SHARE_TEXT:
+                        doWeiboShareText(intent.getStringExtra("text"));
+                        break;
+                }
+           }else {
+                switch (intent.getIntExtra("sharType", 0)) {
+                    case WeiboShareUtils.SHARE_IMAGE:
+                        //   QQShareUtils.getIntance(WeiBoEntryActivity.this).;
+                        break;
+                    case SHARE_WEBPAGE:
+                        doWeiBoShareWebpage(intent.getStringExtra("title"), intent.getStringExtra("description"), intent.getStringExtra("url"));
+                        break;
+                    case SHARE_TEXT:
+                        doWeiboShareText(intent.getStringExtra("text"));
+                        break;
+                }
             }
             USharedPerUtil.setParam(this,"canWbShare",false);
         }

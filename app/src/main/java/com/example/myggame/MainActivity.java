@@ -242,7 +242,19 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                 //   shareText();
                 break;
             case R.id.again_init:
-                init();
+               init();
+           /*   new AsyncTask<Void, Void, Bitmap>() {
+                   @Override
+                   protected Bitmap doInBackground(Void... voids) {
+                       return Snapshot.getBitmap("https://testing-platform.lemonade-game.com:8443/wap/img/tbs57.png");
+                   }
+
+                   @Override
+                   protected void onPostExecute(Bitmap bitmap) {
+                       ((ImageView)findViewById(R.id.image)).setImageBitmap(bitmap);
+                   }
+               }.execute();*/
+
                 break;
             case R.id.up_game_info:
                 Map<String,String > param=new HashMap<String, String>();
