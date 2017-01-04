@@ -40,22 +40,28 @@ public class QQShareUtils {
     public static String ACTION_OPEN_DOCUMENT = "android.intent.action.OPEN_DOCUMENT";
     private static final String PATH_DOCUMENT = "document";
     private String ImageUrl = "http://img7.doubanio.com/lpic/s3635685.jpg";
-    private EmaSDKListener mListener;
-    //public static  final
+    //public EmaSDKListener mListener;
+    public static  final int SHARE_QQ_FRIEDNS_IMAGE=0;
+    public static  final int SHARE_QQ_FRIEDNS_WEBPAGE=1;
+    public static  final  int SHARE_QQ_QZONE_TEXT=2;
+    public static  final  int SHARE_QQ_QZONE_IMAGE=3;
+    public static  final  int SHARE_QQ_QZONE_WEBPAGE=4;
+ /*   public String title,url,summary;
+    public Bitmap bitmap;*/
 
-    public static QQShareUtils getIntance(Context context) {
+   /* public static QQShareUtils getIntance(Context context) {
         if (mIntance == null) {
             mIntance = new QQShareUtils(context);
         }
         return mIntance;
     }
-
-    private QQShareUtils(Context context) {
+*/
+    public QQShareUtils(Context context) {
         this.mContext = context;
         mTencent = Tencent.createInstance(ConfigManager.getInstance(mContext).getQQAppId(), mContext);
     }
 
-    public void setImageUrl(String imageUrl) {
+ /*   public void setImageUrl(String imageUrl) {
         ImageUrl = imageUrl;
         final Bundle params = new Bundle();
         //  params.putString(QQShare.SHARE_TO_QQ_APP_NAME,appName);
@@ -71,13 +77,13 @@ public class QQShareUtils {
                 }
             }
         });
-    }
+    }*/
 
-    public void shareQQFriendImage(EmaSDKListener listener, Bitmap bitmap) {
-        this.mListener = listener;
+    public void shareQQFriendImage(/*EmaSDKListener listener, Bitmap bitmap*/) {
+      //  this.mListener = listener;
         // startPickLocaleImage();
 
-        saveBitmap(bitmap, new ShareQQImage() {
+        saveBitmap(EmaSDK.getInstance().bitmap, new ShareQQImage() {
             @Override
             public void shareImage() {
                 final Bundle params = new Bundle();
@@ -119,11 +125,11 @@ public class QQShareUtils {
 
     }
 
-    public void shareQzoneImage(EmaSDKListener listener, Bitmap bitmap) {
-        this.mListener = listener;
+    public void shareQzoneImage(/*EmaSDKListener listener, Bitmap bitmap*/) {
+      //  this.mListener = listener;
         // startPickLocaleImage();
 
-        saveBitmap(bitmap, new ShareQQImage() {
+        saveBitmap(EmaSDK.getInstance().bitmap, new ShareQQImage() {
             @Override
             public void shareImage() {
                 final Bundle params = new Bundle();
@@ -164,20 +170,22 @@ public class QQShareUtils {
 
     }
 
-    public void shareQQFriendsWebPage(EmaSDKListener listener, final String title, final String url, final String summary, Bitmap bitmap /*String imageUrl*/) {
-        this.mListener = listener;
-        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(summary) || bitmap == null ||/*TextUtils.isEmpty(imageUrl)||*/TextUtils.isEmpty(url)) {
+    public void shareQQFriendsWebPage(/*EmaSDKListener listener, final String title, final String url, final String summary, Bitmap bitmap *//*String imageUrl*/) {
+     //   this.mListener = listener;
+        if (TextUtils.isEmpty(EmaSDK.getInstance().title) ||
+                TextUtils.isEmpty(EmaSDK.getInstance().summary) ||EmaSDK.getInstance(). bitmap == null
+                ||/*TextUtils.isEmpty(imageUrl)||*/TextUtils.isEmpty(EmaSDK.getInstance().url)) {
             Toast.makeText(mContext, "请传入完整参数", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        saveBitmap(bitmap, new ShareQQImage() {
+        saveBitmap(EmaSDK.getInstance().bitmap, new ShareQQImage() {
             @Override
             public void shareImage() {
                 final Bundle params = new Bundle();
-                params.putString(QQShare.SHARE_TO_QQ_TITLE, title);
-                params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, url);
-                params.putString(QQShare.SHARE_TO_QQ_SUMMARY, summary);
+                params.putString(QQShare.SHARE_TO_QQ_TITLE, EmaSDK.getInstance().title);
+                params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, EmaSDK.getInstance().url);
+                params.putString(QQShare.SHARE_TO_QQ_SUMMARY, EmaSDK.getInstance().summary);
                 params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, ImageUrl);
                 // params.putString(QQShare.SHARE_TO_QQ_APP_NAME,appName);
                 params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
@@ -217,23 +225,25 @@ public class QQShareUtils {
         });*/
     }
 
-    public void shareQzoneWebPage(EmaSDKListener listener, final String title, final String url, final String summary, Bitmap bitmap /*String imageUrl*//*ArrayList<String> imageUrls*/) {
+    public void shareQzoneWebPage(/*EmaSDKListener listener, final String title, final String url, final String summary, Bitmap bitmap*/ /*String imageUrl*//*ArrayList<String> imageUrls*/) {
 
-        this.mListener = listener;
-        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(summary)/*||TextUtils.isEmpty(imageUrl)*/ || bitmap == null || TextUtils.isEmpty(url)) {
+       // this.mListener = listener;
+        if (TextUtils.isEmpty(EmaSDK.getInstance().title) || TextUtils.isEmpty(
+                EmaSDK.getInstance().summary)/*||TextUtils.isEmpty(imageUrl)*/ ||
+                EmaSDK.getInstance().bitmap == null || TextUtils.isEmpty(EmaSDK.getInstance().url)) {
             Toast.makeText(mContext, "请传入完整参数", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        saveBitmap(bitmap, new ShareQQImage() {
+        saveBitmap(EmaSDK.getInstance().bitmap, new ShareQQImage() {
             @Override
             public void shareImage() {
                 ArrayList<String> imageUrls = new ArrayList<String>();
                 final Bundle params = new Bundle();
                 params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
-                params.putString(QzoneShare.SHARE_TO_QQ_TITLE, title);
-                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, url);
-                params.putString(QQShare.SHARE_TO_QQ_SUMMARY, summary);
+                params.putString(QzoneShare.SHARE_TO_QQ_TITLE, EmaSDK.getInstance().title);
+                params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, EmaSDK.getInstance().url);
+                params.putString(QQShare.SHARE_TO_QQ_SUMMARY, EmaSDK.getInstance().summary);
                 //  params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl);
                 imageUrls.add(ImageUrl);
                 params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
@@ -276,15 +286,15 @@ public class QQShareUtils {
         });*/
     }
 
-    public void shareQzoneText(String summary, EmaSDKListener listener) {
-        this.mListener = listener;
-        if (TextUtils.isEmpty(summary)) {
+    public void shareQzoneText(/*String summary, EmaSDKListener listener*/) {
+      //  this.mListener = listener;
+        if (TextUtils.isEmpty(EmaSDK.getInstance().summary)) {
             Toast.makeText(mContext, "请传入完整参数", Toast.LENGTH_SHORT).show();
             return;
         }
         final Bundle params = new Bundle();
         params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, QzonePublish.PUBLISH_TO_QZONE_TYPE_PUBLISHMOOD);
-        params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, summary);
+        params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, EmaSDK.getInstance().summary);
         ArrayList<String> imageUrls = new ArrayList<String>();
         imageUrls.add(ImageUrl);
         params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
@@ -318,33 +328,36 @@ public class QQShareUtils {
 
     public IUiListener emIUiListener = new IUiListener() {
         public void onComplete(Object o) {
+
             Log.i(this.getClass().getName(), "QQShareUtils  onComplete---" + o.toString());
             if (o == null) {
                 //  Toast.makeText(mContext,"分享失败",Toast.LENGTH_SHORT).show();
-                mListener.onCallBack(EmaCallBackConst.EMA_SHARE_FAIL, "QQ分享失败");
+                EmaSDK.getInstance().mListener.onCallBack(EmaCallBackConst.EMA_SHARE_FAIL, "QQ分享失败");
             } else {
                 JSONObject resultJson = (JSONObject) o;
                 if (resultJson.optInt("ret") == 0) {
                     //  Toast.makeText(mContext,"分享成功",Toast.LENGTH_SHORT).show();
-                    mListener.onCallBack(EmaCallBackConst.EMA_SHARE_OK, "分享成功");
+                    EmaSDK.getInstance().mListener.onCallBack(EmaCallBackConst.EMA_SHARE_OK, "分享成功");
 
                 }
             }
-
+           ((Activity)mContext).finish();
         }
 
         @Override
         public void onError(UiError uiError) {
             //  Toast.makeText(mContext,uiError.errorMessage,Toast.LENGTH_SHORT).show();
             Log.i(this.getClass().getName(), "QQShareUtils  onError---");
-            mListener.onCallBack(EmaCallBackConst.EMA_SHARE_FAIL, "分享失败");
+            EmaSDK.getInstance().mListener.onCallBack(EmaCallBackConst.EMA_SHARE_FAIL, "分享失败");
+            ((Activity)mContext).finish();
         }
 
         @Override
         public void onCancel() {
             Log.i(this.getClass().getName(), "QQShareUtils  onCancel---");
             // Toast.makeText(mContext,"取消分享",Toast.LENGTH_SHORT).show();
-            mListener.onCallBack(EmaCallBackConst.EMA_SHARE_CANCLE, "分享取消");
+            EmaSDK.getInstance().mListener.onCallBack(EmaCallBackConst.EMA_SHARE_CANCLE, "分享取消");
+           ((Activity)mContext).finish();
         }
     };
 

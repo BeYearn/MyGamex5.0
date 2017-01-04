@@ -225,7 +225,7 @@ public class WebViewActivity extends Activity implements OnClickListener ,EmaSDK
                     protected void onPostExecute(Bitmap bitmap) {
                        /*  WebViewActivity.this.shareBitmap=bitmap;
                         mHandler.sendEmptyMessage(0);*/
-                     EmaSDK.getInstance().doShareWebPage((Activity) context,WebViewActivity.this, url, title, desc, bitmap);
+                  EmaSDK.getInstance().doShareWebPage((Activity) context,WebViewActivity.this, url, title, desc, bitmap);
                     }
                 }.execute();
             } catch (Exception e) {
@@ -574,12 +574,12 @@ public class WebViewActivity extends Activity implements OnClickListener ,EmaSDK
         return bitmap;
     }
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         EmaSDK.getInstance().onActivityResult(requestCode, resultCode, data);
 
-    }
+    }*/
 
     @Override
     protected void onPause() {

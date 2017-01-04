@@ -13,6 +13,7 @@ import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
+import com.tencent.tauth.Tencent;
 
 import static com.emagroup.sdk.WeiboShareUtils.SHARE_TEXT;
 import static com.emagroup.sdk.WeiboShareUtils.SHARE_WEBPAGE;
@@ -25,7 +26,6 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
     private IWeiboShareAPI mWeiboShareAPI;
     private boolean canShare;
 
-    private String qqTitle,QQUrl,qqSummary;
 
 
 
@@ -56,16 +56,24 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
                 }
            }else {
                 switch (intent.getIntExtra("sharType", 0)) {
-                    case WeiboShareUtils.SHARE_IMAGE:
-                        //   QQShareUtils.getIntance(WeiBoEntryActivity.this).;
+                    case QQShareUtils.SHARE_QQ_FRIEDNS_IMAGE:
+                       /* QQShareUtils.getIntance*/new QQShareUtils(WeiBoEntryActivity.this).shareQQFriendImage();
                         break;
-                    case SHARE_WEBPAGE:
-                        doWeiBoShareWebpage(intent.getStringExtra("title"), intent.getStringExtra("description"), intent.getStringExtra("url"));
+                    case QQShareUtils.SHARE_QQ_FRIEDNS_WEBPAGE:
+                       /* QQShareUtils.getIntance*/new QQShareUtils(WeiBoEntryActivity.this).shareQQFriendsWebPage();
                         break;
-                    case SHARE_TEXT:
-                        doWeiboShareText(intent.getStringExtra("text"));
+                    case  QQShareUtils.SHARE_QQ_QZONE_IMAGE:
+                       /* QQShareUtils.getIntance*/new QQShareUtils(WeiBoEntryActivity.this).shareQzoneImage();
                         break;
+                    case QQShareUtils.SHARE_QQ_QZONE_TEXT:
+                        /*QQShareUtils.getIntance*/new QQShareUtils(WeiBoEntryActivity.this).shareQzoneText();
+                        break;
+                    case  QQShareUtils.SHARE_QQ_QZONE_WEBPAGE:
+                        /*QQShareUtils.getIntance*/new QQShareUtils(WeiBoEntryActivity.this).shareQzoneWebPage();
+                        break;
+
                 }
+
             }
             USharedPerUtil.setParam(this,"canWbShare",false);
         }
@@ -175,5 +183,11 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
         TextObject textObject = new TextObject();
         textObject.text = text;
         return textObject;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Tencent.onActivityResultData(requestCode,resultCode,data,new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
+
     }
 }

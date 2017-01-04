@@ -18,7 +18,9 @@ import static com.emagroup.sdk.UCommUtil.doShare;
 public class EmaSDK {
     private static EmaSDK mInstance;
     private EmaSDKListener reciveMsgListener;
-
+    public String title,url,summary;
+    public Bitmap bitmap;
+    public EmaSDKListener mListener;
     private EmaSDK() {
     }
 
@@ -133,13 +135,25 @@ public class EmaSDK {
 
             @Override
             public void OnQQClick() {
-                QQShareUtils.getIntance(activity).shareQQFriendImage(listener, bitmap);
+              //  QQShareUtils.getIntance(activity).shareQQFriendImage(listener, bitmap);
+                EmaSDK.this.mListener=listener;
+                EmaSDK.this.bitmap=bitmap;
+                Intent intent=new Intent(activity,WeiBoEntryActivity.class);
+                intent.putExtra("sharePf","QQ");
+                intent.putExtra("sharType",QQShareUtils.SHARE_QQ_FRIEDNS_IMAGE);
+                activity.startActivity(intent);
             }
 
             @Override
             public void OnQZoneClick() {
                 // Toast.makeText(activity,"QQ空间无图片分享",Toast.LENGTH_SHORT).show();
-                QQShareUtils.getIntance(activity).shareQzoneImage(listener, bitmap);
+             //   QQShareUtils.getIntance(activity).shareQzoneImage(listener, bitmap);
+                EmaSDK.this.mListener=listener;
+                EmaSDK.this. bitmap=bitmap;
+                Intent intent=new Intent(activity,WeiBoEntryActivity.class);
+                intent.putExtra("sharePf","QQ");
+                intent.putExtra("sharType",QQShareUtils.SHARE_QQ_QZONE_IMAGE);
+                activity.startActivity(intent);
             }
         });
     }
@@ -168,7 +182,14 @@ public class EmaSDK {
 
             @Override
             public void OnQZoneClick() {
-                QQShareUtils.getIntance(activity).shareQzoneText(text, listener);
+              //  QQShareUtils.getIntance(activity).shareQzoneText(text, listener);
+
+                EmaSDK.this.mListener=listener;
+                EmaSDK.this.summary=text;
+                Intent intent=new Intent(activity,WeiBoEntryActivity.class);
+                intent.putExtra("sharePf","QQ");
+                intent.putExtra("sharType",QQShareUtils.SHARE_QQ_QZONE_TEXT);
+                activity.startActivity(intent);
             }
         });
     }
@@ -193,12 +214,30 @@ public class EmaSDK {
 
             @Override
             public void OnQQClick() {
-                QQShareUtils.getIntance(activity).shareQQFriendsWebPage(listener, title, url, description, bitmap);
+                EmaSDK.this.mListener=listener;
+                EmaSDK.this.bitmap=bitmap;
+                EmaSDK.this.title=title;
+                EmaSDK.this.url=url;
+                EmaSDK.this.summary=description;
+                Intent intent=new Intent(activity,WeiBoEntryActivity.class);
+                intent.putExtra("sharePf","QQ");
+                intent.putExtra("sharType",QQShareUtils.SHARE_QQ_FRIEDNS_WEBPAGE);
+                activity.startActivity(intent);
+               // QQShareUtils.getIntance(activity).shareQQFriendsWebPage(listener, title, url, description, bitmap);
             }
 
             @Override
             public void OnQZoneClick() {
-                QQShareUtils.getIntance(activity).shareQzoneWebPage(listener, title, url, description, bitmap);
+               // QQShareUtils.getIntance(activity).shareQzoneWebPage(listener, title, url, description, bitmap);
+                EmaSDK.this.mListener=listener;
+                EmaSDK.this.bitmap=bitmap;
+                EmaSDK.this.title=title;
+                EmaSDK.this.url=url;
+                EmaSDK.this.summary=description;
+                Intent intent=new Intent(activity,WeiBoEntryActivity.class);
+                intent.putExtra("sharePf","QQ");
+                intent.putExtra("sharType",QQShareUtils.SHARE_QQ_QZONE_WEBPAGE);
+                activity.startActivity(intent);
             }
         });
     }

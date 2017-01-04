@@ -459,12 +459,12 @@ public class Ema {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == Constants.REQUEST_LOGIN ||
 				requestCode == Constants.REQUEST_APPBAR) {
-			Tencent.onActivityResultData(requestCode, resultCode, data,ThirdLoginUtils.getInstance(mContext).emIUiListener);
-		}else if (requestCode == Constants.REQUEST_QZONE_SHARE) {
+			 Tencent.onActivityResultData(requestCode, resultCode, data,ThirdLoginUtils.getInstance(mContext).emIUiListener);
+		}/*else if (requestCode == Constants.REQUEST_QZONE_SHARE) {
 			Tencent.onActivityResultData(requestCode,resultCode,data,QQShareUtils.getIntance(mContext).emIUiListener);
 		}else if (requestCode == Constants.REQUEST_QQ_SHARE) {
 			Tencent.onActivityResultData(requestCode,resultCode,data,QQShareUtils.getIntance(mContext).emIUiListener);
-		}/*else if (requestCode == 0) {//QQ分享本地图片
+		}*//*else if (requestCode == 0) {//QQ分享本地图片
 			String path = null;
 			if (resultCode == Activity.RESULT_OK) {
 				if (data != null && data.getData() != null) {
