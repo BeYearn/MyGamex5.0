@@ -80,8 +80,9 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
                 case EmaConst.PAY_RESULT_DELAYED:  // 延迟发货的提醒
                     new EmaDialogPayPromptResult(PayTrdActivity.this, 0,EmaConst.PAY_RESULT_DELAYED,"支付成功\n道具发放可能存在延迟，请耐心等待。").show();
                     break;
-                case PayTrdActivity.PAY_ACTIVITY_CLOSE:  //关闭支付订单页面（本页面）
+                case PayTrdActivity.PAY_ACTIVITY_CLOSE:  //顺利支付完成后 关闭支付订单页面（本页面）
                     PayTrdActivity.this.finish();
+                    ToolBar.getInstance(PayTrdActivity.this).showToolBar();
                     break;
                 case PayTrdActivity.PAY_ACTIVITY_DIALOG_CANLE:
                     showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_CANCEL, "");
