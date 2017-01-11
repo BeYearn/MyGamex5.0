@@ -13,6 +13,7 @@ import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
+import com.tencent.connect.common.Constants;
 import com.tencent.tauth.Tencent;
 
 import static com.emagroup.sdk.WeiboShareUtils.SHARE_TEXT;
@@ -187,7 +188,11 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Tencent.onActivityResultData(requestCode,resultCode,data,new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
-
+      //  Tencent.onActivityResultData(requestCode,resultCode,data,new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
+        if (requestCode == Constants.REQUEST_QZONE_SHARE) {
+            Tencent.onActivityResultData(requestCode,resultCode,data,new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
+        }else if (requestCode == Constants.REQUEST_QQ_SHARE) {
+            Tencent.onActivityResultData(requestCode,resultCode,data,new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
+        }
     }
 }

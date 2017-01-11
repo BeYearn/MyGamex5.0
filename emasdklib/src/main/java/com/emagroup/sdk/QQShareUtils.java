@@ -2,7 +2,6 @@ package com.emagroup.sdk;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,61 +34,32 @@ import java.util.Date;
 public class QQShareUtils {
     private Tencent mTencent;
     private Context mContext;
-    private static QQShareUtils mIntance;
-    public static int Build_VERSION_KITKAT = 19;
-    public static String ACTION_OPEN_DOCUMENT = "android.intent.action.OPEN_DOCUMENT";
-    private static final String PATH_DOCUMENT = "document";
-    private String ImageUrl = "http://img7.doubanio.com/lpic/s3635685.jpg";
-    //public EmaSDKListener mListener;
-    public static  final int SHARE_QQ_FRIEDNS_IMAGE=0;
-    public static  final int SHARE_QQ_FRIEDNS_WEBPAGE=1;
-    public static  final  int SHARE_QQ_QZONE_TEXT=2;
-    public static  final  int SHARE_QQ_QZONE_IMAGE=3;
-    public static  final  int SHARE_QQ_QZONE_WEBPAGE=4;
- /*   public String title,url,summary;
-    public Bitmap bitmap;*/
+    /* public static int Build_VERSION_KITKAT = 19;
+     public static String ACTION_OPEN_DOCUMENT = "android.intent.action.OPEN_DOCUMENT";
+     private static final String PATH_DOCUMENT = "document";*/
+    private String imageUrl = "http://img7.doubanio.com/lpic/s3635685.jpg";
+    public static final int SHARE_QQ_FRIEDNS_IMAGE = 0;
+    public static final int SHARE_QQ_FRIEDNS_WEBPAGE = 1;
+    public static final int SHARE_QQ_QZONE_TEXT = 2;
+    public static final int SHARE_QQ_QZONE_IMAGE = 3;
+    public static final int SHARE_QQ_QZONE_WEBPAGE = 4;
 
-   /* public static QQShareUtils getIntance(Context context) {
-        if (mIntance == null) {
-            mIntance = new QQShareUtils(context);
-        }
-        return mIntance;
-    }
-*/
     public QQShareUtils(Context context) {
         this.mContext = context;
         mTencent = Tencent.createInstance(ConfigManager.getInstance(mContext).getQQAppId(), mContext);
     }
 
- /*   public void setImageUrl(String imageUrl) {
-        ImageUrl = imageUrl;
-        final Bundle params = new Bundle();
-        //  params.putString(QQShare.SHARE_TO_QQ_APP_NAME,appName);
-        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
-        params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, ImageUrl);
-
-        ThreadManager.getMainHandler().post(new Runnable() {
-
-            @Override
-            public void run() {
-                if (null != mTencent) {
-                    mTencent.shareToQQ((Activity) mContext, params, emIUiListener);
-                }
-            }
-        });
-    }*/
-
-    public void shareQQFriendImage(/*EmaSDKListener listener, Bitmap bitmap*/) {
-      //  this.mListener = listener;
-        // startPickLocaleImage();
-
+    public void shareQQFriendImage() {
+        if (EmaSDK.getInstance().bitmap==null) {
+            Toast.makeText(mContext, "请传入完整参数", Toast.LENGTH_SHORT).show();
+            return;
+        }
         saveBitmap(EmaSDK.getInstance().bitmap, new ShareQQImage() {
             @Override
             public void shareImage() {
                 final Bundle params = new Bundle();
-                //  params.putString(QQShare.SHARE_TO_QQ_APP_NAME,appName);
                 params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
-                params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, ImageUrl);
+                params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, imageUrl);
 
                 ThreadManager.getMainHandler().post(new Runnable() {
 
@@ -102,40 +72,20 @@ public class QQShareUtils {
                 });
             }
         });
-        /*try {
-            saveBitmap(bitmap,mContext);
-            final Bundle params = new Bundle();
-            //  params.putString(QQShare.SHARE_TO_QQ_APP_NAME,appName);
-            params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);
-            params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, ImageUrl);
-
-            ThreadManager.getMainHandler().post(new Runnable() {
-
-                @Override
-                public void run() {
-                    if (null != mTencent) {
-                        mTencent.shareToQQ((Activity) mContext, params, emIUiListener);
-                    }
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-        //  params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, 0);
-
     }
 
-    public void shareQzoneImage(/*EmaSDKListener listener, Bitmap bitmap*/) {
-      //  this.mListener = listener;
-        // startPickLocaleImage();
-
+    public void shareQzoneImage() {
+        if (EmaSDK.getInstance().bitmap==null) {
+            Toast.makeText(mContext, "请传入完整参数", Toast.LENGTH_SHORT).show();
+            return;
+        }
         saveBitmap(EmaSDK.getInstance().bitmap, new ShareQQImage() {
             @Override
             public void shareImage() {
                 final Bundle params = new Bundle();
                 params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, 3);
                 ArrayList<String> imageUrls = new ArrayList<String>();
-                imageUrls.add(ImageUrl);
+                imageUrls.add(imageUrl);
                 params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
                 ThreadManager.getMainHandler().post(new Runnable() {
                     @Override
@@ -147,34 +97,12 @@ public class QQShareUtils {
                 });
             }
         });
-        /*try {
-            saveBitmap(bitmap,mContext);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        final Bundle params = new Bundle();
-            params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, 3);
-            ArrayList<String> imageUrls = new ArrayList<String>();
-            imageUrls.add(ImageUrl);
-            params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
-
-            ThreadManager.getMainHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    if (null != mTencent) {
-                        mTencent.publishToQzone((Activity) mContext, params, emIUiListener);
-                    }
-                }
-            });*/
-        //  params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, 0);
-
     }
 
-    public void shareQQFriendsWebPage(/*EmaSDKListener listener, final String title, final String url, final String summary, Bitmap bitmap *//*String imageUrl*/) {
-     //   this.mListener = listener;
+    public void shareQQFriendsWebPage() {
         if (TextUtils.isEmpty(EmaSDK.getInstance().title) ||
-                TextUtils.isEmpty(EmaSDK.getInstance().summary) ||EmaSDK.getInstance(). bitmap == null
-                ||/*TextUtils.isEmpty(imageUrl)||*/TextUtils.isEmpty(EmaSDK.getInstance().url)) {
+                TextUtils.isEmpty(EmaSDK.getInstance().summary) || EmaSDK.getInstance().bitmap == null
+                || TextUtils.isEmpty(EmaSDK.getInstance().url)) {
             Toast.makeText(mContext, "请传入完整参数", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -186,10 +114,8 @@ public class QQShareUtils {
                 params.putString(QQShare.SHARE_TO_QQ_TITLE, EmaSDK.getInstance().title);
                 params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, EmaSDK.getInstance().url);
                 params.putString(QQShare.SHARE_TO_QQ_SUMMARY, EmaSDK.getInstance().summary);
-                params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, ImageUrl);
-                // params.putString(QQShare.SHARE_TO_QQ_APP_NAME,appName);
+                params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl);
                 params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-                //  params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, 0);
                 ThreadManager.getMainHandler().post(new Runnable() {
 
                     @Override
@@ -201,35 +127,13 @@ public class QQShareUtils {
                 });
             }
         });
-      /*  try {
-            saveBitmap(bitmap,mContext);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        final Bundle params = new Bundle();
-        params.putString(QQShare.SHARE_TO_QQ_TITLE, title);
-        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, url);
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, summary);
-        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, ImageUrl);
-       // params.putString(QQShare.SHARE_TO_QQ_APP_NAME,appName);
-        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-      //  params.putInt(QQShare.SHARE_TO_QQ_EXT_INT, 0);
-        ThreadManager.getMainHandler().post(new Runnable() {
-
-            @Override
-            public void run() {
-                if (null != mTencent) {
-                    mTencent.shareToQQ((Activity) mContext, params, emIUiListener);
-                }
-            }
-        });*/
     }
 
-    public void shareQzoneWebPage(/*EmaSDKListener listener, final String title, final String url, final String summary, Bitmap bitmap*/ /*String imageUrl*//*ArrayList<String> imageUrls*/) {
+    public void shareQzoneWebPage() {
 
-       // this.mListener = listener;
+        // this.mListener = listener;
         if (TextUtils.isEmpty(EmaSDK.getInstance().title) || TextUtils.isEmpty(
-                EmaSDK.getInstance().summary)/*||TextUtils.isEmpty(imageUrl)*/ ||
+                EmaSDK.getInstance().summary)||
                 EmaSDK.getInstance().bitmap == null || TextUtils.isEmpty(EmaSDK.getInstance().url)) {
             Toast.makeText(mContext, "请传入完整参数", Toast.LENGTH_SHORT).show();
             return;
@@ -245,7 +149,7 @@ public class QQShareUtils {
                 params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, EmaSDK.getInstance().url);
                 params.putString(QQShare.SHARE_TO_QQ_SUMMARY, EmaSDK.getInstance().summary);
                 //  params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl);
-                imageUrls.add(ImageUrl);
+                imageUrls.add(imageUrl);
                 params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
                 // QZone分享要在主线程做
                 ThreadManager.getMainHandler().post(new Runnable() {
@@ -260,34 +164,10 @@ public class QQShareUtils {
             }
         });
 
-      /*  try {
-            saveBitmap(bitmap,mContext);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ArrayList<String> imageUrls = new ArrayList<String>();
-        final Bundle params = new Bundle();
-        params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
-        params.putString(QzoneShare.SHARE_TO_QQ_TITLE, title);
-        params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, url);
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, summary);
-      //  params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, imageUrl);
-        imageUrls.add(ImageUrl);
-       params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
-        // QZone分享要在主线程做
-        ThreadManager.getMainHandler().post(new Runnable() {
 
-            @Override
-            public void run() {
-                if (null != mTencent) {
-                    mTencent.shareToQzone((Activity) mContext, params, emIUiListener);
-                }
-            }
-        });*/
     }
 
-    public void shareQzoneText(/*String summary, EmaSDKListener listener*/) {
-      //  this.mListener = listener;
+    public void shareQzoneText() {
         if (TextUtils.isEmpty(EmaSDK.getInstance().summary)) {
             Toast.makeText(mContext, "请传入完整参数", Toast.LENGTH_SHORT).show();
             return;
@@ -296,7 +176,7 @@ public class QQShareUtils {
         params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, QzonePublish.PUBLISH_TO_QZONE_TYPE_PUBLISHMOOD);
         params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, EmaSDK.getInstance().summary);
         ArrayList<String> imageUrls = new ArrayList<String>();
-        imageUrls.add(ImageUrl);
+        imageUrls.add(imageUrl);
         params.putStringArrayList(QzoneShare.SHARE_TO_QQ_IMAGE_URL, imageUrls);
         // QQ分享要在主线程做
         ThreadManager.getMainHandler().post(new Runnable() {
@@ -304,60 +184,41 @@ public class QQShareUtils {
             @Override
             public void run() {
                 if (null != mTencent) {
-                    mTencent.publishToQzone((Activity) mContext, params, emIUiListener /*ThirdLoginUtils.getInstance(mActivity).emIUiListener*/);
+                    mTencent.publishToQzone((Activity) mContext, params, emIUiListener);
                 }
             }
         });
 
     }
 
-    private void startPickLocaleImage() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-
-        if (android.os.Build.VERSION.SDK_INT >= Build_VERSION_KITKAT) {
-            intent.setAction(ACTION_OPEN_DOCUMENT);
-        } else {
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-        }
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
-        ((Activity) mContext).startActivityForResult(
-                Intent.createChooser(intent, "本地图片"), 0);
-    }
-
-
     public IUiListener emIUiListener = new IUiListener() {
         public void onComplete(Object o) {
 
             Log.i(this.getClass().getName(), "QQShareUtils  onComplete---" + o.toString());
             if (o == null) {
-                //  Toast.makeText(mContext,"分享失败",Toast.LENGTH_SHORT).show();
                 EmaSDK.getInstance().mListener.onCallBack(EmaCallBackConst.EMA_SHARE_FAIL, "QQ分享失败");
             } else {
                 JSONObject resultJson = (JSONObject) o;
                 if (resultJson.optInt("ret") == 0) {
-                    //  Toast.makeText(mContext,"分享成功",Toast.LENGTH_SHORT).show();
                     EmaSDK.getInstance().mListener.onCallBack(EmaCallBackConst.EMA_SHARE_OK, "分享成功");
 
                 }
             }
-           ((Activity)mContext).finish();
+            ((Activity) mContext).finish();
         }
 
         @Override
         public void onError(UiError uiError) {
-            //  Toast.makeText(mContext,uiError.errorMessage,Toast.LENGTH_SHORT).show();
             Log.i(this.getClass().getName(), "QQShareUtils  onError---");
             EmaSDK.getInstance().mListener.onCallBack(EmaCallBackConst.EMA_SHARE_FAIL, "分享失败");
-            ((Activity)mContext).finish();
+            ((Activity) mContext).finish();
         }
 
         @Override
         public void onCancel() {
             Log.i(this.getClass().getName(), "QQShareUtils  onCancel---");
-            // Toast.makeText(mContext,"取消分享",Toast.LENGTH_SHORT).show();
             EmaSDK.getInstance().mListener.onCallBack(EmaCallBackConst.EMA_SHARE_CANCLE, "分享取消");
-           ((Activity)mContext).finish();
+            ((Activity) mContext).finish();
         }
     };
 
@@ -371,7 +232,7 @@ public class QQShareUtils {
                 if (!folder.exists()) {
                     folder.mkdir();
                 }
-                File file = new File("/mnt/sdcard/dcim/Camera/" + fileName + ".jpg");
+                File file = new File("/mnt/sdcard/dcim/Camera/" + fileName + ".png");
                 //  Toast.makeText(context, "保存图片中", Toast.LENGTH_SHORT).show();
                 FileOutputStream out;
                 if (!file.exists()) {
@@ -379,9 +240,8 @@ public class QQShareUtils {
                     try {
                         out = new FileOutputStream(file);
                         if (bitmaps[0].compress(Bitmap.CompressFormat.PNG, 70, out)) {
-                   /* Toast.makeText(context, "成功存入相册",
-                            Toast.LENGTH_SHORT).show();*/
-                            ImageUrl = file.getAbsolutePath();
+
+                            imageUrl = file.getAbsolutePath();
                             out.flush();
                             out.close();
                         }
@@ -402,32 +262,6 @@ public class QQShareUtils {
             }
         }.execute(bitmap);
 
-       /*  SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
-        String fileName=simpleDateFormat.format(new Date());
-        File folder = new File("/mnt/sdcard/dcim/Camera/");
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
-        File file = new File("/mnt/sdcard/dcim/Camera/" + fileName + ".jpg");
-      //  Toast.makeText(context, "保存图片中", Toast.LENGTH_SHORT).show();
-        FileOutputStream out;
-        if (!file.exists()) {
-
-            try {
-                out = new FileOutputStream(file);
-                if (bitmap.compress(Bitmap.CompressFormat.PNG, 70, out)) {
-                   *//* Toast.makeText(context, "成功存入相册",
-                            Toast.LENGTH_SHORT).show();*//*
-                    ImageUrl=file.getAbsolutePath();
-                    out.flush();
-                    out.close();
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 
     interface ShareQQImage {

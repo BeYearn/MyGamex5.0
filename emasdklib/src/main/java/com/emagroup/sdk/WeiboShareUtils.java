@@ -39,36 +39,10 @@ public class WeiboShareUtils {
 
 
     }
-
-    public void doWeiboShare(String text ,Bitmap  bitmap) {
-
-     /*   if(TextUtils.isEmpty(text)||bitmap==null){
-            Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if(!mWeiboShareAPI.isWeiboAppInstalled()){
-            Toast.makeText(mActivity,"未安装或版本过低, 请下载更新的版本",Toast.LENGTH_LONG).show();
-            return;
-        } */
-      // 1. 初始化微博的分享消息
-          /*  WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-            weiboMessage.textObject = getTextObj(text);
-          weiboMessage.imageObject =getImageObj(bitmap);
-            // 2. 初始化从第三方到微博的消息请求
-            SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-            // 用transaction唯一标识一个请求
-            request.transaction = String.valueOf(System.currentTimeMillis());
-            request.multiMessage = weiboMessage;
-
-            // 3. 发送请求消息到微博，唤起微博分享界面
-            mWeiboShareAPI.sendRequest(mActivity, request);*/
-    }
-
-    public void doWeiboShareImage/*Text*/(/*String text ,*/EmaSDKListener listener,Bitmap  bitmap) {
+    public void doWeiboShareImage(EmaSDKListener listener,Bitmap  bitmap) {
         this.mListener = listener;
         this.bitmap=bitmap;
-        if(/*TextUtils.isEmpty(text)||*/bitmap==null){
+        if(bitmap==null){
             Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
             return;
         }
@@ -77,31 +51,7 @@ public class WeiboShareUtils {
             Toast.makeText(mActivity,"未安装或版本过低, 请下载更新的版本",Toast.LENGTH_LONG).show();
             return;
         }
-
         startWeiBoEntryActivity(SHARE_IMAGE,new Intent());
-
-      /*  WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-         ImageObject imageObject = new ImageObject();*/
-
-        //BitmapDrawable bitmapDrawable = (BitmapDrawable) mImageView.getDrawable();
-        //设置缩略图。 注意：最终压缩过的缩略图大小不得超过 32kb。
-       // Bitmap bitmap = BitmapFactory.decodeResource(mActivity.getResources(),icon);
-     //   Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
-
-       /* imageObject.setImageObject(bitmap);
-        weiboMessage.imageObject =imageObject;
-
-        // 2. 初始化从第三方到微博的消息请求
-        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-        // 用transaction唯一标识一个请求
-        request.transaction = String.valueOf(System.currentTimeMillis());
-        request.multiMessage = weiboMessage;
-
-        // 3. 发送请求消息到微博，唤起微博分享界面
-        boolean statu=  mWeiboShareAPI.sendRequest(mActivity, request);
-        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);*/
-
-      //  return imageObject;
     }
 
     private void startWeiBoEntryActivity(int type,Intent intent) {
@@ -113,7 +63,7 @@ public class WeiboShareUtils {
 
     public   void doWeiboShareText (String text,EmaSDKListener listener){
         this.mListener = listener;
-        if(TextUtils.isEmpty(text)/*||bitmap==null*/){
+        if(TextUtils.isEmpty(text)){
             Toast.makeText(mActivity,"请输入完整参数",Toast.LENGTH_LONG).show();
             return;
         }
@@ -125,20 +75,6 @@ public class WeiboShareUtils {
         Intent intent=new Intent();
         intent.putExtra("text",text);
         startWeiBoEntryActivity(SHARE_TEXT,intent);
-
-       /* WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-         weiboMessage.textObject = getTextObj(text);
-
-        // 2. 初始化从第三方到微博的消息请求
-        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-        // 用transaction唯一标识一个请求
-        request.transaction = String.valueOf(System.currentTimeMillis());
-        request.multiMessage = weiboMessage;
-
-        // 3. 发送请求消息到微博，唤起微博分享界面
-        mWeiboShareAPI.sendRequest(mActivity, request);
-        boolean statu=  mWeiboShareAPI.sendRequest(mActivity, request);
-        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);*/
     }
 
     public void doWeiBoShareWebpage(String title, String description, Bitmap bitmap, String url, EmaSDKListener listener){
@@ -160,28 +96,6 @@ public class WeiboShareUtils {
         intent.putExtra("url",url);
         startWeiBoEntryActivity(SHARE_WEBPAGE,intent);
 
-     /*   WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-
-        WebpageObject mediaObject = new WebpageObject();
-        mediaObject.identify = Utility.generateGUID();
-        mediaObject.title = title;
-        mediaObject.description = description;
-        mediaObject.actionUrl = url;
-        mediaObject.defaultText = "Webpage 默认文案";
-     //   Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
-        mediaObject.setThumbImage(bitmap);
-        weiboMessage.mediaObject=mediaObject;
-
-
-        // 2. 初始化从第三方到微博的消息请求
-        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-        // 用transaction唯一标识一个请求
-        request.transaction = String.valueOf(System.currentTimeMillis());
-        request.multiMessage = weiboMessage;
-
-        // 3. 发送请求消息到微博，唤起微博分享界面
-      boolean statu=  mWeiboShareAPI.sendRequest(mActivity, request);
-        Log.i("doWeiBoShareWebpage","doWeiBoShareWebpage statu "+statu);*/
     }
 
     /**

@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
+
 public class MainActivity extends Activity implements OnClickListener/*, Response */{
 
     private Button btLogin;
@@ -237,9 +239,9 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                 EmaSDK.getInstance().doSwichAccount();
                 break;
             case R.id.bt_emshare:
-                 shareImage();
+                  shareImage();
                 //  shareWebPage();
-                //   shareText();
+                //     shareText();
                 break;
             case R.id.again_init:
                init();
