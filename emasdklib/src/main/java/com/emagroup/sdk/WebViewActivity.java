@@ -425,7 +425,7 @@ public class WebViewActivity extends Activity implements OnClickListener ,EmaSDK
         cookieManager.setCookie(url, getCookie("deviceType", "android"));
         cookieManager.setCookie(url, getCookie("deviceKey", mDeviceInfoManager.getDEVICE_ID()));
         cookieManager.setCookie(url, getCookie("accountType", mEmaUser.getAccountType() + ""));
-        cookieManager.setCookie(url, getCookie("gameRoleInfo", Ema.getInstance().getGameInfoJson()));
+        cookieManager.setCookie(url, getCookie("gameRoleInfo", Ema.getInstance().getGameInfoJson().replace("\"","")));  //直接传{"xxx":"xxx",...} web端拿不到的
         LOG.e("______________", mEmaUser.getToken() + mEmaUser.getAllianceUid() + mEmaUser.getNickName() + "deviceid" + mDeviceInfoManager.getDEVICE_ID() + "type" + mEmaUser.getAccountType() + "");
         CookieSyncManager.getInstance().sync();
 
