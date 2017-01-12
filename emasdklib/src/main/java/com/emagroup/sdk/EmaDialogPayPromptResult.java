@@ -59,6 +59,10 @@ public class EmaDialogPayPromptResult extends Dialog {
 					// TODO: 2016/9/23  充值系列页面管理
 					EmaPayProcessManager.getInstance().closeRecharge();
 				}*/
+				if(mResultType!=EmaConst.PAY_RESULT_SUCC&&mResultType!=EmaConst.PAY_RESULT_DELAYED){
+					//call一次取消订单
+					EmaPay.getInstance(Ema.getInstance().getContext()).cancelOrder();
+				}
 			}
 		});
 	}
