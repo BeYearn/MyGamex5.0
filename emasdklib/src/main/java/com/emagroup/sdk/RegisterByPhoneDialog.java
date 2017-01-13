@@ -21,9 +21,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.emagroup.sdk.ThirdLoginUtils.ThirdLoginAfter;
-
-class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickListener  ,ThirdLoginAfter {
+class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickListener  ,ThirdLoginUtils.ThirdAllowAfter {
 
     private static final String TAG = "RegisterByPhoneDialog";
 
@@ -437,9 +435,9 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
       //
         Ema.getInstance().setWechatCanLogin(mActivity,false);
         ThirdLoginUtils.getInstance(mActivity).wachateLogin(this);
-        /*ThirdLoginUtils.getInstance(mActivity).wachateLogin(new ThirdLoginUtils.ThirdLoginAfter() {
+        /*ThirdLoginUtils.getInstance(mActivity).wachateLogin(new ThirdLoginUtils.ThirdAllowAfter() {
             @Override
-            public void wachateLoginAfter(String result) {
+            public void wachateAllowAfter(String result) {
                 mProgress.showProgress("登录中...");
                 Map<String,String> params=new HashMap();
                 params.put("accountType","3");
@@ -693,7 +691,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     }
 
   @Override
-    public void wachateLoginAfter(String result) {
+    public void wachateAllowAfter(String result) {
         mProgress.showProgress("登录中...");
         Map<String,String> params=new HashMap();
         params.put("accountType","3");
@@ -754,7 +752,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     }
 
     @Override
-    public void qqLoginAfter(Map<String, String> param) {
+    public void qqAllowAfter(Map<String, String> param) {
         mProgress.showProgress("登录中...");
         param.put("pfAppId",mConfigManager.getAppId());
         param.put("channelTag",mConfigManager.getChannelTag());

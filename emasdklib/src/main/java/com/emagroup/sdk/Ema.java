@@ -83,7 +83,7 @@ public class Ema {
 			ConfigManager.getInstance(getContext()).initServerUrl();
 
 			//先检查维护状态,并能从该方法中拿到appkey（这一步现在放在闪屏dialog中）
-			checkSDKStatus();
+			//checkSDKStatus();
 
 			//闪屏
 			showSplash();

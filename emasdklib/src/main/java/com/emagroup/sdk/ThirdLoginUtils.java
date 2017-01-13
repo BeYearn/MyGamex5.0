@@ -32,7 +32,7 @@ public class ThirdLoginUtils /*implements IUiListener */{
     private static ThirdLoginUtils instance=null;
     private Context mContext;
     private  IWXAPI mWeixinapi;
-    private ThirdLoginAfter mThirdLoginAfter;
+    private ThirdAllowAfter mThirdLoginAfter;
     private Tencent mTencent;
 
     private ThirdLoginUtils(Context mContext) {
@@ -50,7 +50,7 @@ public class ThirdLoginUtils /*implements IUiListener */{
         return  instance;
     }
 
-    public void wachateLogin(ThirdLoginAfter wxLoginAfter)
+    public void wachateLogin(ThirdAllowAfter wxLoginAfter)
     {
         this.mThirdLoginAfter =wxLoginAfter;
         boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
@@ -76,7 +76,7 @@ public class ThirdLoginUtils /*implements IUiListener */{
         Log.e("wechatLogin", "resp.result =" + result.errCode + "  result.state =" + result.state);
         if(result.errCode == 0)
         {
-           mThirdLoginAfter.wachateLoginAfter(result.code);
+           mThirdLoginAfter.wachateAllowAfter(result.code);
 
         }
         else if(result.errCode == -2)
@@ -91,7 +91,7 @@ public class ThirdLoginUtils /*implements IUiListener */{
         }
     }
 
-    public void qqLogin(ThirdLoginAfter thirdLoginAfter){
+    public void qqLogin(ThirdAllowAfter thirdLoginAfter){
         mThirdLoginAfter =thirdLoginAfter;
       //  mTencent.login((Activity) mContext,"get_simple_userinfo",this);//QQ回调接口下一行
         mTencent.login((Activity) mContext,"get_simple_userinfo",emIUiListener);
@@ -108,7 +108,7 @@ public IUiListener emIUiListener=new IUiListener() {
                 param.put("qqAppId",ConfigManager.getInstance(mContext).getQQAppId());
                 param.put("openId",resultJson.getString(Constants.PARAM_OPEN_ID));
                 param.put("accessToken",resultJson.getString(Constants.PARAM_ACCESS_TOKEN));
-                mThirdLoginAfter.qqLoginAfter(param);
+                mThirdLoginAfter.qqAllowAfter(param);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -137,7 +137,7 @@ public IUiListener emIUiListener=new IUiListener() {
                     Map<String,String> param=new HashMap();
                     param.put("qqAppId",ConfigManager.getInstance(mContext).getQQAppId());
                     param.put("openId",resultJson.getString(Constants.PARAM_OPEN_ID));
-                    mThirdLoginAfter.qqLoginAfter(param);
+                    mThirdLoginAfter.qqAllowAfter(param);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -154,12 +154,12 @@ public IUiListener emIUiListener=new IUiListener() {
         Toast.makeText(mContext,"取消登录",Toast.LENGTH_SHORT).show();
     }*/
 
-     interface   ThirdLoginAfter {
-        void wachateLoginAfter(String result);
-         void qqLoginAfter(Map<String,String> param);
+     interface ThirdAllowAfter {
+        void wachateAllowAfter(String result);
+         void qqAllowAfter(Map<String,String> param);
     }
-    /*interface   ThirdLoginAfter {
-        void wachateLoginAfter(String result);
+    /*interface   ThirdAllowAfter {
+        void wachateAllowAfter(String result);
 
     }*/
 
