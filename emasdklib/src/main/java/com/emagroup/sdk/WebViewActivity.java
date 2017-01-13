@@ -261,12 +261,12 @@ public class WebViewActivity extends Activity implements OnClickListener ,EmaSDK
         mWebView.getSettings().setBuiltInZoomControls(true);
         mWebView.getSettings().setTextZoom(75);
         mWebView.getSettings().setLoadsImagesAutomatically(true);
+        mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);//设置是否允许通过file url加载的Javascript可以访问其他的源，包括其他的文件和http,https等其他的源
         mWebView.getSettings()
                 .setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebView.getSettings().setLayoutAlgorithm(
                 LayoutAlgorithm.NARROW_COLUMNS);
         mWebView.setWebViewClient(new WebViewClientEma(mHandler));
-        mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {

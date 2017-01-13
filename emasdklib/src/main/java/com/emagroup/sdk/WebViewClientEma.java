@@ -1,7 +1,5 @@
 package com.emagroup.sdk;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,8 +16,8 @@ public class WebViewClientEma extends WebViewClient {
 	
 	@Override
 	public boolean shouldOverrideUrlLoading(WebView view, String url) {
-		LOG.d(TAG, url);
-		// 游戏退出
+		LOG.e("TAG", "webviewLoadUrl:"+url);
+		/*// 游戏退出
 		if (-1 != url.indexOf("/login/logout")) {
 			LOG.d(TAG, "WebViewClient:退出按钮");
 			mHandler.sendEmptyMessage(WebViewActivity.CODE_LOGOUT);
@@ -31,7 +29,7 @@ public class WebViewClientEma extends WebViewClient {
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 	        Ema.getInstance().getContext().startActivity(intent);
 			return true;
-		}
+		}*/
 		return false;
 	}
 	
