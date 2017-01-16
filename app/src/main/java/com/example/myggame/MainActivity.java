@@ -27,8 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
-
 public class MainActivity extends Activity implements OnClickListener/*, Response */{
 
     private Button btLogin;
@@ -123,6 +121,8 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                     Log.e("Mainactivity", EmaSDK.getInstance().getChannelId());
                     Log.e("Mainactivity", EmaSDK.getInstance().getChannelTag());
                    // ToastHelper.toast(MainActivity.this,EmaSDK.getInstance().isEma()+"");
+
+                    submitRoleinfo("24001");
                     break;
                 case EmaCallBackConst.LOGINCANELL://登陆取消回调
                     break;
@@ -259,19 +259,23 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
 
                 break;
             case R.id.up_game_info:
-                Map<String,String > param=new HashMap<String, String>();
-                param.put("roleId","roleId");
-                param.put("roleName","roleName");
-                param.put("roleLevel","roleLevel");
-                param.put("zoneId","zoneId");
-                param.put("zoneNeme","zoneNeme");
-                param.put("dataType","dataType");
-                param.put("ext","ext");
-                EmaUser.getInstance().submitLoginGameRole(param);
+                submitRoleinfo("24001");
                 break;
 
 
         }
+    }
+
+    private void submitRoleinfo(String zoneId){
+        Map<String,String > param=new HashMap<String, String>();
+        param.put("roleId","00001");
+        param.put("roleName","emasdk");
+        param.put("roleLevel","11");
+        param.put("zoneId",zoneId);
+        param.put("zoneName","emasever");
+        param.put("dataType","0");
+        param.put("ext","99999");
+        EmaUser.getInstance().submitLoginGameRole(param);
     }
 
    private void shareWebPage() {
