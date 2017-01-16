@@ -5,7 +5,9 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -33,7 +35,7 @@ public class ConfigManager {
 	private String wechatAppId;
 	private String weiBoAppId;
 	private String qqAppId;
-
+	private String sDirPath = Environment.getExternalStorageDirectory() +File.separator + "EMASDK"+File.separator +"ServerUrl"+File.separator;
 
 	public static ConfigManager getInstance(Context context){
 		if(mInstance == null){
@@ -244,17 +246,44 @@ public class ConfigManager {
 
 	/**
 	 * 初始化服务器地址，在sdk初始化的时候做
+	 * 1000.txt  product 环境
+	 * 1001.txt  staing 环境
+	 * 1002.txt  testing 环境
 	 */
-	public void initServerUrl(){
-
-		String emaEnvi = getStringFromMetaData(mContext,"EMA_WHICH_ENVI");
-		if("staging".equals(emaEnvi)){
-			Url.setServerUrl(Url.STAGING_SERVER_URL);
-		}else if("testing".equals(emaEnvi)){
-			Url.setServerUrl(Url.TESTING_SERVER_URL);
-		}else{
-			Url.setServerUrl(Url.PRODUCTION_SERVER_URL);
+	public void initServerUrl() {
+		File sDir = new File(sDirPath);
+		if (sDir.exists()) {
+			if (sDir.listFiles().length != 0) {
+				//for (File file:sDir.listFiles()){
+				if (sDir.listFiles()[0].getName().equals("1000.txt")) {
+					Url.setServerUrl(Url.PRODUCTION_SERVER_URL);
+				} else if (sDir.listFiles()[0].getName().equals("1001.txt")) {
+					Url.setServerUrl(Url.STAGING_SERVER_URL);
+				} else if (sDir.listFiles()[0].getName().equals("1002.txt")) {
+					Url.setServerUrl(Url.TESTING_SERVER_URL);
+				}
+				//}
+			} else {
+				String emaEnvi = getStringFromMetaData(mContext, "EMA_WHICH_ENVI");
+				if ("staging".equals(emaEnvi)) {
+					Url.setServerUrl(Url.STAGING_SERVER_URL);
+				} else if ("testing".equals(emaEnvi)) {
+					Url.setServerUrl(Url.TESTING_SERVER_URL);
+				} else {
+					Url.setServerUrl(Url.PRODUCTION_SERVER_URL);
+				}
+			}
+		} else {
+			String emaEnvi = getStringFromMetaData(mContext, "EMA_WHICH_ENVI");
+			if ("staging".equals(emaEnvi)) {
+				Url.setServerUrl(Url.STAGING_SERVER_URL);
+			} else if ("testing".equals(emaEnvi)) {
+				Url.setServerUrl(Url.TESTING_SERVER_URL);
+			} else {
+				Url.setServerUrl(Url.PRODUCTION_SERVER_URL);
+			}
 		}
+
 	}
 
 	/**

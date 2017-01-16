@@ -42,8 +42,8 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
 
     private IWXAPI mWeixinapi;
     /*    private Button btWxShare;*/
-        private Button btUpGameInfo;
-        private Button btAgain_init;
+    private Button btUpGameInfo;
+    private Button btAgain_init;
     private Button bt_snap_shot;
     private Button btEmShare;
 
