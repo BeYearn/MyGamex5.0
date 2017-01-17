@@ -246,23 +246,13 @@ public class ConfigManager {
 
 	/**
 	 * 初始化服务器地址，在sdk初始化的时候做
-	 * 1000.txt  product 环境
-	 * 1001.txt  staing 环境
-	 * 1002.txt  testing 环境
+	 *
 	 */
 	public void initServerUrl() {
 		File sDir = new File(sDirPath);
 		if (sDir.exists()) {
 			if (sDir.listFiles().length != 0) {
-				//for (File file:sDir.listFiles()){
-				if (sDir.listFiles()[0].getName().equals("1000.txt")) {
-					Url.setServerUrl(Url.PRODUCTION_SERVER_URL);
-				} else if (sDir.listFiles()[0].getName().equals("1001.txt")) {
-					Url.setServerUrl(Url.STAGING_SERVER_URL);
-				} else if (sDir.listFiles()[0].getName().equals("1002.txt")) {
-					Url.setServerUrl(Url.TESTING_SERVER_URL);
-				}
-				//}
+				Url.setServerUrl(UCommUtil.getFileContent(sDir.listFiles()[0]));
 			} else {
 				String emaEnvi = getStringFromMetaData(mContext, "EMA_WHICH_ENVI");
 				if ("staging".equals(emaEnvi)) {

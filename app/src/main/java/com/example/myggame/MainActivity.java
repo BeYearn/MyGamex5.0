@@ -62,7 +62,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
         // btWbShare = (Button) findViewById(R.id.bt_wbshare);
         btUpGameInfo= (Button) findViewById(R.id.up_game_info);
         btEmShare = (Button) findViewById(R.id.bt_emshare);
-         btAgain_init= (Button) findViewById(R.id.again_init);
+        btAgain_init= (Button) findViewById(R.id.again_init);
         bt_snap_shot = (Button) findViewById(R.id.bt_snap_shot);
         init();
 

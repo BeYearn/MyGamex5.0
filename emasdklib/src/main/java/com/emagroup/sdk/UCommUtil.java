@@ -9,6 +9,12 @@ import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
@@ -457,4 +463,33 @@ public class UCommUtil {
         shareDialog.setOnBtnListener(listener);
         shareDialog.showDialog();
     }
+    //读取指定目录下的所有TXT文件的文件内容
+    protected static String getFileContent(File file) {
+        String content  = "";
+            if (file.getName().endsWith(".txt")) {//文件格式为txt文件
+                try {
+                    InputStream instream = new FileInputStream(file);
+                    if (instream != null) {
+                        InputStreamReader inputreader
+                                =new InputStreamReader(instream, "GBK");
+                        BufferedReader buffreader = new BufferedReader(inputreader);
+                        String line="";
+                        //分行读取
+                       /* while (( line = buffreader.readLine()) != null) {
+                            content += line + "\n";
+                        }*/
+                        content=buffreader.readLine();
+                        instream.close();		//关闭输入流
+                    }
+                }
+                catch (java.io.FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                catch (IOException e)  {
+                    e.printStackTrace();
+                }
+            }
+        return content ;
+    }
+
 }
