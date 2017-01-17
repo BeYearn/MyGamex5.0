@@ -250,19 +250,8 @@ public class ConfigManager {
 	 */
 	public void initServerUrl() {
 		File sDir = new File(sDirPath);
-		if (sDir.exists()) {
-			if (sDir.listFiles().length != 0) {
-				Url.setServerUrl(UCommUtil.getFileContent(sDir.listFiles()[0]));
-			} else {
-				String emaEnvi = getStringFromMetaData(mContext, "EMA_WHICH_ENVI");
-				if ("staging".equals(emaEnvi)) {
-					Url.setServerUrl(Url.STAGING_SERVER_URL);
-				} else if ("testing".equals(emaEnvi)) {
-					Url.setServerUrl(Url.TESTING_SERVER_URL);
-				} else {
-					Url.setServerUrl(Url.PRODUCTION_SERVER_URL);
-				}
-			}
+		if (sDir.exists() && sDir.listFiles().length != 0) {
+			Url.setServerUrl(UCommUtil.getFileContent(sDir.listFiles()[0]));
 		} else {
 			String emaEnvi = getStringFromMetaData(mContext, "EMA_WHICH_ENVI");
 			if ("staging".equals(emaEnvi)) {

@@ -156,7 +156,7 @@ public class Url {
 	public static final String STAGING_SERVER_URL="https://staging-platform.lemonade-game.com";
 	public static final String TESTING_SERVER_URL="https://testing-platform.lemonade-game.com:8443";
 
-	private static String serverUrl="https://platform.lemonade-game.com";
+	public static String serverUrl="https://platform.lemonade-game.com";
 
 	public static void setServerUrl(String url){
 		serverUrl=url;

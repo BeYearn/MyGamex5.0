@@ -435,14 +435,28 @@ public class WebViewActivity extends Activity implements OnClickListener ,EmaSDK
 
     private String getCookie(String key, String value) {
         LOG.d(TAG, "key__:" + key + "    vlaue:" + value);
-        String emaEnvi = ConfigManager.getInstance(this).getStringFromMetaData(this, "EMA_WHICH_ENVI");
-        if ("staging".equals(emaEnvi)) {
+       // String emaEnvi = ConfigManager.getInstance(this).getStringFromMetaData(this, "EMA_WHICH_ENVI");
+        String emaEnvi =Url.serverUrl;
+        if(emaEnvi.contains("https://")){
+            emaEnvi=emaEnvi.replace("https://","").trim();
+        }else if(emaEnvi.contains("http://")){
+            emaEnvi=emaEnvi.replace("http://","").trim();
+        }
+
+        String domain;
+        if(emaEnvi.contains(":")){
+            domain=emaEnvi.split(":")[0];
+        }else{
+            domain=emaEnvi;
+        }
+        return key + "=" + value + ";domain="+domain+";path=/";
+      /*  if ("staging".equals(emaEnvi)) {
             return key + "=" + value + ";domain=staging-platform.lemonade-game.com;path=/";
         } else if ("testing".equals(emaEnvi)) {
             return key + "=" + value + ";domain=testing-platform.lemonade-game.com;path=/";
         } else {
             return key + "=" + value + ";domain=platform.lemonade-game.com;path=/";
-        }
+        }*/
     }
 
     /**
