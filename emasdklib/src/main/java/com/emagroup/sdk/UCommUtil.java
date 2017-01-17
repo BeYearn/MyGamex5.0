@@ -463,7 +463,7 @@ public class UCommUtil {
         shareDialog.setOnBtnListener(listener);
         shareDialog.showDialog();
     }
-    //读取指定目录下的所有TXT文件的文件内容
+    //读取指定目录下的TXT文件的第一行内容
     protected static String getFileContent(File file) {
         String content  = "";
             if (file.getName().endsWith(".txt")) {//文件格式为txt文件
