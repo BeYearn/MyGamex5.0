@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
+
 public class MainActivity extends Activity implements OnClickListener/*, Response */{
 
     private Button btLogin;
@@ -171,12 +173,17 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.bt_snap_shot:
-              /*  try {
-                    EmaSDK.getInstance().doShareImage(MainActivity.this, new ShareEmaSDKListener(), Snapshot.saveBitmap(view, MainActivity.this));
+             try {
+                 View vv = view.getRootView();
+                 // 设置属性
+                 vv.setDrawingCacheEnabled(true);
+                 // 取得位图
+
+                    EmaSDK.getInstance().doShareImage(MainActivity.this, new ShareEmaSDKListener(), vv.getDrawingCache()/*Snapshot.saveBitmap(view, MainActivity.this)*/);
                     // shareImage();;
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                }*/
+                }
                 break;
             case R.id.bt_login:
 

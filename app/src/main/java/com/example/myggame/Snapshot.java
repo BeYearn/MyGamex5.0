@@ -1,42 +1,42 @@
 package com.example.myggame;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.view.View;
-import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2016/12/14.
  */
 
 public class Snapshot {
-    public static Bitmap saveBitmap(View view,  Context context) throws IOException {
+  /*  public static Bitmap saveBitmap(View view,  Context context) throws IOException {
         // 得到当前view所在view结构中的根view
         View vv = view.getRootView();
         // 设置属性
         vv.setDrawingCacheEnabled(true);
         // 取得位图
         Bitmap bitmap= vv.getDrawingCache();
-      // bitmap = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
-        SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
-        String fileName=simpleDateFormat.format(new Date());
-        File folder = new File("/mnt/sdcard/dcim/Camera/");
-        if (!folder.exists()) {
-            folder.mkdir();
+        File folder,file = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+        String fileName = simpleDateFormat.format(new Date());
+        try {
+            folder  = new File( Environment.getExternalStorageDirectory().getCanonicalPath()+""+File.separator + "dcim"+File.separator +"Camera"+File.separator);
+            // File folder = new File("/mnt/sdcard/dcim/Camera/");
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+            //Environment.getExternalStorageDirectory() +File.separator + "EMASDK"+File.separator +"ServerUrl"+File.separator;
+            file = new File(Environment.getExternalStorageDirectory().getCanonicalPath()+""+File.separator + "dcim"+File.separator +"Camera"+File.separator+ fileName + ".png");
+
+            // File file = new File("/mnt/sdcard/dcim/Camera/" + fileName + ".png");
+            //  Toast.makeText(context, "保存图片中", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        File file = new File("/mnt/sdcard/dcim/Camera/" + fileName + ".png");
         Toast.makeText(context, "保存图片中", Toast.LENGTH_SHORT).show();
         FileOutputStream out;
         if (!file.exists()) {
@@ -54,9 +54,12 @@ public class Snapshot {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            finally {
+                return  bitmap  ;
+            }
         }
-        return  bitmap   /* Bitmap.createScaledBitmap(bitmap, 150, 150, true)*/ ;
-    }
+        return  bitmap  ;
+    }*/
     public static Bitmap getBitmap(String url) {
         URL imageURL = null;
         Bitmap bitmap = null;

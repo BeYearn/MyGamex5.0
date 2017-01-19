@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -227,13 +228,20 @@ public class QQShareUtils {
             @Override
             protected Void doInBackground(Bitmap... bitmaps) {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
+                File folder, file = null;
                 String fileName = simpleDateFormat.format(new Date());
-                File folder = new File("/mnt/sdcard/dcim/Camera/");
-                if (!folder.exists()) {
-                    folder.mkdir();
+                try {
+                    File sdCardDir = Environment.getExternalStorageDirectory();
+                    String path = sdCardDir.getCanonicalPath() + "/EMASDK/";
+                    folder = new File(path);
+                    if (!folder.exists()) {
+                        folder.mkdir();
+                    }
+                    file = new File(path + fileName + ".png");
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                File file = new File("/mnt/sdcard/dcim/Camera/" + fileName + ".png");
-                //  Toast.makeText(context, "保存图片中", Toast.LENGTH_SHORT).show();
                 FileOutputStream out;
                 if (!file.exists()) {
 
