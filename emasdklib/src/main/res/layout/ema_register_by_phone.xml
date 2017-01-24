@@ -131,18 +131,18 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/ema_btn_return_login"
+                android:id="@+id/ema_btn_return_register"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:src="@drawable/ema_floating_icon" />
+                android:src="@drawable/ema_login_tourist" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ema_btn_return_login"
+                android:layout_below="@id/ema_btn_return_register"
                 android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
-                android:text="帐号"
+                android:text="游客"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -195,18 +195,18 @@
             android:layout_weight="1">
 
             <ImageView
-                android:id="@+id/ema_btn_return_register"
+                android:id="@+id/ema_btn_return_login"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:src="@drawable/ema_login_tourist" />
+                android:src="@drawable/ema_floating_icon" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ema_btn_return_register"
+                android:layout_below="@id/ema_btn_return_login"
                 android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
-                android:text="试玩"
+                android:text="帐号"
                 android:textSize="12sp" />
         </RelativeLayout>
     </LinearLayout>
