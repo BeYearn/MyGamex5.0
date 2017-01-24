@@ -366,8 +366,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     private void initView() {
         setContentView(mResourceManager.getIdentifier("ema_register_by_phone", "layout"));
         Button mBtnStartWork = (Button) findViewById(getId("ema_btn_start_work"));
-        Button mBtnReturnLogin = (Button) findViewById(getId("ema_btn_return_login"));
-        Button mBtnReturnRegister = (Button) findViewById(getId("ema_btn_return_register"));
+        ImageView mBtnReturnLogin = (ImageView) findViewById(getId("ema_btn_return_login"));
+        ImageView mBtnReturnRegister = (ImageView) findViewById(getId("ema_btn_return_register"));
         mBtnGetAuthCode = (Button) findViewById(getId("ema_btn_get_auth_code"));
 
         String acNum = (String) USharedPerUtil.getParam(mActivity, "accountNum", "");

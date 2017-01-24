@@ -61,7 +61,7 @@ public class LoginDialog extends Dialog implements
     // views
     private Button mBtnLogin;
     private ImageView mImageLogoView;
-    private Button mBtnRegistByPhone;
+    private ImageView mBtnRegistByPhone;
     private Button mBtnRegistByOneKey;
     //private TextView mBtnLoginByAnlaiye;//俺来也账号登陆
     private Button mBtnLoginByEma;//柠檬水账号登陆
@@ -418,7 +418,7 @@ public class LoginDialog extends Dialog implements
         mImageLogoView = (ImageView) findViewById(getId("ema_login_image_logo"));
       //  mBtnLoginByAnlaiye = (TextView) findViewById(getId("ema_login_btn_login_by_anlaiye"));
         mBtnLoginByEma = (Button) findViewById(getId("ema_normallogin_change_emalogin"));
-        mBtnRegistByPhone = (Button) findViewById(getId("ema_normalLogin_phoneLogin"));
+        mBtnRegistByPhone = (ImageView) findViewById(getId("ema_normalLogin_phoneLogin"));
         mBtnRegistByOneKey = (Button) findViewById(getId("ema_normalLogin_oneKeyReg"));
 
         String acNum = (String) USharedPerUtil.getParam(mActivity, "accountNum", "");
