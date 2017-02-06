@@ -7,9 +7,12 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
+import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
+import com.igexin.sdk.Tag;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.Tencent;
 
@@ -273,20 +276,44 @@ public class Ema {
 			showToolBar();
 
 			//查询所有用户信息
-			/*getUserInfo(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					emaBinderAlertDialog.dismiss();
-				}
-			},DIALOG_SHOW_FROM_LOGIN);*/
 			getUserInfo(null);
 
 			//绑定服务,发送心跳
 			Intent serviceIntent = new Intent(mContext, EmaService.class);
 			mContext.bindService(serviceIntent, mServiceCon, Context.BIND_AUTO_CREATE);
 
+			//给个推设置TAG
+			setGeTuiTag();
+
 		}else if(EmaCallBackConst.INITSUCCESS==msgCode){  // 在初始化成功时
 			mFlagIsInitSuccess=true;
+		}
+	}
+
+	/**
+	 * 一般用户标签一天设置一次。??
+	 * 给个推设置tag,现在有三个tag
+	 *  'channel'+channel,'channelTag'+channelTag,'allianceUid'+allianceUid
+	 */
+	private void setGeTuiTag() {
+		String channel = "channel"+ConfigManager.getInstance(mContext).getChannel();
+		String channelTag = "channelTag"+ConfigManager.getInstance(mContext).getChannelTag();
+		String allianceUid = "allianceUid"+EmaUser.getInstance().getmUid();
+
+		String[] tags = new String[] {channel,channelTag,allianceUid};
+		Tag[] tagParam = new Tag[tags.length];
+
+		for (int i = 0; i < tags.length; i++) {
+			Tag t = new Tag();
+			//name 字段只支持：中文、英文字母（大小写）、数字、除英文逗号以外的其他特殊符号, 具体请看代码示例
+			t.setName(tags[i]);
+			tagParam[i] = t;
+		}
+
+		int i = PushManager.getInstance().setTag(mContext,tagParam,System.currentTimeMillis() +"");
+
+		if(i!= PushConsts.SETTAG_SUCCESS){
+			Log.e("getuiSetTag","error:"+i);
 		}
 	}
 
