@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import org.json.JSONObject;
 
@@ -57,7 +58,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     //标记
     private boolean mFlagHasGetAuthCode;//标记当前状态是获取验证码之前(false)，还是获取了验证码之后(true)
     private String firstLoginResult;
-    private ImageView mWechatLogin,mQQLogin;
+    private RelativeLayout mWechatLogin;
+    private RelativeLayout mQQLogin;
 
     // 进度条
     private EmaProgressDialog mProgress;
@@ -97,6 +99,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
 
     };
     private static long firstGetTime=0;
+    private View mWechatLoginText;
+    private View mQQLoginText;
 
     /**
      * 一键登录的开始
@@ -381,13 +385,14 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         mBtnGetAuthCode.setVisibility(View.GONE);
         mBtnGetAuthCode.setEnabled(false);
 
-        mWechatLogin= (ImageView) findViewById(getId("ema_wachate_login"));
-        mQQLogin= (ImageView) findViewById(getId("ema_qq_login"));
+        mWechatLogin= (RelativeLayout) findViewById(getId("ema_wechat_login_rela"));
+
+        mQQLogin= (RelativeLayout) findViewById(getId("ema_qq_login_rela"));
+
        if(Ema.getInstance().getWachatLoginVisibility()){
             mWechatLogin.setOnClickListener(this);
-
         }else{
-            mWechatLogin.setVisibility(View.GONE);
+           mWechatLogin.setVisibility(View.GONE);
         }
         if(Ema.getInstance().getQQLoginVisibility()){
             mQQLogin.setOnClickListener(this);
@@ -427,7 +432,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
             wachateLogin();
         }else if(id==getId("ema_qq_login")){
           //  Ema.getInstance().saveWachatLoginFlag(true);
-       ThirdLoginUtils.getInstance(mActivity).qqLogin(this);
+            ThirdLoginUtils.getInstance(mActivity).qqLogin(this);
         }
     }
 
