@@ -427,10 +427,10 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
             }else if("2".equals(accountType)){
                 doSendEmail(mEmaUser.getEmail());
             }
-        }else if(id==getId("ema_wachate_login")){
+        }else if(id==getId("ema_wechat_login_rela")){
            // WeixinShareUtils.getInstance(mActivity).wachateLogin();
             wachateLogin();
-        }else if(id==getId("ema_qq_login")){
+        }else if(id==getId("ema_qq_login_rela")){
           //  Ema.getInstance().saveWachatLoginFlag(true);
             ThirdLoginUtils.getInstance(mActivity).qqLogin(this);
         }

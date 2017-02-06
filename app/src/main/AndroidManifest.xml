@@ -125,7 +125,7 @@
              android:value="staging" />-->
         <meta-data
             android:name="EMA_WHICH_ENVI"
-            android:value="production" />  <!--测试环境-->
+            android:value="testing" />  <!--测试环境-->
        <!-- <meta-data
             android:name="EMA_WHICH_ENVI"
             android:value="production" />
