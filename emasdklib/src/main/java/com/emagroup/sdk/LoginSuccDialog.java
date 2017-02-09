@@ -39,10 +39,11 @@ public class LoginSuccDialog extends Dialog {
 				LOG.d(TAG, "切换账号，退出登录");
 				LoginSuccDialog.this.dismiss();
 				mEmaUser.clearUserInfo();
-				LoginDialog.getInstance(Ema.getInstance().getContext()).show();
+				//LoginDialog.getInstance(Ema.getInstance().getContext()).show();
+				RegisterByPhoneDialog.getInstance(Ema.getInstance().getContext()).show();
 				break;
 			}
-		};
+		}
 	};
 	
 	public LoginSuccDialog(Context context, boolean isBtnShow) {
@@ -97,7 +98,8 @@ public class LoginSuccDialog extends Dialog {
 		Window window = getWindow();
 		window.setGravity(Gravity.TOP);
 		WindowManager.LayoutParams lp = window.getAttributes();
-		lp.alpha = 0.5f;
+		lp.alpha = 0.4f;
+		//lp.width= WindowManager.LayoutParams.MATCH_PARENT;
 		window.setAttributes(lp);
 	}
 
