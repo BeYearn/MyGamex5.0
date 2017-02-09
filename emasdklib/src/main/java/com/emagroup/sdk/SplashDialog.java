@@ -324,14 +324,14 @@ public class SplashDialog extends Dialog {
 			LOG.d(TAG, "landscape");
 			//drawableId = mResourceManager.getIdentifier("ema_init_bg", "drawable");
 			drawableId = mResourceManager.getIdentifier("ema_splash_logo", "drawable");
-			view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		}else if(type == Configuration.ORIENTATION_PORTRAIT){
 			LOG.d(TAG, "portrait");
 			//drawableId = mResourceManager.getIdentifier("ema_init_bg_vertical", "drawable");
-			params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			view.setLayoutParams(params);
 			drawableId = mResourceManager.getIdentifier("ema_splash_logo", "drawable");
-			imageView.setPadding(0,0,0,500);
+		//	imageView.setPadding(0,0,0,500);
 		}
 
 		imageView.setImageResource(drawableId);
