@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.emagroup.sdk.DeviceInfoManager;
 import com.emagroup.sdk.EmaBackPressedAction;
 import com.emagroup.sdk.EmaCallBackConst;
 import com.emagroup.sdk.EmaConst;
@@ -91,6 +92,8 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
         btEmShare.setOnClickListener(this);
         bt_snap_shot.setOnClickListener(this);
         Log.e("++++++++++", Thread.currentThread().getName());
+
+        DeviceInfoManager.getInstance(this).getLocation();
     }
 
     private void init() {
