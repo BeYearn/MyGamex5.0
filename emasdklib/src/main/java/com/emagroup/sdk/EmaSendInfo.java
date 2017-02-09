@@ -32,11 +32,19 @@ public class EmaSendInfo {
 		}
 		params.put(PropertyField.MEMO, json.toString());//备注信息
 		UCommUtil.testMapInfo(params);*/
+
+		//获取位置信息
+		LocationBean location = DeviceInfoManager.getInstance(context).getLocation();
+
 		params.put("token", EmaUser.getInstance().getToken());
 		params.put("uid",EmaUser.getInstance().getAllianceUid());
 		params.put("appId",ConfigManager.getInstance(Ema.getInstance().getContext()).getAppId());
 		params.put("allianceId",ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
 		params.put("channelTag",ConfigManager.getInstance(Ema.getInstance().getContext()).getChannelTag());
+		params.put("altitude",location.getAltitude()+"");
+		params.put("longitude",location.getLongitude()+"");
+		params.put("latitude",location.getLatitude()+"");
+		params.put("location",location.getCountry()+" "+location.getCity());
 		new HttpInvoker().postAsync(Url.getHeartbeatUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {
