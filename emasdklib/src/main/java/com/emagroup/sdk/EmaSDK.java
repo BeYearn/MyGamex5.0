@@ -21,6 +21,8 @@ public class EmaSDK {
     public String title,url,summary;
     public Bitmap bitmap;
     public EmaSDKListener mListener;
+    private Activity mActivity;
+
     private EmaSDK() {
     }
 
@@ -33,6 +35,7 @@ public class EmaSDK {
 
 
     public void init(String appKey, Activity activity, EmaSDKListener listener) {
+        this.mActivity=activity;
         Ema.getInstance().init(appKey, activity, listener);
     }
 
@@ -240,6 +243,10 @@ public class EmaSDK {
                 activity.startActivity(intent);
             }
         });
+    }
+
+    public void startRecordScreen(){
+        UCommUtil.recordScreen(mActivity);
     }
 
     public void onNewIntent(Intent intent) {

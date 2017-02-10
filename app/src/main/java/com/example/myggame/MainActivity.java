@@ -49,10 +49,12 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
     private Button btAgain_init;
     private Button bt_snap_shot;
     private Button btEmShare;
+    private Button btRecordScrenn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         uiHandler = new Handler();
@@ -67,6 +69,8 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
         btEmShare = (Button) findViewById(R.id.bt_emshare);
         btAgain_init= (Button) findViewById(R.id.again_init);
         bt_snap_shot = (Button) findViewById(R.id.bt_snap_shot);
+        btRecordScrenn = (Button)findViewById(R.id.bt_record_screen);
+
         init();
 
 
@@ -91,6 +95,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
       /*  btWxShare.setOnClickListener(this);*/
         btEmShare.setOnClickListener(this);
         bt_snap_shot.setOnClickListener(this);
+        btRecordScrenn.setOnClickListener(this);
         Log.e("++++++++++", Thread.currentThread().getName());
 
         DeviceInfoManager.getInstance(this).getLocation();
@@ -272,7 +277,9 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                 submitRoleinfo("24001");
                 break;
 
-
+            case R.id.bt_record_screen:
+                EmaSDK.getInstance().startRecordScreen();
+                break;
         }
     }
 

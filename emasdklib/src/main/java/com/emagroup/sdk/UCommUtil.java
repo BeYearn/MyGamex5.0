@@ -2,6 +2,8 @@ package com.emagroup.sdk;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.media.projection.MediaProjectionManager;
 import android.os.Handler;
 import android.os.Message;
 
@@ -28,6 +30,8 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import static android.content.Context.MEDIA_PROJECTION_SERVICE;
 
 public class UCommUtil {
 
@@ -492,4 +496,13 @@ public class UCommUtil {
         return content ;
     }
 
+
+    /**
+     * 录屏
+     */
+    public static void recordScreen(Activity activity){
+        MediaProjectionManager projectionManager = (MediaProjectionManager)activity.getSystemService(MEDIA_PROJECTION_SERVICE);
+        Intent captureIntent= projectionManager.createScreenCaptureIntent();
+        activity.startActivityForResult(captureIntent, EmaConst.RECORD_REQUEST_CODE);
+    }
 }

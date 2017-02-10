@@ -5,8 +5,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.media.projection.MediaProjection;
+import android.media.projection.MediaProjectionManager;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 
@@ -23,6 +26,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+import static android.content.Context.BIND_AUTO_CREATE;
+import static android.content.Context.MEDIA_PROJECTION_SERVICE;
+import static com.emagroup.sdk.EmaConst.RECORD_REQUEST_CODE;
 import static com.emagroup.sdk.USharedPerUtil.getParam;
 import static com.emagroup.sdk.USharedPerUtil.setParam;
 
@@ -41,8 +48,8 @@ public class Ema {
 	private boolean mFlagIsInitSuccess;//标记初始化是否成功
 	private boolean mFlagIsShowSplash = true;//标记是否显示闪屏
 	
-	//绑定服务
-	private ServiceConnection mServiceCon = new ServiceConnection() {
+	//心跳服务
+	private ServiceConnection mHeartbeatServiceConection = new ServiceConnection() {
 		@Override
 		public void onServiceDisconnected(ComponentName arg0) {
 		}
@@ -50,10 +57,27 @@ public class Ema {
 		public void onServiceConnected(ComponentName arg0, IBinder arg1) {
 		}
 	};
+
+	//录屏服务
+	private ServiceConnection mRecordscreenServiceConnection = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			DisplayMetrics metrics = new DisplayMetrics();
+			((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+			RecordScreenService.RecordBinder binder = (RecordScreenService.RecordBinder) service;
+			recordScreenService = binder.getRecordService();
+			recordScreenService.setConfig(metrics.widthPixels, metrics.heightPixels, metrics.densityDpi);
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName arg0) {}
+	};
+
 	
 	private static Ema mInstance;
 	private static final Object synchron = new Object();
 	private int accountType;
+	private RecordScreenService recordScreenService;
 
 	private Ema(){
 		mFlagToolbarShowing = false;
@@ -104,7 +128,7 @@ public class Ema {
 			//个推初始化
 			PushManager.getInstance().initialize(context.getApplicationContext());
 
-			//初始化第三方sdk
+			//初始化其它
 			initThirdSDK();
 			
 			//埋点，发送初始化信息
@@ -153,7 +177,10 @@ public class Ema {
 	 * 第三方sdk初始化
 	 */
 	private void initThirdSDK(){
-		// 初始化第三方的sdk  （支付等）
+
+		//绑定录屏服务
+		Intent intent = new Intent(mContext, RecordScreenService.class);
+		mContext.bindService(intent, mRecordscreenServiceConnection, BIND_AUTO_CREATE);
 	}
 	
 	/**
@@ -280,7 +307,7 @@ public class Ema {
 
 			//绑定服务,发送心跳
 			Intent serviceIntent = new Intent(mContext, EmaService.class);
-			mContext.bindService(serviceIntent, mServiceCon, Context.BIND_AUTO_CREATE);
+			mContext.bindService(serviceIntent, mHeartbeatServiceConection, Context.BIND_AUTO_CREATE);
 
 			//给个推设置TAG
 			setGeTuiTag();
@@ -424,13 +451,14 @@ public class Ema {
 		LOG.d(TAG, "onDestroy");
 		
 		/*if(mSplashDialog != null && mSplashDialog.isShowing()){
-			mSplashDialog.dismiss();
-		}
-//		mContext.unbindService(mServiceCon);
-
+			mSplashDialog.dismiss();}
 		EmaUser.getInstance().clearPayInfo();
 		EmaUser.getInstance().clearUserInfo();
 		ConfigManager.getInstance(mContext).clear();*/
+
+		mContext.unbindService(mHeartbeatServiceConection);
+		mContext.unbindService(mRecordscreenServiceConnection);
+
 		try {
 			ToolBar.getInstance(getContext()).hideToolBar();
 		} catch (Exception e) {
@@ -502,6 +530,15 @@ public class Ema {
 				}
 			}
 		}*/
+
+		//录屏相关
+		if (requestCode == RECORD_REQUEST_CODE && resultCode == RESULT_OK) {
+			MediaProjectionManager projectionManager = (MediaProjectionManager)mContext.getSystemService(MEDIA_PROJECTION_SERVICE);
+			MediaProjection mediaProjection = projectionManager.getMediaProjection(resultCode, data);
+			recordScreenService.setMediaProject(mediaProjection);
+			recordScreenService.startRecord();
+			RecordContrlBar.getInstance(mContext,recordScreenService).showControlBar(); //显示停止录屏的浮标
+		}
 	}
 
 	public void saveWachatLoginFlag(boolean isWachatLogin){

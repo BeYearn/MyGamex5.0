@@ -25,6 +25,10 @@ public class EmaConst {
 	public static final String SUPPORT_QQ_PAY = "support_qqpay";
 	public static final String SUPPORT_WX_PAY = "support_wxpay";
 
+	//录屏相关的值
+	public static final int RECORD_REQUEST_CODE  = 301;
+	public static final int STORAGE_REQUEST_CODE = 302;
+	public static final int AUDIO_REQUEST_CODE   = 303;
 	//------------------------------------------------------------------------------------
 	public static final String EMA_PAYINFO_PRODUCT_ID = "product_id";  //商品id
 	public static final String EMA_PAYINFO_PRODUCT_COUNT = "product_count"; //商品数量
