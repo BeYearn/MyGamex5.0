@@ -88,8 +88,7 @@ public class TrdQQwalletPay {
                             QQApiparams.put("mch_id", data.getString("mch_id"));
                             QQApiparams.put("nonce_str", data.getString("nonce_str"));
                             QQApiparams.put("prepay_id", data.getString("prepay_id"));
-                            QQApiparams.put("sign", data.getString("sign"));
-                            QQApiparams.put("sub_mch_id", data.getString("sub_mch_id"));
+                            QQApiparams.put("base64Sign", data.getString("base64Sign"));
                             QQApiparams.put("trade_type", data.getString("trade_type"));
 
                             if (resultCode.equals("0")) {
@@ -120,7 +119,7 @@ public class TrdQQwalletPay {
         api.timeStamp = System.currentTimeMillis()/1000; // 时间戳，为1970年1月1日00:00到请求发起时间的秒数
         api.bargainorId = params.get("mch_id"); // 商户号.参与支付签名，签名关键字key为bargainorId
         api.sigType = "HMAC-SHA1"; // 签名时，使用的加密方式，默认为"HMAC-SHA1"
-        api.sig =params.get("sign"); // 商户Server下发的数字签名，生成的签名串，参看“数字签名”
+        api.sig =params.get("base64Sign"); // 商户Server下发的数字签名，生成的签名串，参看“数字签名”
 
         //String rawSign = "appId=" + qqAppId + "&bargainorId=" + params.get("mch_id") + "&pubAcc=" + "&tokenId=" + params.get("prepay_id") + "&nonce=" + params.get("nonce_str");
         //String qqAppKey=""+"&";   服务器已经拼好
