@@ -8,7 +8,9 @@ import android.util.Log;
 import com.tencent.mobileqq.openpay.api.IOpenApi;
 import com.tencent.mobileqq.openpay.api.OpenApiFactory;
 import com.tencent.mobileqq.openpay.constants.OpenConstants;
+import com.tencent.mobileqq.openpay.data.base.BaseResponse;
 import com.tencent.mobileqq.openpay.data.pay.PayApi;
+import com.tencent.mobileqq.openpay.data.pay.PayResponse;
 
 import org.json.JSONObject;
 
@@ -90,7 +92,7 @@ public class TrdQQwalletPay {
                             QQApiparams.put("sub_mch_id", data.getString("sub_mch_id"));
                             QQApiparams.put("trade_type", data.getString("trade_type"));
 
-                            if (resultCode == "0") {
+                            if (resultCode.equals("0")) {
                                 Message message = Message.obtain();
                                 message.what = CREAT_PRE_ORDER_SUCCESS;
                                 message.obj = QQApiparams;
@@ -118,17 +120,52 @@ public class TrdQQwalletPay {
         api.timeStamp = System.currentTimeMillis()/1000; // 时间戳，为1970年1月1日00:00到请求发起时间的秒数
         api.bargainorId = params.get("mch_id"); // 商户号.参与支付签名，签名关键字key为bargainorId
         api.sigType = "HMAC-SHA1"; // 签名时，使用的加密方式，默认为"HMAC-SHA1"
+        api.sig =params.get("sign"); // 商户Server下发的数字签名，生成的签名串，参看“数字签名”
 
-        String rawSign = "appId=" + qqAppId + "&bargainorId=" + params.get("mch_id") + "&pubAcc=" + "&tokenId=" + params.get("prepay_id") + "&nonce=" + params.get("nonce_str");
-        String qqAppKey=""+"&";
+        //String rawSign = "appId=" + qqAppId + "&bargainorId=" + params.get("mch_id") + "&pubAcc=" + "&tokenId=" + params.get("prepay_id") + "&nonce=" + params.get("nonce_str");
+        //String qqAppKey=""+"&";   服务器已经拼好
 
-
-        //api.sig =...; // 商户Server下发的数字签名，生成的签名串，参看“数字签名”
 
         if (api.checkParams()) {
             mOpenApi.execApi(api);    //回调在PayThrdActivity中
         } else {
             Log.e(TAG, "doNextQQPay,参数不全");
+        }
+    }
+
+    /**
+     * 两个发起qq支付的页面的结果回调
+     * @param baseResponse
+     * @param handler
+     */
+    public static void onQQPayResponse(BaseResponse baseResponse,Handler handler){
+        if (baseResponse == null) {
+            return;// 不能识别的intent
+        } else {
+            if (baseResponse instanceof PayResponse) {
+                // 支付回调响应
+                PayResponse payResponse = (PayResponse) baseResponse;
+
+                switch (payResponse.retCode) {
+                    case 0:     //成功
+                        PayUtil.doCheckOrderStatus(handler);
+                        break;
+                    case -1:     //用户取消
+                        handler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_DIALOG_CANLE);
+                        UCommUtil.makePayCallBack(EmaCallBackConst.PAYCANELI, "订单取消");
+                        break;
+                    default:    //失败
+                        handler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_DIALOG_FAIL);
+                        UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
+                        Log.e("qqPay","failInfo"+baseResponse.retMsg);
+                        break;
+                }
+
+            } else {
+                // 不能识别的响应
+                UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
+                handler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_DIALOG_FAIL);
+            }
         }
     }
 }

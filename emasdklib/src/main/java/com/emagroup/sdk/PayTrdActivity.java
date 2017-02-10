@@ -19,7 +19,6 @@ import com.tencent.mobileqq.openpay.api.IOpenApi;
 import com.tencent.mobileqq.openpay.api.IOpenApiListener;
 import com.tencent.mobileqq.openpay.api.OpenApiFactory;
 import com.tencent.mobileqq.openpay.data.base.BaseResponse;
-import com.tencent.mobileqq.openpay.data.pay.PayResponse;
 
 import org.json.JSONObject;
 
@@ -331,33 +330,7 @@ public class PayTrdActivity extends Activity implements OnClickListener, IOpenAp
     //这个是实现了qq钱包的回调接口IOpenApiListener的重写方法
     @Override
     public void onOpenResponse(BaseResponse baseResponse) {
-        if (baseResponse == null) {
-            return;// 不能识别的intent
-        } else {
-            if (baseResponse instanceof PayResponse) {
-                // 支付回调响应
-                PayResponse payResponse = (PayResponse) baseResponse;
-
-                switch (payResponse.retCode) {
-                    case 0:     //成功
-                        PayUtil.doCheckOrderStatus(mHandler);
-                        break;
-                    case -1:     //用户取消
-                        mHandler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_DIALOG_CANLE);
-                        UCommUtil.makePayCallBack(EmaCallBackConst.PAYCANELI, "订单取消");
-                        break;
-                    default:    //失败
-                        mHandler.sendEmptyMessage(PayTrdActivity.PAY_ACTIVITY_DIALOG_FAIL);
-                        UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
-                        break;
-                }
-
-            } else {
-                // 不能识别的响应
-                UCommUtil.makePayCallBack(EmaCallBackConst.PAYFALIED, "订单支付失败");
-                showPayResultDialog(EmaConst.PAY_ACTION_TYPE_PAY, EmaConst.PAY_RESULT_FAILED, "");
-            }
-        }
+        TrdQQwalletPay.onQQPayResponse(baseResponse,mHandler);
     }
 
 

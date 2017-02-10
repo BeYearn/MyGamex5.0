@@ -5,6 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * 该类用于在用户中途主动退出时逻辑的判定
+ */
 public class EmaDialogPayPromptCancel extends Dialog {
 	
 	private ResourceManager mResourceManager;// 资源管理

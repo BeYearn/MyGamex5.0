@@ -19,13 +19,18 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tencent.mobileqq.openpay.api.IOpenApi;
+import com.tencent.mobileqq.openpay.api.IOpenApiListener;
+import com.tencent.mobileqq.openpay.api.OpenApiFactory;
+import com.tencent.mobileqq.openpay.data.base.BaseResponse;
+
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RechargeMabiActivity extends Activity implements OnClickListener {
+public class RechargeMabiActivity extends Activity implements OnClickListener,IOpenApiListener {
 
 	private static final String TAG = "PayRechargeMabiActivity";
 	
@@ -126,6 +131,12 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 		initView();
 		initData();
 		reFreshUserInfo();
+		qqWalletonCreat();
+	}
+
+	private void qqWalletonCreat() {
+		IOpenApi openApi = OpenApiFactory.getInstance(this, ConfigManager.getInstance(this).getQQAppId());
+		openApi.handleIntent(getIntent(), this);
 	}
 
 	/**
@@ -220,8 +231,8 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 				String payName = bean.get3rdPayName();
 				if (payName.equals(PayConst.PAY_TRD_QQWALLET)) {//qq钱包
 
-					//PayUtil.GoRechargeByQQwallet(RechargeMabiActivity.this, rechargePayInfo, mHandler);  参数下来后开放
-					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
+					PayUtil.GoRechargeByQQwallet(RechargeMabiActivity.this, rechargePayInfo, mHandler);
+					//ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
 
 				}else if(payName.equals(PayConst.PAY_TRD_GAMECARD)){//游戏卡充值
 					ToastHelper.toast(RechargeMabiActivity.this,"暂不支持");
@@ -449,6 +460,15 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+		//qq钱包
+		IOpenApi openApi = OpenApiFactory.getInstance(this, ConfigManager.getInstance(this).getQQAppId());
+		openApi.handleIntent(intent, this);
+	}
+
+	@Override
 	protected void onStop() {
 		//ToolBar.getInstance(Ema.getInstance().getContext()).showToolBar();
 		super.onStop();
@@ -463,5 +483,11 @@ public class RechargeMabiActivity extends Activity implements OnClickListener {
 	@Override
 	public void onBackPressed() {
 		new EmaDialogPayPromptCancel(this).show();
+	}
+
+	//这个是实现了qq钱包的回调接口IOpenApiListener的重写方法
+	@Override
+	public void onOpenResponse(BaseResponse baseResponse) {
+		TrdQQwalletPay.onQQPayResponse(baseResponse,mHandler);
 	}
 }

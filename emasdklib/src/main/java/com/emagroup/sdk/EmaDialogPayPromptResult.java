@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * 该类用于支付完成后结果的展示
+ */
 public class EmaDialogPayPromptResult extends Dialog {
 
 	private final Activity mActivity;
