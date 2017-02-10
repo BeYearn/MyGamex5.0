@@ -431,21 +431,22 @@ public class DeviceInfoManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Address address = locationList.get(0);//得到Address实例
+        if(!locationList.isEmpty()){
 
-        String countryName = address.getCountryName();//得到国家名称，比如：中国
-        Log.i("emalocation", "countryName = " + countryName);
-        locationBean.setCountry(countryName);
+            Address address = locationList.get(0);//得到Address实例
+            String countryName = address.getCountryName();//得到国家名称，比如：中国
+            Log.i("emalocation", "countryName = " + countryName);
+            locationBean.setCountry(countryName);
 
-        String cityName = address.getLocality();//得到城市名称，比如：北京市
-        Log.i("emalocation", "locality = " + cityName);
-        locationBean.setCity(cityName);
+            String cityName = address.getLocality();//得到城市名称，比如：北京市
+            Log.i("emalocation", "locality = " + cityName);
+            locationBean.setCity(cityName);
 
-        for (int i = 0; address.getAddressLine(i) != null; i++) {
-            String addressLine = address.getAddressLine(i);//得到周边信息，包括街道等，i=0，得到街道名称
-            Log.i("emalocation", "addressLine = " + addressLine);
+            for (int i = 0; address.getAddressLine(i) != null; i++) {
+                String addressLine = address.getAddressLine(i);//得到周边信息，包括街道等，i=0，得到街道名称
+                Log.i("emalocation", "addressLine = " + addressLine);
+            }
         }
-
         return locationBean;
     }
 
