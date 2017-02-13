@@ -1,9 +1,13 @@
 package com.emagroup.sdk;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
@@ -15,6 +19,9 @@ import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.Tencent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.emagroup.sdk.WeiboShareUtils.SHARE_TEXT;
 import static com.emagroup.sdk.WeiboShareUtils.SHARE_WEBPAGE;
@@ -28,22 +35,20 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
     private boolean canShare;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this,
                 /*"721964606"*/  /*"1008659864"*/  ConfigManager.getInstance(this).getWeiBoAppId());
         mWeiboShareAPI.registerApp();
 
-        canShare= (boolean) USharedPerUtil.getParam(this,"canWbShare",true);
+        canShare = (boolean) USharedPerUtil.getParam(this, "canWbShare", true);
 
         Intent intent = getIntent();
 
         Log.e("WeiBoEntryActivity", "onCreate");
         if (canShare) {
-            if(intent.getStringExtra("sharePf").equals("webo")){//微博分享
+            if (intent.getStringExtra("sharePf").equals("webo")) {//微博分享
                 switch (intent.getIntExtra("sharType", 0)) {
                     case WeiboShareUtils.SHARE_IMAGE:
                         shareImage();
@@ -55,28 +60,38 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
                         doWeiboShareText(intent.getStringExtra("text"));
                         break;
                 }
-           }else {
+            } else {
+                if (!isAppInstalled(this)) {
+                    Toast.makeText(this, "未安装QQ, 请下载安装", Toast.LENGTH_LONG).show();
+                    finish();
+                    return;
+                }
                 switch (intent.getIntExtra("sharType", 0)) {
                     case QQShareUtils.SHARE_QQ_FRIEDNS_IMAGE:
-                       /* QQShareUtils.getIntance*/new QQShareUtils(WeiBoEntryActivity.this).shareQQFriendImage();
+                       /* QQShareUtils.getIntance*/
+                        new QQShareUtils(WeiBoEntryActivity.this).shareQQFriendImage();
                         break;
                     case QQShareUtils.SHARE_QQ_FRIEDNS_WEBPAGE:
-                       /* QQShareUtils.getIntance*/new QQShareUtils(WeiBoEntryActivity.this).shareQQFriendsWebPage();
+                       /* QQShareUtils.getIntance*/
+                        new QQShareUtils(WeiBoEntryActivity.this).shareQQFriendsWebPage();
                         break;
-                    case  QQShareUtils.SHARE_QQ_QZONE_IMAGE:
-                       /* QQShareUtils.getIntance*/new QQShareUtils(WeiBoEntryActivity.this).shareQzoneImage();
+                    case QQShareUtils.SHARE_QQ_QZONE_IMAGE:
+                       /* QQShareUtils.getIntance*/
+                        new QQShareUtils(WeiBoEntryActivity.this).shareQzoneImage();
                         break;
                     case QQShareUtils.SHARE_QQ_QZONE_TEXT:
-                        /*QQShareUtils.getIntance*/new QQShareUtils(WeiBoEntryActivity.this).shareQzoneText();
+                        /*QQShareUtils.getIntance*/
+                        new QQShareUtils(WeiBoEntryActivity.this).shareQzoneText();
                         break;
-                    case  QQShareUtils.SHARE_QQ_QZONE_WEBPAGE:
-                        /*QQShareUtils.getIntance*/new QQShareUtils(WeiBoEntryActivity.this).shareQzoneWebPage();
+                    case QQShareUtils.SHARE_QQ_QZONE_WEBPAGE:
+                        /*QQShareUtils.getIntance*/
+                        new QQShareUtils(WeiBoEntryActivity.this).shareQzoneWebPage();
                         break;
 
                 }
 
             }
-            USharedPerUtil.setParam(this,"canWbShare",false);
+            USharedPerUtil.setParam(this, "canWbShare", false);
         }
     }
 
@@ -100,7 +115,7 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
 
     private void shareImage() {
 
-        Log.e("WeiBoEntryActivity", "shareImage"+this.hashCode());
+        Log.e("WeiBoEntryActivity", "shareImage" + this.hashCode());
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
         ImageObject imageObject = new ImageObject();
 
@@ -121,7 +136,7 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
     public void doWeiBoShareWebpage(String title, String description, String url) {
 
         WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-        weiboMessage.textObject = getTextObj(title+"\n"+description+" "+url);
+        weiboMessage.textObject = getTextObj(title + "\n" + description + " " + url);
 
 
         ImageObject imageObject = new ImageObject();
@@ -170,9 +185,9 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
             Log.e("WeiBoEntryActivity", baseResponse.toString());
             UCommUtil.shareCallback(this, baseResponse);
 
-            USharedPerUtil.setParam(this,"canWbShare",true);
+            USharedPerUtil.setParam(this, "canWbShare", true);
         }
-       finish();
+        finish();
     }
 
     /**
@@ -188,11 +203,25 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-      //  Tencent.onActivityResultData(requestCode,resultCode,data,new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
+        //  Tencent.onActivityResultData(requestCode,resultCode,data,new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
         if (requestCode == Constants.REQUEST_QZONE_SHARE) {
-            Tencent.onActivityResultData(requestCode,resultCode,data,new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
-        }else if (requestCode == Constants.REQUEST_QQ_SHARE) {
-            Tencent.onActivityResultData(requestCode,resultCode,data,new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
+            Tencent.onActivityResultData(requestCode, resultCode, data, new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
+        } else if (requestCode == Constants.REQUEST_QQ_SHARE) {
+            Tencent.onActivityResultData(requestCode, resultCode, data, new QQShareUtils(WeiBoEntryActivity.this).emIUiListener);
         }
     }
+
+    public boolean isAppInstalled(Context context) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        List<String> pName = new ArrayList<String>();
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                pName.add(pn);
+            }
+        }
+        return pName.contains("com.tencent.mobileqq");
+    }
+
 }
