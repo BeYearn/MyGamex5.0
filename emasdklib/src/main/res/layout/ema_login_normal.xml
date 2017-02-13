@@ -18,8 +18,8 @@
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/ema_login_return"
-            android:padding="5dp" />
+            android:src="@drawable/ema_login_return"
+            android:padding="8dp" />
 
         <ImageView
             android:id="@+id/ema_login_image_logo"
