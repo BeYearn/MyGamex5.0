@@ -107,11 +107,17 @@ public class TrdQQwalletPay {
     }
 
     private static void doNextQQPay(HashMap<String, String> params) {
+        String scheme;
 
         PayApi api = new PayApi();
         api.appId = qqAppId; // 在http://open.qq.com注册的AppId,参与支付签名，签名关键字key为appId
         api.serialNumber = mPayInfo.getOrderId(); // 支付序号,用于标识此次支付
-        api.callbackScheme = "qwallet" + qqAppId; // QQ钱包支付结果回调给urlscheme为callbackScheme的activity.，参看后续的“支付回调结果处理”
+        if("xxxxxxxx".equals(api.serialNumber)){
+            scheme = "recharge_qwallet";
+        }else {
+            scheme = "pay_qwallet";
+        }
+        api.callbackScheme = scheme + qqAppId; // QQ钱包支付结果回调给urlscheme为callbackScheme的activity.，参看后续的“支付回调结果处理”
         api.tokenId = params.get("prepay_id"); // QQ钱包支付生成的token_id
         api.pubAcc = ""; // 手Q公众帐号id.参与支付签名，签名关键字key为pubAcc
         api.pubAccHint = ""; // 支付完成页面，展示给用户的提示语：提醒关注公众帐号

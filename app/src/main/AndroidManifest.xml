@@ -69,7 +69,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="qwallet1105564847"/>  <!--qwallet+QQ的appid-->
+                <data android:scheme="pay_qwallet1105564847"/>  <!--qwallet+QQ的appid-->
             </intent-filter>
 
             <intent-filter>
@@ -80,6 +80,7 @@
         </activity>
 
         <activity android:name="com.emagroup.sdk.PayMabiActivity" />
+
         <activity android:name="com.emagroup.sdk.RechargeMabiActivity"
             android:exported="true"
             android:launchMode="singleTop">
@@ -87,7 +88,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="qwallet1105564847"/>  <!--qwallet+QQ的appid-->
+                <data android:scheme="recharge_qwallet1105564847"/>  <!--qwallet+QQ的appid-->
             </intent-filter>
 
             <intent-filter>
