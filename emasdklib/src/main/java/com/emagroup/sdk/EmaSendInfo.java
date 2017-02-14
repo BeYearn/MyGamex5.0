@@ -2,6 +2,9 @@ package com.emagroup.sdk;
 
 import android.content.Context;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,13 +12,23 @@ public class EmaSendInfo {
 
 	private static final String TAG = "EmaSendInfo";
 	private static final String ONLINE_TIME = "online_time";
-	
+	private static String currentTaskTopName;
+
 	/**
 	 * 发送心跳包
 	 */
 	public static void sendOnlineAlive(int totleTime){
+		final Context context = Ema.getInstance().getContext();
+	 /* 	if(!UCommUtil.isNoSwitch(context)){
+			((Activity)context).runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					UCommUtil.showUsagestatsDialog(context);
+				}
+			});
+		}*/
 		LOG.d(TAG, "sendOnlineAlive");
-		Context context = Ema.getInstance().getContext();
+
 		Map<String, String> params = new HashMap<String, String>();
 		/*params.put(PropertyField.APP_ID, ConfigManager.getInstance(context).getAppId());
 		params.put(PropertyField.SEND_CHANNEL_ID, ConfigManager.getInstance(context).getChannel());
@@ -41,10 +54,31 @@ public class EmaSendInfo {
 		params.put("appId",ConfigManager.getInstance(Ema.getInstance().getContext()).getAppId());
 		params.put("allianceId",ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
 		params.put("channelTag",ConfigManager.getInstance(Ema.getInstance().getContext()).getChannelTag());
-		params.put("altitude",location.getAltitude()+"");
+		JSONObject extraJson=new JSONObject();
+		try {
+			extraJson.put("altitude",location.getAltitude()+"");
+			extraJson.put("longitude",location.getLongitude()+"");
+			extraJson.put("latitude",location.getLatitude()+"");
+			extraJson.put("location",location.getCountry()+" "+location.getCity());
+			extraJson.put("isBackgroud","0");
+
+			/*currentTaskTopName = UCommUtil.getTopApp(context);
+			if(TextUtils.isEmpty(currentTaskTopName)){
+				extraJson.put("isBackgroud","0");
+			}else{
+				if(currentTaskTopName.equals(context.getPackageName())){
+				extraJson.put("isBackgroud","0");
+			}else{
+				extraJson.put("isBackgroud","1");
+			}}*/
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		params.put("extra",extraJson.toString());
+		/*params.put("altitude",location.getAltitude()+"");
 		params.put("longitude",location.getLongitude()+"");
 		params.put("latitude",location.getLatitude()+"");
-		params.put("location",location.getCountry()+" "+location.getCity());
+		params.put("location",location.getCountry()+" "+location.getCity());*/
 		new HttpInvoker().postAsync(Url.getHeartbeatUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {
@@ -130,5 +164,6 @@ public class EmaSendInfo {
 			}
 		});
 	}
-	
+
+
 }
