@@ -73,6 +73,7 @@ public class TrdQQwalletPay {
         params.put("tradeType", "APP");
         params.put("uid", EmaUser.getInstance().getmUid());
         params.put("token", EmaUser.getInstance().getToken());
+        params.put("amount",payInfo.getPrice()+"");  //主要是充值时用
 
         new HttpInvoker().postAsync(Url.getQQwalletPreOrder(), params,
                 new HttpInvoker.OnResponsetListener() {

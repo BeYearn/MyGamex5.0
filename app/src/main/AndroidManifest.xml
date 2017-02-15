@@ -238,7 +238,7 @@
             android:authorities="downloads.com.example.myggame"
             android:exported="true"
             android:process=":pushservice"/><!--"authorities' downloads后配为你的包名-->
-        <!-- 个推SDK配置结束 -->GET_TASKS
+        <!-- 个推SDK配置结束 -->
 
         <!--微博组件start-->
         <activity
