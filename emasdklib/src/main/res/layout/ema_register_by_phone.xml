@@ -137,6 +137,7 @@
                 android:src="@drawable/ema_login_tourist" />
 
             <TextView
+                android:textColor="#673300"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ema_btn_return_register"
@@ -159,6 +160,7 @@
                 android:src="@drawable/ema_wachate_login" />
 
             <TextView
+                android:textColor="#673300"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ema_wachate_login"
@@ -182,6 +184,7 @@
                 android:src="@drawable/ema_qq_login" />
 
             <TextView
+                android:textColor="#673300"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ema_qq_login"
@@ -203,6 +206,7 @@
                 android:src="@drawable/ema_floating_icon" />
 
             <TextView
+                android:textColor="#673300"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ema_btn_return_login"
