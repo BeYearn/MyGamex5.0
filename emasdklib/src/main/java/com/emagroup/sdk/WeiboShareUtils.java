@@ -7,8 +7,6 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.sina.weibo.sdk.api.TextObject;
-import com.sina.weibo.sdk.api.share.BaseResponse;
-import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 
@@ -108,19 +106,5 @@ public class WeiboShareUtils {
         textObject.text = text;
         return textObject;
     }
-
-
-
-    public void onNewIntent(Intent intent) {
-        if(mWeiboShareAPI!=null){
-            mWeiboShareAPI.handleWeiboResponse(intent, (IWeiboHandler.Response) mActivity);
-        }
-    }
-
-    public interface Response extends IWeiboHandler.Response{
-        void onResponse(BaseResponse var1);
-    }
-
-
 
 }

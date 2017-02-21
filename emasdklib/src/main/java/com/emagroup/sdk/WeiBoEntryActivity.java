@@ -175,7 +175,7 @@ public class WeiBoEntryActivity extends Activity implements IWeiboHandler.Respon
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (mWeiboShareAPI != null) {
-            mWeiboShareAPI.handleWeiboResponse(intent, (IWeiboHandler.Response) this);
+            mWeiboShareAPI.handleWeiboResponse(intent,this);
         }
     }
 

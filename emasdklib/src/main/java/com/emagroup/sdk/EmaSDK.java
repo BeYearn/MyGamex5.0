@@ -243,7 +243,6 @@ public class EmaSDK {
     }
 
     public void onNewIntent(Intent intent) {
-        WeiboShareUtils.getInstance((Activity) Ema.getInstance().getContext()).onNewIntent(intent);
         Ema.getInstance().onNewIntent(intent);
     }
 
