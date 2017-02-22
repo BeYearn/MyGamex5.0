@@ -51,6 +51,7 @@
         <activity
             android:name="com.example.myggame.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="adjustResize">
          <!--   <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
@@ -121,7 +122,7 @@
 
         <meta-data
             android:name="EMA_APP_ID"
-            android:value="n10000" />
+            android:value="n20015" />
         <meta-data
             android:name="EMA_CHANNEL_ID"
             android:value="n26" />

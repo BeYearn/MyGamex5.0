@@ -41,7 +41,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class WebViewActivity extends Activity implements OnClickListener ,EmaSDKListener{
+public class WebViewActivity extends Activity implements OnClickListener, EmaSDKListener {
 
     private static final String TAG = "WebViewActivity";
 
@@ -139,16 +139,16 @@ public class WebViewActivity extends Activity implements OnClickListener ,EmaSDK
     public void onCallBack(int resultCode, String decr) {
         switch (resultCode) {
             case EmaCallBackConst.EMA_SHARE_OK:
-                Toast.makeText(WebViewActivity.this, decr,Toast.LENGTH_SHORT).show();
-                 //分享成功
+                Toast.makeText(WebViewActivity.this, decr, Toast.LENGTH_SHORT).show();
+                //分享成功
                 break;
             case EmaCallBackConst.EMA_SHARE_CANCLE:
-                Toast.makeText(WebViewActivity.this, decr,Toast.LENGTH_SHORT).show();
+                Toast.makeText(WebViewActivity.this, decr, Toast.LENGTH_SHORT).show();
                 //分享取消
                 break;
             case EmaCallBackConst.EMA_SHARE_FAIL:
                 //分享拒绝
-                Toast.makeText(WebViewActivity.this, decr,Toast.LENGTH_SHORT).show();
+                Toast.makeText(WebViewActivity.this, decr, Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -207,10 +207,6 @@ public class WebViewActivity extends Activity implements OnClickListener ,EmaSDK
          */
         @JavascriptInterface
         public void getShareInfo(final String desc, final String imageUrl, final String url, final String title) {
-          /*  WebViewActivity.this.desc=desc;
-            WebViewActivity.this.title=title;
-            WebViewActivity.this.url=url;*/
-
             try {
                 Log.i(TAG, desc + imageUrl + url);
 
@@ -220,12 +216,11 @@ public class WebViewActivity extends Activity implements OnClickListener ,EmaSDK
 
                         return getBitmap(imageUrl);
                     }
-
                     @Override
                     protected void onPostExecute(Bitmap bitmap) {
                        /*  WebViewActivity.this.shareBitmap=bitmap;
                         mHandler.sendEmptyMessage(0);*/
-                  EmaSDK.getInstance().doShareWebPage((Activity) context,WebViewActivity.this, url, title, desc, bitmap);
+                        EmaSDK.getInstance().doShareWebPage((Activity) context, WebViewActivity.this, url, title, desc, bitmap);
                     }
                 }.execute();
             } catch (Exception e) {
@@ -304,10 +299,10 @@ public class WebViewActivity extends Activity implements OnClickListener ,EmaSDK
                     doSetTitle("个人中心");
                 } else if (checkedId == getID("ema_webview_gift")) {
                     /*mWebView.loadUrl(Url.getWebUrlGift());
-					doSetTitle("礼包列表");*/
+                    doSetTitle("礼包列表");*/
                     ToastHelper.toast(WebViewActivity.this, "礼包暂未开放");
                 } else if (checkedId == getID("ema_webview_help")) {
-					/*mWebView.loadUrl(Url.getWebUrlHelp());
+                    /*mWebView.loadUrl(Url.getWebUrlHelp());
 					doSetTitle("帮助中心");*/
                     ToastHelper.toast(WebViewActivity.this, "帮助暂未开放");
                 } else if (checkedId == getID("ema_webview_promotion")) {
@@ -574,26 +569,18 @@ public class WebViewActivity extends Activity implements OnClickListener ,EmaSDK
             e.printStackTrace();
         }
         try {
-            HttpURLConnection conn = (HttpURLConnection) imageURL
-                    .openConnection();
+            HttpURLConnection conn = (HttpURLConnection) imageURL.openConnection();
             conn.setDoInput(true);
             conn.connect();
             InputStream is = conn.getInputStream();
             bitmap = BitmapFactory.decodeStream(is);
             is.close();
-
+            Log.e("sharebitmapsize", bitmap.getByteCount() + "bytes");
         } catch (Exception e) {
             e.printStackTrace();
         }
         return bitmap;
     }
-
-   /* @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        EmaSDK.getInstance().onActivityResult(requestCode, resultCode, data);
-
-    }*/
 
     @Override
     protected void onPause() {

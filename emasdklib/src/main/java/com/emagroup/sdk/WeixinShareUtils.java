@@ -133,10 +133,10 @@ public class WeixinShareUtils {
         msg.title = title;
         msg.description = description;
 
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
-        msg.thumbData = bmpToByteArray(thumbBmp, true);
-        thumbBmp.recycle();
-
+        //Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);  这样转换不正确
+        //Log.e("thumbBmp",thumbBmp.getByteCount()+"bytes");
+        msg.thumbData = bmpToByteArray(bitmap, true);
+        //thumbBmp.recycle();
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求
@@ -145,7 +145,6 @@ public class WeixinShareUtils {
         boolean statu = mWeixinapi.sendReq(req);
         Ema.getInstance().saveWachatLoginFlag(false);
         Log.i("doWxShareWebpage", "doWxShareWebpage statu " + statu);
-
     }
 
     public byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
