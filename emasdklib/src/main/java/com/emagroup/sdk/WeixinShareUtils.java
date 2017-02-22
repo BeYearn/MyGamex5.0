@@ -113,6 +113,9 @@ public class WeixinShareUtils {
 
     // 分享网页 注意这里的那个图一定要小于30k
     public void doWxShareWebpage(EmaSDKListener listener, String url, String title, String description, Bitmap bitmap, int scene) {
+        if(bitmap.getByteCount()>30000){
+            Log.e("doWxShareWebpage","bitmap大于30K");
+        }
         this.mListener = listener;
         boolean sIsWXAppInstalledAndSupported = mWeixinapi.isWXAppInstalled()
                 && mWeixinapi.isWXAppSupportAPI();
@@ -133,10 +136,7 @@ public class WeixinShareUtils {
         msg.title = title;
         msg.description = description;
 
-        //Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);  这样转换不正确
-        //Log.e("thumbBmp",thumbBmp.getByteCount()+"bytes");
         msg.thumbData = bmpToByteArray(bitmap, true);
-        //thumbBmp.recycle();
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis()); // transaction字段用于唯一标识一个请求

@@ -33,10 +33,11 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -216,6 +217,7 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
 
                         return getBitmap(imageUrl);
                     }
+
                     @Override
                     protected void onPostExecute(Bitmap bitmap) {
                        /*  WebViewActivity.this.shareBitmap=bitmap;
@@ -303,7 +305,7 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
                     ToastHelper.toast(WebViewActivity.this, "礼包暂未开放");
                 } else if (checkedId == getID("ema_webview_help")) {
                     /*mWebView.loadUrl(Url.getWebUrlHelp());
-					doSetTitle("帮助中心");*/
+                    doSetTitle("帮助中心");*/
                     ToastHelper.toast(WebViewActivity.this, "帮助暂未开放");
                 } else if (checkedId == getID("ema_webview_promotion")) {
 //					mWebView.loadUrl(Url.getWebUrlPromotion());
@@ -561,7 +563,67 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
     }
 
     public Bitmap getBitmap(String url) {
-        URL imageURL = null;
+        /*Bitmap bitmap = null;
+        try {
+            URL picurl = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) picurl.openConnection(); // 获得连接
+            conn.setConnectTimeout(6000);//设置超时
+            conn.setDoInput(true);
+            conn.setUseCaches(false);//不缓存
+            conn.connect();
+            Bitmap bmp = BitmapFactory.decodeStream(conn.getInputStream());
+
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
+            int options = 100;
+            while (output.toByteArray().length > 9000 && options != 10) {
+                output.reset(); //清空baos
+                bmp.compress(Bitmap.CompressFormat.JPEG, options, output);//这里压缩options%，把压缩后的数据存放到baos中
+                options -= 10;
+            }
+            bmp.recycle();
+            byte[] result = output.toByteArray();
+            bitmap = BitmapFactory.decodeByteArray(result, 0, result.length);  //通过此方法的存储在file文件下图片为设定值以下，会导致失真的现象（每个像素的透明度会变化）。注意：以jpeg格式压缩后, 原来图片中透明的元素将消失。但是尺寸不变，即长宽的比例不变。所以，通过BitmapFactory.decodeFile（）后得到的bitmap所占用内存的大小不变。
+            Log.e("sharebitmapsize", bitmap.getByteCount() + "bytes");
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;*/
+
+        Bitmap bitmap = null;
+        try {
+            URL iconUrl = new URL(url);
+            URLConnection conn = iconUrl.openConnection();
+            HttpURLConnection http = (HttpURLConnection) conn;
+            int length = http.getContentLength();
+            conn.connect();
+            InputStream is = conn.getInputStream();// 获得图像的字符流
+            BufferedInputStream bis = new BufferedInputStream(is, length);
+
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            //options.inJustDecodeBounds=true;
+
+            //BitmapFactory.decodeStream(bis,null,options);
+
+            options.inSampleSize = calculateInSampleSize(options,80,80);
+            options.inJustDecodeBounds = false;
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+
+            bitmap = BitmapFactory.decodeStream(bis,null,options);
+
+            Log.e("sharebitmapsize", bitmap.getByteCount() + "bytes");
+
+            bis.close();
+            is.close();// 关闭流
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+
+        /*URL imageURL = null;
         Bitmap bitmap = null;
         try {
             imageURL = new URL(url);
@@ -579,8 +641,25 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return bitmap;
+        return bitmap;*/
     }
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {// 原始图片的宽高
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+        if (height > reqHeight || width > reqWidth) {
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+            // 在保证解析出的bitmap宽高分别大于目标尺寸宽高的前提下，取可能的inSampleSize的最大值
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
+    }
+
 
     @Override
     protected void onPause() {
