@@ -431,7 +431,7 @@ public class DeviceInfoManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(!locationList.isEmpty()){
+        if(null!=locationList&&!locationList.isEmpty()){
 
             Address address = locationList.get(0);//得到Address实例
             String countryName = address.getCountryName();//得到国家名称，比如：中国
