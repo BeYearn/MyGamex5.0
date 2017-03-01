@@ -91,11 +91,13 @@ public class WeixinShareUtils {
         }
 
         WXImageObject imgObj = new WXImageObject(bitmap);
+        Log.e("rawbitmap",bitmap.getByteCount()+"bytes");
 
         WXMediaMessage msg = new WXMediaMessage();
         msg.mediaObject = imgObj;
 
-        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
+        Bitmap thumbBmp = Bitmap.createScaledBitmap(bitmap, 80, 90, true);
+        Log.e("thumbBmp",thumbBmp.getByteCount()+"bytes");
         msg.thumbData = bmpToByteArray(thumbBmp, true);
         thumbBmp.recycle();
 

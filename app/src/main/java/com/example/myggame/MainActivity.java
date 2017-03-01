@@ -305,7 +305,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
     private void shareImage() {
 
 
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),/* R.drawable.ema111 */ R.drawable.ic_launcher);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),/* R.drawable.ema111 */ R.drawable.share);
         EmaSDK.getInstance().doShareImage(MainActivity.this, new ShareEmaSDKListener(), bitmap);
     }
 
