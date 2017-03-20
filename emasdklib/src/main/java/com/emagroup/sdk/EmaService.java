@@ -59,7 +59,7 @@ public class EmaService extends Service {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();

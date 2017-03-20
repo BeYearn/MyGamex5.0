@@ -31,8 +31,7 @@ public class WeiboShareUtils {
 
     private WeiboShareUtils(Activity activity){
         this.mActivity=activity;
-       mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(activity,
-               ConfigManager.getInstance(mActivity).getWeiBoAppId());
+       mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(activity, ConfigManager.getInstance(mActivity).getWeiBoAppId());
         mWeiboShareAPI.registerApp();
 
 

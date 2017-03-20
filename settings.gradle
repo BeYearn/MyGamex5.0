@@ -1,1 +1,1 @@
-include ':app', ':emasdklib'
+include ':app', ':emasdklib', ':channelpacktool'

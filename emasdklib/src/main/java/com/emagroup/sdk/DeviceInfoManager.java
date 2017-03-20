@@ -116,7 +116,7 @@ public class DeviceInfoManager {
     public Map<String, String> deviceInfoGather() {
         Map<String, String> parameter = new HashMap<String, String>();
 
-        parameter.put("app_id", ConfigManager.getInstance(mContext).getAppId());//Wechat_App_Id
+        parameter.put("app_id", ConfigManager.getInstance(mContext).getAppId());//
         parameter.put("devid", this.getDEVICE_ID());        //设备ID
         parameter.put("chid", ConfigManager.getInstance(mContext).getChannel());//渠道ID
         parameter.put("appname", this.getPACKAGENAME());        //包名

@@ -344,6 +344,9 @@ public class ConfigManager {
 			LOG.e(TAG, "参数设置错误, 请检查！");
 			e.printStackTrace();
 		}
+		if(null==value){
+			value="nNNN/AAA";
+		}
 		return value;
 	}
 
