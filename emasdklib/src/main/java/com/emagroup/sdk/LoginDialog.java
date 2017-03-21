@@ -575,7 +575,6 @@ public class LoginDialog extends Dialog implements
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        ToolBar.getInstance(mActivity).showToolBar();
         UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINCANELL, "登陆取消！");
     }
 
