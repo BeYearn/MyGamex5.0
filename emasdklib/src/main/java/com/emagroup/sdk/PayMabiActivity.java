@@ -67,6 +67,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
                 case PayConst.CODE_SET_PASSW_CANCEL://退出设置密码
                     dismissSetPasswDialog();
                     PayMabiActivity.this.finish();
+                    EmaPay.getInstance(Ema.getInstance().getContext()).cancelOrder();//再call一次取消订单
                     break;
                 case PayConst.CODE_SET_PASSW_FAILED://设置密码失败
                     dismissSetPasswDialog();
