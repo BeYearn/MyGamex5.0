@@ -63,7 +63,6 @@ public class LoginDialog extends Dialog implements
     private ImageView mImageLogoView;
     private ImageView mBtnRegistByPhone;
     private Button mBtnRegistByOneKey;
-    //private TextView mBtnLoginByAnlaiye;//俺来也账号登陆
     private Button mBtnLoginByEma;//柠檬水账号登陆
     private EditText mEdtPasswView;
     private EditText mEdtNameView;
@@ -81,7 +80,7 @@ public class LoginDialog extends Dialog implements
 
     private Map<String, Integer> mIDmap;
 
-   // private ImageView mWechatLogin,mQQLogin;
+    // private ImageView mWechatLogin,mQQLogin;
 
     // 进度条
     private EmaProgressDialog mProgress;
@@ -125,11 +124,14 @@ public class LoginDialog extends Dialog implements
             }
         }
     };
+    private String uid;
+    private String mAccountType;
 
     // 弱账户第一次登录请求
     private void weakLoginFirst() {
 
         mProgress.showProgress("注册登录中...");
+        mAccountType = "0"; //0 弱帐号
 
         Map<String, String> params = new HashMap<>();
         params.put("accountType", "0");
@@ -139,7 +141,7 @@ public class LoginDialog extends Dialog implements
         params.put("appId", mConfigManager.getAppId());
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
 
-        String sign = 0+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+EmaUser.getInstance().getAppKey();
+        String sign = 0 + mConfigManager.getChannel() + mConfigManager.getAppId() + mConfigManager.getChannelTag() + mDeviceInfoManager.getDEVICE_ID() + "android" + EmaUser.getInstance().getAppKey();
         //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
@@ -149,41 +151,7 @@ public class LoginDialog extends Dialog implements
                     @Override
                     public void OnResponse(String result) {
                         try {
-                            JSONObject json = new JSONObject(result);
-                            firstLoginResult=json.getString("data");
-                            int resultCode = json.getInt("status");
-                            switch (resultCode) {
-                                case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
-
-                                    USharedPerUtil.setParam(mActivity, "accountType", 0);//记录账户类型
-
-                                    JSONObject data = json.getJSONObject("data");
-                                    userid = data.getString("allianceUid");
-                                    LOG.e("allianceUid", userid);
-                                    mEmaUser.setmUid(userid);
-                                    mEmaUser.setAllianceUid(userid);
-                                    allianceId = data.getString("allianceId");
-                                    LOG.e("allianceId", allianceId);
-                                    authCode = data.getString("authCode");
-                                    callbackUrl = data.getString("callbackUrl");
-                                    LOG.e("callbackUrl", callbackUrl);
-                                    nickname = data.getString("nickname");
-                                    LOG.e("nickname", nickname);
-                                    mEmaUser.setNickName(nickname);
-
-                                    Message msg = new Message();
-                                    msg.what = FIRST_STEP_LOGIN_SUCCESS;
-                                    mHandler.sendMessage(msg);
-                                    break;
-                                case HttpInvokerConst.SDK_RESULT_FAILED:
-                                    ToastHelper.toast(mActivity, json.getString("message"));
-                                    mProgress.closeProgress();
-                                    break;
-                                default:
-                                    ToastHelper.toast(mActivity, json.getString("message"));
-                                    mProgress.closeProgress();
-                                    break;
-                            }
+                            firstLoginResult(result, Integer.parseInt(mAccountType));
                         } catch (Exception e) {
                             LOG.w(TAG, "AccountLoginFirst error", e);
                             mHandler.sendEmptyMessage(CODE_FAILED);
@@ -198,20 +166,20 @@ public class LoginDialog extends Dialog implements
     private void AccountLoginFirst() {
         String account = mEdtNameView.getText().toString();
         //记录最后一次帐号，以便下次登录填入
-        USharedPerUtil.setParam(mActivity,"accountNum",account);
+        USharedPerUtil.setParam(mActivity, "accountNum", account);
 
         String passw = mEdtPasswView.getText().toString();
-        String accountType="";
-        if(TextUtils.isEmpty(account)){
+
+        if (TextUtils.isEmpty(account)) {
             ToastHelper.toast(mActivity, "帐号不能为空");
             return;
         }
-        if(UCommUtil.isPhone(account)){
-            accountType="1"; // youxiang 2
-        }else if(UCommUtil.isEmail(account)){
-            accountType="2";
-        }else {
-            ToastHelper.toast(mActivity,"请输入正确的帐号");
+        if (UCommUtil.isPhone(account)) {
+            mAccountType = "1"; //手机 1
+        } else if (UCommUtil.isEmail(account)) {
+            mAccountType = "2";// youxiang 2
+        } else {
+            ToastHelper.toast(mActivity, "请输入正确的帐号");
         }
         if (UCommUtil.isStrEmpty(passw)) {
             ToastHelper.toast(mActivity, "密码不能为空");
@@ -219,20 +187,20 @@ public class LoginDialog extends Dialog implements
         }
         mProgress.showProgress("登录中...");
         Map<String, String> params = new HashMap<String, String>();
-        params.put("accountType", accountType);
+        params.put("accountType", mAccountType);
         params.put("password", passw);
         params.put("appId", mConfigManager.getAppId());
         params.put("deviceType", "android");
         params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
         params.put("allianceId", mConfigManager.getChannel());
         params.put("channelTag", mConfigManager.getChannelTag());
-        String sign="";
-        if("1".equals(accountType)){
+        String sign;
+        if ("1".equals(mAccountType)) {
             params.put("mobile", account);
-            sign = accountType+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+account+passw+EmaUser.getInstance().getAppKey();
-        }else {
+            sign = mAccountType + mConfigManager.getChannel() + mConfigManager.getAppId() + mConfigManager.getChannelTag() + mDeviceInfoManager.getDEVICE_ID() + "android" + account + passw + EmaUser.getInstance().getAppKey();
+        } else {
             params.put("email", account);
-            sign = accountType+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+account+passw+EmaUser.getInstance().getAppKey();
+            sign = mAccountType + mConfigManager.getChannel() + mConfigManager.getAppId() + mConfigManager.getChannelTag() + mDeviceInfoManager.getDEVICE_ID() + "android" + account + passw + EmaUser.getInstance().getAppKey();
         }
         //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
@@ -242,38 +210,7 @@ public class LoginDialog extends Dialog implements
             @Override
             public void OnResponse(String result) {
                 try {
-                    JSONObject json = new JSONObject(result);
-                    firstLoginResult=json.getString("data");
-                    int resultCode = json.getInt("status");
-                    switch (resultCode) {
-                        case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
-                            USharedPerUtil.setParam(mActivity, "accountType", 1);  //记录账户类型
-
-                            JSONObject data = json.getJSONObject("data");
-                            userid = data.getString("allianceUid");
-                            LOG.e("allianceUid", userid);
-                            mEmaUser.setmUid(userid);
-                            mEmaUser.setAllianceUid(userid);
-                            allianceId = data.getString("allianceId");
-                            LOG.e("allianceId", allianceId);
-                            authCode = data.getString("authCode");
-                            callbackUrl = data.getString("callbackUrl");
-                            LOG.e("callbackUrl", callbackUrl);
-                            nickname = data.getString("nickname");
-                            LOG.e("nickname", nickname);
-                            mEmaUser.setNickName(nickname);
-                            mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
-                            LOG.d(TAG, "第一步登录成功");
-                            break;
-                        case HttpInvokerConst.SDK_RESULT_FAILED:
-                            ToastHelper.toast(mActivity, json.getString("message"));
-                            mProgress.closeProgress();
-                            break;
-                        default:
-                            ToastHelper.toast(mActivity, json.getString("message"));
-                            mProgress.closeProgress();
-                            break;
-                    }
+                    firstLoginResult(result, Integer.parseInt(mAccountType));
                 } catch (Exception e) {
                     mHandler.sendEmptyMessage(CODE_FAILED);
                     LOG.w(TAG, "doLogin error", e);
@@ -282,14 +219,64 @@ public class LoginDialog extends Dialog implements
         });
     }
 
+
+    private void firstLoginResult(String result, int type) {
+        try {
+            JSONObject json = new JSONObject(result);
+            firstLoginResult = json.getString("data");
+            int resultCode = json.getInt("status");
+            switch (resultCode) {
+                case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
+
+                    mEmaUser.setAccountType(type);
+
+                    JSONObject data = json.getJSONObject("data");
+
+                    uid = data.getString("uid");
+                    allianceUid = data.getString("allianceUid");
+
+                    mEmaUser.setmUid(uid);
+                    mEmaUser.setAllianceUid(allianceUid);
+
+                    allianceId = data.getString("allianceId");
+                    LOG.e("allianceId", allianceId);
+
+                    String authCode = data.getString("authCode");
+
+                    callbackUrl = data.getString("callbackUrl");
+                    LOG.e("callbackUrl", callbackUrl);
+
+                    nickname = data.getString("nickname");
+                    LOG.e("nickname", nickname);
+                    mEmaUser.setNickName(nickname);
+
+                    mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
+                    LOG.d(TAG, "第一步登录成功");
+                    break;
+                case HttpInvokerConst.SDK_RESULT_FAILED:
+                    ToastHelper.toast(mActivity, json.getString("message"));
+                    mProgress.closeProgress();
+                    break;
+                default:
+                    ToastHelper.toast(mActivity, json.getString("message"));
+                    mProgress.closeProgress();
+                    break;
+            }
+        } catch (Exception e) {
+            LOG.w(TAG, "login error", e);
+            mHandler.sendEmptyMessage(CODE_FAILED);
+        }
+    }
+
+
     /**
      * 第二步登录验证 都是一样的
      */
     private void LoginSecond() {
         Map<String, String> params = new HashMap<>();
         /*params.put("authCode", authCode);
-        params.put("uid", userid);*/
-        params.put("data",firstLoginResult);
+        params.put("uid", allianceUid);*/
+        params.put("data", firstLoginResult);
         new HttpInvoker().postAsync(callbackUrl, params,
                 new HttpInvoker.OnResponsetListener() {
                     @Override
@@ -297,7 +284,7 @@ public class LoginDialog extends Dialog implements
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             int resultCode = jsonObject.getInt("status");
-                            switch (resultCode){
+                            switch (resultCode) {
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS:// 成功
                                     JSONObject data = jsonObject.getJSONObject("data");
                                     String token = data.getString("token");
@@ -337,12 +324,12 @@ public class LoginDialog extends Dialog implements
         //ToastHelper.toast(mActivity, "登录成功");
         USharedPerUtil.setParam(mActivity, "token", token);
         USharedPerUtil.setParam(mActivity, "nickname", nickname);
-        USharedPerUtil.setParam(mActivity, "uid", userid);
+        USharedPerUtil.setParam(mActivity, "uid", uid);
+        USharedPerUtil.setParam(mActivity, "accountType", Integer.parseInt(mAccountType));  //记录账户类型 int
         EmaUser.getInstance().setIsLogin(true);
     }
 
     private String allianceId;
-    private String authCode;
     private String callbackUrl;
     private String nickname;
 
@@ -351,20 +338,20 @@ public class LoginDialog extends Dialog implements
     private boolean mFlagIsPoupInit;// 判断下拉框控件是否进行了初始化
     private boolean mFlagIsLoginByAnlaiye;//标记是否是用俺来也账号登陆
 
-    private String userid;//弱账户创建出的uid
+    private String allianceUid;//弱账户创建出的uid
 
     private static LoginDialog mInstance;
 
 
-    public static LoginDialog getInstance(Context context){
-        if(null==mInstance||!mActivity.equals(context)){
-            mInstance=new LoginDialog(context);
+    public static LoginDialog getInstance(Context context) {
+        if (null == mInstance || !mActivity.equals(context)) {
+            mInstance = new LoginDialog(context);
         }
         return mInstance;
     }
 
     private LoginDialog(Context context) {
-        super(context,ResourceManager.getInstance(context).getIdentifier("ema_activity_dialog", "style"));
+        super(context, ResourceManager.getInstance(context).getIdentifier("ema_activity_dialog", "style"));
         mActivity = (Activity) context;
         mResourceManager = ResourceManager.getInstance(mActivity);
         mDeviceInfoManager = DeviceInfoManager.getInstance(mActivity);
@@ -380,7 +367,7 @@ public class LoginDialog extends Dialog implements
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);// 去掉信息栏
-        this.getWindow().getAttributes().alpha=0.8F;
+        this.getWindow().getAttributes().alpha = 0.8F;
         this.setCanceledOnTouchOutside(false);
 
         initView();
@@ -394,7 +381,7 @@ public class LoginDialog extends Dialog implements
     private void initData() {
         //如果是俺来也账号，需要显示俺来也的图标，用来切换登陆
         if (UserUtil.isAnlaiye()) {
-          //  mBtnLoginByAnlaiye.setVisibility(View.VISIBLE);
+            //  mBtnLoginByAnlaiye.setVisibility(View.VISIBLE);
         }
         //进入登陆界面默认显示Ema账号列表
         mUserInfoList = USharedPerUtil.getUserLoginInfoList(mActivity);
@@ -416,14 +403,14 @@ public class LoginDialog extends Dialog implements
 
         mBtnLogin = (Button) findViewById(getId("ema_normalLogin_enterGame"));
         mImageLogoView = (ImageView) findViewById(getId("ema_login_image_logo"));
-      //  mBtnLoginByAnlaiye = (TextView) findViewById(getId("ema_login_btn_login_by_anlaiye"));
+        //  mBtnLoginByAnlaiye = (TextView) findViewById(getId("ema_login_btn_login_by_anlaiye"));
         mBtnLoginByEma = (Button) findViewById(getId("ema_normallogin_change_emalogin"));
         mBtnRegistByPhone = (ImageView) findViewById(getId("ema_normalLogin_phoneLogin"));
         mBtnRegistByOneKey = (Button) findViewById(getId("ema_normalLogin_oneKeyReg"));
 
         String acNum = (String) USharedPerUtil.getParam(mActivity, "accountNum", "");
         mEdtNameView = (EditText) findViewById(getId("ema_normal_name_editText"));
-        if(!TextUtils.isEmpty(acNum)){
+        if (!TextUtils.isEmpty(acNum)) {
             mEdtNameView.setText(acNum);
             mEdtNameView.setSelection(acNum.length());
         }
@@ -535,7 +522,7 @@ public class LoginDialog extends Dialog implements
      */
     private void doChangeLoginSource(boolean isAnlaiye) {
         mFlagIsLoginByAnlaiye = isAnlaiye;
-      //  mBtnLoginByAnlaiye.setVisibility(isAnlaiye ? View.INVISIBLE : View.VISIBLE);
+        //  mBtnLoginByAnlaiye.setVisibility(isAnlaiye ? View.INVISIBLE : View.VISIBLE);
         mBtnRegistByOneKey.setVisibility(isAnlaiye ? View.GONE : View.VISIBLE);
         mBtnRegistByPhone.setVisibility(isAnlaiye ? View.GONE : View.VISIBLE);
         mBtnLoginByEma.setVisibility(isAnlaiye ? View.VISIBLE : View.GONE);
@@ -666,7 +653,7 @@ public class LoginDialog extends Dialog implements
         /*if (mEdtPasswView.getText().toString().equals(mPasswShowStr)) {
             loginAutoLogin();
         } else {}*/
-            AccountLoginFirst();
+        AccountLoginFirst();
     }
 
     /**

@@ -58,7 +58,7 @@ public class EmaUser {
     }
 
     public void setAccountType(int accountType) {
-        EmaUser.accountType = accountType;
+        this.accountType = accountType;
     }
 
 

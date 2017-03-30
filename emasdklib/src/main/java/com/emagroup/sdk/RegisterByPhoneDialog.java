@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickListener  ,ThirdLoginUtils.ThirdAllowAfter {
+class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickListener, ThirdLoginUtils.ThirdAllowAfter {
 
     private static final String TAG = "RegisterByPhoneDialog";
 
@@ -42,7 +42,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     private DeviceInfoManager mDeviceInfoManager;// 设备信息管理
     private ConfigManager mConfigManager;// 配置项管理
     private EmaUser mEmaUser;// 当前登录用户信息
-    private String accountType;
+    private String mAccountType;
 
     private int mCountNum;//秒数
     private Timer mTimer;
@@ -88,7 +88,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                 case CODE_SUCCESS:
                     doResultSuccFromServer((String) msg.obj);
                     mInstance.dismiss();
-                    mInstance=null;   //否则下次进入该界面还是验证码状态（未刷新）
+                    mInstance = null;   //否则下次进入该界面还是验证码状态（未刷新）
                     mProgress.closeProgress();
                     break;
                 case FIRST_STEP_LOGIN_SUCCESS:
@@ -98,9 +98,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         }
 
     };
-    private static long firstGetTime=0;
-    private View mWechatLoginText;
-    private View mQQLoginText;
+    private static long firstGetTime = 0;
+    private String uid;
 
     /**
      * 一键登录的开始
@@ -116,16 +115,17 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
      */
     private void weakLoginFirst() {
         mProgress.showProgress("注册登录中...");
+        mAccountType = "0"; //0 弱帐号
 
         Map<String, String> params = new HashMap<>();
-        params.put("accountType", "0");
+        params.put("accountType", mAccountType);
         params.put("deviceType", "android");
         params.put("allianceId", mConfigManager.getChannel());
         params.put("channelTag", mConfigManager.getChannelTag());
         params.put("appId", mConfigManager.getAppId());
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
 
-        String sign = 0+mConfigManager.getChannel()+mConfigManager.getAppId()+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+EmaUser.getInstance().getAppKey();
+        String sign = 0 + mConfigManager.getChannel() + mConfigManager.getAppId() + mConfigManager.getChannelTag() + mDeviceInfoManager.getDEVICE_ID() + "android" + EmaUser.getInstance().getAppKey();
         //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
@@ -134,34 +134,81 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                 new HttpInvoker.OnResponsetListener() {
                     @Override
                     public void OnResponse(String result) {
-                        firstLoginResult(result,0);
+                        firstLoginResult(result, 0);
                     }
                 });
     }
 
-    private void firstLoginResult(String result,int type) {
+    /**
+     * 手机或邮箱验证码登录的第一次登录验证
+     */
+    private void accountLoginFirst() {
+        final String captcha = mEdtContentView.getText().toString();
+        if (UCommUtil.isStrEmpty(captcha)) {
+            LOG.d(TAG, "验证码为空");
+            ToastHelper.toast(mActivity, "验证码不能为空");
+            return;
+        }
+        mProgress.showProgress("登录中...");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("accountType", mAccountType);
+        params.put("captcha", captcha);
+        params.put("appId", mConfigManager.getAppId());
+        params.put("deviceType", "android");
+        params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
+        params.put("allianceId", mConfigManager.getChannel());
+        params.put("channelTag", mConfigManager.getChannelTag());
+        String sign;
+        if ("1".equals(mAccountType)) {
+            params.put("mobile", mEmaUser.getMobile());
+            sign = mAccountType + mConfigManager.getChannel() + mConfigManager.getAppId() + captcha + mConfigManager.getChannelTag() + mDeviceInfoManager.getDEVICE_ID() + "android" + mEmaUser.getMobile() + EmaUser.getInstance().getAppKey();
+        } else {
+            params.put("email", mEmaUser.getEmail());
+            sign = mAccountType + mConfigManager.getChannel() + mConfigManager.getAppId() + captcha + mConfigManager.getChannelTag() + mDeviceInfoManager.getDEVICE_ID() + "android" + mEmaUser.getEmail() + EmaUser.getInstance().getAppKey();
+        }
+        //LOG.e("rawSign",sign);
+        sign = UCommUtil.MD5(sign);
+        params.put("sign", sign);
+
+        new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
+            @Override
+            public void OnResponse(String result) {
+                firstLoginResult(result, Integer.parseInt(mAccountType));
+            }
+        });
+
+    }
+
+
+    private void firstLoginResult(String result, int type) {
         try {
             JSONObject json = new JSONObject(result);
-            firstLoginResult=json.getString("data");
+            firstLoginResult = json.getString("data");
             int resultCode = json.getInt("status");
             switch (resultCode) {
                 case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
 
-                    USharedPerUtil.setParam(mActivity, "accountType", type);  //记录账户类型
-
+                    mEmaUser.setAccountType(type);
                     JSONObject data = json.getJSONObject("data");
-                    userid = data.getString("allianceUid");
-                    LOG.e("allianceUid", userid);
-                    mEmaUser.setmUid(userid);
-                    mEmaUser.setAllianceUid(userid);
+
+                    uid = data.getString("uid");
+                    allianceUid = data.getString("allianceUid");
+
+                    mEmaUser.setmUid(uid);
+                    mEmaUser.setAllianceUid(allianceUid);
+
                     allianceId = data.getString("allianceId");
                     LOG.e("allianceId", allianceId);
+
                     authCode = data.getString("authCode");
+
                     callbackUrl = data.getString("callbackUrl");
                     LOG.e("callbackUrl", callbackUrl);
+
                     nickname = data.getString("nickname");
                     LOG.e("nickname", nickname);
                     mEmaUser.setNickName(nickname);
+
                     mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
                     LOG.d(TAG, "第一步登录成功");
                     break;
@@ -181,92 +228,13 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     }
 
     /**
-     * 手机验证码登录的第一次登录验证
-     */
-    private void accountLoginFirst() {
-        final String captcha = mEdtContentView.getText().toString();
-        if (UCommUtil.isStrEmpty(captcha)) {
-            LOG.d(TAG, "验证码为空");
-            ToastHelper.toast(mActivity, "验证码不能为空");
-            return;
-        }
-        mProgress.showProgress("登录中...");
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("accountType", accountType);
-        params.put("captcha", captcha);
-        params.put("appId", mConfigManager.getAppId());
-        params.put("deviceType", "android");
-        params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
-        params.put("allianceId", mConfigManager.getChannel());
-        params.put("channelTag", mConfigManager.getChannelTag());
-        String sign="";
-        if("1".equals(accountType)){
-            params.put("mobile", mEmaUser.getMobile());
-            sign = accountType+mConfigManager.getChannel()+mConfigManager.getAppId()+captcha+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+mEmaUser.getMobile()+EmaUser.getInstance().getAppKey();
-        }else {
-            params.put("email", mEmaUser.getEmail());
-            sign = accountType+mConfigManager.getChannel()+mConfigManager.getAppId()+captcha+mConfigManager.getChannelTag()+mDeviceInfoManager.getDEVICE_ID()+"android"+mEmaUser.getEmail()+EmaUser.getInstance().getAppKey();
-        }
-        //LOG.e("rawSign",sign);
-        sign = UCommUtil.MD5(sign);
-        params.put("sign", sign);
-
-        new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
-            @Override
-            public void OnResponse(String result) {
-                firstLoginResult(result,Integer.parseInt(accountType));
-               /* try {
-                    JSONObject json = new JSONObject(result);
-                    firstLoginResult=json.getString("data");
-                    int resultCode = json.getInt("status");
-                    switch (resultCode) {
-                        case HttpInvokerConst.SDK_RESULT_SUCCESS://  第一步登录成功
-
-                            USharedPerUtil.setParam(mActivity, "accountType", Integer.parseInt(accountType));  //记录账户类型
-
-                            JSONObject data = json.getJSONObject("data");
-                            userid = data.getString("allianceUid");
-                            LOG.e("allianceUid", userid);
-                            mEmaUser.setmUid(userid);
-                            mEmaUser.setAllianceUid(userid);
-                            allianceId = data.getString("allianceId");
-                            LOG.e("allianceId", allianceId);
-                            authCode = data.getString("authCode");
-                            callbackUrl = data.getString("callbackUrl");
-                            LOG.e("callbackUrl", callbackUrl);
-                            nickname = data.getString("nickname");
-                            LOG.e("nickname", nickname);
-                            mEmaUser.setNickName(nickname);
-                            mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
-                            LOG.d(TAG, "第一步登录成功");
-                            break;
-                        case HttpInvokerConst.SDK_RESULT_FAILED:
-                            ToastHelper.toast(mActivity, json.getString("message"));
-                            mProgress.closeProgress();
-                            break;
-                        default:
-                            ToastHelper.toast(mActivity, json.getString("message"));
-                            mProgress.closeProgress();
-                            break;
-                    }
-                } catch (Exception e) {
-                    ToastHelper.toast(mActivity, "登录失败");
-                    mProgress.closeProgress();
-                    LOG.w(TAG, "accountLoginFirst error:"+e);
-                }*/
-            }
-        });
-
-    }
-
-    /**
      * 第二步登录（各种登录方式的第二步登录一样）
      */
     private void LoginSecond() {
         Map<String, String> params = new HashMap<>();
         /*params.put("authCode", authCode);
-        params.put("uid", userid);*/
-        params.put("data",firstLoginResult);
+        params.put("uid", allianceUid);*/
+        params.put("data", firstLoginResult);
         new HttpInvoker().postAsync(callbackUrl, params,
                 new HttpInvoker.OnResponsetListener() {
                     @Override
@@ -274,7 +242,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                         try {
                             JSONObject jsonObject = new JSONObject(result);
                             int resultCode = jsonObject.getInt("status");
-                            switch (resultCode){
+                            switch (resultCode) {
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS:
                                     JSONObject data = jsonObject.getJSONObject("data");
                                     String token = data.getString("token");
@@ -299,7 +267,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                         } catch (Exception e) {
                             ToastHelper.toast(mActivity, "登录失败");
                             mProgress.closeProgress();
-                            LOG.w(TAG, "accountLoginsecond error:"+e);
+                            LOG.w(TAG, "accountLoginsecond error:" + e);
                         }
                     }
                 });
@@ -313,11 +281,12 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     private void doResultSuccFromServer(String token) {
 
         // 显示登录成功后的对话框
-        Ema.getInstance().setWechatCanLogin(mActivity,true);
+        Ema.getInstance().setWechatCanLogin(mActivity, true);
         //ToastHelper.toast(mActivity, "登录成功");
         USharedPerUtil.setParam(mActivity, "token", token);
-        USharedPerUtil.setParam(mActivity,"nickname",nickname);
-        USharedPerUtil.setParam(mActivity,"uid",userid);
+        USharedPerUtil.setParam(mActivity, "nickname", nickname);
+        USharedPerUtil.setParam(mActivity, "uid", uid);
+        USharedPerUtil.setParam(mActivity, "accountType", mAccountType);  //记录账户类型
         mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
         mLoginSuccDialog.start();
         EmaUser.getInstance().setIsLogin(true);
@@ -328,18 +297,18 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     private String callbackUrl;
     private String nickname;
     private static RegisterByPhoneDialog mInstance;
-    private String userid;
+    private String allianceUid;
 
-    public static RegisterByPhoneDialog getInstance(Context context){
-        if(mInstance==null||!mActivity.equals(context)){
-            mInstance=new RegisterByPhoneDialog(context);
+    public static RegisterByPhoneDialog getInstance(Context context) {
+        if (mInstance == null || !mActivity.equals(context)) {
+            mInstance = new RegisterByPhoneDialog(context);
         }
         return mInstance;
     }
 
 
     private RegisterByPhoneDialog(Context context) {
-        super(context,ResourceManager.getInstance(context).getIdentifier("ema_activity_dialog", "style"));
+        super(context, ResourceManager.getInstance(context).getIdentifier("ema_activity_dialog", "style"));
         mActivity = (Activity) context;
         mResourceManager = ResourceManager.getInstance(mActivity);
         mDeviceInfoManager = DeviceInfoManager.getInstance(mActivity);
@@ -359,7 +328,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.setCanceledOnTouchOutside(false);
-        this.getWindow().getAttributes().alpha=0.8F;
+        this.getWindow().getAttributes().alpha = 0.8F;
 
         initView();
     }
@@ -377,7 +346,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         String acNum = (String) USharedPerUtil.getParam(mActivity, "accountNum", "");
         mEdtContentView = (EditText) findViewById(getId("ema_phone_info_inputText"));
 
-        if(!TextUtils.isEmpty(acNum)){
+        if (!TextUtils.isEmpty(acNum)) {
             mEdtContentView.setText(acNum);
             mEdtContentView.setSelection(acNum.length());
         }
@@ -385,18 +354,18 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         mBtnGetAuthCode.setVisibility(View.GONE);
         mBtnGetAuthCode.setEnabled(false);
 
-        mWechatLogin= (RelativeLayout) findViewById(getId("ema_wechat_login_rela"));
+        mWechatLogin = (RelativeLayout) findViewById(getId("ema_wechat_login_rela"));
 
-        mQQLogin= (RelativeLayout) findViewById(getId("ema_qq_login_rela"));
+        mQQLogin = (RelativeLayout) findViewById(getId("ema_qq_login_rela"));
 
-       if(Ema.getInstance().getWachatLoginVisibility()){
+        if (Ema.getInstance().getWachatLoginVisibility()) {
             mWechatLogin.setOnClickListener(this);
-        }else{
-           mWechatLogin.setVisibility(View.GONE);
+        } else {
+            mWechatLogin.setVisibility(View.GONE);
         }
-        if(Ema.getInstance().getQQLoginVisibility()){
+        if (Ema.getInstance().getQQLoginVisibility()) {
             mQQLogin.setOnClickListener(this);
-        }else {
+        } else {
             mQQLogin.setVisibility(View.GONE);
         }
 
@@ -406,7 +375,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         mBtnReturnLogin.setOnClickListener(this);
         mBtnReturnRegister.setOnClickListener(this);
         mBtnGetAuthCode.setOnClickListener(this);
-        Ema.getInstance().setWechatCanLogin(mActivity,true);
+        Ema.getInstance().setWechatCanLogin(mActivity, true);
     }
 
     @Override
@@ -416,76 +385,30 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
             doStartWork();
         } else if (id == getId("ema_btn_return_login")) {//账号登录
             mInstance.dismiss();
-            mInstance=null; //用户如果切换为帐号登录，则置空这个，以便回来时重新走手机流程
+            mInstance = null; //用户如果切换为帐号登录，则置空这个，以便回来时重新走手机流程
             LoginDialog.getInstance(Ema.getInstance().getContext()).show();
         } else if (id == getId("ema_btn_return_register")) {//快速注册
             doRegistByOneKey();
         } else if (id == getId("ema_btn_get_auth_code")) {//重新获取验证码
             startTimeTask(60);
-            if("1".equals(accountType)){
+            if ("1".equals(mAccountType)) {
                 doGetAuthCode(mEmaUser.getMobile());
-            }else if("2".equals(accountType)){
+            } else if ("2".equals(mAccountType)) {
                 doSendEmail(mEmaUser.getEmail());
             }
-        }else if(id==getId("ema_wechat_login_rela")){
-           // WeixinShareUtils.getInstance(mActivity).wachateLogin();
+        } else if (id == getId("ema_wechat_login_rela")) {
+            // WeixinShareUtils.getInstance(mActivity).wachateLogin();
             wachateLogin();
-        }else if(id==getId("ema_qq_login_rela")){
-          //  Ema.getInstance().saveWachatLoginFlag(true);
+        } else if (id == getId("ema_qq_login_rela")) {
+            //  Ema.getInstance().saveWachatLoginFlag(true);
             ThirdLoginUtils.getInstance(mActivity).qqLogin(this);
         }
     }
 
     private void wachateLogin() {
-      //
-        Ema.getInstance().setWechatCanLogin(mActivity,false);
+
+        Ema.getInstance().setWechatCanLogin(mActivity, false);
         ThirdLoginUtils.getInstance(mActivity).wachateLogin(this);
-        /*ThirdLoginUtils.getInstance(mActivity).wachateLogin(new ThirdLoginUtils.ThirdAllowAfter() {
-            @Override
-            public void wachateAllowAfter(String result) {
-                mProgress.showProgress("登录中...");
-                Map<String,String> params=new HashMap();
-                params.put("accountType","3");
-                params.put("appId",mConfigManager.getAppId());
-                params.put("channelTag",mConfigManager.getChannelTag());
-                params.put("allianceId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
-                params.put("weixinCode",result);
-
-                String sign="3"+ ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()
-                            +mConfigManager.getAppId()+mConfigManager.getChannelTag()+result+ EmaUser.getInstance().getAppKey();
-                //LOG.e("rawSign",sign);
-                sign = UCommUtil.MD5(sign);
-                params.put("sign", sign);
-                new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
-                @Override
-                public void OnResponse(String result) {
-                try {
-                    if(new JSONObject(result).optString("status").equals("0")){
-                        JSONObject dataJson = new JSONObject(result).optJSONObject("data");
-                        firstLoginResult=dataJson.toString();
-                        USharedPerUtil.setParam(mActivity, "accountType", 3);  //记录账户类型
-                         userid = dataJson.getString("allianceUid");
-                        LOG.e("allianceUid", userid);
-                        mEmaUser.setmUid(userid);
-                        allianceId = dataJson.getString("allianceId");
-                        LOG.e("allianceId", allianceId);
-                        authCode = dataJson.getString("authCode");
-                        LOG.e("authCode", authCode);
-                        callbackUrl = dataJson.getString("callbackUrl");
-                        LOG.e("callbackUrl", callbackUrl);
-                        nickname = dataJson.getString("nickname");
-                        LOG.e("nickname", nickname);
-                        mEmaUser.setNickName(nickname);
-                        mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-            }
-        });*/
     }
 
 
@@ -500,20 +423,20 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
             String curAccountNum = mEdtContentView.getText().toString();//当前填入的帐号
 
             //记录最后一次帐号，以便下次登录填入
-            USharedPerUtil.setParam(mActivity,"accountNum", curAccountNum);
+            USharedPerUtil.setParam(mActivity, "accountNum", curAccountNum);
 
-            if(TextUtils.isEmpty(curAccountNum)){
+            if (TextUtils.isEmpty(curAccountNum)) {
                 ToastHelper.toast(mActivity, "帐号不能为空");
                 return;
             }
-            if(UCommUtil.isPhone(curAccountNum)){
-                accountType="1";
+            if (UCommUtil.isPhone(curAccountNum)) {
+                mAccountType = "1";
                 doGetAuthCode(curAccountNum);
-            }else if(UCommUtil.isEmail(curAccountNum)){
-                accountType="2";
+            } else if (UCommUtil.isEmail(curAccountNum)) {
+                mAccountType = "2";
                 doSendEmail(curAccountNum);
-            }else {
-                ToastHelper.toast(mActivity,"请输入正确的帐号");
+            } else {
+                ToastHelper.toast(mActivity, "请输入正确的帐号");
             }
         }
     }
@@ -521,6 +444,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
 
     /**
      * 发送验证码邮件
+     *
      * @param accountNum
      */
     private void doSendEmail(String accountNum) {
@@ -532,31 +456,31 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         UCommUtil.testMapInfo(params);
 
         new HttpInvoker().postAsync(Url.getSendEmailUrl(), params, new HttpInvoker.OnResponsetListener() {
-                    @Override
-                    public void OnResponse(String result) {
-                        try {
-                            JSONObject json = new JSONObject(result);
-                            int resultCode = json.getInt("status");
-                            switch (resultCode) {
-                                case HttpInvokerConst.SDK_RESULT_SUCCESS:// 成功
-                                    mHandler.sendEmptyMessage(CODE_GET_AUTH_CODE_SUCCESS);
-                                    break;
-                                case HttpInvokerConst.SDK_RESULT_FAILED:// 失败
-                                    ToastHelper.toast(mActivity, json.getString("message"));
-                                    mProgress.closeProgress();
-                                    break;
-                                default:
-                                    ToastHelper.toast(mActivity, json.getString("message"));
-                                    mProgress.closeProgress();
-                                    break;
-                            }
-                        } catch (Exception e) {
-                            LOG.w(TAG, "doSendEmail error", e);
-                            ToastHelper.toast(mActivity, "请求失败");
+            @Override
+            public void OnResponse(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    int resultCode = json.getInt("status");
+                    switch (resultCode) {
+                        case HttpInvokerConst.SDK_RESULT_SUCCESS:// 成功
+                            mHandler.sendEmptyMessage(CODE_GET_AUTH_CODE_SUCCESS);
+                            break;
+                        case HttpInvokerConst.SDK_RESULT_FAILED:// 失败
+                            ToastHelper.toast(mActivity, json.getString("message"));
                             mProgress.closeProgress();
-                        }
+                            break;
+                        default:
+                            ToastHelper.toast(mActivity, json.getString("message"));
+                            mProgress.closeProgress();
+                            break;
                     }
-                });
+                } catch (Exception e) {
+                    LOG.w(TAG, "doSendEmail error", e);
+                    ToastHelper.toast(mActivity, "请求失败");
+                    mProgress.closeProgress();
+                }
+            }
+        });
     }
 
     /**
@@ -564,13 +488,13 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
      */
     private void doGetAuthCode(String phoneNum) {
 
-        Long hasTime=System.currentTimeMillis() - firstGetTime;
+        Long hasTime = System.currentTimeMillis() - firstGetTime;
         boolean isTimeAll = hasTime > 60000;
 
-        if(phoneNum.equals(mEmaUser.getMobile())&&!isTimeAll){  //如果等于上次的号码并且没经过60s后  给他回到之前的页面，否则就是下面的流程
+        if (phoneNum.equals(mEmaUser.getMobile()) && !isTimeAll) {  //如果等于上次的号码并且没经过60s后  给他回到之前的页面，否则就是下面的流程
 
             setViewChange();
-            startTimeTask((int)(60000-hasTime)/1000);
+            startTimeTask((int) (60000 - hasTime) / 1000);
 
             return;
         }
@@ -593,7 +517,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                                 case HttpInvokerConst.SDK_RESULT_SUCCESS:// 成功
                                     mHandler.sendEmptyMessage(CODE_GET_AUTH_CODE_SUCCESS);
 
-                                    firstGetTime= System.currentTimeMillis();
+                                    firstGetTime = System.currentTimeMillis();
                                     break;
                                 case HttpInvokerConst.SDK_RESULT_FAILED:// 失败
                                     ToastHelper.toast(mActivity, json.getString("message"));
@@ -695,63 +619,28 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         return mIDmap.get(key);
     }
 
-  @Override
+    @Override
     public void wachateAllowAfter(String result) {
         mProgress.showProgress("登录中...");
-        Map<String,String> params=new HashMap();
-        params.put("accountType","3");
-        params.put("appId",mConfigManager.getAppId());
-        params.put("channelTag",mConfigManager.getChannelTag());
+        Map<String, String> params = new HashMap();
+        params.put("accountType", "3");
+        params.put("appId", mConfigManager.getAppId());
+        params.put("channelTag", mConfigManager.getChannelTag());
         params.put("allianceId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
-        params.put("weixinCode",result);
+        params.put("weixinCode", result);
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
         params.put("deviceType", "android");
-        String sign="3"+ ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()
-                +mConfigManager.getAppId()+mConfigManager.getChannelTag() +DeviceInfoManager.getInstance(mActivity).getDEVICE_ID()
-                +params.get("deviceType")+ result+ EmaUser.getInstance().getAppKey();
+        String sign = "3" + ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()
+                + mConfigManager.getAppId() + mConfigManager.getChannelTag() + DeviceInfoManager.getInstance(mActivity).getDEVICE_ID()
+                + params.get("deviceType") + result + EmaUser.getInstance().getAppKey();
         //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
         new HttpInvoker().postAsync(Url.getFirstLoginUrl(), params, new HttpInvoker.OnResponsetListener() {
 
-            private JSONObject resultJson;
-
             @Override
             public void OnResponse(String result) {
-                firstLoginResult(result,3);
-              /*  try {
-                    resultJson = new JSONObject(result);
-                    if(resultJson.optString("status").equals("0")){
-                        JSONObject dataJson = new JSONObject(result).optJSONObject("data");
-                        firstLoginResult=dataJson.toString();
-                        USharedPerUtil.setParam(mActivity, "accountType", 3);  //记录账户类型
-                        userid = dataJson.getString("allianceUid");
-                        LOG.e("allianceUid", userid);
-                        mEmaUser.setmUid(userid);
-                        mEmaUser.setAllianceUid(userid);
-                        allianceId = dataJson.getString("allianceId");
-                        LOG.e("allianceId", allianceId);
-                        authCode = dataJson.getString("authCode");
-                        LOG.e("authCode", authCode);
-                        callbackUrl = dataJson.getString("callbackUrl");
-                        LOG.e("callbackUrl", callbackUrl);
-                        nickname = dataJson.getString("nickname");
-                        LOG.e("nickname", nickname);
-                        mEmaUser.setNickName(nickname);
-                        mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
-
-                    }else{
-                        mActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(mActivity,resultJson.optString("message"),Toast.LENGTH_SHORT).show();
-                                mProgress.closeProgress();
-                            }
-                        });
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
+                firstLoginResult(result, 3);
             }
         });
     }
@@ -759,21 +648,21 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     @Override
     public void qqAllowAfter(Map<String, String> param) {
         mProgress.showProgress("登录中...");
-        param.put("pfAppId",mConfigManager.getAppId());
-        param.put("channelTag",mConfigManager.getChannelTag());
+        param.put("pfAppId", mConfigManager.getAppId());
+        param.put("channelTag", mConfigManager.getChannelTag());
         param.put(/*"allianceId"*/"channelId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
         param.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
         param.put("deviceType", "android");
-        String sign= param.get("accessToken")+ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()+
-                mConfigManager.getChannelTag()+DeviceInfoManager.getInstance(mActivity).getDEVICE_ID()
-                +param.get("deviceType")+param.get("openId")+param.get("pfAppId")
-                +param.get("qqAppId")+ EmaUser.getInstance().getAppKey();
+        String sign = param.get("accessToken") + ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel() +
+                mConfigManager.getChannelTag() + DeviceInfoManager.getInstance(mActivity).getDEVICE_ID()
+                + param.get("deviceType") + param.get("openId") + param.get("pfAppId")
+                + param.get("qqAppId") + EmaUser.getInstance().getAppKey();
         sign = UCommUtil.MD5(sign);
         param.put("sign", sign);
         new HttpInvoker().postAsync(Url.getQqLoginUrl(), param, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
-                    firstLoginResult(result,5);//QQ账号类型5
+                firstLoginResult(result, 5);//QQ账号类型5
             }
         });
 

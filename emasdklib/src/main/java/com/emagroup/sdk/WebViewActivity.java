@@ -417,13 +417,13 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         cookieManager.setCookie(url, getCookie("channelTag", mConfigManager.getChannelTag()));
 
         cookieManager.setCookie(url, getCookie("token", mEmaUser.getToken()));
-        cookieManager.setCookie(url, getCookie("uid", mEmaUser.getAllianceUid()));
+        cookieManager.setCookie(url, getCookie("uid", mEmaUser.getmUid()));
         cookieManager.setCookie(url, getCookie("nickname", mEmaUser.getNickName()));
         cookieManager.setCookie(url, getCookie("deviceType", "android"));
         cookieManager.setCookie(url, getCookie("deviceKey", mDeviceInfoManager.getDEVICE_ID()));
         cookieManager.setCookie(url, getCookie("accountType", mEmaUser.getAccountType() + ""));
         cookieManager.setCookie(url, getCookie("gameRoleInfo", Ema.getInstance().getGameInfoJson()));
-        LOG.e("______________", mEmaUser.getToken() + mEmaUser.getAllianceUid() + mEmaUser.getNickName() + "deviceid" + mDeviceInfoManager.getDEVICE_ID() + "type" + mEmaUser.getAccountType() + "");
+        LOG.e("______________", mEmaUser.getToken() + mEmaUser.getmUid() + mEmaUser.getNickName() + "deviceid" + mDeviceInfoManager.getDEVICE_ID() + "type" + mEmaUser.getAccountType() + "");
         CookieSyncManager.getInstance().sync();
 
         String str = cookieManager.getCookie(url);
