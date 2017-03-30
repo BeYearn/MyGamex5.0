@@ -68,6 +68,8 @@ public class PayMabiActivity extends Activity implements OnClickListener {
                     dismissSetPasswDialog();
                     PayMabiActivity.this.finish();
                     EmaPay.getInstance(Ema.getInstance().getContext()).cancelOrder();//再call一次取消订单
+                    LOG.d("canclePwd", "支付取消");
+                    UCommUtil.makePayCallBack(EmaCallBackConst.PAYCANELI, "未设置密码支付取消");
                     break;
                 case PayConst.CODE_SET_PASSW_FAILED://设置密码失败
                     dismissSetPasswDialog();
@@ -336,7 +338,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
         params.put("orderId", mPayInfo.getOrderId());
         params.put("chargePwd", passw);
         params.put("token", mEmaUser.getToken());
-        params.put("uid",mEmaUser.getAllianceUid());
+        params.put("uid",mEmaUser.getmUid());
         params.put("appId",ConfigManager.getInstance(this).getAppId());
         new HttpInvoker().postAsync(Url.getWalletPayUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
@@ -381,7 +383,7 @@ public class PayMabiActivity extends Activity implements OnClickListener {
         params.put("orderId", payInfo.getOrderId());
         params.put("token", EmaUser.getInstance().getToken());
         params.put("appId", ConfigManager.getInstance(this).getAppId());
-        params.put("uid",EmaUser.getInstance().getAllianceUid());
+        params.put("uid",EmaUser.getInstance().getmUid());
         new HttpInvoker().postAsync(Url.getWalletPayNoPswUrl(), params, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {

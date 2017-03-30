@@ -286,7 +286,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         USharedPerUtil.setParam(mActivity, "token", token);
         USharedPerUtil.setParam(mActivity, "nickname", nickname);
         USharedPerUtil.setParam(mActivity, "uid", uid);
-        USharedPerUtil.setParam(mActivity, "accountType", mAccountType);  //记录账户类型
+        USharedPerUtil.setParam(mActivity, "accountType", Integer.parseInt(mAccountType));  //记录账户类型
         mLoginSuccDialog = new LoginSuccDialog(mActivity, true);
         mLoginSuccDialog.start();
         EmaUser.getInstance().setIsLogin(true);
@@ -622,15 +622,17 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     @Override
     public void wachateAllowAfter(String result) {
         mProgress.showProgress("登录中...");
+        mAccountType = "3"; //wx账号类型3
+
         Map<String, String> params = new HashMap();
-        params.put("accountType", "3");
+        params.put("accountType", mAccountType);
         params.put("appId", mConfigManager.getAppId());
         params.put("channelTag", mConfigManager.getChannelTag());
         params.put("allianceId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
         params.put("weixinCode", result);
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
         params.put("deviceType", "android");
-        String sign = "3" + ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()
+        String sign = mAccountType + ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel()
                 + mConfigManager.getAppId() + mConfigManager.getChannelTag() + DeviceInfoManager.getInstance(mActivity).getDEVICE_ID()
                 + params.get("deviceType") + result + EmaUser.getInstance().getAppKey();
         //LOG.e("rawSign",sign);
@@ -640,7 +642,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
 
             @Override
             public void OnResponse(String result) {
-                firstLoginResult(result, 3);
+                firstLoginResult(result, Integer.parseInt(mAccountType));
             }
         });
     }
@@ -648,6 +650,8 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     @Override
     public void qqAllowAfter(Map<String, String> param) {
         mProgress.showProgress("登录中...");
+        mAccountType = "5"; //QQ账号类型5
+
         param.put("pfAppId", mConfigManager.getAppId());
         param.put("channelTag", mConfigManager.getChannelTag());
         param.put(/*"allianceId"*/"channelId", ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
@@ -662,7 +666,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         new HttpInvoker().postAsync(Url.getQqLoginUrl(), param, new HttpInvoker.OnResponsetListener() {
             @Override
             public void OnResponse(String result) {
-                firstLoginResult(result, 5);//QQ账号类型5
+                firstLoginResult(result, Integer.parseInt(mAccountType));//QQ账号类型5
             }
         });
 

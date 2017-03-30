@@ -85,7 +85,7 @@ public class TrdAliPay {
 		params.put("orderId",payInfo.getOrderId());
 		params.put("token",EmaUser.getInstance().getToken());
 		params.put("appId", ConfigManager.getInstance(activity).getAppId());
-		params.put("uid",EmaUser.getInstance().getAllianceUid());
+		params.put("uid",EmaUser.getInstance().getmUid());
 		new HttpInvoker().postAsync(Url.getSignedPayInfoUrl(), params, new HttpInvoker.OnResponsetListener() {
 			@Override
 			public void OnResponse(String result) {

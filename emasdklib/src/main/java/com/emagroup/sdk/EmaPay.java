@@ -126,7 +126,7 @@ public class EmaPay {
         params.put("token", EmaUser.getInstance().getToken());
         params.put("quantity", mPayInfo.getProductNum());
         params.put("appId", ConfigManager.getInstance(mContext).getAppId());
-        params.put("uid",EmaUser.getInstance().getAllianceUid());
+        params.put("uid",EmaUser.getInstance().getmUid());
         if(!TextUtils.isEmpty(mPayInfo.getGameTransCode())){
             params.put("gameTransCode", mPayInfo.getGameTransCode());
         }
@@ -164,7 +164,7 @@ public class EmaPay {
                             String unit = productInfo.getString("unit");
 
                             mPayInfo.setOrderId(orderId);
-                            mPayInfo.setUid(EmaUser.getInstance().getAllianceUid());
+                            mPayInfo.setUid(EmaUser.getInstance().getmUid());
                             mPayInfo.setCoinEnough(coinEnough);
                             mPayInfo.setProductName(productName);
                             mPayInfo.setPrice(Integer.parseInt(productPrice)*Integer.parseInt(mPayInfo.getProductNum()));  // 总额
@@ -227,7 +227,7 @@ public class EmaPay {
         params.put("orderId", mPayInfo.getOrderId());
         params.put("token",EmaUser.getInstance().getToken());
         params.put("appId", ConfigManager.getInstance(mContext).getAppId());
-        params.put("uid",EmaUser.getInstance().getAllianceUid());
+        params.put("uid",EmaUser.getInstance().getmUid());
         new HttpInvoker().postAsync(Url.getRejectOrderUrl(), params,
                 new HttpInvoker.OnResponsetListener() {
                     @Override

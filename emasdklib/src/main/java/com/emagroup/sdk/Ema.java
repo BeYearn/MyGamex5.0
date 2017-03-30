@@ -340,7 +340,7 @@ public class Ema {
     public void getUserInfo(final BindRemind bindRemind) {
         Map<String, String> params = new HashMap<>();
         params.put("token", EmaUser.getInstance().getToken());
-        params.put("uid", EmaUser.getInstance().getAllianceUid());
+        params.put("uid", EmaUser.getInstance().getmUid());
         params.put("appId", ConfigManager.getInstance(mContext).getAppId());
         new HttpInvoker().postAsync(Url.getUserInfoUrl(), params,
                 new HttpInvoker.OnResponsetListener() {
@@ -365,7 +365,7 @@ public class Ema {
                             EmaUser.getInstance().setMobile(mobile);
                             EmaUser.getInstance().setNickName(nickname);
                             EmaUser.getInstance().setBalance(pfCoin);
-                            EmaUser.getInstance().setmUid(uid);
+                            EmaUser.getInstance().setmUid(uid);            //这里只有uid
                             EmaUser.getInstance().setAllianceUid(uid);
 
                             LOG.e("getUserInfo", message + ifSetChargePwd + nickname + pfCoin + uid);

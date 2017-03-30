@@ -50,7 +50,7 @@ public class EmaSendInfo {
 		LocationBean location = DeviceInfoManager.getInstance(context).getLocation();
 
 		params.put("token", EmaUser.getInstance().getToken());
-		params.put("uid",EmaUser.getInstance().getAllianceUid());
+		params.put("uid",EmaUser.getInstance().getmUid());
 		params.put("appId",ConfigManager.getInstance(Ema.getInstance().getContext()).getAppId());
 		params.put("allianceId",ConfigManager.getInstance(Ema.getInstance().getContext()).getChannel());
 		params.put("channelTag",ConfigManager.getInstance(Ema.getInstance().getContext()).getChannelTag());

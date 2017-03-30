@@ -179,7 +179,7 @@ public class RechargeMabiActivity extends Activity implements OnClickListener, I
                             EmaUser.getInstance().setMobile(mobile);
                             EmaUser.getInstance().setNickName(nickname);
                             EmaUser.getInstance().setBalance(pfCoin);
-                            EmaUser.getInstance().setmUid(uid);
+                            EmaUser.getInstance().setmUid(uid);         //因为这个地方只有uid
                             EmaUser.getInstance().setAllianceUid(uid);
 
                             LOG.e("getUserInfo", message + ifSetChargePwd + nickname + pfCoin + uid);

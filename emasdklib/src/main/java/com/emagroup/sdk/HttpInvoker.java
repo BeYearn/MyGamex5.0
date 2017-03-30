@@ -98,14 +98,6 @@ public class HttpInvoker {
 	 * @param listener
 	 */
 	public void postAsync(String url, Map<String, String> params, OnResponsetListener listener){
-
-		String uid = params.get("uid");  // 这个操作是为了在官方包中都用uid这个字段（当所有请求都用的uid的话，这个逻辑也可以删了）
-		if(null!=uid){
-			if(EmaSDK.getInstance().isEma()){
-				params.put("uid",EmaUser.getInstance().getmUid());
-			}
-		}
-
 		final String _url = url;
 		final Map<String, String> _params = params;
 		final OnResponsetListener _listener = listener;
