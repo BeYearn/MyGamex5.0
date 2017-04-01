@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import java.util.Map;
@@ -125,12 +124,12 @@ public class EmaWebviewDialog extends Dialog {
 	private void initData(){
 		String contentUrl = (String) mContentMap.get("maintainContent");
 		mWebView.loadUrl(contentUrl);
-		mWebView.setWebViewClient(new WebViewClient(){
+		/*mWebView.setWebViewClient(new WebViewClient(){
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				view.loadUrl(url);
 				return true;
 			}
-		});
+		});*/
 	}
 }
