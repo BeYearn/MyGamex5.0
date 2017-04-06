@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.emagroup.sdk.UCommUtil.doShare;
@@ -275,4 +278,32 @@ public class EmaSDK {
         Ema.getInstance().onBackPressed(action);
     }
 
+    public void submitGameRole(Map<String,String> data){
+
+        try {
+            JSONObject gameInfoJson=new JSONObject(data);
+         /*   gameInfoJson.put("roleId",data.get("roleId"));
+            gameInfoJson.put("roleName",data.get("roleName"));
+            gameInfoJson.put("roleLevel",data.get("roleLevel"));
+            gameInfoJson.put("zoneId",data.get("zoneId"));
+            gameInfoJson.put("zoneNeme",data.get("zoneNeme"));
+            gameInfoJson.put("dataType",data.get("dataType"));
+            gameInfoJson.put("ext",data.get("ext"));*/
+            Ema.getInstance().saveGameInfoJson(gameInfoJson.toString());
+            Map<String, String> params = new HashMap<>();
+            params.put("token",EmaUser.getInstance().getToken());
+            params.put("appId", ConfigManager.getInstance(Ema.getInstance().getContext()).getAppId());
+            params.put("uid",EmaUser.getInstance().getAllianceUid());
+            params.put("gameInfoJson",gameInfoJson.toString());
+            new HttpInvoker().postAsync(Url.getUploadGameInfoUrl(), params, new HttpInvoker.OnResponsetListener() {
+                @Override
+                public void OnResponse(String result) {
+                    LOG.i("submitGameRole","submitLoginGameRole  result  ---"+result);
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

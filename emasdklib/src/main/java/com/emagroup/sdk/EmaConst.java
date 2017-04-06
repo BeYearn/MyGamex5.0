@@ -6,13 +6,18 @@ package com.emagroup.sdk;
  *
  */
 public class EmaConst {
-	
-	public static final String EMA_SUBMIT_ROLE_ID = "role_id";//角色信息
-	public static final String EMA_SUBMIT_ROLE_NAME = "role_name";//角色名称
-	public static final String EMA_SUBMIT_ROLE_LEVEL = "role_level";//角色级别
-	public static final String EMA_SUBMIT_SERVER_ID = "server_id";//服务器id
-	public static final String EMA_SUBMIT_SERVER_NAME = "server_name";//服务器名称
-	
+
+	//----------------------------------------------------------------------------------submitgamerole
+	public static final String SUBMIT_ROLE_ID = "sm_roleId";//角色信息
+	public static final String SUBMIT_ROLE_NAME = "sm_roleName";//角色名称
+	public static final String SUBMIT_ROLE_LEVEL = "sm_roleLevel";//角色级别
+	public static final String SUBMIT_ZONE_ID = "sm_zoneId";//服务器id
+	public static final String SUBMIT_ZONE_NAME = "sm_zoneName";//服务器名称
+	public static final String SUBMIT_ROLE_CT = "sm_roleCreateTime";//创角时间
+	public static final String SUBMIT_DATA_TYPE = "sm_dataType";//创角时间
+	public static final String SUBMIT_EXT = "sm_ext";//创角时间
+
+
 	public static final int PAY_ACTION_TYPE_PAY = 100;//支付操作
 	public static final int PAY_ACTION_TYPE_RECHARGE = 101;//充值操作
 	

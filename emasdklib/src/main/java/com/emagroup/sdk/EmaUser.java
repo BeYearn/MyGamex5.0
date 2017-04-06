@@ -2,12 +2,8 @@ package com.emagroup.sdk;
 
 import android.content.Context;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class EmaUser {
 
@@ -190,32 +186,4 @@ public class EmaUser {
         return mIsWalletHasPassw;
     }
 
-    public void submitLoginGameRole(Map<String,String> data){
-
-        try {
-            JSONObject gameInfoJson=new JSONObject(data);
-         /*   gameInfoJson.put("roleId",data.get("roleId"));
-            gameInfoJson.put("roleName",data.get("roleName"));
-            gameInfoJson.put("roleLevel",data.get("roleLevel"));
-            gameInfoJson.put("zoneId",data.get("zoneId"));
-            gameInfoJson.put("zoneNeme",data.get("zoneNeme"));
-            gameInfoJson.put("dataType",data.get("dataType"));
-            gameInfoJson.put("ext",data.get("ext"));*/
-            Ema.getInstance().saveGameInfoJson(gameInfoJson.toString());
-            Map<String, String> params = new HashMap<>();
-            params.put("token",EmaUser.getInstance().getToken());
-            params.put("appId", ConfigManager.getInstance(Ema.getInstance().getContext()).getAppId());
-            params.put("uid",EmaUser.getInstance().getAllianceUid());
-            params.put("gameInfoJson",gameInfoJson.toString());
-            new HttpInvoker().postAsync(Url.getUploadGameInfoUrl(), params, new HttpInvoker.OnResponsetListener() {
-                @Override
-                public void OnResponse(String result) {
-                    LOG.i(EmaUser.this.getClass().getName(),"submitLoginGameRole  result  ---"+result);
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

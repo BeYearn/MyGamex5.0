@@ -279,14 +279,15 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
 
     private void submitRoleinfo(String zoneId){
         Map<String,String > param=new HashMap<String, String>();
-        param.put("roleId","00001");
-        param.put("roleName","emasdk");
-        param.put("roleLevel","11");
-        param.put("zoneId",zoneId);
-        param.put("zoneName","emasever");
-        param.put("dataType","0");
-        param.put("ext","99999");
-        EmaUser.getInstance().submitLoginGameRole(param);
+        param.put(EmaConst.SUBMIT_ROLE_ID,"00001");
+        param.put(EmaConst.SUBMIT_ROLE_NAME,"emasdk");
+        param.put(EmaConst.SUBMIT_ROLE_LEVEL,"11");
+        param.put(EmaConst.SUBMIT_ZONE_ID,zoneId);
+        param.put(EmaConst.SUBMIT_ZONE_NAME,"emasever");
+        param.put(EmaConst.SUBMIT_ROLE_CT,"1234567899");
+        param.put(EmaConst.SUBMIT_DATA_TYPE,"0");
+        param.put(EmaConst.SUBMIT_EXT,"99999");
+        EmaSDK.getInstance().submitGameRole(param);
     }
 
    private void shareWebPage() {
