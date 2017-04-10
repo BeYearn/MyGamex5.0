@@ -4,6 +4,7 @@
     android:versionName="1.0" >
 
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:theme="@style/EmaAppTheme" >
     </application>
