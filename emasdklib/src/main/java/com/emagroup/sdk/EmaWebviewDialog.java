@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -136,6 +137,7 @@ public class EmaWebviewDialog extends Dialog {
 
     private void initData() {
         String contentUrl = (String) mContentMap.get("maintainContent");
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebView.loadUrl(contentUrl);
         /*mWebView.setWebViewClient(new WebViewClient(){
 			@Override
