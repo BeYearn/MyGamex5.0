@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eeeeee"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="#eeeeee"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ff7111" >
+            android:background="#ff7111">
 
             <ImageView
                 android:id="@+id/ema_webview_back"
@@ -51,9 +51,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="48dp"
             android:background="#eeeeee"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ProgressBar
                 android:id="@+id/ema_webview_ProgressBar"
@@ -61,17 +60,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="5dp" />
 
-            <ScrollView
+            <WebView
+                android:id="@+id/ema_webview_url"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <WebView
-                    android:id="@+id/ema_webview_url"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#eeeeee"
-                    android:orientation="vertical" />
-            </ScrollView>
+                android:layout_height="match_parent"
+                android:background="#eeeeee"
+                android:orientation="vertical"
+                android:scrollbars="none" />
         </LinearLayout>
     </LinearLayout>
 
@@ -85,7 +80,6 @@
     <!-- 底部状态 -->
 
     <RadioGroup
-        android:visibility="gone"
         android:id="@+id/ema_webview_RadioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,7 +87,8 @@
         android:layout_marginTop="4dp"
         android:background="#dddddd"
         android:orientation="horizontal"
-        android:padding="4dp" >
+        android:padding="4dp"
+        android:visibility="gone">
 
         <RadioButton
             android:id="@+id/ema_webview_account"

@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -110,8 +108,6 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
                 case CODE_CHANGE_TITLE://修改标题
                     doUrlChange((String) msg.obj);
                     break;
-         /*       default:
-                    EmaSDK.getInstance().doShareWebPage(WebViewActivity.this,WebViewActivity.this, url, title, desc, shareBitmap);*/
             }
         }
     };
@@ -256,21 +252,25 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setDefaultZoom(ZoomDensity.MEDIUM);
         mWebView.getSettings().setBuiltInZoomControls(true);
-        mWebView.getSettings().setTextZoom(75);
+        //mWebView.getSettings().setTextZoom(75);
         mWebView.getSettings().setLoadsImagesAutomatically(true);
         mWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);//设置是否允许通过file url加载的Javascript可以访问其他的源，包括其他的文件和http,https等其他的源
         mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.NARROW_COLUMNS);
+        mWebView.getSettings().setDomStorageEnabled(true);
         mWebView.setWebViewClient(new WebViewClientEma(mHandler));
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
-                    mProgressBar.setVisibility(View.INVISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
+
+                    /*  原来的为改变最上标题的逻辑
                     Message msg = new Message();
                     msg.what = CODE_CHANGE_TITLE;
                     msg.obj = view.getUrl();
-                    mHandler.sendMessage(msg);
+                    mHandler.sendMessage(msg);*/
+
                 } else {
                     if (View.INVISIBLE == mProgressBar.getVisibility()) {
                         mProgressBar.setVisibility(View.VISIBLE);
@@ -286,7 +286,7 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         mBtnBack.setOnClickListener(this);
         mBtnBack.setVisibility(View.GONE);
 
-        mRadioGroupView.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        /*mRadioGroupView.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int arg1) {
                 if (!EmaUser.getInstance().getIsLogin()) {
@@ -298,12 +298,12 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
                     mWebView.loadUrl(Url.getWebUrlUserInfo());
                     doSetTitle("个人中心");
                 } else if (checkedId == getID("ema_webview_gift")) {
-                    /*mWebView.loadUrl(Url.getWebUrlGift());
-                    doSetTitle("礼包列表");*/
+                    *//*mWebView.loadUrl(Url.getWebUrlGift());
+                    doSetTitle("礼包列表");*//*
                     ToastHelper.toast(WebViewActivity.this, "礼包暂未开放");
                 } else if (checkedId == getID("ema_webview_help")) {
-                    /*mWebView.loadUrl(Url.getWebUrlHelp());
-                    doSetTitle("帮助中心");*/
+                    *//*mWebView.loadUrl(Url.getWebUrlHelp());
+                    doSetTitle("帮助中心");*//*
                     ToastHelper.toast(WebViewActivity.this, "帮助暂未开放");
                 } else if (checkedId == getID("ema_webview_promotion")) {
 //					mWebView.loadUrl(Url.getWebUrlPromotion());
@@ -311,7 +311,7 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
                     ToastHelper.toast(WebViewActivity.this, "推广暂未开放");
                 }
             }
-        });
+        });*/
     }
 
     /**
@@ -333,7 +333,8 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
 
         String url = intent.getStringExtra(INTENT_URL);
         doSetCookies(url);
-        switch (mType) {
+
+        /*switch (mType) {
             case TYPE_EMAACCOUNT:
                 //	doSetCookies(url);
                 mBtnAccount.setChecked(true);
@@ -341,27 +342,10 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
             case TYPE_GIFT:
                 //doSetCookies(url);
                 mBtnGift.setChecked(true);
-//			ToastHelper.toast(WebViewActivity.this, "礼包暂未开放");
+			ToastHelper.toast(WebViewActivity.this, "礼包暂未开放");
                 break;
-            case TYPE_PROMOTION:
-//			doSetCookies(url);
-//			mBtnPromotion.setChecked(true);
-                ToastHelper.toast(WebViewActivity.this, "推广暂未开放");
-                return;
-            case TYPE_HELP:
-                //doSetCookies(url);
-                mBtnHelp.setChecked(true);
-                break;
-            case TYPE_TENPAY:
-                mRadioGroupView.setVisibility(View.GONE);
-                break;
-            case TYPE_FIND_LOGIN_PASSW:
-                //doSetCookies(url);
-                break;
-            case TYPE_FIND_WALLET_PASSW:
-                //doSetCookies(url);
-                break;
-        }
+        }*/
+
         LOG.d(TAG, "url__:" + url);
         mWebView.loadUrl(url);
     }
@@ -522,7 +506,6 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         //如果有上层界面，则返回到上层界面，没有的话结束页面（是否需要提示？？？？）
         if (mWebView.canGoBack()) {
             mWebView.goBack();
-            doUrlChange(mWebView.getUrl());
         } else {
             if (mType == TYPE_TENPAY && mFlagIsNeedInforGame) {
                 new EmaDialogPayPromptCancel(this).show();
@@ -605,18 +588,17 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
 
             //BitmapFactory.decodeStream(bis,null,options);
 
-            options.inSampleSize = calculateInSampleSize(options,80,80);
+            options.inSampleSize = calculateInSampleSize(options, 80, 80);
             options.inJustDecodeBounds = false;
             options.inPreferredConfig = Bitmap.Config.RGB_565;
 
-            bitmap = BitmapFactory.decodeStream(bis,null,options);
+            bitmap = BitmapFactory.decodeStream(bis, null, options);
 
             Log.e("sharebitmapsize", bitmap.getByteCount() + "bytes");
 
             bis.close();
             is.close();// 关闭流
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return bitmap;
