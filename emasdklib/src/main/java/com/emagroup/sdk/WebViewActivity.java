@@ -105,9 +105,9 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
                 case CODE_CLEAR_HISTORY:
                     mWebView.clearHistory();
                     break;
-                case CODE_CHANGE_TITLE://修改标题
+                /*case CODE_CHANGE_TITLE://修改标题
                     doUrlChange((String) msg.obj);
-                    break;
+                    break;*/
             }
         }
     };
@@ -389,52 +389,43 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
      * @param url
      */
     private void doSetCookies(String url) {
-        CookieSyncManager.createInstance(this);
+        //CookieSyncManager.createInstance(this); 如今WebView已经可以在需要的时候自动同步cookie了，所以不再需要
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
         cookieManager.removeAllCookie();
 
-        cookieManager.setCookie(url, getCookie("appid", mConfigManager.getAppId()));
-        cookieManager.setCookie(url, getCookie("channelId", mConfigManager.getChannel()));
-        cookieManager.setCookie(url, getCookie("channelTag", mConfigManager.getChannelTag()));
+        cookieManager.setCookie(url, getCookie(url, "appid", mConfigManager.getAppId()));
+        cookieManager.setCookie(url, getCookie(url, "channelId", mConfigManager.getChannel()));
+        cookieManager.setCookie(url, getCookie(url, "channelTag", mConfigManager.getChannelTag()));
 
-        cookieManager.setCookie(url, getCookie("token", mEmaUser.getToken()));
-        cookieManager.setCookie(url, getCookie("uid", mEmaUser.getmUid()));
-        cookieManager.setCookie(url, getCookie("nickname", mEmaUser.getNickName()));
-        cookieManager.setCookie(url, getCookie("deviceType", "android"));
-        cookieManager.setCookie(url, getCookie("deviceKey", mDeviceInfoManager.getDEVICE_ID()));
-        cookieManager.setCookie(url, getCookie("accountType", mEmaUser.getAccountType() + ""));
-        cookieManager.setCookie(url, getCookie("gameRoleInfo", Ema.getInstance().getGameInfoJson().replace("sm_","")));
-        LOG.e("______________", mEmaUser.getToken() + mEmaUser.getmUid() + mEmaUser.getNickName() + "deviceid" + mDeviceInfoManager.getDEVICE_ID() + "type" + mEmaUser.getAccountType() + "");
-        CookieSyncManager.getInstance().sync();
+        cookieManager.setCookie(url, getCookie(url, "token", mEmaUser.getToken()));
+        cookieManager.setCookie(url, getCookie(url, "uid", mEmaUser.getmUid()));
+        cookieManager.setCookie(url, getCookie(url, "nickname", mEmaUser.getNickName()));
+        cookieManager.setCookie(url, getCookie(url, "deviceType", "android"));
+        cookieManager.setCookie(url, getCookie(url, "deviceKey", mDeviceInfoManager.getDEVICE_ID()));
+        cookieManager.setCookie(url, getCookie(url, "accountType", mEmaUser.getAccountType() + ""));
+        cookieManager.setCookie(url, getCookie(url, "gameRoleInfo", Ema.getInstance().getGameInfoJson()));
+
+        //CookieSyncManager.getInstance().sync();同上
 
         String str = cookieManager.getCookie(url);
         LOG.d(TAG, "cookStr__:" + str);
     }
 
-    private String getCookie(String key, String value) {
-        LOG.d(TAG, "key__:" + key + "    vlaue:" + value);
-        // String emaEnvi = ConfigManager.getInstance(this).getStringFromMetaData(this, "EMA_WHICH_ENVI");
-        String emaEnvi = Url.serverUrl;
-        if (emaEnvi.contains("https://")) {
-            emaEnvi = emaEnvi.replace("https://", "").trim();
-        } else if (emaEnvi.contains("http://")) {
-            emaEnvi = emaEnvi.replace("http://", "").trim();
-        }
+    private String getCookie(String str, String key, String value) {
+        URL url= null;
         String domain;
-        if (emaEnvi.contains(":")) {
-            domain = emaEnvi.split(":")[0];
-        } else {
-            domain = emaEnvi;
+        String cookieValue = null;
+        try {
+            url = new URL(str);
+            domain = url.getHost();
+
+            cookieValue = key + "=" + value + ";domain=" + domain + ";path=/";
+            Log.e("cookieValue",cookieValue);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return key + "=" + value + ";domain=" + domain + ";path=/";
-      /*  if ("staging".equals(emaEnvi)) {
-            return key + "=" + value + ";domain=staging-platform.lemonade-game.com;path=/";
-        } else if ("testing".equals(emaEnvi)) {
-            return key + "=" + value + ";domain=testing-platform.lemonade-game.com;path=/";
-        } else {
-            return key + "=" + value + ";domain=platform.lemonade-game.com;path=/";
-        }*/
+        return cookieValue;
     }
 
     /**
