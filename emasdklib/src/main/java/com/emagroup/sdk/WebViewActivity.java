@@ -31,6 +31,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -404,7 +407,15 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         cookieManager.setCookie(url, getCookie(url, "deviceType", "android"));
         cookieManager.setCookie(url, getCookie(url, "deviceKey", mDeviceInfoManager.getDEVICE_ID()));
         cookieManager.setCookie(url, getCookie(url, "accountType", mEmaUser.getAccountType() + ""));
-        cookieManager.setCookie(url, getCookie(url, "gameRoleInfo", Ema.getInstance().getGameInfoJson()));
+
+        String gameInfoJson=Ema.getInstance().getGameInfoJson();
+        cookieManager.setCookie(url, getCookie(url, "gameRoleInfo",gameInfoJson));
+        try {
+            JSONObject jsonObject = new JSONObject(gameInfoJson);
+            cookieManager.setCookie(url, getCookie(url, "zoneId", jsonObject.getString("zoneId")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         //CookieSyncManager.getInstance().sync();同上
 
