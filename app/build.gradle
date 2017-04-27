@@ -14,27 +14,27 @@ android {
     }
 
     signingConfigs {
-        release {
+        komSign {
             keyAlias 'kom'
             keyPassword '000000'
             storeFile file('./release/kom.keystore')
             storePassword '000000'
         }
 
-        debug {
-            keyAlias 'kom'
-            keyPassword '000000'
-            storeFile file('./release/kom.keystore')
-            storePassword '000000'
+        tcgSign {
+            keyAlias 'soultcg'
+            keyPassword 'zxczxc'
+            storeFile file('./release/tcg.keystore')
+            storePassword 'zxczxc'
         }
     }
 
     buildTypes {
-        release {
-             signingConfig signingConfigs.release
+        kom {
+             signingConfig signingConfigs.komSign
             }
-        debug {
-             signingConfig signingConfigs.debug
+        tcg {
+             signingConfig signingConfigs.tcgSign
              }
 
     }

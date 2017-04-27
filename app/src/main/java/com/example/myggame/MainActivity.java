@@ -99,6 +99,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
         EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b",this, new EmaSDKListener() {      //20015
         //EmaSDK.getInstance().init("800a924c499772bac7b76432803ea47a",this, new EmaSDKListener() {  //10001
         //EmaSDK.getInstance().init("2c02bf12771e51a120c1dff23dc1f256",this, new EmaSDKListener() {      //20017
+        //EmaSDK.getInstance().init("864ed48309c7f9a259f769b92cc52814",this, new EmaSDKListener() {      //20012
         @Override
         public void onCallBack(int arg0, String arg1) {
             Log.e("mainactivity", arg0 + "++++++++++++++++ " + arg1);
@@ -215,7 +216,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
             case R.id.bt_pay:
 
                 HashMap<String, String> payInfoMap = new HashMap<>();
-                payInfoMap.put(EmaConst.EMA_PAYINFO_PRODUCT_ID, "10001");
+                payInfoMap.put(EmaConst.EMA_PAYINFO_PRODUCT_ID, "YLZHS_0001");
                 payInfoMap.put(EmaConst.EMA_PAYINFO_PRODUCT_COUNT, "1");
                 payInfoMap.put(EmaConst.EMA_GAMETRANS_CODE, "游戏透传参数");
                 //payInfoMap.put("Product_Name","gold");
