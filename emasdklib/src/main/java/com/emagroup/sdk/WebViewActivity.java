@@ -26,8 +26,6 @@ import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +62,7 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
     public static final int TYPE_FIND_LOGIN_PASSW = 5;//找回用户密码
     public static final int TYPE_FIND_WALLET_PASSW = 7;//找回钱包密码
     public static final int TYPE_PROMOTION = 6;//推广
-    public static final int TYPE_BIND = 8;//绑定提醒
+    public static final int TYPE_BIND = 8;//弱帐号绑定提醒
 
     private int mType;//标记打开网页的类型（即从哪个入口进来的）
     //标记
@@ -74,25 +72,13 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
     private ConfigManager mConfigManager;
     private DeviceInfoManager mDeviceInfoManager;
     private ResourceManager mResourceManager;
-    private EmaPay mEmaPay;
 
     //views
     private ImageView mBtnBack;
     private ImageView mBtnReturnGame;
     private TextView mTxtTitle;
     private WebView mWebView;
-    private RadioButton mBtnAccount;
-    private RadioButton mBtnGift;
-    private RadioButton mBtnPromotion;
-    private RadioButton mBtnHelp;
-    private RadioGroup mRadioGroupView;
     private ProgressBar mProgressBar;
-
-  /*  private String desc;
-    private String title;
-    private String imageUrl;
-    private String url;
-    private Bitmap shareBitmap;*/
 
 
     private Map<String, Integer> mIDMap;
@@ -108,13 +94,9 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
                 case CODE_CLEAR_HISTORY:
                     mWebView.clearHistory();
                     break;
-                /*case CODE_CHANGE_TITLE://修改标题
-                    doUrlChange((String) msg.obj);
-                    break;*/
             }
         }
     };
-    private boolean isStaging;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +109,6 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         mConfigManager = ConfigManager.getInstance(this);
         mDeviceInfoManager = DeviceInfoManager.getInstance(this);
         mResourceManager = ResourceManager.getInstance(this);
-        mEmaPay = EmaPay.getInstance(this);
 
         initView();
 
@@ -239,11 +220,6 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         mBtnBack = (ImageView) findViewById(getID("ema_webview_back"));
         mBtnReturnGame = (ImageView) findViewById(getID("ema_webview_imageView_return"));
         mTxtTitle = (TextView) findViewById(getID("ema_webView_title"));
-        mBtnAccount = (RadioButton) findViewById(getID("ema_webview_account"));
-        mBtnGift = (RadioButton) findViewById(getID("ema_webview_gift"));
-        mBtnPromotion = (RadioButton) findViewById(getID("ema_webview_promotion"));
-        mBtnHelp = (RadioButton) findViewById(getID("ema_webview_help"));
-        mRadioGroupView = (RadioGroup) findViewById(getID("ema_webview_RadioGroup"));
         mProgressBar = (ProgressBar) findViewById(getID("ema_webview_ProgressBar"));
 
         mWebView = (WebView) findViewById(getID("ema_webview_url"));
@@ -267,13 +243,6 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
                     mProgressBar.setVisibility(View.GONE);
-
-                    /*  原来的为改变最上标题的逻辑
-                    Message msg = new Message();
-                    msg.what = CODE_CHANGE_TITLE;
-                    msg.obj = view.getUrl();
-                    mHandler.sendMessage(msg);*/
-
                 } else {
                     if (View.INVISIBLE == mProgressBar.getVisibility()) {
                         mProgressBar.setVisibility(View.VISIBLE);
@@ -283,7 +252,6 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
                 super.onProgressChanged(view, newProgress);
             }
         });
-
 
         mBtnReturnGame.setOnClickListener(this);
         mBtnBack.setOnClickListener(this);
@@ -309,8 +277,8 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
                     doSetTitle("帮助中心");*//*
                     ToastHelper.toast(WebViewActivity.this, "帮助暂未开放");
                 } else if (checkedId == getID("ema_webview_promotion")) {
-//					mWebView.loadUrl(Url.getWebUrlPromotion());
-//					doSetTitle("推广");
+					mWebView.loadUrl(Url.getWebUrlPromotion());
+					doSetTitle("推广");
                     ToastHelper.toast(WebViewActivity.this, "推广暂未开放");
                 }
             }
@@ -322,8 +290,10 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
      */
     private void initData() {
         Intent intent = getIntent();
-        mTxtTitle.setText(intent.getStringExtra(INTENT_TITLE));
+        String url = intent.getStringExtra(INTENT_URL);
         mType = intent.getIntExtra(INTENT_TYPE, TYPE_EMAACCOUNT);
+        mTxtTitle.setText(intent.getStringExtra(INTENT_TITLE));
+
         mFlagIsNeedInforGame = intent.getBooleanExtra(INTENT_INFORGAME, false);
 
         if (mType == TYPE_TENPAY || mType == TYPE_FIND_WALLET_PASSW) {
@@ -334,7 +304,6 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
             }
         }
 
-        String url = intent.getStringExtra(INTENT_URL);
         doSetCookies(url);
 
         /*switch (mType) {
@@ -408,8 +377,8 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         cookieManager.setCookie(url, getCookie(url, "deviceKey", mDeviceInfoManager.getDEVICE_ID()));
         cookieManager.setCookie(url, getCookie(url, "accountType", mEmaUser.getAccountType() + ""));
 
-        String gameInfoJson=Ema.getInstance().getGameInfoJson();
-        cookieManager.setCookie(url, getCookie(url, "gameRoleInfo",gameInfoJson));
+        String gameInfoJson = Ema.getInstance().getGameInfoJson();
+        cookieManager.setCookie(url, getCookie(url, "gameRoleInfo", gameInfoJson));
         try {
             JSONObject jsonObject = new JSONObject(gameInfoJson);
             cookieManager.setCookie(url, getCookie(url, "zoneId", jsonObject.getString("zoneId")));
@@ -424,7 +393,7 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
     }
 
     private String getCookie(String str, String key, String value) {
-        URL url= null;
+        URL url = null;
         String domain;
         String cookieValue = null;
         try {
@@ -432,7 +401,7 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
             domain = url.getHost();
 
             cookieValue = key + "=" + value + ";domain=" + domain + ";path=/";
-            Log.e("cookieValue",cookieValue);
+            Log.e("cookieValue", cookieValue);
         } catch (Exception e) {
             e.printStackTrace();
         }
