@@ -373,17 +373,10 @@ public class Ema {
                                 accountType = productData.getInt("accountType");
                                 if (accountType == 0) {        //0 啥也没绑
                                     if (null != bindRemind) {
+                                        showBindAlertDialog(bindRemind);
+                                    } else {
                                         if (isNeedShowBinder(mContext)) {
-                                            ((Activity) mContext).runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-
-                                                    emaBinderAlertDialog = new EmaBinderAlertDialog(mContext, bindRemind);
-                                                    emaBinderAlertDialog.show();
-                                                }
-                                            });
-                                        } else {
-                                            bindRemind.canelNext();
+                                            showBindAlertDialog(bindRemind);
                                         }
                                     }
                                 }
@@ -394,6 +387,17 @@ public class Ema {
                     }
                 });
     }
+
+    private void showBindAlertDialog(final BindRemind bindRemind) {
+        ((Activity) mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                emaBinderAlertDialog = new EmaBinderAlertDialog(mContext, bindRemind);
+                emaBinderAlertDialog.show();
+            }
+        });
+    }
+
 
     /**
      * Destory里需要做一些处理

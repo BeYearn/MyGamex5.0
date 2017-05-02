@@ -65,7 +65,9 @@ public class EmaBinderAlertDialog extends Dialog {
         mBtnCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mBindRemind.canelNext();
+                if(null!=mBindRemind){
+                    mBindRemind.canelNext();
+                }
                 EmaBinderAlertDialog.this.dismiss();
             }
         });
