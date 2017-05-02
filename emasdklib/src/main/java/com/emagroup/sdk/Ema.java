@@ -8,7 +8,6 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 
 import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
@@ -347,7 +346,7 @@ public class Ema {
                     @Override
                     public void OnResponse(String result) {
                         try {
-                            boolean isNeedBindRemmind = false;
+
                             JSONObject jsonObject = new JSONObject(result);
                             String message = jsonObject.getString("message");
                             String status = jsonObject.getString("status");
@@ -369,48 +368,26 @@ public class Ema {
                             EmaUser.getInstance().setAllianceUid(uid);
 
                             LOG.e("getUserInfo", message + ifSetChargePwd + nickname + pfCoin + uid);
+
                             if (productData.has("accountType")) {
                                 accountType = productData.getInt("accountType");
-                                if (accountType == 0) {
-                                    isNeedBindRemmind = true;
-                                    if (bindRemind == null) {//登录一天弹一次绑定提示
+                                if (accountType == 0) {        //0 啥也没绑
+                                    if (null != bindRemind) {
                                         if (isNeedShowBinder(mContext)) {
-                                            isNeedBindRemmind = true;
+                                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    emaBinderAlertDialog = new EmaBinderAlertDialog(mContext, bindRemind);
+                                                    emaBinderAlertDialog.show();
+                                                }
+                                            });
                                         } else {
-                                            isNeedBindRemmind = false;
+                                            bindRemind.canelNext();
                                         }
                                     }
-                                } else {
-                                    isNeedBindRemmind = false;
-                                }
-                            } else {
-                                isNeedBindRemmind = false;
-                            }
-
-                            if (isNeedBindRemmind) {
-                                ((Activity) mContext).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        emaBinderAlertDialog = new EmaBinderAlertDialog(mContext);
-                                        emaBinderAlertDialog.setCanelClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                emaBinderAlertDialog.dismiss();
-                                                if (bindRemind != null) {
-                                                    bindRemind.canelNext();
-                                                }
-                                            }
-                                        });
-                                        emaBinderAlertDialog.show();
-                                    }
-                                });
-
-                            } else {
-                                if (bindRemind != null) {
-                                    bindRemind.canelNext();
                                 }
                             }
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -423,9 +400,9 @@ public class Ema {
      */
     public void onDestroy() {
         LOG.d(TAG, "onDestroy");
-		
+
 		/*if(mSplashDialog != null && mSplashDialog.isShowing()){
-			mSplashDialog.dismiss();
+            mSplashDialog.dismiss();
 		}
 //		mContext.unbindService(mServiceCon);
 
@@ -489,11 +466,11 @@ public class Ema {
                 requestCode == Constants.REQUEST_APPBAR) {
             Tencent.onActivityResultData(requestCode, resultCode, data, ThirdLoginUtils.getInstance(mContext).emIUiListener);
         }/*else if (requestCode == Constants.REQUEST_QZONE_SHARE) {
-			Tencent.onActivityResultData(requestCode,resultCode,data,QQShareUtils.getIntance(mContext).emIUiListener);
+            Tencent.onActivityResultData(requestCode,resultCode,data,QQShareUtils.getIntance(mContext).emIUiListener);
 		}else if (requestCode == Constants.REQUEST_QQ_SHARE) {
 			Tencent.onActivityResultData(requestCode,resultCode,data,QQShareUtils.getIntance(mContext).emIUiListener);
 		}*//*else if (requestCode == 0) {//QQ分享本地图片
-			String path = null;
+            String path = null;
 			if (resultCode == Activity.RESULT_OK) {
 				if (data != null && data.getData() != null) {
 					// 根据返回的URI获取对应的SQLite信息

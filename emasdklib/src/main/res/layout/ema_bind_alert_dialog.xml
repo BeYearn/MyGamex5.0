@@ -9,8 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-         >
+        android:layout_weight="1">
         <!--<TextView
             android:id="@+id/dialog_canel"
             android:layout_alignParentTop="true"
@@ -19,45 +18,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />-->
-<ImageView
-    android:layout_marginTop="10dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/ema_bind_dialog_logo"
-    android:layout_centerHorizontal="true"
-    android:layout_alignParentTop="true"
-    android:id="@+id/ema_logo"/>
+        <ImageView
+            android:id="@+id/ema_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ema_bind_dialog_logo" />
 
 
         <TextView
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/ema_logo"
-            android:layout_centerHorizontal="true"
             android:id="@+id/ema_txt_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/ema_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:lineSpacingExtra="8dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:text="xxxxx"
-            android:lineSpacingExtra="8dp"
-            android:ellipsize="end"
-            android:textSize="12sp"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:textSize="12sp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-       >
+        android:layout_marginBottom="10dp">
 
 
         <TextView
-            android:layout_alignParentLeft="true"
             android:id="@+id/ema_tv_cancel"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/ema_tv_sure"
+            android:layout_alignParentLeft="true"
             android:gravity="center"
             android:text="下次再说"
             android:textColor="#ff7111"
@@ -67,16 +65,15 @@
             android:id="@+id/ema_tv_sure"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="20dp"
             android:background="@drawable/ema_shape_corner_btn0"
             android:gravity="center"
             android:padding="5dp"
             android:text="现在就去"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-             />
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </LinearLayout>
