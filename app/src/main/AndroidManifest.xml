@@ -128,7 +128,7 @@
             android:value="n1001" />
          <meta-data
              android:name="EMA_WHICH_ENVI"
-             android:value="staging" />
+             android:value="testing" />
     <!--    <meta-data
             android:name="EMA_WHICH_ENVI"
             android:value="testing" /> --> <!--测试环境-->

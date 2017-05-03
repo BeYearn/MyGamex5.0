@@ -53,7 +53,6 @@ public class Ema {
 
     private static Ema mInstance;
     private static final Object synchron = new Object();
-    private int accountType;
 
     private Ema() {
         mFlagToolbarShowing = false;
@@ -369,14 +368,27 @@ public class Ema {
 
                             LOG.e("getUserInfo", message + ifSetChargePwd + nickname + pfCoin + uid);
 
-                            if (productData.has("accountType")) {
-                                accountType = productData.getInt("accountType");
-                                if (accountType == 0) {        //0 啥也没绑
-                                    if (null != bindRemind) {
-                                        showBindAlertDialog(bindRemind);
+                            int identifyLv = (int) USharedPerUtil.getParam(mContext, EmaConst.IDENTIFY_LV, 0);
+
+                            if (productData.has("ifIdentified") && identifyLv != 0) {
+                                int certificated = productData.getInt("ifIdentified");
+                                if (certificated == 0) {          // 实名认证 0：未认证 1：认证
+                                    if (null != bindRemind) {   //bindRemind不空的情况下（就是支付的时候）每次都弹窗不用判断
+                                        showBindAlertDialog(bindRemind, EmaBinderAlertDialog.IDENTIFY_ALERT);
                                     } else {
-                                        if (isNeedShowBinder(mContext)) {
-                                            showBindAlertDialog(bindRemind);
+                                        if (isNeedShowBinder(mContext,EmaBinderAlertDialog.IDENTIFY_ALERT)) {
+                                            showBindAlertDialog(bindRemind, EmaBinderAlertDialog.IDENTIFY_ALERT);
+                                        }
+                                    }
+                                }
+                            } else if (productData.has("accountType")) {
+                                int accountType = productData.getInt("accountType");
+                                if (accountType == 0) {        //0 啥也没绑
+                                    if (null != bindRemind) {   //bindRemind不空的情况下（就是支付的时候）每次都弹窗不用判断
+                                        showBindAlertDialog(bindRemind, EmaBinderAlertDialog.WEAK_ALERT);
+                                    } else {
+                                        if (isNeedShowBinder(mContext,EmaBinderAlertDialog.WEAK_ALERT)) {
+                                            showBindAlertDialog(bindRemind, EmaBinderAlertDialog.WEAK_ALERT);
                                         }
                                     }
                                 }
@@ -388,11 +400,12 @@ public class Ema {
                 });
     }
 
-    private void showBindAlertDialog(final BindRemind bindRemind) {
+    private void showBindAlertDialog(final BindRemind bindRemind, final int type) {
+
         ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                emaBinderAlertDialog = new EmaBinderAlertDialog(mContext, bindRemind);
+                emaBinderAlertDialog = new EmaBinderAlertDialog(mContext, bindRemind, type);
                 emaBinderAlertDialog.show();
             }
         });
@@ -541,27 +554,27 @@ public class Ema {
         return (Boolean) getParam(context, "wechatCanLogin", true);
     }
 
-    public void saveShowBinderTime(Context context) {
+    public void saveShowBinderTime(Context context,int type) {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        setParam(mContext, "ShowBinderTime", simpleDateFormat.format(date));
+        setParam(context, "ShowAlertTime"+type, simpleDateFormat.format(date));
     }
 
-    public boolean isNeedShowBinder(Context context) {
+    public boolean isNeedShowBinder(Context context,int type) {
         boolean isNeedShow;
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String oldShowTime = (String) getParam(mContext, "ShowBinderTime", "");
+        String oldShowTime = (String) getParam(mContext, "ShowAlertTime"+type, "");
         if (TextUtils.isEmpty(oldShowTime)) {
             isNeedShow = true;
-            saveShowBinderTime(context);
+            saveShowBinderTime(context,type);
         } else {
             String newShowTime = simpleDateFormat.format(date);
             if (oldShowTime.equals(newShowTime)) {
                 isNeedShow = false;
             } else {
                 isNeedShow = true;
-                saveShowBinderTime(context);
+                saveShowBinderTime(context,type);
             }
         }
 

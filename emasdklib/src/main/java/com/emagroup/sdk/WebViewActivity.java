@@ -63,6 +63,7 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
     public static final int TYPE_FIND_WALLET_PASSW = 7;//找回钱包密码
     public static final int TYPE_PROMOTION = 6;//推广
     public static final int TYPE_BIND = 8;//弱帐号绑定提醒
+    public static final int TYPE_IDENTIFY = 9; //实名认证
 
     private int mType;//标记打开网页的类型（即从哪个入口进来的）
     //标记

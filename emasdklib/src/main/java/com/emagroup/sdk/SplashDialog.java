@@ -191,6 +191,8 @@ public class SplashDialog extends Dialog {
 								//记录微信qq支付是否支持
 								USharedPerUtil.setParam(mActivity, EmaConst.SUPPORT_QQ_PAY, new JSONObject(menuBarInfo).getInt("support_qq_pay"));
 								USharedPerUtil.setParam(mActivity, EmaConst.SUPPORT_WX_PAY, new JSONObject(menuBarInfo).getInt("support_weixin_pay"));
+								//记录实名认证逻辑 0-不开启实名认证/1-开启实名认证但不强制/2-强制实名认证
+								USharedPerUtil.setParam(mActivity, EmaConst.IDENTIFY_LV, new JSONObject(menuBarInfo).getInt("identify_lv"));
 							}catch (Exception e) {
 								USharedPerUtil.setParam(mActivity, "menuBarInfo", "");
 								LOG.w(TAG, "jiexi menuBarInfo error", e);

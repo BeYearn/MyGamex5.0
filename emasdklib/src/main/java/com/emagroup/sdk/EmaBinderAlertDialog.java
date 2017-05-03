@@ -11,8 +11,12 @@ import android.widget.TextView;
 public class EmaBinderAlertDialog extends Dialog {
 
 
+    public static final int WEAK_ALERT = 21;
+    public static final int IDENTIFY_ALERT = 22;
+
     private final Context mContext;
     private final Ema.BindRemind mBindRemind;
+    private final int mAlertType; // 标记是绑定弱账户还是实名认证
     private ResourceManager mResourceManager;// 资源管理
 
     //views
@@ -24,11 +28,13 @@ public class EmaBinderAlertDialog extends Dialog {
     /**
      * @param context
      * @param bindRemind
+     * @param type
      */
-    public EmaBinderAlertDialog(Context context, Ema.BindRemind bindRemind) {
+    public EmaBinderAlertDialog(Context context, Ema.BindRemind bindRemind, int type) {
         super(context, ResourceManager.getInstance(context).getIdentifier("ema_activity_dialog", "style"));
         this.mContext = context;
         this.mBindRemind = bindRemind;
+        this.mAlertType = type;
         mResourceManager = ResourceManager.getInstance(context);
         setCancelable(false);
         setCanceledOnTouchOutside(false);
@@ -54,9 +60,17 @@ public class EmaBinderAlertDialog extends Dialog {
             @Override
             public void onClick(View arg0) {
                 Intent intent = new Intent(Ema.getInstance().getContext(), WebViewActivity.class);
-                intent.putExtra(WebViewActivity.INTENT_TITLE, "绑定账号");
-                intent.putExtra(WebViewActivity.INTENT_URL, Url.getWebUrlBinder());
-                intent.putExtra(WebViewActivity.INTENT_TYPE, WebViewActivity.TYPE_BIND);
+
+                if (mAlertType == WEAK_ALERT) {
+                    intent.putExtra(WebViewActivity.INTENT_TITLE, "绑定账号");
+                    intent.putExtra(WebViewActivity.INTENT_URL, Url.getWebUrlBinder());
+                    intent.putExtra(WebViewActivity.INTENT_TYPE, WebViewActivity.TYPE_BIND);
+                } else if (mAlertType == IDENTIFY_ALERT) {
+                    intent.putExtra(WebViewActivity.INTENT_TITLE, "实名认证");
+                    intent.putExtra(WebViewActivity.INTENT_URL, Url.getWebUrlIdentity());
+                    intent.putExtra(WebViewActivity.INTENT_TYPE, WebViewActivity.TYPE_IDENTIFY);
+                }
+
                 mContext.startActivity(intent);
                 EmaBinderAlertDialog.this.dismiss();
             }
@@ -65,13 +79,12 @@ public class EmaBinderAlertDialog extends Dialog {
         mBtnCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null!=mBindRemind){
+                if (null != mBindRemind) {
                     mBindRemind.canelNext();
                 }
                 EmaBinderAlertDialog.this.dismiss();
             }
         });
-
 
         mBtnSure.setVisibility(View.VISIBLE);
         mBtnCancle.setVisibility(View.VISIBLE);
@@ -79,8 +92,15 @@ public class EmaBinderAlertDialog extends Dialog {
     }
 
     private void initData() {
-
-        mTxtPromptView.setText("您登录了游客账户，为了您的账户安全，避免数据丢失，请尽快绑定手机。");
+        if (mAlertType == WEAK_ALERT) {
+            mTxtPromptView.setText("您登录了游客账户，为了您的账户安全，避免数据丢失，请尽快绑定手机。");
+        } else if (mAlertType == IDENTIFY_ALERT) {
+            mTxtPromptView.setText("尊敬的用户:\n    根据国家规定,游戏用户需进行实名认证。");
+            int identifyLv = (int) USharedPerUtil.getParam(mContext, EmaConst.IDENTIFY_LV, 0);
+            if(identifyLv==2){   //2强制认证
+                mBtnCancle.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
 

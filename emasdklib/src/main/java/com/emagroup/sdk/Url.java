@@ -126,6 +126,13 @@ public class Url {
 		return serverUrl+"/wap/bindphone.html";
 	}
 
+	/**
+	 * 获取实名认证界面
+	 * @return
+	 */
+	public static String getWebUrlIdentity(){
+		return serverUrl+"/wap/certification.html";
+	}
 
 	/**
 	 * 获取用户信息界面

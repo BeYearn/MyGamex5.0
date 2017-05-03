@@ -29,6 +29,7 @@ public class EmaConst {
 
 	public static final String SUPPORT_QQ_PAY = "support_qqpay";
 	public static final String SUPPORT_WX_PAY = "support_wxpay";
+	public static final String IDENTIFY_LV = "identify_lv";
 
 	//------------------------------------------------------------------------------------
 	public static final String EMA_PAYINFO_PRODUCT_ID = "product_id";  //商品id
