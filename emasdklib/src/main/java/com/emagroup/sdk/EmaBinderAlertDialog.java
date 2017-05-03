@@ -24,6 +24,7 @@ public class EmaBinderAlertDialog extends Dialog {
     private ImageView mImgPromptView;//提示图片
     private TextView mBtnSure;
     private TextView mBtnCancle;
+    private int mIdentifyLv;
 
     /**
      * @param context
@@ -44,6 +45,9 @@ public class EmaBinderAlertDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mIdentifyLv = (int) USharedPerUtil.getParam(mContext, EmaConst.IDENTIFY_LV, 0);
+
         initView();
         initData();
     }
@@ -79,8 +83,14 @@ public class EmaBinderAlertDialog extends Dialog {
         mBtnCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mBindRemind) {
-                    mBindRemind.canelNext();
+                if (mAlertType == WEAK_ALERT) {
+                    if (null != mBindRemind) {
+                        mBindRemind.canelNext();
+                    }
+                } else if (mAlertType == IDENTIFY_ALERT) {
+                    if (mIdentifyLv != 2 && null != mBindRemind) {
+                        mBindRemind.canelNext();
+                    }
                 }
                 EmaBinderAlertDialog.this.dismiss();
             }
@@ -93,12 +103,15 @@ public class EmaBinderAlertDialog extends Dialog {
 
     private void initData() {
         if (mAlertType == WEAK_ALERT) {
-            mTxtPromptView.setText("您登录了游客账户，为了您的账户安全，避免数据丢失，请尽快绑定手机。");
+            mTxtPromptView.setText("    您登录了游客账户，为了您的账户安全，避免数据丢失，请尽快绑定手机。");
         } else if (mAlertType == IDENTIFY_ALERT) {
-            mTxtPromptView.setText("尊敬的用户:\n    根据国家规定,游戏用户需进行实名认证。");
-            int identifyLv = (int) USharedPerUtil.getParam(mContext, EmaConst.IDENTIFY_LV, 0);
-            if(identifyLv==2){   //2强制认证
-                mBtnCancle.setVisibility(View.INVISIBLE);
+            mTxtPromptView.setText("尊敬的用户:\n" +
+                    "    根据国家规定,游戏用户需进行实名认证.\n" +
+                    "-  信息仅用于认证且绝对保密\n" +
+                    "-  未成年人不允许在游戏内支付\n" +
+                    "-  认证信息可用于帐号找回");
+            if (mIdentifyLv == 2) {   //2强制认证
+                mBtnCancle.setText("关闭");    // 默认是下次再说
             }
         }
     }

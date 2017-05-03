@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
-    android:layout_height="170dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/ema_shape_webview_dialog"
     android:gravity="center_horizontal"
     android:orientation="vertical">
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="13dp"
             android:src="@drawable/ema_bind_dialog_logo" />
 
 
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ema_logo"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
             android:ellipsize="end"
             android:lineSpacingExtra="8dp"
             android:paddingLeft="15dp"
@@ -47,8 +47,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp">
-
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp">
 
         <TextView
             android:id="@+id/ema_tv_cancel"
