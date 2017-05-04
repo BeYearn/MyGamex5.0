@@ -376,7 +376,7 @@ public class Ema {
                                     if (null != bindRemind) {   //bindRemind不空的情况下（就是支付的时候）每次都弹窗不用判断
                                         showBindAlertDialog(bindRemind, EmaBinderAlertDialog.IDENTIFY_ALERT);
                                     } else {
-                                        if (isNeedShowBinder(mContext,EmaBinderAlertDialog.IDENTIFY_ALERT)) {
+                                        if (isNeedShowBinder(mContext)) {
                                             showBindAlertDialog(bindRemind, EmaBinderAlertDialog.IDENTIFY_ALERT);
                                         }
                                     }
@@ -387,7 +387,7 @@ public class Ema {
                                     if (null != bindRemind) {   //bindRemind不空的情况下（就是支付的时候）每次都弹窗不用判断
                                         showBindAlertDialog(bindRemind, EmaBinderAlertDialog.WEAK_ALERT);
                                     } else {
-                                        if (isNeedShowBinder(mContext,EmaBinderAlertDialog.WEAK_ALERT)) {
+                                        if (isNeedShowBinder(mContext)) {
                                             showBindAlertDialog(bindRemind, EmaBinderAlertDialog.WEAK_ALERT);
                                         }
                                     }
@@ -554,27 +554,27 @@ public class Ema {
         return (Boolean) getParam(context, "wechatCanLogin", true);
     }
 
-    public void saveShowBinderTime(Context context,int type) {
+    public void saveShowBinderTime(Context context) {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        setParam(context, "ShowAlertTime"+type, simpleDateFormat.format(date));
+        setParam(context, "ShowAlertTime", simpleDateFormat.format(date));
     }
 
-    public boolean isNeedShowBinder(Context context,int type) {
+    public boolean isNeedShowBinder(Context context) {
         boolean isNeedShow;
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String oldShowTime = (String) getParam(mContext, "ShowAlertTime"+type, "");
+        String oldShowTime = (String) getParam(mContext, "ShowAlertTime", "");
         if (TextUtils.isEmpty(oldShowTime)) {
             isNeedShow = true;
-            saveShowBinderTime(context,type);
+            saveShowBinderTime(context);
         } else {
             String newShowTime = simpleDateFormat.format(date);
             if (oldShowTime.equals(newShowTime)) {
                 isNeedShow = false;
             } else {
                 isNeedShow = true;
-                saveShowBinderTime(context,type);
+                saveShowBinderTime(context);
             }
         }
 
