@@ -370,6 +370,8 @@ public class Ema {
 
                             int identifyLv = (int) USharedPerUtil.getParam(mContext, EmaConst.IDENTIFY_LV, 0);
 
+                            boolean isWeakShow = true; //用来标记：如果没有实名认证就不显示帐号绑定了
+
                             if (productData.has("ifIdentified") && identifyLv != 0) {
                                 int certificated = productData.getInt("ifIdentified");
                                 if (certificated == 0) {          // 实名认证 0：未认证 1：认证
@@ -380,12 +382,14 @@ public class Ema {
                                             showBindAlertDialog(bindRemind, EmaBinderAlertDialog.IDENTIFY_ALERT);
                                         }
                                     }
-                                } else {
+                                    isWeakShow = false;
+                                }/* else {
                                     if (null != bindRemind) {
                                         bindRemind.canelNext();
                                     }
-                                }
-                            } else if (productData.has("accountType")) {
+                                }*/
+                            }
+                            if (productData.has("accountType") && isWeakShow) {
                                 int accountType = productData.getInt("accountType");
                                 if (accountType == 0) {        //0 啥也没绑
                                     if (null != bindRemind) {   //bindRemind不空的情况下（就是支付的时候）每次都弹窗不用判断
