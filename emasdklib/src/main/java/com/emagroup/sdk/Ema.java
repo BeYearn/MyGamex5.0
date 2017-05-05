@@ -380,6 +380,10 @@ public class Ema {
                                             showBindAlertDialog(bindRemind, EmaBinderAlertDialog.IDENTIFY_ALERT);
                                         }
                                     }
+                                } else {
+                                    if (null != bindRemind) {
+                                        bindRemind.canelNext();
+                                    }
                                 }
                             } else if (productData.has("accountType")) {
                                 int accountType = productData.getInt("accountType");
@@ -390,6 +394,10 @@ public class Ema {
                                         if (isNeedShowBinder(mContext)) {
                                             showBindAlertDialog(bindRemind, EmaBinderAlertDialog.WEAK_ALERT);
                                         }
+                                    }
+                                } else {
+                                    if (null != bindRemind) {
+                                        bindRemind.canelNext();
                                     }
                                 }
                             }
