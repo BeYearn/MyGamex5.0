@@ -378,7 +378,8 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         cookieManager.setCookie(url, getCookie(url, "deviceKey", mDeviceInfoManager.getDEVICE_ID()));
         cookieManager.setCookie(url, getCookie(url, "accountType", mEmaUser.getAccountType() + ""));
 
-        String gameInfoJson = Ema.getInstance().getGameInfoJson();
+        //String gameInfoJson = Ema.getInstance().getGameInfoJson();
+        String gameInfoJson = EmaUser.getInstance().getGameRoleInfo();
         cookieManager.setCookie(url, getCookie(url, "gameRoleInfo", gameInfoJson));
         try {
             JSONObject jsonObject = new JSONObject(gameInfoJson);

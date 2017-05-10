@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.myggame"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.myggame"
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
@@ -28,7 +29,7 @@
 
     <permission
         android:name="getui.permission.GetuiService.com.example.myggame"
-        android:protectionLevel="normal"/>
+        android:protectionLevel="normal" />
     <!-- 个推SDK权限配置结束 -->
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -50,10 +51,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="adjustResize">
-         <!--   <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>-->
+            <!--   <intent-filter>
+                   <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                   <category android:name="android.intent.category.DEFAULT" />
+               </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -66,41 +67,48 @@
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="pay_qwallet1105564847"/>  <!--qwallet+QQ的appid-->
+
+                <data android:scheme="pay_qwallet1105564847" />  <!--qwallet+QQ的appid-->
             </intent-filter>
 
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="wxad312759ba0cb817"/>    <!--微信appid-->
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="wxad312759ba0cb817" />    <!--微信appid-->
             </intent-filter>
         </activity>
 
         <activity android:name="com.emagroup.sdk.PayMabiActivity" />
 
-        <activity android:name="com.emagroup.sdk.RechargeMabiActivity"
+        <activity
+            android:name="com.emagroup.sdk.RechargeMabiActivity"
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="recharge_qwallet1105564847"/>  <!--qwallet+QQ的appid-->
+
+                <data android:scheme="recharge_qwallet1105564847" />  <!--qwallet+QQ的appid-->
             </intent-filter>
 
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="wxad312759ba0cb817"/>    <!--微信appid-->
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="wxad312759ba0cb817" />    <!--微信appid-->
             </intent-filter>
         </activity>
 
         <activity
             android:name="com.emagroup.sdk.TrdCardActivity"
             android:screenOrientation="landscape" />
-        <activity android:name="com.emagroup.sdk.WebViewActivity" />
+        <activity
+            android:name="com.emagroup.sdk.WebViewActivity"
+            android:screenOrientation="portrait" />
         <activity android:name="com.emagroup.sdk.WebViewSimpleActivity" />
 
         <service android:name="com.emagroup.sdk.EmaService" />
@@ -126,16 +134,16 @@
         <meta-data
             android:name="EMA_CHANNEL_TAG"
             android:value="n1001" />
-         <meta-data
+        <meta-data
+            android:name="EMA_WHICH_ENVI"
+            android:value="staging" />
+        <!--    <meta-data
+                android:name="EMA_WHICH_ENVI"
+                android:value="testing" /> --> <!--测试环境-->
+        <!-- <meta-data
              android:name="EMA_WHICH_ENVI"
-             android:value="testing" />
-    <!--    <meta-data
-            android:name="EMA_WHICH_ENVI"
-            android:value="testing" /> --> <!--测试环境-->
-       <!-- <meta-data
-            android:name="EMA_WHICH_ENVI"
-            android:value="production" />
--->
+             android:value="production" />
+ -->
         <meta-data
             android:name="WEI_BO_APP_ID"
             android:value="n4285757031" />
@@ -235,20 +243,20 @@
             android:name="com.igexin.download.DownloadProvider"
             android:authorities="downloads.com.example.myggame"
             android:exported="true"
-            android:process=":pushservice"/><!--"authorities' downloads后配为你的包名-->
+            android:process=":pushservice" /><!--"authorities' downloads后配为你的包名-->
         <!-- 个推SDK配置结束 -->
 
         <!--微博组件start-->
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" >
-        </activity>
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"></activity>
 
-        <activity android:name="com.emagroup.sdk.WeiBoEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:exported="true">
+        <activity
+            android:name="com.emagroup.sdk.WeiBoEntryActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -260,12 +268,12 @@
         <activity
             android:name="com.emagroup.mbzw2.emagroup.wxapi.WXEntryActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent"/>
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name="com.emagroup.mbzw2.emagroup.wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent" />
         <!--微信组件 end-->
         <!--qq登录组件 start-->
         <activity
@@ -282,12 +290,12 @@
             </intent-filter>
         </activity>
 
-      <!-- <activity
-            android:name="com.tencent.connect.common.AssistActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
-       <activity
+        <!-- <activity
+              android:name="com.tencent.connect.common.AssistActivity"
+              android:configChanges="orientation|keyboardHidden"
+              android:screenOrientation="behind"
+              android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
+        <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

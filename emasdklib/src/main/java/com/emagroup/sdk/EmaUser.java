@@ -16,6 +16,15 @@ public class EmaUser {
         EmaUser.appKey = appKey;
     }
 
+    //记录角色区服信息
+    private static String gameRoleInfo;
+    public String getGameRoleInfo(){
+        return gameRoleInfo;
+    }
+    public void setGameRoleInfo(String info){
+        EmaUser.gameRoleInfo = info;
+    }
+
     private static EmaUser mInstance;
 
     private static String mNickName;//昵称

@@ -86,7 +86,7 @@ public class ToolBar implements OnClickListener {
 
     private Map<String, Integer> mIDMap;
 
-    class BarInfo{
+    class BarInfo {
         String id;
         String name;
         String icon;
@@ -117,11 +117,11 @@ public class ToolBar implements OnClickListener {
      * 显示悬浮窗
      */
     public void showToolBar() {
-        if(TextUtils.isEmpty(toolBarInfoStr)){
+        if (TextUtils.isEmpty(toolBarInfoStr)) {
             initToolbarView();
         }
 
-        if(!isCanShow){
+        if (!isCanShow) {
             return;
         }
 
@@ -188,11 +188,10 @@ public class ToolBar implements OnClickListener {
 
     /**
      * 初始化悬浮窗，只在第一次获取ToolBar的时候进行
-     *
      */
     private void initToolbar() {
         mWindowManager = (WindowManager) mContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-       // initToolbarView();
+        // initToolbarView();
         createWindowParams();
     }
 
@@ -204,46 +203,45 @@ public class ToolBar implements OnClickListener {
         //获取bar的显示信息
 
         toolBarInfoStr = (String) USharedPerUtil.getParam(mContext, "menuBarInfo", "");
-        LOG.d(TAG, "initToolbarView()  toolBarInfoStr ----"+toolBarInfoStr);
+        LOG.d(TAG, "initToolbarView()  toolBarInfoStr ----" + toolBarInfoStr);
 
         barInfoList = new ArrayList<>();
         try {
-            if(TextUtils.isEmpty(toolBarInfoStr)){
-                toolBarInfoStr=null;
+            if (TextUtils.isEmpty(toolBarInfoStr)) {
+                toolBarInfoStr = null;
             }
             JSONObject toolBarInfo = new JSONObject(toolBarInfoStr);
 
             //boolean canShow1 = toolBarInfo.getInt("show_float") == 1;
             String hide_channel_id = toolBarInfo.getString("hide_channel_id");
             String[] split = hide_channel_id.split("\\|");
-            boolean canShow2=true;
-            for (String s:split) {
-                if(s.contains(EmaSDK.getInstance().getChannelId())){
-                    canShow2=false;
+            boolean canShow2 = true;
+            for (String s : split) {
+                if (s.contains(EmaSDK.getInstance().getChannelId())) {
+                    canShow2 = false;
                 }
             }
-            isCanShow=canShow2;
+            isCanShow = canShow2;
 
             JSONArray details = toolBarInfo.getJSONArray("details");
-            int detailsLen=details.length();
-            for (int i=0;i<detailsLen;i++){
+            int detailsLen = details.length();
+            for (int i = 0; i < detailsLen; i++) {
                 JSONObject barObject = details.getJSONObject(i);
                 int type = barObject.getInt("type");
-                if(type==0||type==1){  //0通用 1android
+                if (type == 0 || type == 1) {  //0通用 1android
                     BarInfo barInfo = new BarInfo();
-                    barInfo.id=barObject.getString("id");
-                    barInfo.name=barObject.getString("name");
-                    barInfo.icon=barObject.getString("icon");
-                    barInfo.url=barObject.getString("url");
+                    barInfo.id = barObject.getString("id");
+                    barInfo.name = barObject.getString("name");
+                    barInfo.icon = barObject.getString("icon");
+                    barInfo.url = barObject.getString("url");
                     barInfoList.add(barInfo);
                 }
             }
 
         } catch (Exception e) {
-            isCanShow=false;
+            isCanShow = false;
             e.printStackTrace();
         }
-
 
 
         mToolView = (LinearLayout) LayoutInflater.from(mContext).inflate(
@@ -289,25 +287,23 @@ public class ToolBar implements OnClickListener {
         buttonList.add(mToolBarBtn5Left);
 
         //将barinfo设置到btn上
-        for (int i=0;i<barInfoList.size();i++){
+        for (int i = 0; i < barInfoList.size(); i++) {
             BarInfo barInfo = barInfoList.get(i);
 
-            buttonList.get(2*i).setVisibility(View.VISIBLE);
-            buttonList.get(2*i+1).setVisibility(View.VISIBLE);
+            buttonList.get(2 * i).setVisibility(View.VISIBLE);
+            buttonList.get(2 * i + 1).setVisibility(View.VISIBLE);
 
-            buttonList.get(2*i).setText(barInfo.name);
-            buttonList.get(2*i+1).setText(barInfo.name);
-            if(barInfo.icon.contains("http")){
-                new MyImageLoad().setPicture(barInfo.icon,buttonList.get(2*i));
-                new MyImageLoad().setPicture(barInfo.icon,buttonList.get(2*i+1));
-            }else {
+            buttonList.get(2 * i).setText(barInfo.name);
+            buttonList.get(2 * i + 1).setText(barInfo.name);
+            if (barInfo.icon.contains("http")) {
+                new MyImageLoad().setPicture(barInfo.icon, buttonList.get(2 * i));
+                new MyImageLoad().setPicture(barInfo.icon, buttonList.get(2 * i + 1));
+            } else {
                 int drawable = mResourceManager.getIdentifier(barInfo.icon, "drawable");
-                buttonList.get(2*i).setCompoundDrawablesRelativeWithIntrinsicBounds(0,drawable,0,0);
-                buttonList.get(2*i+1).setCompoundDrawablesRelativeWithIntrinsicBounds(0,drawable,0,0);
+                buttonList.get(2 * i).setCompoundDrawablesRelativeWithIntrinsicBounds(0, drawable, 0, 0);
+                buttonList.get(2 * i + 1).setCompoundDrawablesRelativeWithIntrinsicBounds(0, drawable, 0, 0);
             }
         }
-
-
 
 
         //获取屏幕的高宽
@@ -470,27 +466,43 @@ public class ToolBar implements OnClickListener {
         }
     }
 
-    public  void doToolBarClick(BarInfo barInfo){
-        if(!TextUtils.isEmpty(barInfo.url)){
-            toWebView(barInfo.name,barInfo.url);
-        }else {
-            ToastHelper.toast(mContext,"暂未开放");
+    public void doToolBarClick(BarInfo barInfo) {
+        if (!TextUtils.isEmpty(barInfo.url)) {
+
+            preToWebview(barInfo.name, barInfo.url);
+
+        } else {
+            ToastHelper.toast(mContext, "暂未开放");
         }
+    }
+
+    public void preToWebview(String tab, String url) {
+
+
+        if (url.contains("/users/info")) {   // 战绩页面，如果还没有提交屈服信息，则提示
+            if(null==EmaUser.getInstance().getGameRoleInfo()){
+               ToastHelper.toast(mContext,"请进入游戏服务器后再操作");
+             return;
+            }
+        }
+
+        toWebView(tab, url);
     }
 
     /**
      * 跳转webview页面
+     *
      * @param tab 名字
      * @param url webview的url
      */
-    private void toWebView(String tab,String url){
+    private void toWebView(String tab, String url) {
         if (!EmaUser.getInstance().getIsLogin()) {
             LOG.d(TAG, "未登录状态");
             ToastHelper.toast(mContext, "请先登录");
-        }else if(url.contains("charge")){  // 特殊 android专有,该url是假的
-          toRecharge();
+        } else if (url.contains("charge")) {  // 特殊 android专有,该url是假的
+            toRecharge();
         } else {
-            LOG.d(TAG, "跳转"+tab);
+            LOG.d(TAG, "跳转" + tab);
             Intent intent = new Intent(mContext, WebViewActivity.class);
             intent.putExtra(WebViewActivity.INTENT_TITLE, tab);
             intent.putExtra(WebViewActivity.INTENT_URL, url);
@@ -533,7 +545,7 @@ public class ToolBar implements OnClickListener {
      */
     private void toGift() {
         /*if(!Ema.getInstance().isLogin()){
-			LOG.d(TAG, "未登录状态");
+            LOG.d(TAG, "未登录状态");
 			ToastHelper.toast(mContext, "请先登录");
 		}else{
 			LOG.d(TAG, "跳转礼包");
@@ -603,7 +615,7 @@ public class ToolBar implements OnClickListener {
     private void createWindowParams() {
         mWindowManagerParams = new WindowManager.LayoutParams();
         //设置相关的窗口布局参数(悬浮窗口效果)
-        mWindowManagerParams.type =  WindowManager.LayoutParams.TYPE_PRIORITY_PHONE;
+        mWindowManagerParams.type = WindowManager.LayoutParams.TYPE_PRIORITY_PHONE;
         mWindowManagerParams.format = 1;// 设置图片格式，效果为背景透明
         //设置window flag  不影响后面的事件 和 不可聚焦
 		/*

@@ -290,6 +290,8 @@ public class EmaSDK {
             gameInfoJson.put("dataType",data.get("dataType"));
             gameInfoJson.put("ext",data.get("ext"));*/
             Ema.getInstance().saveGameInfoJson(gameInfoJson.toString());
+            EmaUser.getInstance().setGameRoleInfo(gameInfoJson.toString());
+
             Map<String, String> params = new HashMap<>();
             params.put("token",EmaUser.getInstance().getToken());
             params.put("appId", ConfigManager.getInstance(Ema.getInstance().getContext()).getAppId());
