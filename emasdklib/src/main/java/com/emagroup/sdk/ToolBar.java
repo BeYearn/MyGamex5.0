@@ -479,7 +479,7 @@ public class ToolBar implements OnClickListener {
     public void preToWebview(String tab, String url) {
 
 
-        if (url.contains("/users/info")) {   // 战绩页面，如果还没有提交屈服信息，则提示
+        if (url.contains("/users/info")||url.contains("/spread_V2")) {   // 战绩/推广 页面，如果还没有提交屈服信息，则提示
             if(null==EmaUser.getInstance().getGameRoleInfo()){
                ToastHelper.toast(mContext,"请进入游戏服务器后再操作");
              return;
