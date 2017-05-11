@@ -29,7 +29,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -384,7 +383,7 @@ public class WebViewActivity extends Activity implements OnClickListener, EmaSDK
         try {
             JSONObject jsonObject = new JSONObject(gameInfoJson);
             cookieManager.setCookie(url, getCookie(url, "zoneId", jsonObject.getString("zoneId")));
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

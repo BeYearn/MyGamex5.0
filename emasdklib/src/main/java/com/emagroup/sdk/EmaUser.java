@@ -102,7 +102,8 @@ public class EmaUser {
      * 退出登录后，清空所有用户信息
      */
     public void clearUserInfo() {
-        mInstance=null;  //这样再getInstance就得到的是一个空的实例 妙
+        mInstance=null;  //这样再getInstance就得到的是一个空的实例 妙   个蛋，上面字段都是static的！
+        gameRoleInfo=null;
     }
 
 
