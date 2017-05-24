@@ -20,7 +20,10 @@ import com.emagroup.sdk.EmaConst;
 import com.emagroup.sdk.EmaSDK;
 import com.emagroup.sdk.EmaSDKListener;
 import com.emagroup.sdk.EmaUser;
+import com.emagroup.sdk.LOG;
 import com.emagroup.sdk.ToastHelper;
+import com.emagroup.sdk.ToolBar;
+import com.emagroup.sdk.WebViewActivity;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 
@@ -28,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class MainActivity extends Activity implements OnClickListener/*, Response */{
+public class MainActivity extends Activity implements OnClickListener/*, Response */ {
 
     private Button btLogin;
     protected boolean isSuccess;
@@ -47,6 +50,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
     private Button btAgain_init;
     private Button bt_snap_shot;
     private Button btEmShare;
+    private Button btOpenWebview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +65,10 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
         btHideBar = (Button) findViewById(R.id.bt_hidebar);
         btSwichAccount = (Button) findViewById(R.id.bt_swichaccount);
         // btWbShare = (Button) findViewById(R.id.bt_wbshare);
-        btUpGameInfo= (Button) findViewById(R.id.up_game_info);
+        btUpGameInfo = (Button) findViewById(R.id.up_game_info);
+        btOpenWebview = (Button) findViewById(R.id.bt_open_webview);
         btEmShare = (Button) findViewById(R.id.bt_emshare);
-        btAgain_init= (Button) findViewById(R.id.again_init);
+        btAgain_init = (Button) findViewById(R.id.again_init);
         bt_snap_shot = (Button) findViewById(R.id.bt_snap_shot);
         init();
 
@@ -86,6 +91,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
         btHideBar.setOnClickListener(this);
         btSwichAccount.setOnClickListener(this);
         btUpGameInfo.setOnClickListener(this);
+        btOpenWebview.setOnClickListener(this);
       /*  btWxShare.setOnClickListener(this);*/
         btEmShare.setOnClickListener(this);
         bt_snap_shot.setOnClickListener(this);
@@ -96,58 +102,58 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
 
     private void init() {
         //EmaSDK.getInstance().init("6cdd60ea0045eb7a6ec44c54d29ed402", this, new EmaSDKListener() {  //10000
-        EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b",this, new EmaSDKListener() {      //20015
-        //EmaSDK.getInstance().init("800a924c499772bac7b76432803ea47a",this, new EmaSDKListener() {  //10001
-        //EmaSDK.getInstance().init("2c02bf12771e51a120c1dff23dc1f256",this, new EmaSDKListener() {      //20017
-        //EmaSDK.getInstance().init("864ed48309c7f9a259f769b92cc52814",this, new EmaSDKListener() {      //20012
-        @Override
-        public void onCallBack(int arg0, String arg1) {
-            Log.e("mainactivity", arg0 + "++++++++++++++++ " + arg1);
-            switch (arg0) {
-                case EmaCallBackConst.INITSUCCESS://初始化SDK成功回调
-                    isSuccess = true;
-                    ToastHelper.toast(MainActivity.this,"sdk初始化成功");
-                    break;
-                case EmaCallBackConst.INITFALIED://初始化SDK失败回调
-                    ToastHelper.toast(MainActivity.this,"sdk初始化失败");
+        EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b", this, new EmaSDKListener() {      //20015
+            //EmaSDK.getInstance().init("800a924c499772bac7b76432803ea47a",this, new EmaSDKListener() {  //10001
+            //EmaSDK.getInstance().init("2c02bf12771e51a120c1dff23dc1f256",this, new EmaSDKListener() {      //20017
+            //EmaSDK.getInstance().init("864ed48309c7f9a259f769b92cc52814",this, new EmaSDKListener() {      //20012
+            @Override
+            public void onCallBack(int arg0, String arg1) {
+                Log.e("mainactivity", arg0 + "++++++++++++++++ " + arg1);
+                switch (arg0) {
+                    case EmaCallBackConst.INITSUCCESS://初始化SDK成功回调
+                        isSuccess = true;
+                        ToastHelper.toast(MainActivity.this, "sdk初始化成功");
+                        break;
+                    case EmaCallBackConst.INITFALIED://初始化SDK失败回调
+                        ToastHelper.toast(MainActivity.this, "sdk初始化失败");
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            init();
-                        }
-                    });
-                    break;
-                case EmaCallBackConst.LOGINSUCCESS://登陆成功回调
-                    ToastHelper.toast(MainActivity.this, "登陆成功");
-                    Log.e("Mainactivity", EmaUser.getInstance().getNickName());
-                    Log.e("Mainactivity", EmaUser.getInstance().getAllianceUid());
-                    Log.e("Mainactivity", EmaUser.getInstance().getmUid());
-                    Log.e("Mainactivity", EmaSDK.getInstance().getChannelId());
-                    Log.e("Mainactivity", EmaSDK.getInstance().getChannelTag());
-                   // ToastHelper.toast(MainActivity.this,EmaSDK.getInstance().isEma()+"");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                init();
+                            }
+                        });
+                        break;
+                    case EmaCallBackConst.LOGINSUCCESS://登陆成功回调
+                        ToastHelper.toast(MainActivity.this, "登陆成功");
+                        Log.e("Mainactivity", EmaUser.getInstance().getNickName());
+                        Log.e("Mainactivity", EmaUser.getInstance().getAllianceUid());
+                        Log.e("Mainactivity", EmaUser.getInstance().getmUid());
+                        Log.e("Mainactivity", EmaSDK.getInstance().getChannelId());
+                        Log.e("Mainactivity", EmaSDK.getInstance().getChannelTag());
+                        // ToastHelper.toast(MainActivity.this,EmaSDK.getInstance().isEma()+"");
 
-                    //submitRoleinfo("24001");
-                    break;
-                case EmaCallBackConst.LOGINCANELL://登陆取消回调
-                    break;
-                case EmaCallBackConst.LOGINFALIED://登陆失败回调
-                    Log.e("++++++++++", Thread.currentThread().getName());
-                    ToastHelper.toast(MainActivity.this, "登陆失败");
-                    break;
-                case EmaCallBackConst.LOGOUTSUCCESS://登出成功回调
-                    break;
-                case EmaCallBackConst.LOGOUTFALIED://登出失败回调
-                    break;
-                case EmaCallBackConst.ACCOUNTSWITCHSUCCESS:
-                    Log.e("EMASDK", "ACCOUNTSWITCHSUCCESS");//切换帐号成功回调
-                    break;
-                case EmaCallBackConst.ACCOUNTSWITCHFAIL:
-                    break;
+                        //submitRoleinfo("24001");
+                        break;
+                    case EmaCallBackConst.LOGINCANELL://登陆取消回调
+                        break;
+                    case EmaCallBackConst.LOGINFALIED://登陆失败回调
+                        Log.e("++++++++++", Thread.currentThread().getName());
+                        ToastHelper.toast(MainActivity.this, "登陆失败");
+                        break;
+                    case EmaCallBackConst.LOGOUTSUCCESS://登出成功回调
+                        break;
+                    case EmaCallBackConst.LOGOUTFALIED://登出失败回调
+                        break;
+                    case EmaCallBackConst.ACCOUNTSWITCHSUCCESS:
+                        Log.e("EMASDK", "ACCOUNTSWITCHSUCCESS");//切换帐号成功回调
+                        break;
+                    case EmaCallBackConst.ACCOUNTSWITCHFAIL:
+                        break;
 
+                }
             }
-        }
-    });
+        });
     }
 
 
@@ -176,11 +182,11 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.bt_snap_shot:
-             try {
-                 View vv = view.getRootView();
-                 // 设置属性
-                 vv.setDrawingCacheEnabled(true);
-                 // 取得位图
+                try {
+                    View vv = view.getRootView();
+                    // 设置属性
+                    vv.setDrawingCacheEnabled(true);
+                    // 取得位图
 
                     EmaSDK.getInstance().doShareImage(MainActivity.this, new ShareEmaSDKListener(), vv.getDrawingCache()/*Snapshot.saveBitmap(view, MainActivity.this)*/);
                     // shareImage();;
@@ -249,12 +255,12 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                 EmaSDK.getInstance().doSwichAccount();
                 break;
             case R.id.bt_emshare:
-                  shareImage();
+                shareImage();
                 //  shareWebPage();
                 //     shareText();
                 break;
             case R.id.again_init:
-               init();
+                init();
            /*   new AsyncTask<Void, Void, Bitmap>() {
                    @Override
                    protected Bitmap doInBackground(Void... voids) {
@@ -271,29 +277,50 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
             case R.id.up_game_info:
                 submitRoleinfo("24001");
                 break;
-
+            case R.id.bt_open_webview:
+                openWebview();
+                break;
 
         }
     }
 
-    private void submitRoleinfo(String zoneId){
-        Map<String,String > param=new HashMap<String, String>();
-        param.put(EmaConst.SUBMIT_ROLE_ID,"00001");
-        param.put(EmaConst.SUBMIT_ROLE_NAME,"emasdk");
-        param.put(EmaConst.SUBMIT_ROLE_LEVEL,"11");
-        param.put(EmaConst.SUBMIT_ZONE_ID,zoneId);
-        param.put(EmaConst.SUBMIT_ZONE_NAME,"emasever");
-        param.put(EmaConst.SUBMIT_ROLE_CT,"1234567899");
-        param.put(EmaConst.SUBMIT_DATA_TYPE,"0");
-        param.put(EmaConst.SUBMIT_EXT,"99999");
+    /**
+     * 用于测试webview的
+     */
+    private void openWebview() {
+
+        if (!EmaUser.getInstance().getIsLogin()) {
+            ToastHelper.toast(this, "请先登录");
+            return;
+        }
+        String testUrl = "http://www.baidu.com";
+        LOG.d("测试页面：", "跳转" + testUrl);
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.putExtra(WebViewActivity.INTENT_TITLE, "测试页面");
+        intent.putExtra(WebViewActivity.INTENT_URL, testUrl);
+        intent.putExtra(WebViewActivity.INTENT_TYPE, WebViewActivity.TYPE_EMAACCOUNT);
+        this.startActivity(intent);
+        ToolBar.getInstance(this).hideToolBar();
+    }
+
+    private void submitRoleinfo(String zoneId) {
+        Map<String, String> param = new HashMap<String, String>();
+        param.put(EmaConst.SUBMIT_ROLE_ID, "00001");
+        param.put(EmaConst.SUBMIT_ROLE_NAME, "emasdk");
+        param.put(EmaConst.SUBMIT_ROLE_LEVEL, "11");
+        param.put(EmaConst.SUBMIT_ZONE_ID, zoneId);
+        param.put(EmaConst.SUBMIT_ZONE_NAME, "emasever");
+        param.put(EmaConst.SUBMIT_ROLE_CT, "1234567899");
+        param.put(EmaConst.SUBMIT_DATA_TYPE, "0");
+        param.put(EmaConst.SUBMIT_EXT, "99999");
         EmaSDK.getInstance().submitGameRole(param);
     }
 
-   private void shareWebPage() {
+    private void shareWebPage() {
         String url = "http://www.baidu.com";//
-        String title = "WebPage Title WebPage Title" ;
+        String title = "WebPage Title WebPage Title";
         String description = "WebPage Description";
-        Bitmap bitmap =BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
         EmaSDK.getInstance().doShareWebPage(MainActivity.this, new ShareEmaSDKListener(), url, title, description, bitmap);
     }
 
