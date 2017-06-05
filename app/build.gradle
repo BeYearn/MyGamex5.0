@@ -17,14 +17,14 @@ android {
         komSign {
             keyAlias 'kom'
             keyPassword '000000'
-            storeFile file('./release/kom.keystore')
+            storeFile file('./sign/kom.keystore')
             storePassword '000000'
         }
 
         tcgSign {
             keyAlias 'soultcg'
             keyPassword 'zxczxc'
-            storeFile file('./release/tcg.keystore')
+            storeFile file('./sign/tcg.keystore')
             storePassword 'zxczxc'
         }
     }

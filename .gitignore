@@ -29,3 +29,6 @@ proguard-project.txt
 /gradle
 gradlew
 .DS_Store
+
+# Keystore files    不知道咋写的话，在这里写，然后在vc的log中refresh，试！
+app/sign
