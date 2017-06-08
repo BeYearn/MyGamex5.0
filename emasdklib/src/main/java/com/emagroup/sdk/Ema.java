@@ -40,6 +40,8 @@ public class Ema {
     private boolean mFlagIsInitSuccess;//标记初始化是否成功
     private boolean mFlagIsShowSplash = true;//标记是否显示闪屏
 
+    private EmaService mEmaService; //拿到的心跳服务实例
+
     //绑定服务
     private ServiceConnection mServiceCon = new ServiceConnection() {
         @Override
@@ -47,10 +49,10 @@ public class Ema {
         }
 
         @Override
-        public void onServiceConnected(ComponentName arg0, IBinder arg1) {
+        public void onServiceConnected(ComponentName arg0, IBinder ibinder) {
+            mEmaService = ((EmaService.LocalBinder) ibinder).getService();
         }
     };
-
     private static Ema mInstance;
     private static final Object synchron = new Object();
 
@@ -433,7 +435,6 @@ public class Ema {
 		/*if(mSplashDialog != null && mSplashDialog.isShowing()){
             mSplashDialog.dismiss();
 		}
-//		mContext.unbindService(mServiceCon);
 
 		EmaUser.getInstance().clearPayInfo();
 		EmaUser.getInstance().clearUserInfo();
@@ -445,6 +446,8 @@ public class Ema {
         }
         mFlagToolbarShowing = false;
         mFlagIsInitSuccess = false;
+        //解绑心跳服务
+        mContext.unbindService(mServiceCon);
     }
 
     public void onStop() {
@@ -478,6 +481,10 @@ public class Ema {
     }
 
     public void onRestart() {
+        //回到前台时重新走心跳间隔逻辑
+        if(null!=mEmaService){
+            mEmaService.reStartHeart();
+        }
         LOG.d(TAG, "onRestart");
     }
 

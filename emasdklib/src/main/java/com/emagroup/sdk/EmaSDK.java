@@ -21,9 +21,10 @@ import static com.emagroup.sdk.UCommUtil.doShare;
 public class EmaSDK {
     private static EmaSDK mInstance;
     private EmaSDKListener reciveMsgListener;
-    public String title,url,summary;
+    public String title, url, summary;
     public Bitmap bitmap;
     public EmaSDKListener mListener;
+
     private EmaSDK() {
     }
 
@@ -138,24 +139,24 @@ public class EmaSDK {
 
             @Override
             public void OnQQClick() {
-              //  QQShareUtils.getIntance(activity).shareQQFriendImage(listener, bitmap);
-                EmaSDK.this.mListener=listener;
-                EmaSDK.this.bitmap=bitmap;
-                Intent intent=new Intent(activity,WeiBoEntryActivity.class);
-                intent.putExtra("sharePf","QQ");
-                intent.putExtra("sharType",QQShareUtils.SHARE_QQ_FRIEDNS_IMAGE);
+                //  QQShareUtils.getIntance(activity).shareQQFriendImage(listener, bitmap);
+                EmaSDK.this.mListener = listener;
+                EmaSDK.this.bitmap = bitmap;
+                Intent intent = new Intent(activity, WeiBoEntryActivity.class);
+                intent.putExtra("sharePf", "QQ");
+                intent.putExtra("sharType", QQShareUtils.SHARE_QQ_FRIEDNS_IMAGE);
                 activity.startActivity(intent);
             }
 
             @Override
             public void OnQZoneClick() {
                 // Toast.makeText(activity,"QQ空间无图片分享",Toast.LENGTH_SHORT).show();
-             //   QQShareUtils.getIntance(activity).shareQzoneImage(listener, bitmap);
-                EmaSDK.this.mListener=listener;
-                EmaSDK.this. bitmap=bitmap;
-                Intent intent=new Intent(activity,WeiBoEntryActivity.class);
-                intent.putExtra("sharePf","QQ");
-                intent.putExtra("sharType",QQShareUtils.SHARE_QQ_QZONE_IMAGE);
+                //   QQShareUtils.getIntance(activity).shareQzoneImage(listener, bitmap);
+                EmaSDK.this.mListener = listener;
+                EmaSDK.this.bitmap = bitmap;
+                Intent intent = new Intent(activity, WeiBoEntryActivity.class);
+                intent.putExtra("sharePf", "QQ");
+                intent.putExtra("sharType", QQShareUtils.SHARE_QQ_QZONE_IMAGE);
                 activity.startActivity(intent);
             }
         });
@@ -185,13 +186,13 @@ public class EmaSDK {
 
             @Override
             public void OnQZoneClick() {
-              //  QQShareUtils.getIntance(activity).shareQzoneText(text, listener);
+                //  QQShareUtils.getIntance(activity).shareQzoneText(text, listener);
 
-                EmaSDK.this.mListener=listener;
-                EmaSDK.this.summary=text;
-                Intent intent=new Intent(activity,WeiBoEntryActivity.class);
-                intent.putExtra("sharePf","QQ");
-                intent.putExtra("sharType",QQShareUtils.SHARE_QQ_QZONE_TEXT);
+                EmaSDK.this.mListener = listener;
+                EmaSDK.this.summary = text;
+                Intent intent = new Intent(activity, WeiBoEntryActivity.class);
+                intent.putExtra("sharePf", "QQ");
+                intent.putExtra("sharType", QQShareUtils.SHARE_QQ_QZONE_TEXT);
                 activity.startActivity(intent);
             }
         });
@@ -217,29 +218,29 @@ public class EmaSDK {
 
             @Override
             public void OnQQClick() {
-                EmaSDK.this.mListener=listener;
-                EmaSDK.this.bitmap=bitmap;
-                EmaSDK.this.title=title;
-                EmaSDK.this.url=url;
-                EmaSDK.this.summary=description;
-                Intent intent=new Intent(activity,WeiBoEntryActivity.class);
-                intent.putExtra("sharePf","QQ");
-                intent.putExtra("sharType",QQShareUtils.SHARE_QQ_FRIEDNS_WEBPAGE);
+                EmaSDK.this.mListener = listener;
+                EmaSDK.this.bitmap = bitmap;
+                EmaSDK.this.title = title;
+                EmaSDK.this.url = url;
+                EmaSDK.this.summary = description;
+                Intent intent = new Intent(activity, WeiBoEntryActivity.class);
+                intent.putExtra("sharePf", "QQ");
+                intent.putExtra("sharType", QQShareUtils.SHARE_QQ_FRIEDNS_WEBPAGE);
                 activity.startActivity(intent);
-               // QQShareUtils.getIntance(activity).shareQQFriendsWebPage(listener, title, url, description, bitmap);
+                // QQShareUtils.getIntance(activity).shareQQFriendsWebPage(listener, title, url, description, bitmap);
             }
 
             @Override
             public void OnQZoneClick() {
-               // QQShareUtils.getIntance(activity).shareQzoneWebPage(listener, title, url, description, bitmap);
-                EmaSDK.this.mListener=listener;
-                EmaSDK.this.bitmap=bitmap;
-                EmaSDK.this.title=title;
-                EmaSDK.this.url=url;
-                EmaSDK.this.summary=description;
-                Intent intent=new Intent(activity,WeiBoEntryActivity.class);
-                intent.putExtra("sharePf","QQ");
-                intent.putExtra("sharType",QQShareUtils.SHARE_QQ_QZONE_WEBPAGE);
+                // QQShareUtils.getIntance(activity).shareQzoneWebPage(listener, title, url, description, bitmap);
+                EmaSDK.this.mListener = listener;
+                EmaSDK.this.bitmap = bitmap;
+                EmaSDK.this.title = title;
+                EmaSDK.this.url = url;
+                EmaSDK.this.summary = description;
+                Intent intent = new Intent(activity, WeiBoEntryActivity.class);
+                intent.putExtra("sharePf", "QQ");
+                intent.putExtra("sharType", QQShareUtils.SHARE_QQ_QZONE_WEBPAGE);
                 activity.startActivity(intent);
             }
         });
@@ -278,10 +279,10 @@ public class EmaSDK {
         Ema.getInstance().onBackPressed(action);
     }
 
-    public void submitGameRole(Map<String,String> data){
+    public void submitGameRole(Map<String, String> data) {
 
         try {
-            JSONObject gameInfoJson=new JSONObject(data);
+            JSONObject gameInfoJson = new JSONObject(data);
          /*   gameInfoJson.put("roleId",data.get("roleId"));
             gameInfoJson.put("roleName",data.get("roleName"));
             gameInfoJson.put("roleLevel",data.get("roleLevel"));
@@ -293,14 +294,14 @@ public class EmaSDK {
             EmaUser.getInstance().setGameRoleInfo(gameInfoJson.toString());
 
             Map<String, String> params = new HashMap<>();
-            params.put("token",EmaUser.getInstance().getToken());
+            params.put("token", EmaUser.getInstance().getToken());
             params.put("appId", ConfigManager.getInstance(Ema.getInstance().getContext()).getAppId());
-            params.put("uid",EmaUser.getInstance().getAllianceUid());
-            params.put("gameInfoJson",gameInfoJson.toString());
+            params.put("uid", EmaUser.getInstance().getAllianceUid());
+            params.put("gameInfoJson", gameInfoJson.toString());
             new HttpInvoker().postAsync(Url.getUploadGameInfoUrl(), params, new HttpInvoker.OnResponsetListener() {
                 @Override
                 public void OnResponse(String result) {
-                    LOG.i("submitGameRole","submitLoginGameRole  result  ---"+result);
+                    LOG.i("submitGameRole", "submitLoginGameRole  result  ---" + result);
                 }
             });
 

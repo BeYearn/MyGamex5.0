@@ -31,12 +31,13 @@ android {
 
     buildTypes {
         kom {
-             signingConfig signingConfigs.komSign
-            }
+            signingConfig signingConfigs.komSign
+            debuggable true
+        }
         tcg {
-             signingConfig signingConfigs.tcgSign
-             }
-
+            signingConfig signingConfigs.tcgSign
+            debuggable true
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
