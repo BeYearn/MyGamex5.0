@@ -140,7 +140,7 @@ public class HttpInvoker {
 				resultSb.append(line);
 			}
 			reader.close();
-			LOG.d(TAG, "result__:" + resultSb.toString());
+			//LOG.d(TAG, "result__:" + resultSb.toString());
 			//断开连接
 			httpCon.disconnect();
 			setOnresponse(listener, resultSb.toString());
@@ -198,8 +198,8 @@ public class HttpInvoker {
 
 			int resultCode = response.getStatusLine().getStatusCode();
 			String result = EntityUtils.toString(response.getEntity());
-			LOG.d(TAG, "return status code:" + resultCode);
-			LOG.d(TAG, "return message:" + result);
+			//LOG.d(TAG, "return status code:" + resultCode);
+			//LOG.d(TAG, "return message:" + result);
 			if(resultCode != HttpStatus.SC_OK){
 				LOG.e(TAG, "服务器返回错误 !!!!!!");
 				setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"请求超时\",\"status\":\"9\"}");
@@ -249,8 +249,8 @@ public class HttpInvoker {
 			
 			int resultCode = response.getStatusLine().getStatusCode();
 			String result = EntityUtils.toString(response.getEntity());
-			LOG.d(TAG, "return status code:" + resultCode);
-			LOG.d(TAG, "return message:" + result);
+			//LOG.d(TAG, "return status code:" + resultCode);
+			//LOG.d(TAG, "return message:" + result);
 			if(resultCode != HttpStatus.SC_OK){
 				LOG.e(TAG, "服务器返回错误 !!!!!!");
 				setOnresponse(listener,"{\"config\":{},\"data\":{},\"message\":\"网络连接超时\",\"status\":\"9\"}");

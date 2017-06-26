@@ -19,7 +19,7 @@ import static android.support.v4.app.NotificationCompat.PRIORITY_MAX;
 public class EmaSendInfo {
 
     private static final String TAG = "EmaSendInfo";
-    private static final String ONLINE_TIME = "online_time";
+    private static String HEART_CODE = "";         //用来避免code重复通知
     private static String currentTaskTopName;
 
     /**
@@ -61,8 +61,24 @@ public class EmaSendInfo {
                 public void OnResponse(String result) {
                     LOG.d(TAG, "heartbeat result__:" + result);
 
-                    //todo 之后收到什么特殊的result 发个通知
-                    //showNotification();
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        if (0 == status) {
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            if (data.toString().contains("code")) {
+                                String code = data.getString("code");
+
+                                if (!HEART_CODE.equals(code)) {
+                                    String applicationName = UCommUtil.getApplicationName(Ema.getInstance().getContext());
+                                    showNotification(applicationName + " 通知", "您的验证码为：" + code);
+                                    HEART_CODE = code;
+                                }
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         } catch (JSONException e) {
@@ -71,13 +87,13 @@ public class EmaSendInfo {
     }
 
 
-    private static void showNotification() {
+    private static void showNotification(String title, String content) {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Ema.getInstance().getContext());
         mBuilder.setPriority(PRIORITY_MAX);
         mBuilder.setSmallIcon(R.drawable.ema_bottom_promotion_checked);
-        mBuilder.setContentTitle("My notification");
-        mBuilder.setContentText("Hello World!");
+        mBuilder.setContentTitle(title);
+        mBuilder.setContentText(content);
 
         //Intent resultIntent = new Intent(this, MainActivity.class);
         //PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);

@@ -50,29 +50,30 @@ public class EmaService extends Service {
 
             while (mFlagRuning) {
                 if (i < 2) {  //前1分钟 30秒一次 发送2次心跳包
+                    EmaSendInfo.sendOnlineAlive();
                     trySleep(INTERVAL_TIME_FIRST);
-                    EmaSendInfo.sendOnlineAlive();
                 } else if (2 <= i && i < 4) {  //第1分钟到第5分钟  2分钟一次  发送2次心跳包
-                    trySleep(INTERVAL_TIME_SENCOND);
                     EmaSendInfo.sendOnlineAlive();
+                    trySleep(INTERVAL_TIME_SENCOND);
                 } else {  //之后都是5分钟发送一次
-                    trySleep(INTERVAL_TIME_THIRD);
                     if (EmaUser.getInstance().getIsLogin()) {
                         EmaSendInfo.sendOnlineAlive();
                     }
+                    trySleep(INTERVAL_TIME_THIRD);
                 }
                 i++;
             }
         }
 
-        public void reSetHeart() {
+        private void reSetHeart() {
             i = 0;
+            EmaSendInfo.sendOnlineAlive();
         }
     }
 
     private void trySleep(int time) {
         try {
-            Thread.sleep(time);
+            Thread.sleep(time);                //在哪个线程里声明sleep，哪个线程睡眠
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -84,6 +85,7 @@ public class EmaService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.e("emaService","onDestory");
         mFlagRuning = false;
     }
 

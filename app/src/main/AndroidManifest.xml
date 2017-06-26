@@ -136,14 +136,9 @@
             android:value="n1001" />
         <meta-data
             android:name="EMA_WHICH_ENVI"
-            android:value="production" />
-        <!--    <meta-data
-                android:name="EMA_WHICH_ENVI"
-                android:value="testing" /> --> <!--测试环境-->
-        <!-- <meta-data
-             android:name="EMA_WHICH_ENVI"
-             android:value="production" />
- -->
+            android:value="testing" />
+
+
         <meta-data
             android:name="WEI_BO_APP_ID"
             android:value="n4285757031" />

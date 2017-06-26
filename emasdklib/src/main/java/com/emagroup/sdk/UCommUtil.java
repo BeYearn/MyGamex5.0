@@ -3,13 +3,13 @@ package com.emagroup.sdk;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Service;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -41,9 +41,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+
 public class UCommUtil {
 
     private static final String TAG = "UCommUtil";
+
+    /**
+     * 获取应用名称
+     *
+     * @param context
+     * @return
+     */
+    public static String getApplicationName(Context context) {
+        PackageManager pm = context.getPackageManager();
+        String appName = context.getApplicationInfo().loadLabel(pm).toString();
+        return appName;
+    }
 
     /**
      * 发送信息
