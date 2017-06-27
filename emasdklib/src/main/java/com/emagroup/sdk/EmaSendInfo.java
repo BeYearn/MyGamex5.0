@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,7 +72,7 @@ public class EmaSendInfo {
 
                                 if (!HEART_CODE.equals(code)) {
                                     String applicationName = UCommUtil.getApplicationName(Ema.getInstance().getContext());
-                                    showNotification(applicationName + " 通知", "您的验证码为：" + code);
+                                    showNotification(context,applicationName + " 通知", "您的验证码为：" + code);
                                     HEART_CODE = code;
                                 }
                             }
@@ -87,7 +88,7 @@ public class EmaSendInfo {
     }
 
 
-    private static void showNotification(String title, String content) {
+    private static void showNotification(Context context,String title, String content) {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Ema.getInstance().getContext());
         mBuilder.setPriority(PRIORITY_MAX);
@@ -105,10 +106,55 @@ public class EmaSendInfo {
 
         notification.defaults = Notification.DEFAULT_SOUND;//通知带有系统默认声音
 
-        NotificationManager mNotifyMgr = (NotificationManager) Ema.getInstance().getContext().getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
         mNotifyMgr.notify(1, notification);
     }
+
+
+    /**
+     * @param inMessage 游客登录
+     */
+    public static String getInfoJsonStr(String inMessage){
+        Context context = Ema.getInstance().getContext();
+        Map<String, String> deviceInfoMap = DeviceInfoManager.getInstance(context).deviceInfoGather();
+        deviceInfoMap.put("message",inMessage);
+
+        JSONObject deviceInfojson = new JSONObject(deviceInfoMap);
+        String InfoJsonStr = deviceInfojson.toString();
+
+        return InfoJsonStr;
+    }
+
+    /**
+     * @param inMessage 0：getSystemInfo    1：点击
+
+     * @param type 0 -初始化，1-点击数据
+     */
+    public static void sendDeviceInfoJson(String inMessage,String type){
+        Context context = Ema.getInstance().getContext();
+
+        HashMap<String,String> param = new HashMap<>();
+
+        param.put("infoJson",getInfoJsonStr(inMessage));
+        param.put("allianceId",ConfigManager.getInstance(context).getChannel());
+        param.put("type",type);
+        param.put("channelTag",ConfigManager.getInstance(Ema.getInstance().getContext()).getChannelTag());
+        param.put("appId",ConfigManager.getInstance(Ema.getInstance().getContext()).getAppId());
+
+        String sign = ConfigManager.getInstance(context).getChannel()+ConfigManager.getInstance(context).getAppId()
+                + ConfigManager.getInstance(context).getChannelTag() +type+ EmaUser.getInstance().getAppKey();
+        sign = UCommUtil.MD5(sign);
+        param.put("sign", sign);
+
+        new HttpInvoker().postAsync(Url.getUploadInfo(), param, new HttpInvoker.OnResponsetListener() {
+            @Override
+            public void OnResponse(String result) {
+                Log.e("upLoadEmaInfo",result);
+            }
+        });
+    }
+
 
     /**
      * 创建角色

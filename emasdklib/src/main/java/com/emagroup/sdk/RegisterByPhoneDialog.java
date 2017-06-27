@@ -381,27 +381,42 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == getId("ema_btn_start_work")) {//获取验证码，或者进入游戏
+        if (id == getId("ema_btn_start_work")) {  //获取验证码，或者进入游戏
             doStartWork();
-        } else if (id == getId("ema_btn_return_login")) {//账号登录
+        } else if (id == getId("ema_btn_return_login")) {  //账号登录
             mInstance.dismiss();
             mInstance = null; //用户如果切换为帐号登录，则置空这个，以便回来时重新走手机流程
             LoginDialog.getInstance(Ema.getInstance().getContext()).show();
-        } else if (id == getId("ema_btn_return_register")) {//快速注册
+
+            //发送一次打点deviceInfo
+            EmaSendInfo.sendDeviceInfoJson("帐号登录","1");
+
+        } else if (id == getId("ema_btn_return_register")) {//游客登录
             doRegistByOneKey();
-        } else if (id == getId("ema_btn_get_auth_code")) {//重新获取验证码
+
+            //发送一次打点deviceInfo
+            EmaSendInfo.sendDeviceInfoJson("游客登录","1");
+
+        } else if (id == getId("ema_btn_get_auth_code")) {   //重新获取验证码
             startTimeTask(60);
             if ("1".equals(mAccountType)) {
                 doGetAuthCode(mEmaUser.getMobile());
             } else if ("2".equals(mAccountType)) {
                 doSendEmail(mEmaUser.getEmail());
             }
-        } else if (id == getId("ema_wechat_login_rela")) {
+        } else if (id == getId("ema_wechat_login_rela")) {   //微信登录
             // WeixinShareUtils.getInstance(mActivity).wachateLogin();
             wachateLogin();
-        } else if (id == getId("ema_qq_login_rela")) {
+
+            //发送一次打点deviceInfo
+            EmaSendInfo.sendDeviceInfoJson("微信登录","1");
+
+        } else if (id == getId("ema_qq_login_rela")) {        //qq 登录
             //  Ema.getInstance().saveWachatLoginFlag(true);
             ThirdLoginUtils.getInstance(mActivity).qqLogin(this);
+
+            //发送一次打点deviceInfo
+            EmaSendInfo.sendDeviceInfoJson("QQ登录","1");
         }
     }
 

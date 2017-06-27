@@ -293,6 +293,14 @@ public class Url {
 	}
 
 	/**
+	 * 用来登录按钮打点的
+	 * @return
+     */
+	public static String getUploadInfo(){
+		return serverUrl+"/ema-platform/member/uploadEMAInfo";
+	}
+
+	/**
 	 * 获取渠道key信息
      */
 	public static String getChannelKayInfo(){

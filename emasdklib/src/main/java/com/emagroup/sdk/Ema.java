@@ -291,6 +291,9 @@ public class Ema {
 
         } else if (EmaCallBackConst.INITSUCCESS == msgCode) {  // 在初始化成功时
             mFlagIsInitSuccess = true;
+
+            //发送一次deviceInfo
+            EmaSendInfo.sendDeviceInfoJson("","0");
         }
     }
 

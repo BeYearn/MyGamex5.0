@@ -116,22 +116,20 @@ public class DeviceInfoManager {
     public Map<String, String> deviceInfoGather() {
         Map<String, String> parameter = new HashMap<String, String>();
 
-        parameter.put("app_id", ConfigManager.getInstance(mContext).getAppId());//
-        parameter.put("devid", this.getDEVICE_ID());        //设备ID
-        parameter.put("chid", ConfigManager.getInstance(mContext).getChannel());//渠道ID
-        parameter.put("appname", this.getPACKAGENAME());        //包名
-        parameter.put("appver", String.valueOf(this.getGAMEVERSIONCODE()));//游戏版本号
-        parameter.put("dev_mod", this.getMODELS());                    //机型
-        parameter.put("cpu", this.getCpuInfo());                    //CPU信息
-        parameter.put("mem", String.valueOf(this.getTotalMemory()));//总内存
-        parameter.put("ava_mem", String.valueOf(this.getAvailMemory()));//可用内存
-        parameter.put("sys_mod", "1");                                    //系统类型，Android OR iOS
-        parameter.put("sys_ver", String.valueOf(this.getANDROIDVERSIONCODE()));//系统版本
-        parameter.put("pb", "0");                                            //越狱
-        parameter.put("reso", this.getScreenInfo());                        //屏幕信息
-        parameter.put("net_mod", String.valueOf(this.getNetworkType()));    //网络信息
-        parameter.put("operator", this.getOPERATOR());                        //运营商信息
-        parameter.put("phone", this.getPHONENUM());                            //手机号
+        //parameter.put("appId", ConfigManager.getInstance(mContext).getAppId());//
+        parameter.put("deviceId", this.getDEVICE_ID());        //设备ID
+        //parameter.put("chid", ConfigManager.getInstance(mContext).getChannel());//渠道ID
+        parameter.put("packageName", this.getPACKAGENAME());        //包名
+        parameter.put("versionCode", String.valueOf(this.getGAMEVERSIONCODE()));//游戏版本号
+        parameter.put("deviceName", this.getMODELS());                    //机型
+        parameter.put("cpuInfo", this.getCpuInfo());                    //CPU信息
+        parameter.put("totalMem", String.valueOf(this.getTotalMemory()));//总内存
+        parameter.put("availableMem", String.valueOf(this.getAvailMemory()));//可用内存
+        parameter.put("androidVersion", String.valueOf(this.getANDROIDVERSIONCODE()));//系统版本
+        parameter.put("screenInfo", this.getScreenInfo());                        //屏幕信息
+        parameter.put("netInfo", String.valueOf(this.getNetworkType()));    //网络信息
+        parameter.put("carrierName", this.getOPERATOR());                        //运营商信息
+        parameter.put("phoneNum", this.getPHONENUM());                            //手机号
 
         return parameter;
     }
@@ -228,16 +226,16 @@ public class DeviceInfoManager {
         return version;
     }
 
-    // 获取android当前可用内存大小（Byte）
+    // 获取android当前可用内存大小（MB）
     public long getAvailMemory() {
         ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         MemoryInfo mi = new MemoryInfo();
         am.getMemoryInfo(mi);
-        FREE_MEMORY = mi.availMem;
+        FREE_MEMORY = mi.availMem / 1024 /1024;
         return FREE_MEMORY;
     }
 
-    // 读取系统内存信息文件: meminfo第一行，获取系统总内存大小（Byte）
+    // 读取系统内存信息文件: meminfo第一行，获取系统总内存大小（MB）
     public long getTotalMemory() {
         if (ALL_MEMORY == 0) {
             String str1 = "/proc/meminfo";
@@ -249,7 +247,7 @@ public class DeviceInfoManager {
                 str2 = localBufferedReader.readLine();
 
                 arrayOfString = str2.split("\\s+");
-                ALL_MEMORY = Long.valueOf(arrayOfString[1]) * 1024;
+                ALL_MEMORY = Long.valueOf(arrayOfString[1]) / 1024;
                 localBufferedReader.close();
 
             } catch (IOException e) {
@@ -337,10 +335,11 @@ public class DeviceInfoManager {
         return ANDROID_VERSIONCODE;
     }
 
-    ////机型
+    //机型
     public String getMODELS() {
+        String brand = android.os.Build.BRAND;
         MODELS = Build.MODEL;
-        return MODELS;
+        return brand +" "+MODELS;
     }
 
     //运营商类型
