@@ -3,8 +3,15 @@ package com.emagroup.sdk;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.emagroup.sdk.EmaSendInfo.heartBeat;
 
 public class EmaService extends Service {
 
@@ -14,13 +21,51 @@ public class EmaService extends Service {
     private static final int INTERVAL_TIME_SENCOND = 1000 * 50 * 2;//2分钟
     private static final int INTERVAL_TIME_THIRD = 1000 * 60 * 5;//5分钟
 
-    private boolean mFlagRuning = true;
-    private HeartThread mHeartThread;
+    private int count = 0;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    heartBeat(0);
+
+                    if(count ==0||count ==1){
+                        pushHeart(INTERVAL_TIME_FIRST);
+                    }else if(count ==2||count == 3){
+                        pushHeart(INTERVAL_TIME_SENCOND);
+                    }else if(count>3){
+                        pushHeart(INTERVAL_TIME_THIRD);
+                    }
+                    count++;
+                    break;
+            }
+        }
+    };
+
+    private Timer mTimer;
 
     @Override
     public IBinder onBind(Intent arg0) {
 
+        mTimer = new Timer(true);
+
+        pushHeart(0);
+
         return new LocalBinder();
+    }
+
+    private void pushHeart(long delayTime) {
+        TimerTask mTask = new TimerTask() {
+            @Override
+            public void run() {
+                Message message = Message.obtain();
+                message.what = 1;
+                mHandler.sendMessage(message);
+            }
+        };
+        mTimer.schedule(mTask, delayTime);
+
     }
 
     /**
@@ -29,20 +74,15 @@ public class EmaService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mHeartThread = new HeartThread();
-        mHeartThread.start();
     }
-
 
     public void reStartHeart() {
         Log.e(TAG, "reStartHeart");
-        if (mHeartThread != null) {
-            mHeartThread.reSetHeart();
-        }
+        count = 0;
+        pushHeart(0);
     }
 
-
-    private class HeartThread extends Thread {
+    /*private class HeartThread extends Thread {
         public int i = 0;
 
         @Override
@@ -50,26 +90,25 @@ public class EmaService extends Service {
 
             while (mFlagRuning) {
                 if (i < 2) {  //前1分钟 30秒一次 发送2次心跳包
-                    EmaSendInfo.sendOnlineAlive();
+                    sendOnlineAlive();
                     trySleep(INTERVAL_TIME_FIRST);
                 } else if (2 <= i && i < 4) {  //第1分钟到第5分钟  2分钟一次  发送2次心跳包
-                    EmaSendInfo.sendOnlineAlive();
+                    sendOnlineAlive();
                     trySleep(INTERVAL_TIME_SENCOND);
                 } else {  //之后都是5分钟发送一次
                     if (EmaUser.getInstance().getIsLogin()) {
-                        EmaSendInfo.sendOnlineAlive();
+                        sendOnlineAlive();
                     }
                     trySleep(INTERVAL_TIME_THIRD);
                 }
                 i++;
             }
         }
-
         private void reSetHeart() {
             i = 0;
-            EmaSendInfo.sendOnlineAlive();
+            sendOnlineAlive();
         }
-    }
+    }*/
 
     private void trySleep(int time) {
         try {
@@ -85,8 +124,8 @@ public class EmaService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("emaService","onDestory");
-        mFlagRuning = false;
+        Log.e("emaService", "onDestory");
+        mTimer.cancel();
     }
 
 

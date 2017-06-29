@@ -11,6 +11,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.emagroup.sdk.R;
 
@@ -21,12 +23,24 @@ public class EmaSendInfo {
 
     private static final String TAG = "EmaSendInfo";
     private static String HEART_CODE = "";         //用来避免code重复通知
-    private static String currentTaskTopName;
+
+    public static void heartBeat(long delay){
+
+        Timer timer = new Timer(true);
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                sendOnlineAlive();
+            }
+        };
+
+        timer.schedule(timerTask,delay);
+    }
 
     /**
      * 发送心跳包
      */
-    public static void sendOnlineAlive() {
+    private static void sendOnlineAlive() {
 
         final Context context = Ema.getInstance().getContext();
         LOG.d(TAG, "sendOnlineAlive");
