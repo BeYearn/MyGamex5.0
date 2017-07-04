@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -56,6 +57,25 @@ public class UCommUtil {
         PackageManager pm = context.getPackageManager();
         String appName = context.getApplicationInfo().loadLabel(pm).toString();
         return appName;
+    }
+
+    /**
+     * 获得appicon 的 id
+     * @param context
+     * @return
+     */
+    public static int getAppIconId(Context context) {
+
+        PackageManager pm = context.getPackageManager();
+        String packageName = context.getApplicationInfo().packageName;
+
+        Intent intent = pm.getLaunchIntentForPackage(packageName);
+        ResolveInfo resolveInfo = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        if (resolveInfo != null) {
+            return resolveInfo.getIconResource();
+        } else {
+            return 0;
+        }
     }
 
     /**

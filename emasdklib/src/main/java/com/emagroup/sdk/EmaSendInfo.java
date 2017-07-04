@@ -14,8 +14,6 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import cn.emagroup.sdk.R;
-
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.support.v4.app.NotificationCompat.PRIORITY_MAX;
 
@@ -106,7 +104,8 @@ public class EmaSendInfo {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Ema.getInstance().getContext());
         mBuilder.setPriority(PRIORITY_MAX);
-        mBuilder.setSmallIcon(R.drawable.ema_bottom_promotion_checked);
+        //mBuilder.setSmallIcon(ResourceManager.getInstance(context).getIdentifier("ema_bottom_promotion_checked","drawable"));
+        mBuilder.setSmallIcon(UCommUtil.getAppIconId(context));
         mBuilder.setContentTitle(title);
         mBuilder.setContentText(content);
 
