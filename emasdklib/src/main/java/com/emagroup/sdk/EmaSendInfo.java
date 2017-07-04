@@ -83,9 +83,10 @@ public class EmaSendInfo {
                                 String code = data.getString("code");
 
                                 if (!HEART_CODE.equals(code)) {
-                                    String applicationName = UCommUtil.getApplicationName(Ema.getInstance().getContext());
+                                    String applicationName = UCommUtil.getApplicationName(context);
                                     showNotification(context,applicationName + " 通知", "您的验证码为：" + code);
                                     HEART_CODE = code;
+                                    ToastHelper.toast(context,"请于通知栏查收您的验证码~");
                                 }
                             }
                         }
