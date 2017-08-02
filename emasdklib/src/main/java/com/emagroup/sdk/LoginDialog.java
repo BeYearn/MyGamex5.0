@@ -38,14 +38,9 @@ public class LoginDialog extends Dialog implements
 
     private static final int CODE_SUCCESS = 3;// 成功
     private static final int CODE_FAILED = 4;// 失败
-    private static final int CODE_FAILED_NO_ACCOUNT = 5;// 用户名不存在
-    private static final int CODE_FAILED_ERROR_PASSW = 6;// 密码错误
     private static final int CODE_ACCESSID_LOST = 7;// SID过期
 
-
-    private static final int GET_UID_SUCCESS = 31;// 第一步 创建弱账户获得uid陈功
     private static final int FIRST_STEP_LOGIN_SUCCESS = 32; // 第二步 第一步验证登陆成功
-    //private static final int SECOND_STEP_LOGIN_SUCCESS=33; // 第三步 第二步验证登陆成功  就是最后的登陆成功
 
 
     private static final String mPasswShowStr = "............";//密码显示
@@ -75,12 +70,9 @@ public class LoginDialog extends Dialog implements
 
     private LoginSuccDialog mLoginSuccDialog;// 登录成功后显示的对话框
 
-
     private String firstLoginResult;
 
     private Map<String, Integer> mIDmap;
-
-    // private ImageView mWechatLogin,mQQLogin;
 
     // 进度条
     private EmaProgressDialog mProgress;
@@ -97,28 +89,17 @@ public class LoginDialog extends Dialog implements
                     UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, "登录失败");
                     mEmaUser.clearUserInfo();
                     break;
-                case CODE_FAILED_ERROR_PASSW:// 登录失败（密码错误）
-                    ToastHelper.toast(mActivity, "密码错误");
-                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, (String) msg.obj);
-                    mEmaUser.clearUserInfo();
+                case FIRST_STEP_LOGIN_SUCCESS:
+                    LoginSecond();
                     break;
-                case CODE_FAILED_NO_ACCOUNT:// 登录失败（用户名不存在）
-                    ToastHelper.toast(mActivity, "用户名不存在");
-                    UCommUtil.makeUserCallBack(EmaCallBackConst.LOGINFALIED, (String) msg.obj);
-                    mEmaUser.clearUserInfo();
-                    break;
-                case CODE_ACCESSID_LOST:// sid过期
-                    doResultSidIsOutOfDate();
-                    break;
+
                 case CODE_SET_AUTO_LOGIN:// 在下拉框选择自动登录的用户
                     doResultSelectAccount(msg);
                     break;
                 case CODE_DELETE_USERINFO://下拉框删除用户
                     doResultDeleteUser();
                     break;
-                case FIRST_STEP_LOGIN_SUCCESS:
-                    LoginSecond();
-                    break;
+
                 default:
                     break;
             }
@@ -142,7 +123,6 @@ public class LoginDialog extends Dialog implements
         params.put("deviceKey", DeviceInfoManager.getInstance(mActivity).getDEVICE_ID());
 
         String sign = 0 + mConfigManager.getChannel() + mConfigManager.getAppId() + mConfigManager.getChannelTag() + mDeviceInfoManager.getDEVICE_ID() + "android" + EmaUser.getInstance().getAppKey();
-        //LOG.e("rawSign",sign);
         sign = UCommUtil.MD5(sign);
         params.put("sign", sign);
 
@@ -153,7 +133,7 @@ public class LoginDialog extends Dialog implements
                         try {
                             firstLoginResult(result, Integer.parseInt(mAccountType));
                         } catch (Exception e) {
-                            LOG.w(TAG, "AccountLoginFirst error", e);
+                            LOG.w(TAG, "weakLoginFirst error", e);
                             mHandler.sendEmptyMessage(CODE_FAILED);
                         }
                     }
@@ -213,7 +193,7 @@ public class LoginDialog extends Dialog implements
                     firstLoginResult(result, Integer.parseInt(mAccountType));
                 } catch (Exception e) {
                     mHandler.sendEmptyMessage(CODE_FAILED);
-                    LOG.w(TAG, "doLogin error", e);
+                    LOG.w(TAG, "AccountLoginFirst error", e);
                 }
             }
         });
@@ -263,7 +243,7 @@ public class LoginDialog extends Dialog implements
                     break;
             }
         } catch (Exception e) {
-            LOG.w(TAG, "login error", e);
+            LOG.w(TAG, "firstLoginResult error", e);
             mHandler.sendEmptyMessage(CODE_FAILED);
         }
     }
@@ -296,18 +276,14 @@ public class LoginDialog extends Dialog implements
                                     msg.obj = token;
                                     mHandler.sendMessage(msg);
                                     break;
-                                case HttpInvokerConst.SDK_RESULT_FAILED:
-                                    ToastHelper.toast(mActivity, jsonObject.getString("message"));
-                                    mProgress.closeProgress();
-                                    break;
                                 default:
                                     ToastHelper.toast(mActivity, jsonObject.getString("message"));
                                     mProgress.closeProgress();
+                                    mHandler.sendEmptyMessage(CODE_FAILED);
                                     break;
                             }
-
                         } catch (Exception e) {
-                            LOG.w(TAG, "AccountLoginFirst error", e);
+                            LOG.w(TAG, "LoginSecond error", e);
                             mHandler.sendEmptyMessage(CODE_FAILED);
                         }
                     }

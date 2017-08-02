@@ -222,7 +222,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                     break;
             }
         } catch (Exception e) {
-            LOG.w(TAG, "login error", e);
+            LOG.w(TAG, "firstLoginResult error", e);
             mHandler.sendEmptyMessage(CODE_FAILED);
         }
     }
@@ -267,7 +267,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                         } catch (Exception e) {
                             ToastHelper.toast(mActivity, "登录失败");
                             mProgress.closeProgress();
-                            LOG.w(TAG, "accountLoginsecond error:" + e);
+                            LOG.w(TAG, "LoginSecond error:", e);
                         }
                     }
                 });
@@ -389,13 +389,13 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
             LoginDialog.getInstance(Ema.getInstance().getContext()).show();
 
             //发送一次打点deviceInfo
-            EmaSendInfo.sendDeviceInfoJson("帐号登录","1");
+            EmaSendInfo.sendDeviceInfoJson("帐号登录", "1");
 
         } else if (id == getId("ema_btn_return_register")) {//游客登录
             doRegistByOneKey();
 
             //发送一次打点deviceInfo
-            EmaSendInfo.sendDeviceInfoJson("游客登录","1");
+            EmaSendInfo.sendDeviceInfoJson("游客登录", "1");
 
         } else if (id == getId("ema_btn_get_auth_code")) {   //重新获取验证码
             startTimeTask(60);
@@ -409,14 +409,14 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
             wachateLogin();
 
             //发送一次打点deviceInfo
-            EmaSendInfo.sendDeviceInfoJson("微信登录","1");
+            EmaSendInfo.sendDeviceInfoJson("微信登录", "1");
 
         } else if (id == getId("ema_qq_login_rela")) {        //qq 登录
             //  Ema.getInstance().saveWachatLoginFlag(true);
             ThirdLoginUtils.getInstance(mActivity).qqLogin(this);
 
             //发送一次打点deviceInfo
-            EmaSendInfo.sendDeviceInfoJson("QQ登录","1");
+            EmaSendInfo.sendDeviceInfoJson("QQ登录", "1");
         }
     }
 

@@ -1,21 +1,12 @@
 package com.emagroup.sdk;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.usage.UsageStats;
-import android.app.usage.UsageStatsManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
-import android.util.Log;
 
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -34,7 +25,6 @@ import java.security.PrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
@@ -536,60 +526,4 @@ public class UCommUtil {
         return content;
     }
 
-    public static String getTopApp(Context context) {
-        List<PackageInfo> packages = context.getPackageManager()
-                .getInstalledPackages(0);
-        android.app.ActivityManager mActivityManager;
-        mActivityManager = (android.app.ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-
-        String packageName;
-        if (Build.VERSION.SDK_INT > 20) {
-            UsageStatsManager usageStatsManager = (UsageStatsManager) context.getApplicationContext()
-                    .getSystemService("usagestats");
-
-            long ts = System.currentTimeMillis();
-            List<UsageStats> queryUsageStats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, 0, ts);
-
-            UsageStats recentStats = null;
-            for (UsageStats usageStats : queryUsageStats) {
-                if (recentStats == null || recentStats.getLastTimeUsed() < usageStats.getLastTimeUsed()) {
-                    recentStats = usageStats;
-                }
-            }
-            packageName = recentStats != null ? recentStats.getPackageName() : null;
-        } else {
-            // 5.0之前
-            // 获取正在运行的任务栈(一个应用程序占用一个任务栈) 最近使用的任务栈会在最前面
-            // 1表示给集合设置的最大容量 List<RunningTaskInfo> infos = am.getRunningTasks(1);
-            // 获取最近运行的任务栈中的栈顶Activity(即用户当前操作的activity)的包名
-            packageName = mActivityManager.getRunningTasks(1).get(0).topActivity.getPackageName();
-            //Log.i(TAG,packageName);
-        }
-        Log.i(TAG, "getTopApp  packageName==" + packageName);
-        return packageName;
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public static boolean isNoSwitch(Context context) {
-        long ts = System.currentTimeMillis();
-        UsageStatsManager usageStatsManager = (UsageStatsManager) context
-                .getSystemService("usagestats");
-        List queryUsageStats = usageStatsManager.queryUsageStats(
-                UsageStatsManager.INTERVAL_BEST, 0, ts);
-        return !(queryUsageStats == null || queryUsageStats.isEmpty());
-    }
-
-    public static void showUsagestatsDialog(final Context context) {
-        new AlertDialog.Builder(context).
-                setTitle("设置").
-                setMessage("开启usagestats权限")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-                        context.startActivity(intent);
-                        //finish();
-                    }
-                }).show();
-    }
 }
