@@ -32,7 +32,8 @@ public class EmaProgressDialog {
 		if(mProgress == null){
 			mProgress = new ProgressDialog(mContext);
 			mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-			mProgress.setTitle("提示");
+
+			//mProgress.setTitle("提示");
 		}
 		mProgress.setCancelable(cancelable);
 		mProgress.setCanceledOnTouchOutside(outsideCancelAble);

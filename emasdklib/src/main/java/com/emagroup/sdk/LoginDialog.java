@@ -283,6 +283,7 @@ public class LoginDialog extends Dialog implements
                                     break;
                             }
                         } catch (Exception e) {
+                            mProgress.closeProgress();
                             LOG.w(TAG, "LoginSecond error", e);
                             mHandler.sendEmptyMessage(CODE_FAILED);
                         }
