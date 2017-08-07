@@ -39,6 +39,7 @@ public class Ema {
     private boolean mFlagToolbarShowing;//标记在切换到主界面时是否在显示toolbar
     private boolean mFlagIsInitSuccess;//标记初始化是否成功
     private boolean mFlagIsShowSplash = true;//标记是否显示闪屏
+    private EmaProgressDialog mProgress;
 
     private EmaService mEmaService; //拿到的心跳服务实例
 
@@ -108,6 +109,7 @@ public class Ema {
             //初始化第三方sdk
             initThirdSDK();
 
+            mProgress = new EmaProgressDialog(context);
             //埋点，发送初始化信息
             //EmaSendInfo.sendInitDeviceInfo();
 
@@ -341,6 +343,10 @@ public class Ema {
      * call一次拿到所有用户信息
      */
     public void getUserInfo(final BindRemind bindRemind) {
+
+        if(mProgress!=null){
+            mProgress.showProgress("请稍候...",false,false);
+        }
         Map<String, String> params = new HashMap<>();
         params.put("token", EmaUser.getInstance().getToken());
         params.put("uid", EmaUser.getInstance().getmUid());
@@ -350,10 +356,15 @@ public class Ema {
                     @Override
                     public void OnResponse(String result) {
                         try {
+                            mProgress.closeProgress();
 
                             JSONObject jsonObject = new JSONObject(result);
                             String message = jsonObject.getString("message");
-                            String status = jsonObject.getString("status");
+                            int status = jsonObject.getInt("status");
+                            if(status!=0){
+                                LOG.e("getUserInfo",result);
+                                return;
+                            }
 
                             JSONObject productData = jsonObject.getJSONObject("data");
                             String email = productData.getString("email");
@@ -411,6 +422,7 @@ public class Ema {
                                 }
                             }
                         } catch (Exception e) {
+                            mProgress.closeProgress();
                             e.printStackTrace();
                         }
                     }

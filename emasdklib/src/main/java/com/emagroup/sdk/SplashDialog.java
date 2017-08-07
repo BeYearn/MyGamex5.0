@@ -47,9 +47,6 @@ public class SplashDialog extends Dialog {
                     break;
                 case DISMISS_NOW:
                     SplashDialog.this.dismiss();
-
-                    //闪屏关闭 之后开始检查维护状态
-                    checkSDKStatus();
                     break;
                 case ALERT_WEBVIEW_SHOW:
                     new EmaWebviewDialog(mActivity, SplashDialog.this, (Map) msg.obj, msg.arg1, msg.arg2, mHandler).show();
@@ -106,6 +103,9 @@ public class SplashDialog extends Dialog {
                 mHandler.sendEmptyMessage(DISMISS_NOW);
             }
         }, 3000);
+
+        //开始检查维护状态
+        checkSDKStatus();
     }
 
     /**
@@ -352,6 +352,7 @@ public class SplashDialog extends Dialog {
 
         imageView.setImageResource(drawableId);
         this.setContentView(view);
+        this.setCancelable(false);
     }
 
 }
