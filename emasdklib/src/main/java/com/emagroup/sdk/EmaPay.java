@@ -67,9 +67,9 @@ public class EmaPay {
 
     private EmaPay(Context context) {
         mContext = context;
+        mProgress = new EmaProgressDialog(context);
         mConfigManager = ConfigManager.getInstance(context);
         mDeviceInfoManager = DeviceInfoManager.getInstance(context);
-        mProgress = new EmaProgressDialog(context);
     }
 
     public static EmaPay getInstance(Context context) {
@@ -120,6 +120,9 @@ public class EmaPay {
     }
 
     private void startPay() {
+        if(mProgress!=null){
+            mProgress.showProgress("请稍候...",false,false);
+        }
         //发起购买---->对订单号及信息的请求
         Map<String, String> params = new HashMap<>();
         params.put("pid", mPayInfo.getProductId());
@@ -147,7 +150,11 @@ public class EmaPay {
 
                             JSONObject jsonObject = new JSONObject(result);
                             String message= jsonObject.getString("message");
-                            String status= jsonObject.getString("status");
+                            int status= jsonObject.getInt("status");
+                            if(status!=0){
+                                LOG.e("creatOrder",result);
+                                return;
+                            }
 
                             JSONObject productData = jsonObject.getJSONObject("data");
                             boolean coinEnough = productData.getBoolean("coinEnough");
@@ -178,10 +185,16 @@ public class EmaPay {
                             msg.obj = mPayInfo;
                             mHandler.sendMessage(msg);
 
+                            if(mProgress!=null){
+                                mProgress.closeProgress();
+                            }
 
                         } catch (Exception e) {
-                            LOG.w(TAG, "login error", e);
                             mHandler.sendEmptyMessage(ORDER_FAIL);
+                            e.printStackTrace();
+                            if(mProgress!=null){
+                                mProgress.closeProgress();
+                            }
                         }
                     }
                 });

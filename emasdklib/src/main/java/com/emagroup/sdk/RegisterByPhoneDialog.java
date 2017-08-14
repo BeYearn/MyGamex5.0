@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -657,6 +658,7 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
 
             @Override
             public void OnResponse(String result) {
+                Log.e("wachateAllowAfter",result);
                 firstLoginResult(result, Integer.parseInt(mAccountType));
             }
         });
