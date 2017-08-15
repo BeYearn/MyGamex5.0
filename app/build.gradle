@@ -8,6 +8,7 @@ android {
         //applicationId "com.example.myggame"
         applicationId "com.emagroup.mbzw2.emagroup"
         //applicationId "com.tencent.tmgp.dragontcg1"
+        applicationId "com.emagroup.athena.emagroup"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 999999
@@ -28,6 +29,12 @@ android {
             storeFile file('./sign/tcg.keystore')
             storePassword 'zxczxc'
         }
+        xmdsSign {
+            keyAlias 'emakey'
+            keyPassword 'emathena'
+            storeFile file('./sign/ema.jks')
+            storePassword 'emathena'
+        }
     }
 
     buildTypes {
@@ -37,6 +44,10 @@ android {
         }
         tcg {
             signingConfig signingConfigs.tcgSign
+            debuggable true
+        }
+        xmds {
+            signingConfig signingConfigs.xmdsSign
             debuggable true
         }
     }

@@ -77,7 +77,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="wxad312759ba0cb817" />    <!--微信appid-->
+                <data android:scheme="wx27ab2424f9605102" />    <!--微信appid-->
             </intent-filter>
         </activity>
 
@@ -99,7 +99,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="wxad312759ba0cb817" />    <!--微信appid-->
+                <data android:scheme="wx27ab2424f9605102" />    <!--微信appid-->
             </intent-filter>
         </activity>
 
@@ -127,7 +127,7 @@
 
         <meta-data
             android:name="EMA_APP_ID"
-            android:value="n20015" />
+            android:value="n20024" />
         <meta-data
             android:name="EMA_CHANNEL_ID"
             android:value="n26" />
@@ -144,7 +144,7 @@
             android:value="n4285757031" />
         <meta-data
             android:name="WECHAT_APP_ID"
-            android:value="wxad312759ba0cb817" />
+            android:value="wx27ab2424f9605102" />
         <meta-data
             android:name="QQ_APP_ID"
             android:value="n1105564847" />
@@ -261,11 +261,11 @@
 
         <!--微信组件 start-->
         <activity
-            android:name="com.emagroup.mbzw2.emagroup.wxapi.WXEntryActivity"
+            android:name="com.emagroup.athena.emagroup.wxapi.WXEntryActivity"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent" />
         <activity
-            android:name="com.emagroup.mbzw2.emagroup.wxapi.WXPayEntryActivity"
+            android:name="com.emagroup.athena.emagroup.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent" />

@@ -1,4 +1,4 @@
-package com.emagroup.mbzw2.emagroup.wxapi;
+package com.emagroup.athena.emagroup.wxapi;
 
 import android.app.Activity;
 import android.content.Intent;
