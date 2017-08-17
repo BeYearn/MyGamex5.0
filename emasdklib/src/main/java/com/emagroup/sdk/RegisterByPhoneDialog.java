@@ -213,12 +213,9 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                     mHandler.sendEmptyMessage(FIRST_STEP_LOGIN_SUCCESS);
                     LOG.d(TAG, "第一步登录成功");
                     break;
-                case HttpInvokerConst.SDK_RESULT_FAILED:
-                    ToastHelper.toast(mActivity, json.getString("message"));
-                    mProgress.closeProgress();
-                    break;
                 default:
-                    ToastHelper.toast(mActivity, json.getString("message"));
+                    Log.e("firstLoginResult",result);
+                    //ToastHelper.toast(mActivity, json.getString("message"));
                     mProgress.closeProgress();
                     break;
             }

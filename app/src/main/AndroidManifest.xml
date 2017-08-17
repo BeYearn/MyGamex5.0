@@ -246,7 +246,7 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name="com.emagroup.sdk.WeiBoEntryActivity"
@@ -270,7 +270,8 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent" />
         <!--微信组件 end-->
-        <!--qq登录组件 start-->
+
+        <!--qq,weixin登录组件 start-->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -284,17 +285,11 @@
                 <data android:scheme="tencent1105564847" />
             </intent-filter>
         </activity>
-
-        <!-- <activity
-              android:name="com.tencent.connect.common.AssistActivity"
-              android:configChanges="orientation|keyboardHidden"
-              android:screenOrientation="behind"
-              android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--qq登录组件 end-->
+        <!--qq,weixin登录组件 end-->
     </application>
 
 </manifest>
