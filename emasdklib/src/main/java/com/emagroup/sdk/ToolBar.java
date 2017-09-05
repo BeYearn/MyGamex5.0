@@ -190,7 +190,8 @@ public class ToolBar implements OnClickListener {
      * 初始化悬浮窗，只在第一次获取ToolBar的时候进行
      */
     private void initToolbar() {
-        mWindowManager = (WindowManager) mContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        //mWindowManager = (WindowManager) mContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager = ((Activity)mContext).getWindowManager();
         // initToolbarView();
         createWindowParams();
     }
@@ -615,7 +616,9 @@ public class ToolBar implements OnClickListener {
     private void createWindowParams() {
         mWindowManagerParams = new WindowManager.LayoutParams();
         //设置相关的窗口布局参数(悬浮窗口效果)
-        mWindowManagerParams.type = WindowManager.LayoutParams.TYPE_PRIORITY_PHONE;
+        mWindowManagerParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
+        //mWindowManagerParams.type = LayoutParams.TYPE_PRIORITY_PHONE;  不行
+
         mWindowManagerParams.format = 1;// 设置图片格式，效果为背景透明
         //设置window flag  不影响后面的事件 和 不可聚焦
 		/*
