@@ -61,6 +61,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.example.myggame.TestActivity"/>
+
         <activity
             android:name="com.emagroup.sdk.PayTrdActivity"
             android:exported="true"

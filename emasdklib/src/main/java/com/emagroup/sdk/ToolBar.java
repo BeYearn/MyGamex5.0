@@ -134,6 +134,7 @@ public class ToolBar implements OnClickListener {
                 }
                 if (mWindowManager == null) {
                     mWindowManager = (WindowManager) mContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+                    //mWindowManager = ((Activity)mContext).getWindowManager();
                 }
                 if (mToolView == null) {
                     initToolbarView();
@@ -190,9 +191,8 @@ public class ToolBar implements OnClickListener {
      * 初始化悬浮窗，只在第一次获取ToolBar的时候进行
      */
     private void initToolbar() {
-        //mWindowManager = (WindowManager) mContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-        mWindowManager = ((Activity)mContext).getWindowManager();
-        // initToolbarView();
+        mWindowManager = (WindowManager)mContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        //mWindowManager = ((Activity)mContext).getWindowManager();
         createWindowParams();
     }
 
@@ -615,9 +615,12 @@ public class ToolBar implements OnClickListener {
      */
     private void createWindowParams() {
         mWindowManagerParams = new WindowManager.LayoutParams();
+
         //设置相关的窗口布局参数(悬浮窗口效果)
-        mWindowManagerParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
-        //mWindowManagerParams.type = LayoutParams.TYPE_PRIORITY_PHONE;  不行
+        //使用getApplicationContext的方式获取到的WM 不能使用TYPE_APPLICATION(应用级type),会报Unable to add window -- token null is not for an application(就像dialog用context一样)
+        //如果使用activity获取到的WM 可用用1-99的type(应用级window)不用请求权限,但只能在当前activity显示. 而2000以上的系统层级type就可任意显示但得请求权限
+        //mWindowManagerParams.type = LayoutParams.TYPE_APPLICATION;
+        mWindowManagerParams.type = LayoutParams.TYPE_PRIORITY_PHONE;
 
         mWindowManagerParams.format = 1;// 设置图片格式，效果为背景透明
         //设置window flag  不影响后面的事件 和 不可聚焦

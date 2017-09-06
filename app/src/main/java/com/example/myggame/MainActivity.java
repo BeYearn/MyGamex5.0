@@ -279,7 +279,9 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
                 submitRoleinfo("24001");
                 break;
             case R.id.bt_open_webview:
-                openWebview();
+                //openWebview();
+                Intent intent = new Intent(this, TestActivity.class);
+                this.startActivity(intent);
                 break;
 
         }
