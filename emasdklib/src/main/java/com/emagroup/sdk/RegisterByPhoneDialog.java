@@ -78,8 +78,10 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                     break;
                 case CODE_LOGIN_SUCC://登录成功
                     ToastHelper.toast(mActivity, "登录成功");
-                    RegisterByPhoneDialog.this.stopTimeTask();
-                    RegisterByPhoneDialog.this.dismiss();
+                    if(mInstance!=null){
+                        mInstance.stopTimeTask();
+                        mInstance.dismiss();
+                    }
                     UCommUtil.makeUserCallBack(EmaCallBackConst.REGISTERSUCCESS, "注册成功");
                     // 保存登录成功用户的信息
                     mEmaUser.saveLoginUserInfo(mActivity);
@@ -88,7 +90,9 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
                     break;
                 case CODE_SUCCESS:
                     doResultSuccFromServer((String) msg.obj);
-                    mInstance.dismiss();
+                    if(mInstance!=null){
+                        mInstance.dismiss();
+                    }
                     mInstance = null;   //否则下次进入该界面还是验证码状态（未刷新）
                     mProgress.closeProgress();
                     break;
@@ -382,7 +386,9 @@ class RegisterByPhoneDialog extends Dialog implements android.view.View.OnClickL
         if (id == getId("ema_btn_start_work")) {  //获取验证码，或者进入游戏
             doStartWork();
         } else if (id == getId("ema_btn_return_login")) {  //账号登录
-            mInstance.dismiss();
+            if(mInstance!=null){
+                mInstance.dismiss();
+            }
             mInstance = null; //用户如果切换为帐号登录，则置空这个，以便回来时重新走手机流程
             LoginDialog.getInstance(Ema.getInstance().getContext()).show();
 
