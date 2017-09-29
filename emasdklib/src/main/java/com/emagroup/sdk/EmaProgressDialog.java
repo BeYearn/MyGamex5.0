@@ -35,18 +35,22 @@ public class EmaProgressDialog {
         ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
-                if (mProgress == null) {
-                    mProgress = new ProgressDialog(mContext);
-                    mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                    //mProgress.setTitle("提示");
-                    Log.e("new showpro",mContext.toString());
+                //这个try纯属无奈,原来的设计问题,不应该用现在这种方式来保存一个progress的引用来使用,结果造成这里的context可能与使用处的context已不同
+                // 造成 Unable to add window -- token android.os.BinderProxy@3a6148ec is not valid; is your activity running?
+                try {
+                    if (mProgress == null) {
+                        mProgress = new ProgressDialog(mContext);
+                        mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        //mProgress.setTitle("提示");
+                        Log.e("new showpro", mContext.toString());
+                    }
+                    mProgress.setCancelable(cancelable);
+                    mProgress.setCanceledOnTouchOutside(outsideCancelAble);
+                    mProgress.setMessage(msg);
+                    mProgress.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                mProgress.setCancelable(cancelable);
-                mProgress.setCanceledOnTouchOutside(outsideCancelAble);
-                mProgress.setMessage(msg);
-                mProgress.show();
-
             }
         });
     }
