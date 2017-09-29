@@ -295,7 +295,7 @@ public class Ema {
             mFlagIsInitSuccess = true;
 
             //发送一次deviceInfo
-            EmaSendInfo.sendDeviceInfoJson("","0");
+            EmaSendInfo.sendDeviceInfoJson("", "0");
         }
     }
 
@@ -344,8 +344,8 @@ public class Ema {
      */
     public void getUserInfo(final BindRemind bindRemind) {
 
-        if(mProgress!=null){
-            mProgress.showProgress("请稍候...",false,false);
+        if (mProgress != null) {
+            mProgress.showProgress("请稍候...", false, false);
         }
         Map<String, String> params = new HashMap<>();
         params.put("token", EmaUser.getInstance().getToken());
@@ -361,8 +361,8 @@ public class Ema {
                             JSONObject jsonObject = new JSONObject(result);
                             String message = jsonObject.getString("message");
                             int status = jsonObject.getInt("status");
-                            if(status!=0){
-                                LOG.e("getUserInfo",result);
+                            if (status != 0) {
+                                LOG.e("getUserInfo", result);
                                 return;
                             }
 
@@ -456,8 +456,9 @@ public class Ema {
 		ConfigManager.getInstance(mContext).clear();*/
         try {
             ToolBar.getInstance(getContext()).hideToolBar();
+            ToolBar.getInstance(getContext()).destory();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         mFlagToolbarShowing = false;
         mFlagIsInitSuccess = false;
@@ -497,7 +498,7 @@ public class Ema {
 
     public void onRestart() {
         //回到前台时重新走心跳间隔逻辑
-        if(null!=mEmaService){
+        if (null != mEmaService) {
             mEmaService.reStartHeart();
         }
         LOG.d(TAG, "onRestart");

@@ -46,7 +46,7 @@ public class ToolBar implements OnClickListener {
 
     private static final String TAG = "ToolBar";
 
-    private static Context mContext;
+    private Context mContext;
     private ResourceManager mResourceManager;
 
     private static ToolBar mInstance;
@@ -110,7 +110,6 @@ public class ToolBar implements OnClickListener {
                 }
             }
         }
-        mContext =context;
         return mInstance;
     }
 
@@ -177,6 +176,14 @@ public class ToolBar implements OnClickListener {
                 }
             });
         }
+    }
+
+    /**
+     * 销毁toolbar
+     * 这个操作的目的是防止没有大退重新回来时依然引用上次的context,而上次的context已死造成的toolbar不显示
+     */
+    public void destory() {
+        mInstance=null;
     }
 
     /**
