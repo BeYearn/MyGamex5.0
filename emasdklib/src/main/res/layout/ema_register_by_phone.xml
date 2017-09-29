@@ -54,6 +54,7 @@
             android:cursorVisible="true"
             android:fadingEdge="horizontal"
             android:hint="请输入手机号码/邮箱"
+            android:imeOptions="actionDone|flagNoExtractUi"
             android:paddingLeft="15dp"
             android:paddingRight="10sp"
             android:singleLine="true"
@@ -92,20 +93,20 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
+            android:layout_margin="8dp"
             android:adjustViewBounds="false"
             android:background="@drawable/ema_button_blue_long"
             android:minHeight="45dp"
             android:text="进入游戏"
-            android:layout_margin="8dp"
             android:textColor="@android:color/white" />
 
         <TextView
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:text="@string/ema_tourist_login"
-            android:textColor="#ff7111" />
+            android:textColor="#ff7111"
+            android:visibility="gone" />
     </LinearLayout>
 
 
@@ -137,13 +138,13 @@
                 android:src="@drawable/ema_login_tourist" />
 
             <TextView
-                android:textColor="#673300"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ema_btn_return_register"
                 android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
                 android:text="游客"
+                android:textColor="#673300"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -160,13 +161,13 @@
                 android:src="@drawable/ema_wachate_login" />
 
             <TextView
-                android:textColor="#673300"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ema_wachate_login"
                 android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
                 android:text="微信"
+                android:textColor="#673300"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -184,13 +185,13 @@
                 android:src="@drawable/ema_qq_login" />
 
             <TextView
-                android:textColor="#673300"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ema_qq_login"
                 android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
                 android:text="QQ"
+                android:textColor="#673300"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -206,13 +207,13 @@
                 android:src="@drawable/ema_floating_icon" />
 
             <TextView
-                android:textColor="#673300"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/ema_btn_return_login"
                 android:layout_marginTop="2dp"
                 android:gravity="center_horizontal"
                 android:text="帐号"
+                android:textColor="#673300"
                 android:textSize="12sp" />
         </RelativeLayout>
     </LinearLayout>

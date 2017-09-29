@@ -160,6 +160,7 @@ public class LoginDialog extends Dialog implements
             mAccountType = "2";// youxiang 2
         } else {
             ToastHelper.toast(mActivity, "请输入正确的帐号");
+            return;
         }
         if (UCommUtil.isStrEmpty(passw)) {
             ToastHelper.toast(mActivity, "密码不能为空");
