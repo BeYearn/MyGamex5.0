@@ -345,7 +345,7 @@ public class Ema {
     public void getUserInfo(final BindRemind bindRemind) {
 
         if (mProgress != null) {
-            mProgress.showProgress("请稍候...", false, false);
+            //mProgress.showProgress("请稍候...", false, false);
         }
         Map<String, String> params = new HashMap<>();
         params.put("token", EmaUser.getInstance().getToken());
@@ -356,7 +356,7 @@ public class Ema {
                     @Override
                     public void OnResponse(String result) {
                         try {
-                            mProgress.closeProgress();
+                            //mProgress.closeProgress();
 
                             JSONObject jsonObject = new JSONObject(result);
                             String message = jsonObject.getString("message");
@@ -422,7 +422,7 @@ public class Ema {
                                 }
                             }
                         } catch (Exception e) {
-                            mProgress.closeProgress();
+                            //mProgress.closeProgress();
                             e.printStackTrace();
                         }
                     }

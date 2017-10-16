@@ -23,9 +23,9 @@ public class TrdAliPay {
 	public static final String RESULT_STATUS_NETWORK_ERROR = "6002";//网络连接出错
 	
 	// 商户PID
-	private static final String PARTNER = "2088021673809637";
+	private static final String PARTNER = "2088021673809637";  // 后台是替换这个数字的,不能随便改,改的话后台也得改逻辑
 	// 商户收款账号
-	private static final String SELLER = "2088021673809637";
+	private static final String SELLER = "2088021673809637";   // 后台是替换这个数字的,不能随便改,改的话后台也得改逻辑
 
 	
 	/**
