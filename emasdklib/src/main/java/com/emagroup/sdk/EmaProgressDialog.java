@@ -3,18 +3,17 @@ package com.emagroup.sdk;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
 
-public class EmaProgressDialog {
+public class EmaProgressDialog extends ProgressDialog {
 
     public static final int CODE_LOADING_START = -100;//显示进度条
     public static final int CODE_LOADING_END = -101;//关闭进度条
 
     private Context mContext;
-    private ProgressDialog mProgress;
 
     public EmaProgressDialog(Context context) {
-        mContext = context;
+        super(context);
+        this.mContext = context;
     }
 
     /**
@@ -32,7 +31,7 @@ public class EmaProgressDialog {
      * @param outsideCancelAble
      */
     public void showProgress(final String msg, final boolean cancelable, final boolean outsideCancelAble) {
-        ((Activity) mContext).runOnUiThread(new Runnable() {
+       /* ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 //为啥这个try啊,原来的设计问题,不应该用现在这种方式来保存一个progress的引用来使用,结果造成这里的context可能与使用处的context已不同
@@ -52,6 +51,17 @@ public class EmaProgressDialog {
                     e.printStackTrace();
                 }
             }
+        });*/
+
+        ((Activity) mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                EmaProgressDialog.this.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                EmaProgressDialog.this.setCancelable(cancelable);
+                EmaProgressDialog.this.setCanceledOnTouchOutside(outsideCancelAble);
+                EmaProgressDialog.this.setMessage(msg);
+                EmaProgressDialog.this.show();
+            }
         });
     }
 
@@ -59,9 +69,10 @@ public class EmaProgressDialog {
      * 关闭进度条
      */
     public void closeProgress() {
-        if (mProgress != null && mProgress.isShowing()) {
+        /*if (mProgress != null && mProgress.isShowing()) {
             mProgress.dismiss();
-        }
+        }*/
+        this.dismiss();
     }
 
 }
