@@ -6,9 +6,9 @@ android {
 
     defaultConfig {
         //applicationId "com.example.myggame"
-        applicationId "com.emagroup.mbzw2.emagroup"
-        //applicationId "com.tencent.tmgp.dragontcg1"
-        applicationId "com.emagroup.athena.emagroup"
+        //applicationId "com.emagroup.mbzw2.emagroup"
+        applicationId "com.emagroup.dragontcg.emagroup"
+        //applicationId "com.emagroup.athena.emagroup"
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 999999

@@ -101,12 +101,13 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
     }
 
     private void init() {
+        //EmaSDK.getInstance().init("41515808cd1c33078b2a42c433674154", this, new EmaSDKListener() {  //20028
         //EmaSDK.getInstance().init("6cdd60ea0045eb7a6ec44c54d29ed402", this, new EmaSDKListener() {  //10000
         //EmaSDK.getInstance().init("5600441101c8818c4480d3c503742a3b", this, new EmaSDKListener() {      //20015
         // EmaSDK.getInstance().init("800a924c499772bac7b76432803ea47a",this, new EmaSDKListener() {  //10001
         //EmaSDK.getInstance().init("2c02bf12771e51a120c1dff23dc1f256",this, new EmaSDKListener() {      //20017
-        //EmaSDK.getInstance().init("864ed48309c7f9a259f769b92cc52814",this, new EmaSDKListener() {      //20012
-        EmaSDK.getInstance().init("80d79dd8795da8380f49c2901aad2536",this, new EmaSDKListener() {      //20024
+        EmaSDK.getInstance().init("864ed48309c7f9a259f769b92cc52814",this, new EmaSDKListener() {      //20012
+        //EmaSDK.getInstance().init("80d79dd8795da8380f49c2901aad2536",this, new EmaSDKListener() {      //20024
             @Override
             public void onCallBack(int arg0, String arg1) {
                 Log.e("mainactivity", arg0 + "++++++++++++++++ " + arg1);
@@ -223,7 +224,7 @@ public class MainActivity extends Activity implements OnClickListener/*, Respons
             case R.id.bt_pay:
 
                 HashMap<String, String> payInfoMap = new HashMap<>();
-                payInfoMap.put(EmaConst.EMA_PAYINFO_PRODUCT_ID, "XMDS_1001");
+                payInfoMap.put(EmaConst.EMA_PAYINFO_PRODUCT_ID, "CYDZZ_1001");
                 payInfoMap.put(EmaConst.EMA_PAYINFO_PRODUCT_COUNT, "1");
                 payInfoMap.put(EmaConst.EMA_GAMETRANS_CODE, "游戏透传参数");
                 //payInfoMap.put("Product_Name","gold");

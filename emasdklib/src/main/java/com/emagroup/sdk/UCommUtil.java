@@ -1,12 +1,15 @@
 package com.emagroup.sdk;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.NotificationCompat;
 
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.tencent.mm.sdk.modelbase.BaseResp;
@@ -32,10 +35,44 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+import static android.support.v4.app.NotificationCompat.PRIORITY_MAX;
+
 
 public class UCommUtil {
 
     private static final String TAG = "UCommUtil";
+
+
+    /**
+     * 发送通知
+     * @param context
+     * @param title
+     * @param content
+     */
+    public static void showNotification(Context context,String title, String content) {
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Ema.getInstance().getContext());
+        mBuilder.setPriority(PRIORITY_MAX);
+        //mBuilder.setSmallIcon(ResourceManager.getInstance(context).getIdentifier("ema_bottom_promotion_checked","drawable"));
+        mBuilder.setSmallIcon(UCommUtil.getAppIconId(context));
+        mBuilder.setContentTitle(title);
+        mBuilder.setContentText(content);
+
+        //Intent resultIntent = new Intent(this, MainActivity.class);
+        //PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //mBuilder.setContentIntent(resultPendingIntent);
+
+        Notification notification = mBuilder.build();
+
+        //notification.flags = Notification.FLAG_ONLY_ALERT_ONCE;
+
+        notification.defaults = Notification.DEFAULT_SOUND;//通知带有系统默认声音
+
+        NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+
+        mNotifyMgr.notify(1, notification);
+    }
 
     /**
      * 获取应用名称

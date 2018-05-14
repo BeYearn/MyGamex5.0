@@ -4,15 +4,16 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 
-public class EmaProgressDialog extends ProgressDialog {
+public class EmaProgressDialog{
 
     public static final int CODE_LOADING_START = -100;//显示进度条
     public static final int CODE_LOADING_END = -101;//关闭进度条
 
     private Context mContext;
+    private ProgressDialog mProgress;
 
     public EmaProgressDialog(Context context) {
-        super(context);
+        //super(context);
         this.mContext = context;
     }
 
@@ -56,11 +57,12 @@ public class EmaProgressDialog extends ProgressDialog {
         ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                EmaProgressDialog.this.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                EmaProgressDialog.this.setCancelable(cancelable);
-                EmaProgressDialog.this.setCanceledOnTouchOutside(outsideCancelAble);
-                EmaProgressDialog.this.setMessage(msg);
-                EmaProgressDialog.this.show();
+                mProgress = new ProgressDialog(mContext);
+                mProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                mProgress.setCancelable(cancelable);
+                mProgress.setCanceledOnTouchOutside(outsideCancelAble);
+                mProgress.setMessage(msg);
+                mProgress.show();
             }
         });
     }
@@ -72,7 +74,12 @@ public class EmaProgressDialog extends ProgressDialog {
         /*if (mProgress != null && mProgress.isShowing()) {
             mProgress.dismiss();
         }*/
-        this.dismiss();
+        ((Activity)mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mProgress.dismiss();
+            }
+        });
     }
 
 }

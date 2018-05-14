@@ -1,4 +1,4 @@
-package com.emagroup.athena.emagroup.wxapi;
+package com.emagroup.dragontcg.emagroup.wxapi;
 
 import android.app.Activity;
 import android.content.Intent;

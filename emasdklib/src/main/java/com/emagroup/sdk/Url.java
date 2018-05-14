@@ -162,6 +162,8 @@ public class Url {
 	public static final String PRODUCTION_SERVER_URL="https://platform.lemonade-game.com";
 	public static final String STAGING_SERVER_URL="https://staging-platform.lemonade-game.com";
 	public static final String TESTING_SERVER_URL="https://testing-platform.lemonade-game.com:8443";
+	//public static final String TESTING_SERVER_URL="http://192.168.10.208:8080"; //自己
+	//public static final String TESTING_SERVER_URL="http://192.168.11.2:8088"; //降龙
 
 	public static String serverUrl="https://platform.lemonade-game.com";
 

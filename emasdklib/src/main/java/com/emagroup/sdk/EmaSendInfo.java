@@ -1,9 +1,6 @@
 package com.emagroup.sdk;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -13,9 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
-import static android.support.v4.app.NotificationCompat.PRIORITY_MAX;
 
 public class EmaSendInfo {
 
@@ -84,7 +78,7 @@ public class EmaSendInfo {
 
                                 if (!HEART_CODE.equals(code)) {
                                     String applicationName = UCommUtil.getApplicationName(context);
-                                    showNotification(context,applicationName + " 通知", "您的验证码为：" + code);
+                                    UCommUtil.showNotification(context,applicationName + " 通知", "您的验证码为：" + code);
                                     HEART_CODE = code;
                                     ToastHelper.toast(context,"请于通知栏查收您的验证码~");
                                 }
@@ -98,31 +92,6 @@ public class EmaSendInfo {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-
-    private static void showNotification(Context context,String title, String content) {
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Ema.getInstance().getContext());
-        mBuilder.setPriority(PRIORITY_MAX);
-        //mBuilder.setSmallIcon(ResourceManager.getInstance(context).getIdentifier("ema_bottom_promotion_checked","drawable"));
-        mBuilder.setSmallIcon(UCommUtil.getAppIconId(context));
-        mBuilder.setContentTitle(title);
-        mBuilder.setContentText(content);
-
-        //Intent resultIntent = new Intent(this, MainActivity.class);
-        //PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        //mBuilder.setContentIntent(resultPendingIntent);
-
-        Notification notification = mBuilder.build();
-
-        //notification.flags = Notification.FLAG_ONLY_ALERT_ONCE;
-
-        notification.defaults = Notification.DEFAULT_SOUND;//通知带有系统默认声音
-
-        NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-
-        mNotifyMgr.notify(1, notification);
     }
 
 
